@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ma="http://com.MobileAnarchy.Android.Widgets"
+    android:id="@+id/root"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <RelativeLayout
+        android:id="@+id/root_screen"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:id="@+id/action_screen"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@+id/action_fragment"></LinearLayout>
+
+        <fragment
+            android:id="@+id/action_fragment"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:name="de.dmxcontrol.fragment.ActionSelectorFragment" />
+    </RelativeLayout>
+
+    <com.mobileanarchy.android.widgets.dockpanel.DockPanel
+        android:id="@+id/panel"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="left"
+        ma:animationDuration="500"
+        android:background="#FF000000"
+        ma:contentLayoutId="@layout/content_drawer"
+        ma:dockPosition="left"
+        ma:handleButtonDrawableResourceId="@drawable/left_dock_handle" />
+
+</FrameLayout>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="de.dmxcontrol.android"
+    android:versionCode="1"
+    android:versionName="1.0"
+    android:installLocation="preferExternal">
+
+    <application
+        android:name="de.dmxcontrol.app.DMXControlApplication"
+        android:icon="@drawable/androidmann_neu"
+        android:label="@string/app_name">
+        <activity
+            android:name="de.dmxcontrol.activity.ControlActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTop">
+            <meta-data
+                android:name="com.sec.android.airview.enable"
+                android:value="true" />
+
+            <intent-filter>
+                <action android:name="com.sec.android.airview.HOVER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="de.dmxcontrol.activity.HelpActivity"
+            android:label="@string/help" />
+        <activity
+            android:name="de.dmxcontrol.activity.PreferencesActivity"
+            android:label="@string/pref_set_preferences" />
+        <activity
+            android:name="de.dmxcontrol.activity.ServerConnection"
+            android:label="@string/menu_set_connection" />
+        <activity
+            android:name="de.dmxcontrol.activity.LiveActivity"
+            android:label="Live" />
+
+        <service android:name="de.dmxcontrol.network.OSCService" />
+    </application>
+
+    <uses-sdk
+        android:minSdkVersion="4"
+        android:targetSdkVersion="8" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+</manifest>

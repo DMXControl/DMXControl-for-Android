@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/intensity_fragment"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="horizontal"
+    android:gravity="center">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="6dp">
+
+        <LinearLayout
+            android:id="@+id/layout_dimmer_main"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/layout_dimmer_text">
+
+            <LinearLayout
+                android:id="@+id/layout_dimmer_button"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:orientation="vertical"
+                android:weightSum="5">
+
+                <Button
+                    android:id="@+id/button_dimmer_hundred"
+                    style="@android:style/TextAppearance.Small"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="100%"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_normal_selector" />
+
+                <Button
+                    android:id="@+id/button_dimmer_seventy"
+                    style="@android:style/TextAppearance.Small"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="70%"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_normal_selector" />
+
+                <Button
+                    android:id="@+id/button_dimmer_fifty"
+                    style="@android:style/TextAppearance.Small"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="50%"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_normal_selector" />
+
+                <Button
+                    android:id="@+id/button_dimmer_thirty"
+                    style="@android:style/TextAppearance.Small"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="30%"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_normal_selector" />
+
+                <Button
+                    android:id="@+id/button_dimmer_zero"
+                    style="@android:style/TextAppearance.Small"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:text="0%"
+                    android:layout_weight="1"
+                    android:background="@drawable/btn_normal_selector" />
+            </LinearLayout>
+
+            <de.dmxcontrol.widget.FaderVerticalControl
+                android:id="@+id/fader_dimmer"
+                android:layout_width="50dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_height="fill_parent" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layout_dimmer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/TextAppearance.Small"
+            android:text="@string/panel_intensity_dimmer"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="6dp">
+
+        <LinearLayout
+            android:id="@+id/layout_strobe_main"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/layout_strobe_text">
+
+            <de.dmxcontrol.widget.FaderVerticalControl
+                android:id="@+id/fader_strobe"
+                android:layout_width="50dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_height="fill_parent" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layout_strobe_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/TextAppearance.Small"
+            android:text="@string/panel_intensity_strobe"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="6dp">
+
+        <LinearLayout
+            android:id="@+id/layout_shutter_main"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/layout_shutter_text"
+            android:weightSum="3">
+
+            <Button
+                android:id="@+id/button_shutter_open"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="@dimen/button_width_norm"
+                android:layout_height="fill_parent"
+                android:text="@string/panel_intensity_shutter_open"
+                android:layout_weight="1"
+                android:background="@drawable/btn_normal_selector" />
+
+            <Button
+                android:id="@+id/button_shutter_close"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="@dimen/button_width_norm"
+                android:layout_height="fill_parent"
+                android:text="@string/panel_intensity_shutter_close"
+                android:layout_weight="2"
+                android:background="@drawable/btn_normal_selector" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/layout_shutter_text"
+            android:layout_width="wrap_content"
+            style="@android:style/TextAppearance.Small"
+            android:layout_height="wrap_content"
+            android:text="@string/panel_intensity_shutter"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:id="@+id/layout_intensity_main"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/layout_intensity_text"
+            android:weightSum="3">
+
+            <Button
+                android:id="@+id/button_intensity_lumos"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="@dimen/button_width_norm"
+                android:layout_height="fill_parent"
+                android:text="@string/panel_intensity_intensity_lumos"
+                android:layout_weight="1"
+                android:background="@drawable/btn_normal_selector" />
+
+            <Button
+                android:id="@+id/button_intensity_nox"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="@dimen/button_width_norm"
+                android:layout_height="fill_parent"
+                android:text="@string/panel_intensity_intensity_nox"
+                android:layout_weight="2"
+                android:background="@drawable/btn_normal_selector" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@id/layout_intensity_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/TextAppearance.Small"
+            android:text="@string/panel_intensity_intensity"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" />
+    </RelativeLayout>
+</LinearLayout>

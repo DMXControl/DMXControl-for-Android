@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<de.dmxcontrol.widget.RelativeLayoutWithMultitouch xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:id="@+id/cross_mode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true">
+
+        <Button
+            android:id="@+id/mode_plain"
+            android:layout_width="@dimen/button_width_large"
+            android:layout_height="@dimen/button_height_small"
+            android:text="@string/position_mode_plain"
+            android:background="@drawable/btn_numbers_selector"
+            style="@android:style/TextAppearance.Small" />
+
+        <Button
+            android:id="@+id/mode_follow"
+            android:layout_width="@dimen/button_width_large"
+            android:layout_height="@dimen/button_height_small"
+            android:text="@string/position_mode_follow"
+            android:background="@drawable/btn_numbers_selector"
+            style="@android:style/TextAppearance.Small" />
+
+        <Button
+            android:id="@+id/mode_sensor"
+            android:layout_width="@dimen/button_width_large"
+            android:layout_height="@dimen/button_height_small"
+            android:text="@string/position_mode_sensor"
+            android:background="@drawable/btn_numbers_selector"
+            style="@android:style/TextAppearance.Small" />
+    </LinearLayout>
+
+    <de.dmxcontrol.widget.CrossControl
+        android:id="@+id/crosscontrol"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@+id/speedfader"
+        android:layout_toRightOf="@+id/cross_mode"></de.dmxcontrol.widget.CrossControl>
+
+    <de.dmxcontrol.widget.FaderVerticalControl
+        android:id="@+id/speedfader"
+        android:layout_width="30dp"
+        android:layout_height="fill_parent"
+        android:layout_alignTop="@+id/crosscontrol"
+        android:layout_alignBottom="@+id/crosscontrol"
+        android:layout_toLeftOf="@+id/lock_layout"
+        android:layout_marginLeft="10dp"></de.dmxcontrol.widget.FaderVerticalControl>
+
+    <LinearLayout
+        android:id="@+id/lock_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true">
+
+        <Button
+            android:id="@+id/lockxdirection"
+            android:text="@string/position_lock_x"
+            android:layout_width="@dimen/button_width_large"
+            android:layout_height="@dimen/button_height_small"
+            style="@android:style/TextAppearance.Small"
+            android:background="@drawable/btn_numbers_selector" />
+
+        <Button
+            android:id="@+id/lockydirection"
+            android:text="@string/position_lock_y"
+            android:layout_width="@dimen/button_width_large"
+            android:layout_height="@dimen/button_height_small"
+            style="@android:style/TextAppearance.Small"
+            android:background="@drawable/btn_numbers_selector" />
+
+        <Button
+            android:id="@+id/reset"
+            android:text="@string/position_reset"
+            android:layout_width="@dimen/button_width_large"
+            android:layout_height="@dimen/button_height_small"
+            android:background="@drawable/btn_numbers_selector"
+            style="@android:style/TextAppearance.Small" />
+    </LinearLayout>
+
+</de.dmxcontrol.widget.RelativeLayoutWithMultitouch>

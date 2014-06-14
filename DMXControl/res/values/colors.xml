@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+
+    <color name="btn_background_normal">#FF000000</color>
+    <color name="btn_background_highlight">#FFFF9F2F</color>
+
+    <!-- DarkColorScheme -->
+    <color name="light_grey">#FFB0B0B0</color>
+    <color name="mid_grey">#FF909090</color>
+    <color name="taupe_grey">#FF777777</color>
+    <color name="dark_grey">#FF282828</color>
+    <color name="light_black">#FF101010</color>
+    <color name="black">#FF000000</color>
+
+    <!--  LightColorScheme -->
+    <color name="white_smoke">#FFF5F5F5</color>
+    <color name="dark_white_smoke">#FFC5C5C5</color>
+    <color name="grey_smoke">#FF959595</color>
+
+    <!--  LightRedColorScheme Pastel -->
+    <color name="rose_light">#FFE78383</color>
+    <color name="warm_red_light">#FFE77676</color>
+    <color name="main_red_light">#FFDF6262</color>
+    <color name="bordeaux_light">#FFC36464</color>
+    <color name="dark_red_light">#FFB83D3D</color>
+
+    <!--  new Red ColorScheme -->
+    <color name="red_very_light">#FFE3867C</color>
+    <color name="red_light">#FFE37B71</color>
+    <color name="red_base">#FFDB6A5F</color>
+    <color name="red_dark">#FFC36A60</color>
+    <color name="red_very_dark">#FFBA4B3F</color>
+
+    <!--  BlueColorScheme -->
+    <color name="corn_flower_blue_vlight">#FFA997FB</color>
+    <color name="corn_flower_blue_light">#FFA18CFB</color>
+    <color name="corn_flower_blue">#FF957EF9</color>
+    <color name="corn_flower_blue_dark">#FF8376BD</color>
+    <color name="corn_flower_blue_very_dark">#FF412BA5</color>
+
+    <!-- New Blue ColorScheme -->
+    <color name="blue_very_light">#FF979BC1</color>
+    <color name="blue_light">#FF9297C1</color>
+    <color name="blue">#FF7F84AF</color>
+    <color name="blue_dark">#FF767A9D</color>
+    <color name="blue_very_dark">#FF565C96</color>
+
+    <!--  GreenColorScheme Pastel -->
+    <color name="minth_light">#FF65B391</color>
+    <color name="minth">#FF5BB38D</color>
+    <color name="green_main">#FF439974</color>
+    <color name="green_dim">#FF44866A</color>
+    <color name="dark_green">#FF2A7E5A</color>
+
+    <!--  CoffeeColorScheme Pastel -->
+    <color name="coffee_milk">#FFA7715F</color>
+    <color name="coffee_light">#FFA76B56</color>
+    <color name="coffee">#FF8A513D</color>
+    <color name="coffee_dark">#FF784D3E</color>
+    <color name="espresso">#FF723926</color>
+
+    <!--  PinkColorScheme -->
+    <color name="pink_verylight">#FFFBACCE</color>
+    <color name="pink_light">#FFFBA3C8</color>
+    <color name="pink_main">#FFFA97C1</color>
+    <color name="pink_dim">#FFDF90B1</color>
+    <color name="pink_dark">#FFD46594</color>
+
+    <!--  Olive -->
+    <color name="olive_verylight">#FFBDD832</color>
+    <color name="olive_light">#FFA0B33E</color>
+    <color name="olive_medium">#FF818f3E</color>
+    <color name="olive_dark">#FF5B6335</color>
+    <color name="olive_very_dark">#FF414929</color>
+</resources>

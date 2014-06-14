@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/DMXControl-for-Android.iml" filepath="$PROJECT_DIR$/DMXControl-for-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DMXControl/DMXControl.iml" filepath="$PROJECT_DIR$/DMXControl/DMXControl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NetUtil/NetUtil.iml" filepath="$PROJECT_DIR$/NetUtil/NetUtil.iml" />
     </modules>
   </component>
 </project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="button_width_norm">64dp</dimen>
+    <dimen name="button_height_norm">64dp</dimen>
+    <dimen name="button_width_large">72dp</dimen>
+    <dimen name="button_height_large">72dp</dimen>
+    <dimen name="button_width_small">48dp</dimen>
+    <dimen name="button_height_small">48dp</dimen>
+    <dimen name="button_width_med">56dp</dimen>
+    <dimen name="button_height_med">56dp</dimen>
+</resources> 

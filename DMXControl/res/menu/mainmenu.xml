@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/menu_set_preferences"
+        android:id="@+id/preferences"
+        android:icon="@android:drawable/ic_menu_preferences" />
+    <item
+        android:title="@string/about"
+        android:id="@+id/about"
+        android:icon="@android:drawable/ic_menu_info_details" />
+    <item
+        android:title="@string/help"
+        android:id="@+id/help"
+        android:icon="@android:drawable/ic_menu_help" />
+    <item
+        android:title="@string/menu_set_connection"
+        android:id="@+id/connection"
+        android:icon="@android:drawable/ic_menu_preferences" />
+    <item
+        android:title="Live"
+        android:id="@+id/live"
+        android:icon="@android:drawable/ic_menu_preferences" />
+</menu>

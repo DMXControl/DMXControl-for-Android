@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/action_selector_fragment"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="3dp"
+        android:background="@drawable/line_grey"></ImageView>
+
+    <HorizontalScrollView
+        android:id="@+id/action_selector_scroll"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/action_selector_group"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="3dp">
+
+            <Button
+                android:id="@+id/button_device_action"
+                android:layout_width="@dimen/button_width_med"
+                android:layout_height="@dimen/button_height_med"
+                android:background="@drawable/btn_device_selector"></Button>
+
+            <Button
+                android:id="@+id/button_intensity_action"
+                android:layout_width="@dimen/button_width_med"
+                android:layout_height="@dimen/button_height_med"
+                android:background="@drawable/btn_intensity_selector"></Button>
+
+            <Button
+                android:id="@+id/button_color_action"
+                android:layout_width="@dimen/button_width_med"
+                android:layout_height="@dimen/button_height_med"
+                android:background="@drawable/btn_color_selector"></Button>
+
+            <Button
+                android:id="@+id/button_pantilt_action"
+                android:layout_width="@dimen/button_width_med"
+                android:layout_height="@dimen/button_height_med"
+                android:background="@drawable/btn_pantilt_selector"></Button>
+
+            <Button
+                android:id="@+id/button_effect_action"
+                android:layout_width="@dimen/button_width_med"
+                android:layout_height="@dimen/button_height_med"
+                android:background="@drawable/btn_effects_selector"></Button>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>
