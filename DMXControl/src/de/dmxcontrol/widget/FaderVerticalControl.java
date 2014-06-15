@@ -35,6 +35,8 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import de.dmxcontrol.android.R;
 
 public class FaderVerticalControl extends BaseValueWidget {
@@ -43,13 +45,19 @@ public class FaderVerticalControl extends BaseValueWidget {
     private final static float ROUND_EDGE_X = 15f;
     private final static float ROUND_EDGE_Y = 15f;
 
+    private ArrayList<ValueChangedListener> listeners = new ArrayList<ValueChangedListener>();
+    public void setValueChangedListener(ValueChangedListener listener) {
+        this.listeners.add(listener);
+    }
+    public interface ValueChangedListener {
+        void onValueChanged(float value);
+    }
     private Paint mPaintBorder;
     private Paint mPaintInside;
     private Paint mPaintMarker;
     private Paint mPaintMarked;
 
     private int markerSizeY = 30;
-
     public FaderVerticalControl(Context context) {
         super(context);
         init();
@@ -155,7 +163,9 @@ public class FaderVerticalControl extends BaseValueWidget {
             return;
         setValue(percentValue, 0f);
         notifyListener();
-
+        for (ValueChangedListener listener : listeners) {
+            listener.onValueChanged(percentValue);
+        }
         Log.d(TAG, "pointerPosition: " + percentValue);
 
     }

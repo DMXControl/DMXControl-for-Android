@@ -16,6 +16,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -35,6 +36,9 @@ import java.util.TimerTask;
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.changelog.Changelog;
+import de.dmxcontrol.executor.ExecutorPage;
+import de.dmxcontrol.executor.ExecutorPageManager;
+import de.dmxcontrol.network.ResceivdData;
 import de.dmxcontrol.network.UDP.KernelPingDeserielizer;
 import de.dmxcontrol.network.UDP.Reader;
 import de.dmxcontrol.widget.ExecutorView;
@@ -51,7 +55,7 @@ public class LiveActivity extends Activity {
     private LinearLayout llview;
     private boolean update = false;
     private Context context;
-    private ArrayList<ExecutorView> executors=new ArrayList<ExecutorView>();
+    private ArrayList<ExecutorView> executors;
 
     //private TwoWayView  scrolView;
     public LiveActivity() {
@@ -71,20 +75,39 @@ public class LiveActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         try {
-            view = View.inflate(this, R.layout.executor_page, null);
-            LinearLayout layout = new LinearLayout(this);
+            if(ResceivdData.get().executorPage==null){ResceivdData.get().executorPage=new ExecutorPage(1,"",context);}
+            view = ResceivdData.get().executorPage.view;
+            boolean needResize=false;
+            if(view.getParent()!=null){
+                ((FrameLayout)view.getParent()).removeAllViews();
+                needResize=true;
+            }
+            ResceivdData.get().executorPage.SetParentActivity(this);
+            setContentView(view);
+            if(needResize){
+                ResceivdData.get().executorPage.Resize();
+            }
+            /**LinearLayout layout = new LinearLayout(this);
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
 
             hsview = (HorizontalScrollView) view.findViewById(R.id.horizontalScrollView);
             llview= (LinearLayout) hsview.findViewById(R.id.executor_collection);
             setContentView(view);
-            for(int i=0;i<10;i++) {
-                executors.add(new ExecutorView(llview.getContext(),"Executor "+(i+1)));
-                llview.addView(executors.get(i));
-                //executors.get(i).Resice();
+            if(executors==null) {
+                executors= new ArrayList<ExecutorView>();
+                for (int i = 0; i < ResceivdData.get().Executors.size(); i++) {
+                    executors.add(new ExecutorView(llview.getContext(), ResceivdData.get().Executors.get(i)));
+                    llview.addView(executors.get(i));
+                    //executors.get(i).Resice();
+                }
             }
-
+            else {
+                for (int i = 0; i < executors.size(); i++) {
+                    llview.addView(executors.get(i));
+                }
+            }
+**/
         } catch (Exception e) {
             e.toString();
         }

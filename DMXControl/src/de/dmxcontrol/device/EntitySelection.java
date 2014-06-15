@@ -74,8 +74,11 @@ public class EntitySelection implements OnModelListener {
         mModelManager = new ModelManager(this);
         mEntities.add(new HashSet<Entity>());
         mEntities.add(new HashSet<Entity>());
+        mEntities.add(new HashSet<Entity>());
         mLookups.add(new HashMap<Integer, Entity>());
         mLookups.add(new HashMap<Integer, Entity>());
+        mLookups.add(new HashMap<Integer, Entity>());
+        mRanges.add(new Ranges());
         mRanges.add(new Ranges());
         mRanges.add(new Ranges());
 

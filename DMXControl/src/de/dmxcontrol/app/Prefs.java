@@ -43,6 +43,7 @@ import de.dmxcontrol.android.R;
 import de.dmxcontrol.network.ServiceFrontend;
 import de.dmxcontrol.network.UDP.KernelPingDeserielizer;
 import de.dmxcontrol.network.UDP.Reader;
+import de.dmxcontrol.network.UDP.Sender;
 
 public class Prefs {
     private final static String TAG = "dmxcontrol";
@@ -67,10 +68,13 @@ public class Prefs {
 
     //private Thread reader1;
     private Reader reader;
-    public int Height;
+    private Sender sender;
 
     public Reader getUDPReader() {
         return reader;
+    }
+    public Sender getUDPSender() {
+        return sender;
     }
 
     private Context ctx;
@@ -79,6 +83,10 @@ public class Prefs {
         reader = new Reader();
         Thread reader1 = new Thread(reader);
         reader1.start();
+
+        sender = new Sender();
+        Thread sender1 = new Thread(sender);
+        sender1.start();
     }
 
     public static Prefs get() {

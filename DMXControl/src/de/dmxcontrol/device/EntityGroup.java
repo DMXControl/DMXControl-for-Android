@@ -54,4 +54,13 @@ public class EntityGroup extends Entity {
         super(id, name, Type.GROUP);
         lImage = image;
     }
+
+    public EntityGroup(byte[] message) {
+        super(0,"",Type.GROUP);
+        Receive(message);
+    }
+
+    public static Entity Receive(byte[] message) {
+        return null;
+    }
 }

@@ -106,11 +106,16 @@ public class DeviceAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
         Entity e = mEntityManager.getItemForType(Type.DEVICE, index);
-        Bitmap bitmap = e.getBitmap();
-        if (e.getBitmapFileName() == "" || bitmap == null) {
-            imageView.setImageResource(e.getImage());
-        } else {
-            imageView.setImageBitmap(bitmap);
+        try {
+            Bitmap bitmap = e.getBitmap();
+            if (e.getBitmapFileName() == "" || bitmap == null) {
+                imageView.setImageResource(e.getImage());
+            } else {
+                imageView.setImageBitmap(bitmap);
+            }
+        }
+        catch (Exception ex){
+
         }
         if (mEntityManager.isInEntitySelection(Type.DEVICE, mEntitySelection,
                 e.getId()))

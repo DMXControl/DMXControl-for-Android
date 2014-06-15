@@ -56,4 +56,44 @@ public class EntityDevice extends Entity {
         lImage = image;
     }
 
+    public static Entity Receive(byte[]  message) {
+
+        int pointer = 1;
+
+
+        String name = new String(message, pointer + 1, message[pointer]);
+        pointer += message[pointer] + 1;
+
+        String guid = new String(message, pointer + 1, message[pointer]);
+        pointer += message[pointer] + 1;
+
+        byte[] addressarray = new byte[message[pointer]];
+        pointer++;
+        for (int i = 0; i < addressarray.length; i++) {
+            addressarray[i] = message[pointer];
+            pointer++;
+        }
+
+        byte[] addresscountarray = new byte[message[pointer]];
+        pointer++;
+        for (int i = 0; i < addresscountarray.length; i++) {
+            addresscountarray[i] = message[pointer];
+            pointer++;
+        }
+
+        String iconname = new String(message, pointer + 1, message[pointer]);
+        pointer += message[pointer] + 1;
+
+        byte[] numberarray = new byte[message[pointer]];
+        int number = 0;
+        pointer++;
+        for (int i = 0; i < numberarray.length; i++) {
+            numberarray[i] = message[pointer];
+            number += (10 ^ (numberarray.length - i)) * numberarray[i];
+            pointer++;
+        }
+        Entity entity = new EntityDevice(number, name,iconname);
+        entity.guid=guid;
+        return entity;
+    }
 }

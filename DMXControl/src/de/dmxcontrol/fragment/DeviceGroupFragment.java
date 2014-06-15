@@ -108,8 +108,7 @@ public class DeviceGroupFragment extends BasePanelFragment implements
         mGroupGrid.setOnItemClickListener(this);
 
         mDeviceGrid = (GridView) deviceLayout.findViewById(R.id.device_grid);
-        mDeviceAdapter = new DeviceAdapter(EntityManager.get(),
-                EntityManager.CENTRAL_ENTITY_SELECTION, getActivity());
+        mDeviceAdapter = new DeviceAdapter(EntityManager.get(), EntityManager.CENTRAL_ENTITY_SELECTION, getActivity());
         mDeviceGrid.setAdapter(mDeviceAdapter);
         mDeviceGrid.setOnItemClickListener(this);
 

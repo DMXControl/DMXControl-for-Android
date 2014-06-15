@@ -246,6 +246,8 @@ public class ControlActivity extends FragmentActivity implements
         return true;
     }
 
+    private Intent liveActivity;
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
@@ -258,8 +260,10 @@ public class ControlActivity extends FragmentActivity implements
                 return true;
             case R.id.connection:
                 try {
-                    i = new Intent(getApplicationContext(), ServerConnection.class);
-                    startActivity(i);
+                    if(liveActivity==null) {
+                        liveActivity = new Intent(getApplicationContext(), ServerConnection.class);
+                    }
+                    startActivity(liveActivity);
                 } catch (Exception e) {
                     Log.e("Open ConnectionDialog", e.toString());
                 }

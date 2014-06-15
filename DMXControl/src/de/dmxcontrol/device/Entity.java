@@ -39,7 +39,7 @@ import java.lang.String;
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.EntityManager.Type;
 
-public class Entity implements IPropertyContainer {
+public abstract class Entity implements IPropertyContainer {
     HashMap<String, Object[]> properties;
     private final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
     private final static String IconStorageName = StoragePath + File.separator + "Icons";
@@ -48,6 +48,7 @@ public class Entity implements IPropertyContainer {
     private String mName;
     protected int mImage;
     protected String lImage;
+    public String guid;
 
     public Entity(int id, String name, Type type) {
         mId = id;
@@ -61,13 +62,22 @@ public class Entity implements IPropertyContainer {
     public int getId() {
         return mId;
     }
+    public void setId(int id) {
+        mId=id;
+    }
 
     public String getName() {
         return mName;
     }
+    public void setName(String name) {
+        mName=name;
+    }
 
     public int getImage() {
         return mImage;
+    }
+    public void setImage(String image) {
+        lImage=image;
     }
 
     public String getBitmapFileName() {
@@ -96,4 +106,10 @@ public class Entity implements IPropertyContainer {
         return properties.get(name);
     }
 
+    public static Entity Receive(byte[] message) {
+        return receive(message);
+    }
+    protected static Entity receive(byte[] message){
+        return null;
+    }
 }

@@ -32,13 +32,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import de.dmxcontrol.executor.EntityExecutor;
+
 public class EntityManager {
     private List<List<Entity>> mEntities = new ArrayList<List<Entity>>();
     private List<Map<Integer, Entity>> mLookups = new ArrayList<Map<Integer, Entity>>();
     private Map<Integer, EntitySelection> mEntitySelections = new HashMap<Integer, EntitySelection>();
 
     public enum Type {
-        DEVICE, GROUP
+        DEVICE, EXECUTOR, GROUP
     }
 
     ;
@@ -55,7 +57,9 @@ public class EntityManager {
     private EntityManager() {
         mEntities.add(new ArrayList<Entity>());
         mEntities.add(new ArrayList<Entity>());
+        mEntities.add(new ArrayList<Entity>());
 
+        mLookups.add(new HashMap<Integer, Entity>());
         mLookups.add(new HashMap<Integer, Entity>());
         mLookups.add(new HashMap<Integer, Entity>());
 
@@ -143,6 +147,8 @@ public class EntityManager {
         addEntity(new EntityDevice(40, ""));
         addEntity(new EntityDevice(41, ""));
         addEntity(new EntityDevice(42, ""));
+
+        addEntity(new EntityExecutor(11,""));
     }
 
     public EntitySelection getEntitySelection(int id) {
