@@ -57,6 +57,7 @@ public class ServerConnection extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         context = this;
+
         super.onCreate(savedInstanceState);
         Prefs.get().getUDPReader().setOnNewsUpdateListener(
                 new Reader.NewsUpdateListener() {

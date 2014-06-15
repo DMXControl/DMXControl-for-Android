@@ -4,13 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <org.lucasr.twowayview.TwoWayView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/lvItems"
-        style="@style/TwoWayView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:drawSelectorOnTop="false"
-        tools:context=".MainActivity" />
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/horizontalScrollView"
+        android:layout_gravity="center" >
+
+        <de.dmxcontrol.widget.LinearLayoutWithMultitouch
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/executor_collection"
+            android:layout_gravity="left|center_vertical">
+
+        </de.dmxcontrol.widget.LinearLayoutWithMultitouch>
+    </HorizontalScrollView>
+
 </FrameLayout>

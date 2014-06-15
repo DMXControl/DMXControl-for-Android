@@ -32,6 +32,7 @@ import android.os.Environment;
 
 import java.io.File;
 
+import de.dmxcontrol.android.R;
 import de.dmxcontrol.network.ServiceFrontend;
 import de.dmxcontrol.network.UDP.Reader;
 

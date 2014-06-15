@@ -72,4 +72,9 @@
     <string name="pref_disable_animations">Animations</string>
     <string name="pref_disable_animations_summary">Disable all animations.</string>
     <string name="FoundetServer_server_title">Found</string>
+    <string name="executorText">executorText</string>
+    <string name="executorFlash">FLASH</string>
+    <string name="executorGo">GO</string>
+    <string name="executorFader">Fader</string>
+    <string name="executorBreak">Break/Back</string>
 </resources>

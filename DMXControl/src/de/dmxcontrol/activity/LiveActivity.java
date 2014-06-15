@@ -12,6 +12,8 @@ import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.WebView;
 import android.widget.ArrayAdapter;
 import android.widget.HorizontalScrollView;
@@ -35,6 +37,7 @@ import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.changelog.Changelog;
 import de.dmxcontrol.network.UDP.KernelPingDeserielizer;
 import de.dmxcontrol.network.UDP.Reader;
+import de.dmxcontrol.widget.ExecutorView;
 import de.dmxcontrol.widget.FaderVerticalControl;
 
 
@@ -44,8 +47,11 @@ import de.dmxcontrol.widget.FaderVerticalControl;
 public class LiveActivity extends Activity {
 
     private View view;
+    private HorizontalScrollView hsview;
+    private LinearLayout llview;
     private boolean update = false;
     private Context context;
+    private ArrayList<ExecutorView> executors=new ArrayList<ExecutorView>();
 
     //private TwoWayView  scrolView;
     public LiveActivity() {
@@ -60,20 +66,25 @@ public class LiveActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         context = this;
         super.onCreate(savedInstanceState);
-        Prefs.get().getUDPReader().setOnNewsUpdateListener(
-                new Reader.NewsUpdateListener() {
-                    @Override
-                    public void onNewsUpdate() {
-                        update = true;
-                    }
 
-                }
-        );
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         try {
             view = View.inflate(this, R.layout.executor_page, null);
+            LinearLayout layout = new LinearLayout(this);
+            layout.setOrientation(LinearLayout.VERTICAL);
+            layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
+
+            hsview = (HorizontalScrollView) view.findViewById(R.id.horizontalScrollView);
+            llview= (LinearLayout) hsview.findViewById(R.id.executor_collection);
             setContentView(view);
-            MyAdapter adapter = new MyAdapter(context, generateData());
-            //scrolView.setAdapter(adapter);
+            for(int i=0;i<10;i++) {
+                executors.add(new ExecutorView(llview.getContext(),"Executor "+(i+1)));
+                llview.addView(executors.get(i));
+                //executors.get(i).Resice();
+            }
+
         } catch (Exception e) {
             e.toString();
         }
@@ -82,51 +93,11 @@ public class LiveActivity extends Activity {
     private DialogInterface.OnClickListener mOnClickListener = new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {
 
-
         }
     };
 
     private ArrayList<ClipData.Item> generateData() {
         ArrayList<ClipData.Item> items = new ArrayList<ClipData.Item>();
-        items.add(new ClipData.Item(""));
-        items.add(new ClipData.Item(""));
-        items.add(new ClipData.Item(""));
         return items;
-    }
-
-    public class MyAdapter extends ArrayAdapter<ClipData.Item> {
-
-        private final Context context;
-        private final ArrayList<ClipData.Item> itemsArrayList;
-
-        public MyAdapter(Context context, ArrayList<ClipData.Item> itemsArrayList) {
-
-            super(context, R.layout.executor, itemsArrayList);
-
-            this.context = context;
-            this.itemsArrayList = itemsArrayList;
-        }
-
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            final ClipData.Item value = itemsArrayList.get(position);
-            // 1. Create inflater
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-            // 2. Get rowView from inflater
-            View rowView = inflater.inflate(R.layout.executor, parent, false);
-            // 3. Get the two text view from the rowView
-            FaderVerticalControl fader = (FaderVerticalControl) rowView.findViewById(R.id.fader);
-            //TextView valueView = (TextView) rowView.findViewById(R.id.value);
-
-            fader.pointerPosition(0, 100);
-            //valueView.setText(value.getHtmlText());
-
-            // 5. retrn rowView
-            return rowView;
-        }
     }
 }

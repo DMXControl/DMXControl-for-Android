@@ -67,6 +67,7 @@ public class Prefs {
 
     //private Thread reader1;
     private Reader reader;
+    public int Height;
 
     public Reader getUDPReader() {
         return reader;
