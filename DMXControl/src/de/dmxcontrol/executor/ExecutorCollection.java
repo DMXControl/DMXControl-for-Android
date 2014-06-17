@@ -25,6 +25,7 @@ public class ExecutorCollection implements Collection<EntityExecutor> {
             obj.setName(object.getName());
             obj.setImage(object.getBitmapFileName());
             obj.setValue(object.getValue(),true);
+            obj.setFlash(object.getFlash(),true);
             }
             catch(Exception e){
                 e.toString();

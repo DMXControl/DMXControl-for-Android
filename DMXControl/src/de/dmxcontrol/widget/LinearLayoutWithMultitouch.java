@@ -60,84 +60,90 @@ public class LinearLayoutWithMultitouch extends LinearLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        // Log.d(TAG, "Layout:TouchEvent");
 
-        // dumpEvent(event);
-        mMew = MotionEventWrapper.get(event);
-
-        int action = event.getAction();
-        int actionMasked = action & mMew.getActionMaskCONST();
-        int pid = mMew.getPointerIdByAction(action);
-        Rect frame = mTempRect;
         boolean result = false;
+        try {
+            // Log.d(TAG, "Layout:TouchEvent");
 
-        // Log.d(TAG, "dispatchTouchEvent: received event: pid = " + pid
-        // + " count = " + mMew.getPointerCount());
+            // dumpEvent(event);
+            mMew = MotionEventWrapper.get(event);
 
-        if (actionMasked == MotionEvent.ACTION_DOWN
-                || actionMasked == mMew.getActionPointerDownCONST()) {
-            // Log.d(TAG, "dispatchTouchEvent: ACTION_DOWN");
-            int pointerIndex = mMew.findPointerIndex(pid);
-            int x = (int) mMew.getX(pointerIndex);
-            int y = (int) mMew.getY(pointerIndex);
-            int idxChild = 0;
-            int numChild = getChildCount();
-            for (idxChild = 0; idxChild < numChild; idxChild++) {
-                View child = getChildAt(idxChild);
-                if (child.getVisibility() == View.INVISIBLE
-                        && child.getAnimation() == null) {
-                    // Log.d(TAG, "dispatchTouchEvent: child invisible.");
-                    continue;
+            int action = event.getAction();
+            int actionMasked = action & mMew.getActionMaskCONST();
+            int pid = mMew.getPointerIdByAction(action);
+            Rect frame = mTempRect;
+
+            // Log.d(TAG, "dispatchTouchEvent: received event: pid = " + pid
+            // + " count = " + mMew.getPointerCount());
+
+            if (actionMasked == MotionEvent.ACTION_DOWN
+                    || actionMasked == mMew.getActionPointerDownCONST()) {
+                // Log.d(TAG, "dispatchTouchEvent: ACTION_DOWN");
+                int pointerIndex = mMew.findPointerIndex(pid);
+                if (!(pointerIndex < mMew.getPointerCount())) {
+                    return false;
                 }
-                child.getHitRect(frame);
-                if (!frame.contains(x, y)) {
-                    // Log.d(TAG, "dispatchTouchEvent: child outside. ");
-                    continue;
+                int x = (int) mMew.getX(pointerIndex);
+                int y = (int) mMew.getY(pointerIndex);
+                int idxChild = 0;
+                int numChild = getChildCount();
+                for (idxChild = 0; idxChild < numChild; idxChild++) {
+                    View child = getChildAt(idxChild);
+                    if (child.getVisibility() == View.INVISIBLE
+                            && child.getAnimation() == null) {
+                        // Log.d(TAG, "dispatchTouchEvent: child invisible.");
+                        continue;
+                    }
+                    child.getHitRect(frame);
+                    if (!frame.contains(x, y)) {
+                        // Log.d(TAG, "dispatchTouchEvent: child outside. ");
+                        continue;
+                    }
+
+                    int xMoved = x - child.getLeft();
+                    int yMoved = y - child.getTop();
+
+                    event.setLocation(xMoved, yMoved);
+
+                    if (child.dispatchTouchEvent(event)) {
+                        // Log.d(TAG, "Sending event to " + child.getId());
+                        mMultitouchTargets.put(pid, child);
+                        result = true;
+                    }
                 }
+            } else if (actionMasked == MotionEvent.ACTION_MOVE) {
+                // Log.d(TAG, "dispatchTouchEvent: ACTION_MOVE");
 
-                int xMoved = x - child.getLeft();
-                int yMoved = y - child.getTop();
+                for (int key : mMultitouchTargets.keySet()) {
+                    View child = mMultitouchTargets.get(key);
+                    int idx = mMew.findPointerIndex(key);
+                    if (idx >= mMew.getPointerCount() || idx < 0)
+                        continue;
+                    int xMoved = (int) mMew.getX(idx) - child.getLeft();
+                    int yMoved = (int) mMew.getY(idx) - child.getTop();
 
-                event.setLocation(xMoved, yMoved);
+                    event.setLocation(xMoved, yMoved);
 
-                if (child.dispatchTouchEvent(event)) {
-                    // Log.d(TAG, "Sending event to " + child.getId());
-                    mMultitouchTargets.put(pid, child);
-                    result = true;
+                    result = mMultitouchTargets.get(key).dispatchTouchEvent(event);
                 }
-            }
-        } else if (actionMasked == MotionEvent.ACTION_MOVE) {
-            // Log.d(TAG, "dispatchTouchEvent: ACTION_MOVE");
+            } else if (actionMasked == MotionEvent.ACTION_UP
+                    || actionMasked == MotionEvent.ACTION_CANCEL
+                    || actionMasked == mMew.getActionPointerUpCONST()) {
+                // Log.d(TAG, "dispatchTouchEvent: ACTION_UP");
+                View child = mMultitouchTargets.get(pid);
+                if (child != null) {
 
-            for (int key : mMultitouchTargets.keySet()) {
-                View child = mMultitouchTargets.get(key);
-                int idx = mMew.findPointerIndex(key);
-                if (idx >= mMew.getPointerCount() || idx < 0)
-                    continue;
-                int xMoved = (int) mMew.getX(idx) - child.getLeft();
-                int yMoved = (int) mMew.getY(idx) - child.getTop();
+                    int idx = mMew.findPointerIndex(pid);
+                    int xMoved = (int) mMew.getX(idx) - child.getLeft();
+                    int yMoved = (int) mMew.getY(idx) - child.getTop();
+                    event.setLocation(xMoved, yMoved);
 
-                event.setLocation(xMoved, yMoved);
-
-                result = mMultitouchTargets.get(key).dispatchTouchEvent(event);
-            }
-        } else if (actionMasked == MotionEvent.ACTION_UP
-                || actionMasked == MotionEvent.ACTION_CANCEL
-                || actionMasked == mMew.getActionPointerUpCONST()) {
-            // Log.d(TAG, "dispatchTouchEvent: ACTION_UP");
-            View child = mMultitouchTargets.get(pid);
-            if (child != null) {
-
-                int idx = mMew.findPointerIndex(pid);
-                int xMoved = (int) mMew.getX(idx) - child.getLeft();
-                int yMoved = (int) mMew.getY(idx) - child.getTop();
-                event.setLocation(xMoved, yMoved);
-
-                result = mMultitouchTargets.get(pid).dispatchTouchEvent(event);
-                mMultitouchTargets.remove(pid);
+                    result = mMultitouchTargets.get(pid).dispatchTouchEvent(event);
+                    mMultitouchTargets.remove(pid);
+                }
             }
         }
-
-        return result;
+        catch(Exception e){e.toString();}
+        return true;
     }
 }

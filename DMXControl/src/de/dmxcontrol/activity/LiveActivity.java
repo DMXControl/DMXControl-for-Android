@@ -10,6 +10,7 @@ import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -57,14 +58,9 @@ public class LiveActivity extends Activity {
     private Context context;
     private ArrayList<ExecutorView> executors;
 
-    //private TwoWayView  scrolView;
     public LiveActivity() {
 
     }
-
-    //public AlertDialog onCreateDialog(int id) {
-    //return mainAboutDialog();
-    //}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -87,40 +83,32 @@ public class LiveActivity extends Activity {
             if(needResize){
                 ResceivdData.get().executorPage.Resize();
             }
-            /**LinearLayout layout = new LinearLayout(this);
-            layout.setOrientation(LinearLayout.VERTICAL);
-            layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
-
-            hsview = (HorizontalScrollView) view.findViewById(R.id.horizontalScrollView);
-            llview= (LinearLayout) hsview.findViewById(R.id.executor_collection);
-            setContentView(view);
-            if(executors==null) {
-                executors= new ArrayList<ExecutorView>();
-                for (int i = 0; i < ResceivdData.get().Executors.size(); i++) {
-                    executors.add(new ExecutorView(llview.getContext(), ResceivdData.get().Executors.get(i)));
-                    llview.addView(executors.get(i));
-                    //executors.get(i).Resice();
-                }
-            }
-            else {
-                for (int i = 0; i < executors.size(); i++) {
-                    llview.addView(executors.get(i));
-                }
-            }
-**/
         } catch (Exception e) {
             e.toString();
         }
     }
+
+   /** @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        try {
+            int counter = event.getPointerCount();
+            MotionEvent.PointerCoords[] coords = new MotionEvent.PointerCoords[counter];
+            for (int i = 0; i < counter; i++) {
+                MotionEvent.PointerCoords coordinate = new MotionEvent.PointerCoords();
+                event.getPointerCoords(i, coordinate);
+                coords[i] = coordinate;
+            }
+            ResceivdData.get().executorPage.RaiseMultiTouch(coords, event);
+        }
+        catch (Exception e){
+            e.toString();
+        }
+        return false;
+    }**/
 
     private DialogInterface.OnClickListener mOnClickListener = new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {
 
         }
     };
-
-    private ArrayList<ClipData.Item> generateData() {
-        ArrayList<ClipData.Item> items = new ArrayList<ClipData.Item>();
-        return items;
-    }
 }

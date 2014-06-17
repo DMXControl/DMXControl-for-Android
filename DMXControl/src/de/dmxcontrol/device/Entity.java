@@ -32,6 +32,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.io.File;
 import java.lang.String;
@@ -49,6 +50,16 @@ public abstract class Entity implements IPropertyContainer {
     protected int mImage;
     protected String lImage;
     public String guid;
+
+    private ArrayList<NameChangedListener> NameChangedListeners = new ArrayList<NameChangedListener>();
+
+    public void setNameChangedListener(NameChangedListener listener) {
+        this.NameChangedListeners.add(listener);
+    }
+
+    public interface NameChangedListener {
+        void onNameChanged(String name);
+    }
 
     public Entity(int id, String name, Type type) {
         mId = id;
@@ -70,7 +81,14 @@ public abstract class Entity implements IPropertyContainer {
         return mName;
     }
     public void setName(String name) {
+        boolean isEqual= mName.equals(name);
         mName=name;
+        if(!isEqual) {
+            for (NameChangedListener listener : NameChangedListeners) {
+                listener.onNameChanged(name);
+            }
+            return;
+        }
     }
 
     public int getImage() {
@@ -86,8 +104,10 @@ public abstract class Entity implements IPropertyContainer {
 
     public Bitmap getBitmap() {
         File imgFile = new File(IconStorageName + File.separator + this.getBitmapFileName());
-        if (imgFile.exists()) {
-            return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        if(imgFile.isFile()) {
+            if (imgFile.exists()) {
+                return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            }
         }
         return null;
     }
@@ -112,4 +132,5 @@ public abstract class Entity implements IPropertyContainer {
     protected static Entity receive(byte[] message){
         return null;
     }
+
 }

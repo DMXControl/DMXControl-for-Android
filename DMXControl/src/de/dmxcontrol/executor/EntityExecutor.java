@@ -40,13 +40,46 @@ import de.dmxcontrol.network.UDP.Sender;
 public class EntityExecutor extends Entity {
     public static int defaultIcon = R.drawable.device_new;
     private float value;
+    private boolean toggle;
+    private boolean doGO;
+    private boolean doStop;
+    private boolean doBreakBack;
+    private boolean flash;
 
-    private ArrayList<ValueChangedListener> listeners = new ArrayList<ValueChangedListener>();
+    private ArrayList<ValueChangedListener> ValueChangedListeners = new ArrayList<ValueChangedListener>();
+
     public void setValueChangedListener(ValueChangedListener listener) {
-        this.listeners.add(listener);
+        this.ValueChangedListeners.add(listener);
     }
+
     public interface ValueChangedListener {
         void onValueChanged(float value);
+    }
+
+    private ArrayList<FlashChangedListener> FlashChangedListeners = new ArrayList<FlashChangedListener>();
+
+    public void setFlashChangedListener(FlashChangedListener listener) {
+        this.FlashChangedListeners.add(listener);
+    }
+
+    public interface FlashChangedListener {
+        void onFlashChanged(float value);
+    }
+
+    public void BreakBack() {
+        doBreakBack=true;
+        Send();
+    }
+    public void GO() {
+        doGO=true;
+        Send();
+    }
+    public void Stop(){
+        doStop=true;
+        Send();}
+
+    public boolean getToggle() {
+        return toggle;
     }
 
     public EntityExecutor(int id) {
@@ -98,9 +131,10 @@ public class EntityExecutor extends Entity {
             pointer++;
         }
 
-        Entity entity = new EntityExecutor(number, name);
+        EntityExecutor entity = new EntityExecutor(number, name);
         entity.guid=guid;
-        ((EntityExecutor)entity).value=Float.parseFloat(svalue.replace(",", "."));
+        entity.value=Float.parseFloat(svalue.replace(",", "."));
+        entity.flash=Boolean.parseBoolean(flash);
         return entity;
     }
 
@@ -109,16 +143,28 @@ public class EntityExecutor extends Entity {
                 name =this.getName().getBytes(),
                 guid = this.guid.getBytes(),
                 value =(this.value+"").getBytes(),
-                flash = "False".getBytes(),
-                number = (this.getId()+"").getBytes();
+                flash = (this.flash+"").replace("f","F").replace("t","T").getBytes(),
+                number = (this.getId()+"").getBytes(),
+                GO = (this.doGO+"").replace("f","F").replace("t","T").getBytes(),
+                BREAKBACK = (this.doBreakBack+"").replace("f","F").replace("t", "T").getBytes(),
+                STOP = (this.doStop+"").replace("f","F").replace("t","T").getBytes(),
+                BREAK = (false+"").replace("f","F").replace("t","T").getBytes(),
+                BACK = (false+"").replace("f","F").replace("t","T").getBytes();
+        this.doGO=false;
+        this.doBreakBack=false;
+        this.doStop=false;
 
-
-        output = new byte[1 + 5 +
+        output = new byte[1 + 10 +
                 name.length +
                 guid.length +
                 value.length +
                 flash.length +
-                number.length];
+                number.length+
+                GO.length+
+                BREAKBACK.length+
+                STOP.length+
+                BREAK.length+
+                BACK.length];
 
         int position = 0;
         output[position] = (byte) Sender.Type.EXECUTOR.ordinal();
@@ -164,22 +210,82 @@ public class EntityExecutor extends Entity {
             position++;
         }
 
+        output[position] = (byte)GO.length;
+        position++;
+        for (int i = 0; i < GO.length; i++)
+        {
+            output[position] = GO[i];
+            position++;
+        }
+
+        output[position] = (byte)BREAKBACK.length;
+        position++;
+        for (int i = 0; i < BREAKBACK.length; i++)
+        {
+            output[position] = BREAKBACK[i];
+            position++;
+        }
+
+        output[position] = (byte)STOP.length;
+        position++;
+        for (int i = 0; i < STOP.length; i++)
+        {
+            output[position] = STOP[i];
+            position++;
+        }
+
+        output[position] = (byte)BREAK.length;
+        position++;
+        for (int i = 0; i < BREAK.length; i++)
+        {
+            output[position] = BREAK[i];
+            position++;
+        }
+
+        output[position] = (byte)BACK.length;
+        position++;
+        for (int i = 0; i < BACK.length; i++)
+        {
+            output[position] = BACK[i];
+            position++;
+        }
+
         Prefs.get().getUDPSender().addSendData(output);
     }
 
     public void setValue(float value,boolean fromReader) {
-        boolean isEqual=false;//this.value==value;
+        int comp = Float.compare(this.value, value);
+        boolean isEqual = 0 == comp;
         this.value = value;
         if(!isEqual&&fromReader) {
-            for (ValueChangedListener listener : listeners) {
+            for (ValueChangedListener listener : ValueChangedListeners) {
                 listener.onValueChanged(value);
             }
             return;
         }
-        Send();
+        else if(!isEqual&&!fromReader)
+            Send();
     }
 
     public float getValue() {
         return value;
+    }
+    public void setFlash(boolean flash,boolean fromReader) {
+        boolean isEqual=this.flash==flash;
+        this.flash = flash;
+        if(!isEqual&&fromReader) {
+            for (FlashChangedListener listener : FlashChangedListeners) {
+                listener.onFlashChanged(value);
+            }
+            return;
+        }
+        if(!isEqual&&!fromReader)
+        Send();
+        //Prefs.get().getUDPSender().addSendData(new byte[]{(byte)0xff});
+        //Send();
+    }
+
+    public boolean getFlash() {
+        return flash;
     }
 }

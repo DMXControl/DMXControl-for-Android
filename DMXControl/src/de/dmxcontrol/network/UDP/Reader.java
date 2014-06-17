@@ -23,16 +23,6 @@ import static de.dmxcontrol.network.UDP.Reader.Type.DEVICE;
 /**
  * Created by Qasi on 12.06.2014.
  */
-//private MyDatagramReceiver myDatagramReceiver = null;
-
-//protected void onResume() {
-//        myDatagramReceiver = new MyDatagramReceiver();
-//        myDatagramReceiver.start();
-//        }
-
-//protected void onPause() {
-//        myDatagramReceiver.kill();
-//        }
 
 public class Reader extends Thread {
     private boolean bKeepRunning = true;
@@ -78,21 +68,26 @@ public class Reader extends Thread {
     private ArrayList<byte[]> sendData=new ArrayList<byte[]>();
 
     public void run() {
+        this.setPriority(MIN_PRIORITY);
         String message = "";
-        byte[] lmessage = new byte[4096];
+        byte[] lmessage = new byte[0x000fff];
         DatagramPacket packet = new DatagramPacket(lmessage, lmessage.length);
         KernelPings = new ArrayList<KernelPingDeserielizer>();
         try {
-            DatagramSocket kernelsocket = new DatagramSocket(12352);
-            DatagramSocket androidApp = new DatagramSocket(13141);
-            while (bKeepRunning) {
-                if (false) {
-                    receiveKernalPing(message, lmessage, kernelsocket, packet);
-                }
-                try {
-                    receiveAndroidAppPluginEntity(message, lmessage, androidApp, packet);
-                }
-                catch (Exception e) {
+            DatagramSocket kernelsocket = new DatagramSocket(12352         );
+                DatagramSocket androidApp = new DatagramSocket(13141);
+                while (bKeepRunning) {
+                    if (false) {
+                        receiveKernalPing(message, lmessage, kernelsocket, packet);
+                    }
+                    try {
+                        receiveAndroidAppPluginEntity(message, lmessage, androidApp, packet);
+                    }
+                    catch (Exception e) {
+                        e.toString();
+                    }
+                    finally {
+                    Thread.sleep(2);
                 }
             }
             if (kernelsocket != null) {
@@ -100,6 +95,7 @@ public class Reader extends Thread {
             }
         } catch (Throwable e) {
             Log.e("UDP Listener", e.getMessage());
+            run();
         }
     }
 
@@ -173,6 +169,7 @@ public class Reader extends Thread {
             }
         } catch (Throwable e) {
             Log.e("Can't receive KernelPing", e.getMessage());
+            run();
         }
     }
 

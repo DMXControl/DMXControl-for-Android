@@ -55,15 +55,17 @@ public class DMXControlApplication extends Application {
             prefs.setPreferences(this);
             ServiceFrontend.initOnce(this);
 
-            File Directory = new File(StoragePath);
-            if (!Directory.exists()) {
-                Directory.mkdirs();
+            /**try {
+                File Directory = new Directory(StoragePath);
+                if (!Directory.exists()) {
+                    Directory.mkdirs();
 
-            }
-            Directory = new File(IconStorageName);
-            if (!Directory.exists()) {
-                Directory.mkdirs();
-            }
+                }
+                Directory = new File(IconStorageName);
+                if (!Directory.exists()) {
+                    Directory.mkdirs();
+                }
+            }catch(Exception e){}**/
 
 
             if (!prefs.getOffline())

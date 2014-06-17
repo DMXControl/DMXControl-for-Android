@@ -108,7 +108,7 @@ public class GroupAdapter extends BaseAdapter {
         }
         Entity e = mEntityManager.getItemForType(Type.GROUP, position);
         Bitmap bitmap = e.getBitmap();
-        if (e.getBitmapFileName() == "" || bitmap == null) {
+        if (e.getBitmapFileName().equals("")|| bitmap == null) {
             imageView.setImageResource(e.getImage());
         } else {
             imageView.setImageBitmap(bitmap);

@@ -10,14 +10,14 @@
         android:id="@+id/horizontalScrollView"
         android:layout_gravity="center" >
 
-        <de.dmxcontrol.widget.LinearLayoutWithMultitouch
+        <de.dmxcontrol.widget.ExecuterPageMultitouchLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:id="@+id/executor_collection"
             android:layout_gravity="left|center_vertical">
 
-        </de.dmxcontrol.widget.LinearLayoutWithMultitouch>
+        </de.dmxcontrol.widget.ExecuterPageMultitouchLayout>
     </HorizontalScrollView>
 
 </FrameLayout>

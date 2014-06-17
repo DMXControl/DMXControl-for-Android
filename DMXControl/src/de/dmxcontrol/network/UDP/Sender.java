@@ -56,9 +56,11 @@ public class Sender extends Thread {
             DatagramSocket androidApp = new DatagramSocket(23242);
             while (bKeepRunning) {
                 send(androidApp);
+                Thread.sleep(33);
             }
         } catch (Throwable e) {
             Log.e("UDP Sender", e.getMessage());
+            run();
         }
     }
 

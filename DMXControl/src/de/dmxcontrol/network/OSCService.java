@@ -97,7 +97,7 @@ public class OSCService extends Service {
         mConnectionType = OSCClient.UDP;
         mWaitInMillis = TIME_WAIT_IN_MILLIS;
         mMessageMap = new ConcurrentHashMap<String, OSCMessage>();
-        connect();
+        //connect();
     }
 
     @Override
