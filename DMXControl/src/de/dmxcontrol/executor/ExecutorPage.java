@@ -1,27 +1,19 @@
 package de.dmxcontrol.executor;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Rect;
-import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
 import de.dmxcontrol.android.R;
-import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.app.Prefs;
-import de.dmxcontrol.device.Entity;
-import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.network.ResceivdData;
 import de.dmxcontrol.widget.ExecuterPageMultitouchLayout;
+import de.dmxcontrol.widget.ExecuterPageSliderView;
 import de.dmxcontrol.widget.ExecutorView;
-import de.dmxcontrol.widget.LinearLayoutWithMultitouch;
 
 /**
  * Created by Qasi on 15.06.2014.
@@ -29,7 +21,7 @@ import de.dmxcontrol.widget.LinearLayoutWithMultitouch;
 public class ExecutorPage {
 
     public View view;
-    private HorizontalScrollView hsview;
+    public ExecuterPageSliderView hsview;
     private ExecuterPageMultitouchLayout llview;
     public ArrayList<ExecutorView> executors;
     public void SetParentActivity(Activity parent) {
@@ -38,8 +30,7 @@ public class ExecutorPage {
         }
     }
 
-    public ExecutorPage(int id, String name,Context context)
-    {
+    public ExecutorPage(int id, String name,Context context) throws Exception {
 
         try {
 
@@ -48,7 +39,7 @@ public class ExecutorPage {
             layout.setOrientation(LinearLayout.VERTICAL);
             layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
 
-            hsview = (HorizontalScrollView) view.findViewById(R.id.horizontalScrollView);
+            hsview = (ExecuterPageSliderView) view.findViewById(R.id.horizontalScrollView);
             llview= (ExecuterPageMultitouchLayout) hsview.findViewById(R.id.executor_collection);
             //llview.ExecutorPage=this;
             if(executors==null) {
@@ -71,6 +62,7 @@ public class ExecutorPage {
 
         } catch (Exception e) {
             e.toString();
+            throw new Exception(e.toString());
         }
     }
 

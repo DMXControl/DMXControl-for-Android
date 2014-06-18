@@ -75,7 +75,8 @@ public class ExecuterPageMultitouchLayout extends LinearLayout {
                 int action = event.getAction();
                 int actionMasked = action & mMew.getActionMaskCONST();
                 int pid = mMew.getPointerIdByAction(action);
-                    float x = event.getX(pid);
+                    float x = event.getX(pid)-executorPage.hsview.getScrollX();
+                    Log.i(executorPage.hsview.getScrollX()+"","");
                     float y = event.getY(pid);
                     if (executorPage != null) {
                         for (ExecutorView ev : executorPage.executors)
