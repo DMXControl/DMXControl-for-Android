@@ -3,6 +3,7 @@ package de.dmxcontrol.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -53,8 +54,9 @@ public class ExecutorView extends LinearLayout {
         int height = Context.getResources().getDisplayMetrics().heightPixels;
 
         textView = new TextView(Context);
-        textView.setText(mExecutor.getName());
         textView.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+        textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
+        textView.setText(mExecutor.getName());
         mExecutor.setNameChangedListener(new Entity.NameChangedListener() {
             @Override
             public void onNameChanged(String name) {
@@ -153,7 +155,7 @@ public class ExecutorView extends LinearLayout {
         gobtn = new Button(Context);
         gobtn.setBackgroundResource(R.drawable.btn_normal_selector);
         gobtn.setTextColor(Color.WHITE);
-        gobtn.setText("GO");
+        gobtn.setText("►");
         gobtn.setLayoutParams(new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT,
                 height/8));
@@ -168,7 +170,7 @@ public class ExecutorView extends LinearLayout {
         stopbtn = new Button(Context);
         stopbtn.setBackgroundResource(R.drawable.btn_normal_selector);
         stopbtn.setTextColor(Color.WHITE);
-        stopbtn.setText("STOP");
+        stopbtn.setText("■");
         stopbtn.setTag(stopbtn.getText()+" "+mExecutor.getName());
         stopbtn.setLayoutParams(new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT,

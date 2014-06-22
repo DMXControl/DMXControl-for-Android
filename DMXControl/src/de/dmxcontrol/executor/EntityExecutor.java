@@ -27,7 +27,6 @@
 
 package de.dmxcontrol.executor;
 
-import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
 
 import de.dmxcontrol.android.R;
@@ -135,6 +134,7 @@ public class EntityExecutor extends Entity {
         entity.guid=guid;
         entity.value=Float.parseFloat(svalue.replace(",", "."));
         entity.flash=Boolean.parseBoolean(flash);
+        message=null;
         return entity;
     }
 
@@ -251,6 +251,7 @@ public class EntityExecutor extends Entity {
         }
 
         Prefs.get().getUDPSender().addSendData(output);
+        output=null;
     }
 
     public void setValue(float value,boolean fromReader) {

@@ -2,23 +2,15 @@ package de.dmxcontrol.network.UDP;
 
 import android.util.Log;
 
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.List;
 
-import de.dmxcontrol.android.R;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;
 import de.dmxcontrol.executor.EntityExecutor;
 import de.dmxcontrol.network.ResceivdData;
-
-import static de.dmxcontrol.network.UDP.Reader.Type.DEVICE;
 
 /**
  * Created by Qasi on 12.06.2014.
@@ -125,6 +117,14 @@ public class Reader extends Thread {
                     listener.onNewsUpdate();
                 }
             }
+            message=null;
+            if(message!=null) {
+                message = null;
+            }
+            lmessage=null;
+            if(lmessage!=null) {
+                lmessage = null;
+            }
         } catch (Throwable e) {
             Log.e("Can't receive KernelPing", e.getMessage());
         }
@@ -167,6 +167,15 @@ public class Reader extends Thread {
                     listener.onNewsUpdate();
                 }
             }
+            message=null;
+            if(message!=null) {
+                message = null;
+            }
+            lmessage=null;
+            if(lmessage!=null) {
+                lmessage = null;
+            }
+
         } catch (Throwable e) {
             Log.e("Can't receive KernelPing", e.getMessage());
             run();

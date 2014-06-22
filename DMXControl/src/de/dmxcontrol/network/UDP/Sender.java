@@ -9,10 +9,6 @@ import java.util.ArrayList;
 
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
-import de.dmxcontrol.device.EntityDevice;
-import de.dmxcontrol.device.EntityGroup;
-import de.dmxcontrol.executor.EntityExecutor;
-import de.dmxcontrol.network.ResceivdData;
 
 /**
  * Created by Qasi on 12.06.2014.
@@ -68,6 +64,7 @@ public class Sender extends Thread {
         try {
             for (int i = 0; i < sendData.size(); i++) {
                 socket.send(new DatagramPacket(sendData.get(i), sendData.get(i).length, InetAddress.getByName(Prefs.get().getServerAddress()), 23242));
+                sendData.set(i,null);
                 sendData.remove(i);
             }
         } catch (Exception e) {
