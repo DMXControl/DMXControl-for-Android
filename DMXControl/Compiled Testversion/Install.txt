@@ -1,4 +1,4 @@
-1. Open the *.apk File with jour Android-Phone.
+1. Open the *.apk File with your Android-Phone.
 2. Copy the *.dll und *.pdb File in the Plugin-Folder from the Kernel.
 
 3. Run Kernel and GUI
