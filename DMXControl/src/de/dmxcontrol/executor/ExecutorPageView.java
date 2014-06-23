@@ -33,37 +33,38 @@ public class ExecutorPageView {
         try {
 
             view = View.inflate(context, R.layout.executor_page, null);
-            if(ResceivdData.get().SelectedExecutorPage==null){ResceivdData.get().SelectedExecutorPage=ResceivdData.get().ExecutorPages.get(0);}
-            up_btn=(Button)view.findViewById(R.id.executorPageUp_btn);
-            up_btn.setTypeface(Typeface.createFromAsset(context.getAssets(), "octicons.ttf"));
-            up_btn.setText("\uf03d");
-            up_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(ResceivdData.get().ExecutorPages.size()>ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage)+1)
-                    ResceivdData.get().SelectedExecutorPage=ResceivdData.get().ExecutorPages.get(ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage)+1);
-                    LoadExecutors();
-                }
-            });
-            down_btn=(Button)view.findViewById(R.id.executorPageDown_btn);
-            down_btn.setTypeface(Typeface.createFromAsset(context.getAssets(), "octicons.ttf"));
-            down_btn.setText("\uf03f");
-            down_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(0<=ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage)-1)
-                    ResceivdData.get().SelectedExecutorPage=ResceivdData.get().ExecutorPages.get(ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage)-1);
-                    LoadExecutors();
-                }
-            });
-            name_label= (TextView)view.findViewById(R.id.executorPageName);
-            LinearLayout layout = new LinearLayout(context);
-            layout.setOrientation(LinearLayout.VERTICAL);
-            layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
+            if(ResceivdData.get().ExecutorPages.size()>0) {
 
+                up_btn = (Button) view.findViewById(R.id.executorPageUp_btn);
+                up_btn.setTypeface(Typeface.createFromAsset(context.getAssets(), "octicons.ttf"));
+                up_btn.setText("\uf03d");
+                up_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       if (ResceivdData.get().ExecutorPages.size() > ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage) + 1)
+                            ResceivdData.get().SelectedExecutorPage = ResceivdData.get().ExecutorPages.get(ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage) + 1);
+                        LoadExecutors();
+                    }
+                });
+                down_btn = (Button) view.findViewById(R.id.executorPageDown_btn);
+                down_btn.setTypeface(Typeface.createFromAsset(context.getAssets(), "octicons.ttf"));
+                down_btn.setText("\uf03f");
+                down_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (0 <= ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage) - 1)
+                            ResceivdData.get().SelectedExecutorPage = ResceivdData.get().ExecutorPages.get(ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage) - 1);
+                        LoadExecutors();
+                    }
+                });
+                name_label = (TextView) view.findViewById(R.id.executorPageName);
+                LinearLayout layout = new LinearLayout(context);
+                layout.setOrientation(LinearLayout.VERTICAL);
+                layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
+            }
             hsview = (ExecuterPageSliderView) view.findViewById(R.id.horizontalScrollView);
             llview = (ExecuterPageMultitouchLayout) hsview.findViewById(R.id.executor_collection);
-            LoadExecutors();
+            if(ResceivdData.get().ExecutorPages.size()>0) {LoadExecutors();}
         } catch (Exception e) {
             e.toString();
             throw new Exception(e.toString());
@@ -71,6 +72,9 @@ public class ExecutorPageView {
     }
 
     public void LoadExecutors() {
+        if (ResceivdData.get().SelectedExecutorPage == null) {
+            ResceivdData.get().SelectedExecutorPage = ResceivdData.get().ExecutorPages.get(0);
+        }
         name_label.setText(ResceivdData.get().SelectedExecutorPage.getName());
         if (executors == null) {
             executors = new ArrayList<ExecutorView>();
@@ -112,6 +116,7 @@ public class ExecutorPageView {
     }
 
     public void Resize() {
+        if (executors != null)
         for (int i = 0; i < executors.size(); i++) {
             executors.get(i).Resize();
         }
@@ -123,9 +128,10 @@ public class ExecutorPageView {
         return hsview;
     }
     public void SetParentActivity(Activity parent) {
-        for (int i = 0; i < executors.size(); i++) {
-            executors.get(i).parentActivity = parent;
-        }
+        if (executors != null)
+            for (int i = 0; i < executors.size(); i++) {
+                executors.get(i).parentActivity = parent;
+            }
     }
 
     public ArrayList<ExecutorView> getExecutors() {

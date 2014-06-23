@@ -32,9 +32,9 @@ import android.os.Environment;
 
 import java.io.File;
 
-import de.dmxcontrol.android.R;
+import de.dmxcontrol.executor.EntityExecutor;
+import de.dmxcontrol.executor.EntityExecutorPage;
 import de.dmxcontrol.network.ServiceFrontend;
-import de.dmxcontrol.network.UDP.Reader;
 
 public class DMXControlApplication extends Application {
     private final static String TAG = "dmxcontrol";
@@ -66,7 +66,8 @@ public class DMXControlApplication extends Application {
                     Directory.mkdirs();
                 }
             }catch(Exception e){}**/
-
+            EntityExecutor.SendAllRequest();
+            EntityExecutorPage.SendAllRequest();
 
             if (!prefs.getOffline())
                 ServiceFrontend.get().connect();

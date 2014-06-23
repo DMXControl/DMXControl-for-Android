@@ -105,15 +105,15 @@ public class EntityManager {
         EntityGroup groupThree = new EntityGroup(4);
         addEntity(groupThree);
 
-        addEntity(new EntityDevice(1, "", "Clay Paky Sharpy.png"));
-        addEntity(new EntityDevice(2, "", "Clay Paky Sharpy Wash.png"));
-        addEntity(new EntityDevice(3, "", "Clay Paky A_LEDA B-EYE K20.png"));
-        addEntity(new EntityDevice(4, "", "Blinder 2x1.png"));
-        addEntity(new EntityDevice(5, "", "Blinder 2x2.png"));
-        addEntity(new EntityDevice(6, "", "Blinder 2x4.png"));
-        addEntity(new EntityDevice(7, "", "Clay Paky CP Color MH AE.png"));
-        addEntity(new EntityDevice(8, "", "Clay Paky Alpha Spot QWO 800.png"));
-        addEntity(new EntityDevice(9, "", "mac700profile.png"));
+        addEntity(new EntityDevice(1, ""));
+        addEntity(new EntityDevice(2, ""));
+        addEntity(new EntityDevice(3, ""));
+        addEntity(new EntityDevice(4, ""));
+        addEntity(new EntityDevice(5, ""));
+        addEntity(new EntityDevice(6, ""));
+        addEntity(new EntityDevice(7, ""));
+        addEntity(new EntityDevice(8, ""));
+        addEntity(new EntityDevice(9, ""));
         addEntity(new EntityDevice(10, ""));
         addEntity(new EntityDevice(11, ""));
         addEntity(new EntityDevice(12, ""));

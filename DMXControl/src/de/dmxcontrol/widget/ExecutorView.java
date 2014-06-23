@@ -2,7 +2,6 @@ package de.dmxcontrol.widget;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -58,6 +57,7 @@ public class ExecutorView extends LinearLayout {
 
         textView = new TextView(Context);
         textView.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+        textView.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         textView.setText(mExecutor.getName());
         mExecutor.setNameChangedListener(new Entity.NameChangedListener() {
@@ -118,7 +118,7 @@ public class ExecutorView extends LinearLayout {
         flashbtn = new Button(Context);
         flashbtn.setEnabled(false);
         flashbtn.setBackgroundResource(R.drawable.btn_normal_selector);
-        flashbtn.setTextColor(Color.WHITE);
+        flashbtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         flashbtn.setText("FLASH");
         flashbtn.setTextSize(18);
         flashbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
@@ -145,7 +145,7 @@ public class ExecutorView extends LinearLayout {
         });
         breakbtn = new Button(Context);
         breakbtn.setBackgroundResource(R.drawable.btn_normal_selector);
-        breakbtn.setTextColor(Color.WHITE);
+        breakbtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         breakbtn.setText("Break/Back");
         breakbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
         breakbtn.setText("\uf0bb / \uf0bc");
@@ -162,7 +162,7 @@ public class ExecutorView extends LinearLayout {
 
         gobtn = new Button(Context);
         gobtn.setBackgroundResource(R.drawable.btn_normal_selector);
-        gobtn.setTextColor(Color.WHITE);
+        gobtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         gobtn.setText("►");
         gobtn.setTextSize(18);
         gobtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
@@ -180,7 +180,7 @@ public class ExecutorView extends LinearLayout {
 
         stopbtn = new Button(Context);
         stopbtn.setBackgroundResource(R.drawable.btn_normal_selector);
-        stopbtn.setTextColor(Color.WHITE);
+        stopbtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         stopbtn.setText("■");
         stopbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
         stopbtn.setText("\uf053");

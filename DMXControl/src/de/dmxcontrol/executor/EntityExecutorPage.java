@@ -34,6 +34,7 @@ import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager.Type;
 import de.dmxcontrol.network.ResceivdData;
+import de.dmxcontrol.network.UDP.Reader;
 import de.dmxcontrol.network.UDP.Sender;
 
 //This is One Executor
@@ -53,6 +54,15 @@ public class EntityExecutorPage extends Entity {
 
     public void setValueChangedListener(ValueChangedListener listener) {
         this.ValueChangedListeners.add(listener);
+    }
+
+    public static void SendAllRequest(){
+        byte[] output=new byte[4];
+        output[0]=(byte) Reader.Type.EXECUTORPAGE.ordinal();
+        output[1]='A';
+        output[2]='L';
+        output[3]='L';
+        Prefs.get().getUDPSender().addSendData(output);
     }
 
     public interface ValueChangedListener {

@@ -46,6 +46,7 @@
         android:layout_gravity="right|bottom"
         android:background="#00000000"
         android:textColor="@color/white_smoke"
-        android:singleLine="false" />
+        android:singleLine="false"
+        android:clickable="false" />
 
 </FrameLayout>
