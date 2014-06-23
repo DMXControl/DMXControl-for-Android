@@ -7,23 +7,21 @@ import java.util.Iterator;
 /**
  * Created by Qasi on 15.06.2014.
  */
-public class ExecutorCollection implements Collection<EntityExecutor> {
+public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
 
-    private ArrayList<EntityExecutor> list= new ArrayList<EntityExecutor>();
+    private ArrayList<EntityExecutorPage> list= new ArrayList<EntityExecutorPage>();
 
-    public boolean add(EntityExecutor object) {
+    public boolean add(EntityExecutorPage object) {
         if(!contains(object)) {
             return list.add(object);
         }
         else {
             try {
 
-            EntityExecutor obj=list.get(indexOf(object));
-            obj.setId(object.getId());
-            obj.setName(object.getName());
-            obj.setImage(object.getBitmapFileName());
-            obj.setValue(object.getValue(),true);
-            obj.setFlash(object.getFlash(),true);
+                EntityExecutorPage obj=list.get(indexOf(object));
+                obj.setId(object.getId());
+                obj.setName(object.getName());
+                obj.setImage(object.getBitmapFileName());
             }
             catch(Exception e){
                 e.toString();
@@ -32,11 +30,11 @@ public class ExecutorCollection implements Collection<EntityExecutor> {
         }
     }
 
-    public boolean addAll(int location, Collection<? extends EntityExecutor> collection) {
+    public boolean addAll(int location, Collection<? extends EntityExecutorPage> collection) {
         return list.addAll(location, collection);
     }
 
-    public boolean addAll(Collection<? extends EntityExecutor> collection) {
+    public boolean addAll(Collection<? extends EntityExecutorPage> collection) {
         return list.addAll(collection);
     }
 
@@ -48,40 +46,23 @@ public class ExecutorCollection implements Collection<EntityExecutor> {
     @Override
     public boolean contains(Object object) {
         for (int i = 0; i <size() ; i++) {
-            if(((EntityExecutor)object).guid.equals(list.get(i).guid)){return true;}
+            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){return true;}
         }
         return false;
     }
-
-    public boolean contains(String guid) {
-        for (int i = 0; i <size() ; i++) {
-            if(guid.equals(list.get(i).guid)){return true;}
-        }
-        return false;
-    }
-
 
     @Override
     public boolean containsAll(Collection<?> collection) {
         return false;
     }
 
-    public EntityExecutor get(int location) {
+    public EntityExecutorPage get(int location) {
         return list.get(location);
-    }
-
-    public EntityExecutor get(String guid) {
-        for(EntityExecutor e:this.list) {
-            if (e.guid.equals(guid)) {
-                return e;
-            }
-        }
-        return null;
     }
 
     public int indexOf(Object object) {
         for (int i = 0; i <size() ; i++) {
-            if(((EntityExecutor)object).guid.equals(list.get(i).guid)){return i;}
+            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){return i;}
         }
         return Integer.MIN_VALUE;
     }
@@ -92,19 +73,19 @@ public class ExecutorCollection implements Collection<EntityExecutor> {
     }
 
     @Override
-    public Iterator<EntityExecutor> iterator() {
+    public Iterator<EntityExecutorPage> iterator() {
         return null;
     }
 
     public int lastIndexOf(Object object) {
         int out=Integer.MIN_VALUE;
         for (int i = 0; i <size() ; i++) {
-            if(((EntityExecutor)object).guid.equals(list.get(i).guid)){out = i;}
+            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){out = i;}
         }
         return out;
     }
 
-    public EntityExecutor remove(int location) {
+    public EntityExecutorPage remove(int location) {
         return list.remove(location);
     }
 

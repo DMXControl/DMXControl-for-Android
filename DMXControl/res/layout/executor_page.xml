@@ -20,4 +20,32 @@
         </de.dmxcontrol.widget.ExecuterPageMultitouchLayout>
     </de.dmxcontrol.widget.ExecuterPageSliderView>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/executorPageName"
+        android:layout_gravity="center_horizontal|bottom"
+        android:singleLine="false" />
+
+    <Button
+        android:layout_width="43dp"
+        android:layout_height="16dp"
+        android:text="˅"
+        android:id="@+id/executorPageDown_btn"
+        android:layout_gravity="left|bottom"
+        android:background="#00000000"
+        android:textColor="@color/white_smoke"
+        android:singleLine="true" />
+
+    <Button
+        android:layout_width="43dp"
+        android:layout_height="16dp"
+        android:text="˄"
+        android:id="@+id/executorPageUp_btn"
+        android:layout_gravity="right|bottom"
+        android:background="#00000000"
+        android:textColor="@color/white_smoke"
+        android:singleLine="false" />
+
 </FrameLayout>

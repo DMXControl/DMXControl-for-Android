@@ -142,7 +142,7 @@ public class PanelSelectorFragment extends Fragment implements OnClickListener,
 
     @Override
     public void onStart() {
-        super.onStart();
+            super.onStart();
     }
 
     @Override

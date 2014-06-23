@@ -32,13 +32,14 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
 
 import java.util.HashMap;
 
-import de.dmxcontrol.executor.ExecutorPage;
+import de.dmxcontrol.executor.ExecutorPageView;
 
 public class ExecuterPageMultitouchLayout extends LinearLayout {
     private final static String TAG = "widget";
@@ -46,7 +47,7 @@ public class ExecuterPageMultitouchLayout extends LinearLayout {
 
     private HashMap<Integer, View> mMultitouchTargets;
     private Rect mTempRect;
-    public ExecutorPage executorPage;
+    public ExecutorPageView executorPage;
 
     public ExecuterPageMultitouchLayout(Context context) {
         super(context);
@@ -75,11 +76,11 @@ public class ExecuterPageMultitouchLayout extends LinearLayout {
                 int action = event.getAction();
                 int actionMasked = action & mMew.getActionMaskCONST();
                 int pid = mMew.getPointerIdByAction(action);
-                    float x = event.getX(pid)-executorPage.hsview.getScrollX();
-                    Log.i(executorPage.hsview.getScrollX()+"","");
+                    float x = event.getX(pid)-executorPage.getExecuterPageSliderView().getScrollX();
+                    Log.i(executorPage.getExecuterPageSliderView().getScrollX()+"","");
                     float y = event.getY(pid);
                     if (executorPage != null) {
-                        for (ExecutorView ev : executorPage.executors)
+                        for (ExecutorView ev : executorPage.getExecutors())
                             if (isPointInsideView(x, y, ev)) {
                                 switch (actionMasked) {
                                     case MotionEvent.ACTION_DOWN:
@@ -156,5 +157,11 @@ public class ExecuterPageMultitouchLayout extends LinearLayout {
     public boolean dispatchTouchEvent(MotionEvent event) {
         boolean result=super.dispatchTouchEvent(event);
         return result;
+    }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        event.getAction();
+        return super.dispatchKeyEvent(event);
     }
 }

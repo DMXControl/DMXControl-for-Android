@@ -15,9 +15,9 @@
     <item
         android:title="@string/menu_set_connection"
         android:id="@+id/connection"
-        android:icon="@android:drawable/ic_menu_preferences" />
+        android:icon="@android:drawable/ic_menu_add" />
     <item
-        android:title="Live"
+        android:title="@string/menu_live"
         android:id="@+id/live"
-        android:icon="@android:drawable/ic_menu_preferences" />
+        android:icon="@android:drawable/ic_menu_slideshow" />
 </menu>

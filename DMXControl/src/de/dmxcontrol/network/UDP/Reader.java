@@ -10,6 +10,7 @@ import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;
 import de.dmxcontrol.executor.EntityExecutor;
+import de.dmxcontrol.executor.EntityExecutorPage;
 import de.dmxcontrol.network.ResceivdData;
 
 /**
@@ -22,6 +23,9 @@ public class Reader extends Thread {
     private KernelPingDeserielizer lastKernelPing;
     private Entity lastEntity;
 
+    private DatagramSocket kernelsocket;
+    private DatagramSocket androidApp;
+
     public enum Type {
         DEVICE,
         DEVICECOUNT,
@@ -30,7 +34,9 @@ public class Reader extends Thread {
         PRESET,
         PRESETCOUNT,
         EXECUTOR,
-        EXECUTORCOUNT;
+        EXECUTORCOUNT,
+        EXECUTORPAGE,
+        EXECUTORPAGECOUNT;
         public static Type convert(byte value) {
             return Type.values()[value];
         }
@@ -66,8 +72,12 @@ public class Reader extends Thread {
         DatagramPacket packet = new DatagramPacket(lmessage, lmessage.length);
         KernelPings = new ArrayList<KernelPingDeserielizer>();
         try {
-            DatagramSocket kernelsocket = new DatagramSocket(12352         );
-                DatagramSocket androidApp = new DatagramSocket(13141);
+            if(kernelsocket==null) {
+                kernelsocket = new DatagramSocket(12352);
+            }
+            if(androidApp==null) {
+                androidApp = new DatagramSocket(13141);
+            }
                 while (bKeepRunning) {
                     if (false) {
                         receiveKernalPing(message, lmessage, kernelsocket, packet);
@@ -156,6 +166,10 @@ public class Reader extends Thread {
                     case EXECUTOR:
                         entity= EntityExecutor.Receive(lmessage);
                         ResceivdData.get().Executors.add((EntityExecutor)entity);
+                        break;
+                    case EXECUTORPAGE:
+                        entity= EntityExecutorPage.Receive(lmessage);
+                        ResceivdData.get().ExecutorPages.add((EntityExecutorPage)entity);
                         break;
                     default:
                         break;

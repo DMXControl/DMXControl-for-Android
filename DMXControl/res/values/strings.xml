@@ -77,4 +77,5 @@
     <string name="executorGo">GO</string>
     <string name="executorFader">Fader</string>
     <string name="executorBreak">Break/Back</string>
+    <string name="menu_live">Live</string>
 </resources>

@@ -3,9 +3,12 @@ package de.dmxcontrol.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.MotionEvent;
+import android.view.Surface;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -117,6 +120,9 @@ public class ExecutorView extends LinearLayout {
         flashbtn.setBackgroundResource(R.drawable.btn_normal_selector);
         flashbtn.setTextColor(Color.WHITE);
         flashbtn.setText("FLASH");
+        flashbtn.setTextSize(18);
+        flashbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
+        flashbtn.setText("\u26A1");
         flashbtn.setTag(flashbtn.getText()+" "+mExecutor.getName());
         flashbtn.setLayoutParams(new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT,
@@ -141,6 +147,8 @@ public class ExecutorView extends LinearLayout {
         breakbtn.setBackgroundResource(R.drawable.btn_normal_selector);
         breakbtn.setTextColor(Color.WHITE);
         breakbtn.setText("Break/Back");
+        breakbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
+        breakbtn.setText("\uf0bb / \uf0bc");
         breakbtn.setLayoutParams(new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT,
                 height / 16));
@@ -156,6 +164,9 @@ public class ExecutorView extends LinearLayout {
         gobtn.setBackgroundResource(R.drawable.btn_normal_selector);
         gobtn.setTextColor(Color.WHITE);
         gobtn.setText("►");
+        gobtn.setTextSize(18);
+        gobtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
+        gobtn.setText("\uf0bf");
         gobtn.setLayoutParams(new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT,
                 height/8));
@@ -171,6 +182,8 @@ public class ExecutorView extends LinearLayout {
         stopbtn.setBackgroundResource(R.drawable.btn_normal_selector);
         stopbtn.setTextColor(Color.WHITE);
         stopbtn.setText("■");
+        stopbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
+        stopbtn.setText("\uf053");
         stopbtn.setTag(stopbtn.getText()+" "+mExecutor.getName());
         stopbtn.setLayoutParams(new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT,
@@ -312,7 +325,14 @@ public class ExecutorView extends LinearLayout {
     public void Resize() {
         int height = Context.getResources().getDisplayMetrics().heightPixels;
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) faderLayout.getLayoutParams();
+
         params.height = (height/2)+(height/16);
+        final int rotation = ((WindowManager) Context.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getOrientation();
+        switch (rotation) {
+            case Surface.ROTATION_90:
+            case Surface.ROTATION_270:
+                params.height = (height/2)+(height/28);
+        }
         faderLayout.setLayoutParams(params);
 
         params = (LinearLayout.LayoutParams) flashbtn.getLayoutParams();
@@ -336,4 +356,6 @@ public class ExecutorView extends LinearLayout {
     public Object getTag(){
         return mExecutor.getName();
     }
+
+    public EntityExecutor getEntityExecutor() {return mExecutor;}
 }
