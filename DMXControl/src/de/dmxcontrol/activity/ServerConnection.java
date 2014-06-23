@@ -1,29 +1,17 @@
 package de.dmxcontrol.activity;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.Canvas;
 import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Path;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -31,9 +19,8 @@ import java.util.TimerTask;
 
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.Prefs;
-import de.dmxcontrol.changelog.Changelog;
 import de.dmxcontrol.network.UDP.KernelPingDeserielizer;
-import de.dmxcontrol.network.UDP.Reader;
+import de.dmxcontrol.network.UDP.ReaderKernelPing;
 
 
 /**
@@ -59,8 +46,8 @@ public class ServerConnection extends Activity {
         context = this;
 
         super.onCreate(savedInstanceState);
-        Prefs.get().getUDPReader().setOnNewsUpdateListener(
-                new Reader.NewsUpdateListener() {
+        Prefs.get().getUDPReaderKernelPing().setOnNewsUpdateListener(
+                new ReaderKernelPing.NewsUpdateListener() {
                     @Override
                     public void onNewsUpdate() {
                         update = true;
@@ -164,6 +151,12 @@ public class ServerConnection extends Activity {
                         Prefs.get().setServerAddress(value.getHtmlText().split(" , ")[0]);
                     } else
                         Prefs.get().setServerAddress(value.getHtmlText());
+                }
+            });
+            rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(getApplicationContext(), "You'r now Connected", Toast.LENGTH_SHORT).show();
                 }
             });
             // 3. Get the two text view from the rowView

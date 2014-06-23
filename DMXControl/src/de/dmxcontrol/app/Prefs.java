@@ -30,19 +30,16 @@ package de.dmxcontrol.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Set;
 
 import de.dmxcontrol.activity.ControlActivity;
-import de.dmxcontrol.android.R;
 import de.dmxcontrol.network.ServiceFrontend;
 import de.dmxcontrol.network.UDP.KernelPingDeserielizer;
 import de.dmxcontrol.network.UDP.Reader;
+import de.dmxcontrol.network.UDP.ReaderKernelPing;
 import de.dmxcontrol.network.UDP.Sender;
 
 public class Prefs {
@@ -67,11 +64,15 @@ public class Prefs {
     public static final int SCREEN_MODE_LANDSCAPE = 2;
 
     //private Thread reader1;
+    private ReaderKernelPing Pingreader;
     private Reader reader;
     private Sender sender;
 
     public Reader getUDPReader() {
         return reader;
+    }
+    public ReaderKernelPing getUDPReaderKernelPing() {
+        return Pingreader;
     }
     public Sender getUDPSender() {
         return sender;
@@ -80,6 +81,10 @@ public class Prefs {
     private Context ctx;
 
     public Prefs() {
+        Pingreader = new ReaderKernelPing();
+        Thread Pingreader1 = new Thread(Pingreader);
+        Pingreader1.start();
+
         reader = new Reader();
         Thread reader1 = new Thread(reader);
         reader1.start();
@@ -215,7 +220,7 @@ public class Prefs {
     }
 
     public ArrayList<KernelPingDeserielizer> getKernelPing() {
-        return reader.GetKernelPings();
+        return Pingreader.GetKernelPings();
     }
 
     public void setServerAddress(String serverAddress) {
