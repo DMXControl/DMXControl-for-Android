@@ -36,7 +36,7 @@ import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager.Type;
-import de.dmxcontrol.network.ResceivdData;
+import de.dmxcontrol.network.ReceivedData;
 import de.dmxcontrol.network.UDP.Reader;
 import de.dmxcontrol.network.UDP.Sender;
 
@@ -48,7 +48,7 @@ public class EntityExecutorPage extends Entity {
     public ExecutorCollection getExecutors() {
         ExecutorCollection Executors=new ExecutorCollection();
         for (int i = 0; i <ExecutorGUIDs.size() ; i++) {
-            Executors.add(ResceivdData.get().Executors.get(ExecutorGUIDs.get(i)));
+            Executors.add(ReceivedData.get().Executors.get(ExecutorGUIDs.get(i)));
         }
         return Executors;
     }

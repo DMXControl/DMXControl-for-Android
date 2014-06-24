@@ -10,12 +10,13 @@ import de.dmxcontrol.executor.ExecutorPageView;
 /**
  * Created by Qasi on 15.06.2014.
  */
-public class ResceivdData {
+public class ReceivedData
+    {
 
-    private static ResceivdData INSTANCE = null;
-    public static ResceivdData get() {
+    private static ReceivedData INSTANCE = null;
+    public static ReceivedData get() {
         if (INSTANCE == null) {
-            INSTANCE = new ResceivdData();
+            INSTANCE = new ReceivedData();
         }
         return INSTANCE;
     }

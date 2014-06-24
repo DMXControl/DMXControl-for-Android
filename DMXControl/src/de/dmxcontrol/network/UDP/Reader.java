@@ -12,7 +12,7 @@ import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;
 import de.dmxcontrol.executor.EntityExecutor;
 import de.dmxcontrol.executor.EntityExecutorPage;
-import de.dmxcontrol.network.ResceivdData;
+import de.dmxcontrol.network.ReceivedData;
 
 /**
  * Created by Qasi on 12.06.2014.
@@ -98,7 +98,7 @@ public class Reader extends Thread {
                 switch(t){
                     case DEVICE:
                         entity= EntityDevice.Receive(lmessage);
-                        ResceivdData.get().Devices.add((EntityDevice)entity);
+                        ReceivedData.get().Devices.add((EntityDevice)entity);
                         break;
                     case DEVICECOUNT:
 
@@ -113,11 +113,11 @@ public class Reader extends Thread {
                         break;
                     case EXECUTOR:
                         entity= EntityExecutor.Receive(lmessage);
-                        ResceivdData.get().Executors.add((EntityExecutor)entity);
+                        ReceivedData.get().Executors.add((EntityExecutor)entity);
                         break;
                     case EXECUTORPAGE:
                         entity= EntityExecutorPage.Receive(lmessage);
-                        ResceivdData.get().ExecutorPages.add((EntityExecutorPage)entity);
+                        ReceivedData.get().ExecutorPages.add((EntityExecutorPage)entity);
                         break;
                     default:
                         break;

@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.executor.ExecutorPageView;
-import de.dmxcontrol.network.ResceivdData;
+import de.dmxcontrol.network.ReceivedData;
 import de.dmxcontrol.widget.ExecutorView;
 
 
@@ -41,20 +41,21 @@ public class LiveActivity extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         try {
-            if(ResceivdData.get().executorPageView==null){ResceivdData.get().executorPageView=new ExecutorPageView(1,"",context);}
+            if(ReceivedData.get().executorPageView==null){
+                ReceivedData.get().executorPageView=new ExecutorPageView(1,"",context);}
             else{
-                ResceivdData.get().executorPageView.LoadExecutors();
+                ReceivedData.get().executorPageView.LoadExecutors();
             }
-            view = ResceivdData.get().executorPageView.getView();
+            view = ReceivedData.get().executorPageView.getView();
             boolean needResize=false;
             if(view.getParent()!=null){
                 ((FrameLayout)view.getParent()).removeAllViews();
                 needResize=true;
             }
-            ResceivdData.get().executorPageView.SetParentActivity(this);
+            ReceivedData.get().executorPageView.SetParentActivity(this);
             setContentView(view);
             if(needResize){
-                ResceivdData.get().executorPageView.Resize();
+                ReceivedData.get().executorPageView.Resize();
             }
         } catch (Exception e) {
             Log.w("",DMXControlApplication.stackTraceToString(e));
@@ -72,7 +73,7 @@ public class LiveActivity extends Activity {
                 event.getPointerCoords(i, coordinate);
                 coords[i] = coordinate;
             }
-            ResceivdData.get().executorPage.RaiseMultiTouch(coords, event);
+            ReceivedData.get().executorPage.RaiseMultiTouch(coords, event);
         }
         catch (Exception e){
             e.toString();
