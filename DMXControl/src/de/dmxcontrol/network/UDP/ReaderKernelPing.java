@@ -58,7 +58,7 @@ public class ReaderKernelPing extends Thread {
                     try {
                         receiveKernalPing(message, lmessage, kernelsocket, packet);
                     }catch (Exception e) {
-                        Log.w("",e.getStackTrace().toString());
+                        Log.w("",DMXControlApplication.stackTraceToString(e));
                         DMXControlApplication.SaveLog();
                     }
                     finally {
@@ -71,6 +71,7 @@ public class ReaderKernelPing extends Thread {
             }
         } catch (Throwable e) {
             Log.e("UDP Listener", e.getMessage());
+            DMXControlApplication.SaveLog();
             run();
         }
     }
@@ -111,6 +112,7 @@ public class ReaderKernelPing extends Thread {
             }
         } catch (Throwable e) {
             Log.e("Can't receive KernelPing", e.getMessage());
+            DMXControlApplication.SaveLog();
         }
     }
 

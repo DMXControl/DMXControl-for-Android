@@ -47,7 +47,9 @@ public class ExecutorCollection implements Collection<EntityExecutor> {
 
     @Override
     public boolean contains(Object object) {
+        if(object!=null)
         for (int i = 0; i <size() ; i++) {
+            if(list.get(i)!=null)
             if(((EntityExecutor)object).guid.equals(list.get(i).guid)){return true;}
         }
         return false;

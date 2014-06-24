@@ -1,9 +1,7 @@
 package de.dmxcontrol.network;
 
-import java.util.ArrayList;
-
 import de.dmxcontrol.device.DeviceCollection;
-import de.dmxcontrol.device.EntityGroup;
+import de.dmxcontrol.device.GroupCollection;
 import de.dmxcontrol.executor.EntityExecutorPage;
 import de.dmxcontrol.executor.ExecutorCollection;
 import de.dmxcontrol.executor.ExecutorPageCollection;
@@ -22,7 +20,7 @@ public class ResceivdData {
         return INSTANCE;
     }
     public final DeviceCollection Devices = new DeviceCollection();
-    ArrayList<EntityGroup> Groups = new ArrayList<EntityGroup>();
+    public final GroupCollection Groups = new GroupCollection();
     public final ExecutorCollection Executors = new ExecutorCollection();
     public final ExecutorPageCollection ExecutorPages = new ExecutorPageCollection();
     public EntityExecutorPage SelectedExecutorPage;

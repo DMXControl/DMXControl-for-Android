@@ -1,7 +1,9 @@
 package de.dmxcontrol.widget;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.text.TextUtils;
 import android.view.MotionEvent;
@@ -9,9 +11,11 @@ import android.view.Surface;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -54,12 +58,37 @@ public class ExecutorView extends LinearLayout {
                 LayoutParams.FILL_PARENT,
                 LayoutParams.WRAP_CONTENT));
         int height = Context.getResources().getDisplayMetrics().heightPixels;
-
+        int max=Math.max(Context.getResources().getDisplayMetrics().widthPixels,height)/8;
         textView = new TextView(Context);
+        textView.setMaxWidth(max);
+        textView.setMinWidth(max);
+        textView.setMaxLines(1);
+        textView.setSingleLine();
         textView.setTextAlignment(TEXT_ALIGNMENT_CENTER);
         textView.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         textView.setText(mExecutor.getName());
+        textView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(Context);
+                alert.setTitle("Rename");
+                alert.setMessage("Enter Executor Name");
+                final EditText input = new EditText(Context);
+                input.setText(textView.getText());
+                alert.setView(input);
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String str = input.getEditableText().toString();
+                        mExecutor.setName(str);
+                        Toast.makeText(Context, str, Toast.LENGTH_LONG).show();
+                    }
+                });
+                AlertDialog alertDialog = alert.create();
+                alertDialog.show();
+                return true;
+            }
+        });
         mExecutor.setNameChangedListener(new Entity.NameChangedListener() {
             @Override
             public void onNameChanged(String name) {

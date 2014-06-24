@@ -61,7 +61,7 @@ public class ServerConnection extends Activity {
             view = View.inflate(this, R.layout.connection, null);
             listView = (ListView) view.findViewById(R.id.connection_listView);
         } catch (Exception e) {
-            Log.w("", e.getStackTrace().toString());
+            Log.w("",DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
         setContentView(view);
@@ -96,7 +96,7 @@ public class ServerConnection extends Activity {
                     }
                 });
             } catch (Exception e) {
-                Log.w("",e.getStackTrace().toString());
+                Log.w("",DMXControlApplication.stackTraceToString(e));
                 DMXControlApplication.SaveLog();
             }
         }
@@ -157,6 +157,7 @@ public class ServerConnection extends Activity {
                     } else {
                         Prefs.get().setServerAddress(value.getHtmlText());
                     }
+                    Prefs.get().setPreferences(context);
                     Toast.makeText(getApplicationContext(), "You'r now Connected", Toast.LENGTH_SHORT).show();
                     Prefs.get().StartNetwork();
                 }

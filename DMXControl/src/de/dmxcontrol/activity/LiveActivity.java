@@ -57,7 +57,7 @@ public class LiveActivity extends Activity {
                 ResceivdData.get().executorPageView.Resize();
             }
         } catch (Exception e) {
-            Log.w("", e.getStackTrace().toString());
+            Log.w("",DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
     }

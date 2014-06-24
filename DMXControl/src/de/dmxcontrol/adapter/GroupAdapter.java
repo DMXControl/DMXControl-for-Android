@@ -30,7 +30,6 @@ package de.dmxcontrol.adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -81,7 +80,7 @@ public class GroupAdapter extends BaseAdapter {
             imageView = new ImageView(ctx);
             imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(4, 4, 4, 4);
+            imageView.setPadding(4, 4, 4, 4);/**
             imageView.setOnHoverListener(new View.OnHoverListener() {
                 @Override
                 public boolean onHover(View view, MotionEvent motionEvent) {
@@ -102,7 +101,7 @@ public class GroupAdapter extends BaseAdapter {
                     }
                     return false;
                 }
-            });
+            });**/
         } else {
             imageView = (ImageView) convertView;
         }

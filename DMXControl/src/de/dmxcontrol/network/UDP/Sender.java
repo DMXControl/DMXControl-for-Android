@@ -75,7 +75,7 @@ public class Sender extends Thread {
                 sendData.remove(i);
             }
         } catch (Exception e) {
-            Log.w("",e.getStackTrace().toString());
+            Log.w("",DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
     }

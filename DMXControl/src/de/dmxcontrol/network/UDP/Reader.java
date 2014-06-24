@@ -69,7 +69,7 @@ public class Reader extends Thread {
                 try {
                     receiveAndroidAppPluginEntity(message, lmessage, androidApp, packet);
                 }catch (Exception e) {
-                    Log.w("",e.getStackTrace().toString());
+                    Log.w("",DMXControlApplication.stackTraceToString(e));
                     DMXControlApplication.SaveLog();
                 } finally {
                     Thread.sleep(2);
@@ -82,6 +82,7 @@ public class Reader extends Thread {
 
         } catch (Throwable e) {
             Log.e("UDP Listener", e.getMessage());
+            DMXControlApplication.SaveLog();
             run();
         }
     }

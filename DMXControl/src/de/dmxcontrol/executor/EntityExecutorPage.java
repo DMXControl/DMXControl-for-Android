@@ -53,12 +53,6 @@ public class EntityExecutorPage extends Entity {
         return Executors;
     }
 
-    private ArrayList<ValueChangedListener> ValueChangedListeners = new ArrayList<ValueChangedListener>();
-
-    public void setValueChangedListener(ValueChangedListener listener) {
-        this.ValueChangedListeners.add(listener);
-    }
-
     public static void SendAllRequest(){
         byte[] output=new byte[4];
         output[0]=(byte) Reader.Type.EXECUTORPAGE.ordinal();
@@ -68,20 +62,13 @@ public class EntityExecutorPage extends Entity {
         Prefs.get().getUDPSender().addSendData(output);
     }
 
-    public interface ValueChangedListener {
-        void onValueChanged(float value);
+    public void setExecutorGUIDs(ArrayList<String> executorGUIDs) {
+        this.ExecutorGUIDs = executorGUIDs;
     }
 
-    private ArrayList<FlashChangedListener> FlashChangedListeners = new ArrayList<FlashChangedListener>();
-
-    public void setFlashChangedListener(FlashChangedListener listener) {
-        this.FlashChangedListeners.add(listener);
+    public ArrayList<String> getExecutorGUIDs() {
+        return ExecutorGUIDs;
     }
-
-    public interface FlashChangedListener {
-        void onFlashChanged(float value);
-    }
-
 
     public EntityExecutorPage(int id) {
         super(id, "ExecutorPage: " + id, Type.EXECUTOR);
@@ -140,7 +127,7 @@ public class EntityExecutorPage extends Entity {
                 entity.ExecutorGUIDs.add(executorGuids.substring(start, end));
             }
         }catch (Exception e) {
-            Log.w("", e.getStackTrace().toString());
+            Log.w("",DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
         entity.guid=guid;

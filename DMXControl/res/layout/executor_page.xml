@@ -26,7 +26,8 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/executorPageName"
         android:layout_gravity="center_horizontal|bottom"
-        android:singleLine="false" />
+        android:singleLine="true"
+        android:text="No Excutorpage found!" />
 
     <Button
         android:layout_width="43dp"

@@ -150,7 +150,7 @@ public class DockPanel extends LinearLayout {
                         namespace, "dockPosition").toUpperCase());
                 setPosition(position);
             } catch (Exception e) {
-                Log.w("",e.getStackTrace().toString());
+                Log.w("",DMXControlApplication.stackTraceToString(e));
                 DMXControlApplication.SaveLog();
                 // Docking to the left is the default behavior
                 setPosition(DockPosition.LEFT);

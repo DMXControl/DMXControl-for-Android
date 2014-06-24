@@ -5,6 +5,8 @@ import android.util.Log;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
+import de.dmxcontrol.app.DMXControlApplication;
+
 /**
  * Created by Qasi on 12.06.2014.
  */
@@ -63,6 +65,7 @@ public class KernelPingDeserielizer {
             out.iPAdresses = FindIPs(strArrayOut);
         } catch (Exception e) {
             Log.e("KernelPingDeserielizer", e.getMessage());
+            DMXControlApplication.SaveLog();
         }
         return out;
     }
@@ -78,6 +81,7 @@ public class KernelPingDeserielizer {
                         InetAddress.getByName(st);
                         IPs.add(st.toString());
                     } catch (Exception e) {
+
                     }
                 }
             }

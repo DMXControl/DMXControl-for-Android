@@ -146,7 +146,7 @@ public class LinearLayoutWithMultitouch extends LinearLayout {
                 }
             }
         }catch (Exception e) {
-            Log.w("", e.getStackTrace().toString());
+            Log.w("",DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
         return true;

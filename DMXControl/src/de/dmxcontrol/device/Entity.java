@@ -32,10 +32,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.io.File;
-import java.lang.String;
 
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.EntityManager.Type;
@@ -55,6 +54,10 @@ public abstract class Entity implements IPropertyContainer {
 
     public void setNameChangedListener(NameChangedListener listener) {
         this.NameChangedListeners.add(listener);
+    }
+
+    public void removeNameChangedListeners() {
+        this.NameChangedListeners.clear();
     }
 
     public interface NameChangedListener {

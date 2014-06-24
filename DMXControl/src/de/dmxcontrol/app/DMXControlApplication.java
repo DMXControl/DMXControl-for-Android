@@ -88,7 +88,7 @@ public class DMXControlApplication extends Application {
                 ServiceFrontend.get().connect();
         } catch (Exception e) {
             e.toString();
-            Log.w("", e.getStackTrace().toString());
+            Log.w("",DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
     }
@@ -134,4 +134,16 @@ public class DMXControlApplication extends Application {
         }catch (IOException e) {
         }
     }
+
+
+    public static String stackTraceToString(Throwable e) {
+        StringBuilder sb = new StringBuilder();
+        for (StackTraceElement element : e.getStackTrace()) {
+            sb.append(element.toString());
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
+
 }
