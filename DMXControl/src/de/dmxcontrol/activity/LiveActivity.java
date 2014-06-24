@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -11,6 +12,7 @@ import android.widget.FrameLayout;
 
 import java.util.ArrayList;
 
+import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.executor.ExecutorPageView;
 import de.dmxcontrol.network.ResceivdData;
 import de.dmxcontrol.widget.ExecutorView;
@@ -55,7 +57,8 @@ public class LiveActivity extends Activity {
                 ResceivdData.get().executorPageView.Resize();
             }
         } catch (Exception e) {
-            e.toString();
+            Log.w("", e.getStackTrace().toString());
+            DMXControlApplication.SaveLog();
         }
     }
 

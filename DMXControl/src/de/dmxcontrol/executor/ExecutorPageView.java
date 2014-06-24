@@ -3,6 +3,7 @@ package de.dmxcontrol.executor;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import de.dmxcontrol.android.R;
+import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.network.ResceivdData;
 import de.dmxcontrol.widget.ExecuterPageMultitouchLayout;
 import de.dmxcontrol.widget.ExecuterPageSliderView;
@@ -66,8 +68,8 @@ public class ExecutorPageView {
             llview = (ExecuterPageMultitouchLayout) hsview.findViewById(R.id.executor_collection);
             if(ResceivdData.get().ExecutorPages.size()>0) {LoadExecutors();}
         } catch (Exception e) {
-            e.toString();
-            throw new Exception(e.toString());
+            Log.w("", e.getStackTrace().toString());
+            DMXControlApplication.SaveLog();
         }
     }
 

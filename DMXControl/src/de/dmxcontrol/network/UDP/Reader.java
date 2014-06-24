@@ -6,6 +6,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.ArrayList;
 
+import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;
@@ -61,20 +62,24 @@ public class Reader extends Thread {
         byte[] lmessage = new byte[0x000fff];
         DatagramPacket packet = new DatagramPacket(lmessage, lmessage.length);
         try {
-            if(androidApp==null) {
+            if (androidApp == null) {
                 androidApp = new DatagramSocket(13141);
             }
-                while (bKeepRunning) {
-                    try {
-                        receiveAndroidAppPluginEntity(message, lmessage, androidApp, packet);
-                    }
-                    catch (Exception e) {
-                        e.toString();
-                    }
-                    finally {
+            while (bKeepRunning) {
+                try {
+                    receiveAndroidAppPluginEntity(message, lmessage, androidApp, packet);
+                }catch (Exception e) {
+                    Log.w("",e.getStackTrace().toString());
+                    DMXControlApplication.SaveLog();
+                } finally {
                     Thread.sleep(2);
                 }
             }
+            if (androidApp != null) {
+                if(!androidApp.isClosed())
+                    androidApp.close();
+            }
+
         } catch (Throwable e) {
             Log.e("UDP Listener", e.getMessage());
             run();
@@ -140,6 +145,8 @@ public class Reader extends Thread {
 
     public void kill() {
         bKeepRunning = false;
+        if(!androidApp.isClosed())
+            androidApp.close();
     }
 //}
 

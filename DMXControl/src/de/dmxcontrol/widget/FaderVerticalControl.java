@@ -57,9 +57,14 @@ public class FaderVerticalControl extends BaseValueWidget {
     private Paint mPaintMarker;
     private Paint mPaintMarked;
 
-    private int markerSizeY = 30;
+    private int markerSizeY;
     public FaderVerticalControl(Context context) {
         super(context);
+        int height = context.getResources().getDisplayMetrics().heightPixels;
+        if(height<context.getResources().getDisplayMetrics().widthPixels) {
+            height = context.getResources().getDisplayMetrics().widthPixels;
+        }
+        markerSizeY=height/24;
         init();
     }
 

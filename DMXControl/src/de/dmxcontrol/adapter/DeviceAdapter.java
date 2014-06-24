@@ -113,9 +113,7 @@ public class DeviceAdapter extends BaseAdapter {
             } else {
                 imageView.setImageBitmap(bitmap);
             }
-        }
-        catch (Exception ex){
-
+        }catch (Exception ex) {
         }
         if (mEntityManager.isInEntitySelection(Type.DEVICE, mEntitySelection,
                 e.getId()))

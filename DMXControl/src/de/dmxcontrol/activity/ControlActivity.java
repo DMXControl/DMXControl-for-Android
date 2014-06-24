@@ -52,8 +52,6 @@ import android.widget.ImageView;
 import com.mobileanarchy.android.widgets.dockpanel.DockPanel;
 import com.mobileanarchy.android.widgets.dockpanel.OnDockOpenListener;
 
-import java.sql.Connection;
-
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
@@ -265,7 +263,8 @@ public class ControlActivity extends FragmentActivity implements
                     }
                     startActivity(liveActivity);
                 } catch (Exception e) {
-                    Log.e("Open ConnectionDialog", e.toString());
+                    Log.e("Can't open ConnectionDialog", e.toString());
+                    DMXControlApplication.SaveLog();
                 }
                 return true;
             case R.id.live:
@@ -273,7 +272,8 @@ public class ControlActivity extends FragmentActivity implements
                     i = new Intent(getApplicationContext(), LiveActivity.class);
                     startActivity(i);
                 } catch (Exception e) {
-                    Log.e("Open ConnectionDialog", e.toString());
+                    Log.e("Can't open Live", e.toString());
+                    DMXControlApplication.SaveLog();
                 }
                 return true;
             case R.id.help:

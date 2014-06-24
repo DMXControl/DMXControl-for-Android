@@ -28,9 +28,17 @@
 package de.dmxcontrol.app;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.Environment;
+import android.util.Log;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Writer;
 
 import de.dmxcontrol.executor.EntityExecutor;
 import de.dmxcontrol.executor.EntityExecutorPage;
@@ -45,6 +53,13 @@ public class DMXControlApplication extends Application {
 
     public DMXControlApplication() {
         mJustStarted = true;
+    }
+
+    @Override
+    public boolean stopService(Intent name) {
+        Log.w("","Stop Application");
+        DMXControlApplication.SaveLog();
+        return super.stopService(name);
     }
 
     @Override
@@ -73,6 +88,8 @@ public class DMXControlApplication extends Application {
                 ServiceFrontend.get().connect();
         } catch (Exception e) {
             e.toString();
+            Log.w("", e.getStackTrace().toString());
+            DMXControlApplication.SaveLog();
         }
     }
 
@@ -86,5 +103,35 @@ public class DMXControlApplication extends Application {
     @Override
     public void onTerminate() {
 
+        Log.w("","TERMINATE");
+        DMXControlApplication.SaveLog();
+    }
+    public static void SaveLog(){
+        try {
+            Process process = Runtime.getRuntime().exec("logcat -d");
+            BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+
+            StringBuilder log=new StringBuilder();
+            String line = "";
+            while ((line = bufferedReader.readLine()) != null) {
+                try {
+                    log.append(line);
+                    log.append(System.getProperty("line.separator"));
+                }
+                catch(Exception e){}
+            }
+            try {
+
+                Writer writer;
+                File outputFile = new File(StoragePath, "Log.txt");
+                writer = new BufferedWriter(new FileWriter(outputFile));
+                writer.write(log.toString());
+                writer.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }catch (IOException e) {
+        }
     }
 }

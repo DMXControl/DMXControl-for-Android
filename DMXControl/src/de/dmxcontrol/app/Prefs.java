@@ -81,6 +81,10 @@ public class Prefs {
     private Context ctx;
 
     public Prefs() {
+        StartNetwork();
+    }
+    public void StartNetwork(){
+        CloseNetwork();
         Pingreader = new ReaderKernelPing();
         Thread Pingreader1 = new Thread(Pingreader);
         Pingreader1.start();
@@ -92,6 +96,18 @@ public class Prefs {
         sender = new Sender();
         Thread sender1 = new Thread(sender);
         sender1.start();
+    }
+
+    public void CloseNetwork(){
+        if(Pingreader!=null) {
+            Pingreader.kill();
+        }
+        if(reader!=null) {
+            reader.kill();
+        }
+        if(sender!=null) {
+            sender.kill();
+        }
     }
 
     public static Prefs get() {

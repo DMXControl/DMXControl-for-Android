@@ -3,7 +3,7 @@
     package="de.dmxcontrol.android"
     android:versionCode="1"
     android:versionName="1.0"
-    android:installLocation="preferExternal">
+    android:installLocation="auto">
 
     <application
         android:name="de.dmxcontrol.app.DMXControlApplication"
@@ -17,9 +17,9 @@
                 android:name="com.sec.android.airview.enable"
                 android:value="true" />
 
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="com.sec.android.airview.HOVER" />
-            </intent-filter>
+            </intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,5 +52,6 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 
 </manifest>

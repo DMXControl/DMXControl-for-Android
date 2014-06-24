@@ -27,14 +27,17 @@
 
 package de.dmxcontrol.widget;
 
-import java.util.HashMap;
-
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import java.util.HashMap;
+
+import de.dmxcontrol.app.DMXControlApplication;
 
 public class LinearLayoutWithMultitouch extends LinearLayout {
     private final static String TAG = "widget";
@@ -142,8 +145,10 @@ public class LinearLayoutWithMultitouch extends LinearLayout {
                     mMultitouchTargets.remove(pid);
                 }
             }
+        }catch (Exception e) {
+            Log.w("", e.getStackTrace().toString());
+            DMXControlApplication.SaveLog();
         }
-        catch(Exception e){e.toString();}
         return true;
     }
 }

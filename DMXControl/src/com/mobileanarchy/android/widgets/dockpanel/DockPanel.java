@@ -9,7 +9,6 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
@@ -21,7 +20,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import de.dmxcontrol.android.R;
+import de.dmxcontrol.app.DMXControlApplication;
 
 public class DockPanel extends LinearLayout {
 
@@ -66,7 +65,9 @@ public class DockPanel extends LinearLayout {
         // to prevent from crashing the designer
         try {
             Init(attrs);
-        } catch (Exception ex) {
+        } catch (Exception e) {
+            Log.w("",e.getStackTrace().toString());
+            DMXControlApplication.SaveLog();
         }
     }
 
@@ -148,7 +149,9 @@ public class DockPanel extends LinearLayout {
                 position = DockPosition.valueOf(DockPosition.class, attrs.getAttributeValue(
                         namespace, "dockPosition").toUpperCase());
                 setPosition(position);
-            } catch (Exception ex) {
+            } catch (Exception e) {
+                Log.w("",e.getStackTrace().toString());
+                DMXControlApplication.SaveLog();
                 // Docking to the left is the default behavior
                 setPosition(DockPosition.LEFT);
             }

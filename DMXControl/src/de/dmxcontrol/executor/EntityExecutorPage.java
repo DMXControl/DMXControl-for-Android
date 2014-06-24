@@ -27,9 +27,12 @@
 
 package de.dmxcontrol.executor;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 import de.dmxcontrol.android.R;
+import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager.Type;
@@ -136,9 +139,9 @@ public class EntityExecutorPage extends Entity {
                 int end=i * 36 + 36;
                 entity.ExecutorGUIDs.add(executorGuids.substring(start, end));
             }
-        }
-        catch(Exception e) {
-        e.getMessage().toString();
+        }catch (Exception e) {
+            Log.w("", e.getStackTrace().toString());
+            DMXControlApplication.SaveLog();
         }
         entity.guid=guid;
         message=null;

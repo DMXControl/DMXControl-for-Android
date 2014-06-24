@@ -5,6 +5,7 @@ import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import de.dmxcontrol.android.R;
+import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.network.UDP.KernelPingDeserielizer;
 import de.dmxcontrol.network.UDP.ReaderKernelPing;
@@ -59,7 +61,8 @@ public class ServerConnection extends Activity {
             view = View.inflate(this, R.layout.connection, null);
             listView = (ListView) view.findViewById(R.id.connection_listView);
         } catch (Exception e) {
-            e.toString();
+            Log.w("", e.getStackTrace().toString());
+            DMXControlApplication.SaveLog();
         }
         setContentView(view);
         Update();
@@ -77,6 +80,8 @@ public class ServerConnection extends Activity {
 
 // schedule timer
         timer.schedule(myTimerTask, 500, 500);
+
+        Toast.makeText(getApplicationContext(), "Please wait...", Toast.LENGTH_LONG).show();
     }
 
     private void Update() {
@@ -91,8 +96,8 @@ public class ServerConnection extends Activity {
                     }
                 });
             } catch (Exception e) {
-                e.toString();
-
+                Log.w("",e.getStackTrace().toString());
+                DMXControlApplication.SaveLog();
             }
         }
     }
@@ -149,14 +154,11 @@ public class ServerConnection extends Activity {
                 public void onClick(View v) {
                     if (value.getHtmlText().contains(" , ")) {
                         Prefs.get().setServerAddress(value.getHtmlText().split(" , ")[0]);
-                    } else
+                    } else {
                         Prefs.get().setServerAddress(value.getHtmlText());
-                }
-            });
-            rowView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                    }
                     Toast.makeText(getApplicationContext(), "You'r now Connected", Toast.LENGTH_SHORT).show();
+                    Prefs.get().StartNetwork();
                 }
             });
             // 3. Get the two text view from the rowView

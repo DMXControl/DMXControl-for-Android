@@ -7,6 +7,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.ArrayList;
 
+import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
 
@@ -46,13 +47,19 @@ public class Sender extends Thread {
     }
 
     private ArrayList<byte[]> sendData = new ArrayList<byte[]>();
-
+    private DatagramSocket androidApp;
     public void run() {
         try {
-            DatagramSocket androidApp = new DatagramSocket(23242);
+            if(androidApp==null) {
+                androidApp = new DatagramSocket(23242);
+            }
             while (bKeepRunning) {
                 send(androidApp);
                 Thread.sleep(33);
+            }
+            if (androidApp != null) {
+                if(!androidApp.isClosed())
+                    androidApp.close();
             }
         } catch (Throwable e) {
             Log.e("UDP Sender", e.getMessage());
@@ -68,6 +75,8 @@ public class Sender extends Thread {
                 sendData.remove(i);
             }
         } catch (Exception e) {
+            Log.w("",e.getStackTrace().toString());
+            DMXControlApplication.SaveLog();
         }
     }
 
@@ -77,5 +86,7 @@ public class Sender extends Thread {
 
     public void kill() {
         bKeepRunning = false;
+        if(!androidApp.isClosed())
+            androidApp.close();
     }
 }

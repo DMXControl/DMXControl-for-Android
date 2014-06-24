@@ -6,6 +6,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.ArrayList;
 
+import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.Entity;
 
 /**
@@ -56,16 +57,17 @@ public class ReaderKernelPing extends Thread {
                 while (bKeepRunning) {
                     try {
                         receiveKernalPing(message, lmessage, kernelsocket, packet);
-                    }
-                    catch (Exception e) {
-                        e.toString();
+                    }catch (Exception e) {
+                        Log.w("",e.getStackTrace().toString());
+                        DMXControlApplication.SaveLog();
                     }
                     finally {
                     Thread.sleep(2);
                 }
             }
             if (kernelsocket != null) {
-                kernelsocket.close();
+                if(!kernelsocket.isClosed())
+                    kernelsocket.close();
             }
         } catch (Throwable e) {
             Log.e("UDP Listener", e.getMessage());
@@ -114,6 +116,8 @@ public class ReaderKernelPing extends Thread {
 
     public void kill() {
         bKeepRunning = false;
+        if(!kernelsocket.isClosed())
+            kernelsocket.close();
     }
 
     public String getLastMessage() {
