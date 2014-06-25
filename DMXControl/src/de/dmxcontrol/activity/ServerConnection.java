@@ -122,13 +122,10 @@ public class ServerConnection extends Activity {
 
     private DialogInterface.OnClickListener mOnClickListener = new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {
-
-
         }
     };
 
     public class MyAdapter extends ArrayAdapter<ClipData.Item> {
-
         private final Context context;
         private final ArrayList<ClipData.Item> itemsArrayList;
 
@@ -139,7 +136,6 @@ public class ServerConnection extends Activity {
             this.context = context;
             this.itemsArrayList = itemsArrayList;
         }
-
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
+import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.network.ReceivedData;
 import de.dmxcontrol.widget.ExecuterPageMultitouchLayout;
 import de.dmxcontrol.widget.ExecuterPageSliderView;
@@ -170,8 +171,7 @@ public class ExecutorPageView {
                         executors.add(newView);
                         llview.addView(newView);
                     }
-                }
-                else {
+                } else {
                     ExecutorView newView = new ExecutorView(llview.getContext(), ReceivedData.get().Executors.get(i));
                     executors.add(newView);
                     llview.addView(newView);

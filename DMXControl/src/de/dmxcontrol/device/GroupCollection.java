@@ -59,7 +59,7 @@ public class GroupCollection implements Collection<EntityGroup> {
 
     public int indexOf(Object object) {
         for (int i = 0; i <size() ; i++) {
-            if(((EntityGroup)object).guid.equals(list.get(i).guid)){
+            if(((EntityDevice)object).guid.equals(list.get(i).guid)) {
                 return i;
             }
         }

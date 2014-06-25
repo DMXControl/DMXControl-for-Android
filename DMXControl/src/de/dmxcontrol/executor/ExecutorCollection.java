@@ -63,7 +63,6 @@ public class ExecutorCollection implements Collection<EntityExecutor> {
         return false;
     }
 
-
     @Override
     public boolean containsAll(Collection<?> collection) {
         return false;

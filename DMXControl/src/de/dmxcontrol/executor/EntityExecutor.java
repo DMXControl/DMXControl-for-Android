@@ -77,16 +77,17 @@ public class EntityExecutor extends Entity {
     }
 
     public void BreakBack() {
-        doBreakBack=true;
+        doBreakBack = true;
         Send();
     }
     public void GO() {
-        doGO=true;
+        doGO = true;
         Send();
     }
     public void Stop(){
-        doStop=true;
-        Send();}
+        doStop = true;
+        Send();
+    }
 
     public boolean getToggle() {
         return toggle;
@@ -169,8 +170,9 @@ public class EntityExecutor extends Entity {
             }
             return;
         }
-        else if(!isEqual&&!fromReader)
+        else if(!isEqual&&!fromReader) {
             Send();
+        }
     }
     
     public float getValue() {
@@ -180,6 +182,7 @@ public class EntityExecutor extends Entity {
     public void setFlash(boolean flash,boolean fromReader) {
         boolean isEqual=this.flash==flash;
         this.flash = flash;
+        
         if(!isEqual&&fromReader) {
             for (FlashChangedListener listener : FlashChangedListeners) {
                 listener.onFlashChanged(value);

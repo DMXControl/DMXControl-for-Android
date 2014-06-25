@@ -115,7 +115,6 @@ public class Reader extends Thread {
                 }
                 else if (type.equals("ExecutorPage")) {
                     ReceivedData.get().ExecutorPages.add((EntityExecutorPage)EntityExecutorPage.Receive(o));
-
                 }
 
                 for (NewsUpdateListener listener : listeners) {
@@ -133,7 +132,8 @@ public class Reader extends Thread {
                 lmessage = null;
             }
 
-        } catch (Throwable e) {
+        }
+        catch (Throwable e) {
             Log.e("Can't receive KernelPing", e.getMessage());
             run();
         }
@@ -151,4 +151,4 @@ public class Reader extends Thread {
 //        if (myDatagramReceiver == null) return;
 //        textMessage.setText(myDatagramReceiver.getLastMessage());
 //    }
-}
+};

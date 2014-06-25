@@ -77,7 +77,7 @@ public class EntityExecutorPage extends Entity {
     }
 
     public EntityExecutorPage(int id) {
-        super(id, NetworkID+": " + id, Type.EXECUTOR);
+        super(id, NetworkID + ": " + id, Type.EXECUTOR);
         mImage = defaultExecuterPageIcon;
     }
 
