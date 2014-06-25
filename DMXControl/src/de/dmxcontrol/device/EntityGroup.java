@@ -27,16 +27,23 @@
 
 package de.dmxcontrol.device;
 
-import java.lang.String;
+import android.util.Log;
+
+import org.json.JSONObject;
 
 import de.dmxcontrol.android.R;
+import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.EntityManager.Type;
 
 public class EntityGroup extends Entity {
     public static int defaultIcon = R.drawable.device_group_new;
-
+    public static String NetworkID="DeviceGroup";
+    @Override
+    public String getNetworkID() {
+        return NetworkID;
+    }
     public EntityGroup(int id) {
-        super(id, "Group: " + id, Type.GROUP);
+        super(id, NetworkID+": " + id, Type.GROUP);
         mImage = defaultIcon;
     }
 
@@ -55,12 +62,31 @@ public class EntityGroup extends Entity {
         lImage = image;
     }
 
-    public EntityGroup(byte[] message) {
+    public EntityGroup(JSONObject o) {
         super(0,"",Type.GROUP);
-        Receive(message);
+        Receive(o);
     }
 
-    public static Entity Receive(byte[] message) {
-        return null;
+    public static Entity Receive(JSONObject o) {
+        EntityGroup entity=null;
+        try {
+            if (o.getString("Type").equals(NetworkID)) {
+                entity = new EntityGroup(o.getInt("Number"), o.getString("Name"),o.getString("Image"));
+                entity.guid=o.getString("GUID");
+            }
+        }
+        catch(Exception e)
+        {
+            Log.e("UDP Listener", e.getMessage());
+            DMXControlApplication.SaveLog();
+        }
+        return entity;
+    }
+
+
+
+    @Override
+    public void Send() {
+
     }
 }

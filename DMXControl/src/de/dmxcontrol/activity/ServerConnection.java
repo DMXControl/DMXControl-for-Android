@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ public class ServerConnection extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         context = this;
 
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         Prefs.get().getUDPReaderKernelPing().setOnNewsUpdateListener(
                 new ReaderKernelPing.NewsUpdateListener() {

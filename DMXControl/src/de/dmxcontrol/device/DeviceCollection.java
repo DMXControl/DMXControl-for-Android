@@ -1,12 +1,8 @@
 package de.dmxcontrol.device;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
 
 /**
  * Created by Qasi on 15.06.2014.
@@ -16,13 +12,14 @@ public class DeviceCollection implements Collection<EntityDevice> {
     private ArrayList<EntityDevice> list= new ArrayList<EntityDevice>();
 
     public boolean add(EntityDevice object) {
+        if(object==null){return false;}
         if(!contains(object)) {
             return list.add(object);
         }
         else {
             EntityDevice obj=list.get(indexOf(object));
             obj.setId(object.getId());
-            obj.setName(object.getName());
+            obj.setName(object.getName(),true);
             obj.setImage(object.getBitmapFileName());
         return false;
         }

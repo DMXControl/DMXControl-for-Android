@@ -28,11 +28,8 @@
 package de.dmxcontrol.activity;
 
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
-import android.view.View;
-import android.widget.ListView;
 
 import java.util.List;
 

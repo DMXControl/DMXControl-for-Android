@@ -29,6 +29,8 @@ package de.dmxcontrol.executor;
 
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 import de.dmxcontrol.android.R;
@@ -38,13 +40,16 @@ import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager.Type;
 import de.dmxcontrol.network.ReceivedData;
 import de.dmxcontrol.network.UDP.Reader;
-import de.dmxcontrol.network.UDP.Sender;
 
 //This is One Executor
 public class EntityExecutorPage extends Entity {
     public static int defaultIcon = R.drawable.device_new;
     private ArrayList<String>ExecutorGUIDs;
-
+    public static String NetworkID="ExecutorPage";
+    @Override
+    public String getNetworkID() {
+        return NetworkID;
+    }
     public ExecutorCollection getExecutors() {
         ExecutorCollection Executors=new ExecutorCollection();
         for (int i = 0; i <ExecutorGUIDs.size() ; i++) {
@@ -71,7 +76,7 @@ public class EntityExecutorPage extends Entity {
     }
 
     public EntityExecutorPage(int id) {
-        super(id, "ExecutorPage: " + id, Type.EXECUTOR);
+        super(id, NetworkID+": " + id, Type.EXECUTOR);
         mImage = defaultIcon;
     }
 
@@ -90,90 +95,45 @@ public class EntityExecutorPage extends Entity {
         lImage = image;
     }
 
-    public EntityExecutorPage(byte[] message) {
+    public EntityExecutorPage(JSONObject o) {
         super(0,"",Type.EXECUTOR);
-        Receive(message);
+        Receive(o);
     }
 
-    public static Entity Receive(byte[] message) {
-        int pointer = 1;
-
-        String name = new String(message, pointer + 1, message[pointer]);
-        pointer += message[pointer] + 1;
-
-        String guid = new String(message, pointer + 1, message[pointer]);
-        pointer += message[pointer] + 1;
-
-        byte[] numberarray = new byte[message[pointer]];
-        int number = 0;
-        pointer++;
-        for (int i = 0; i < numberarray.length; i++) {
-            numberarray[i] = message[pointer];
-            number += (10 ^ (numberarray.length - i)) * numberarray[i];
-            pointer++;
-        }
-
-        String executorGuids = new String(message, pointer + 1, message[pointer]*36);
-        pointer += message[pointer] + 1;
-
-
-        EntityExecutorPage entity = new EntityExecutorPage(number, name);
-
-        entity.ExecutorGUIDs=new ArrayList<String>();
+    public static Entity Receive(JSONObject o) {
+        EntityExecutorPage entity=null;
         try {
-            for (int i = 0; i < executorGuids.length() / 36; i++) {
-                int start=i * 36;
-                int end=i * 36 + 36;
-                entity.ExecutorGUIDs.add(executorGuids.substring(start, end));
+            if (o.getString("Type").equals(NetworkID)) {
+                entity = new EntityExecutorPage(o.getInt("Number"), o.getString("Name"));
+                entity.guid=o.getString("GUID");
+                ArrayList<String>executors= new ArrayList<String>();
+                for (int i = 0; i < o.getJSONArray("Executors").length() ; i++) {
+                    executors.add(o.getJSONArray("Executors").getString(i));
+                }
+                entity.setExecutorGUIDs(executors);
             }
-        }catch (Exception e) {
-            Log.w("",DMXControlApplication.stackTraceToString(e));
+        }
+        catch(Exception e)
+        {
+            Log.e("UDP Listener", e.getMessage());
             DMXControlApplication.SaveLog();
         }
-        entity.guid=guid;
-        message=null;
         return entity;
     }
 
     public void Send() {
-        byte[] output,
-                name =this.getName().getBytes(),
-                guid = this.guid.getBytes(),
-                number = (this.getId()+"").getBytes();
+        try {
+            JSONObject o = new JSONObject();
+            o.put("Type", NetworkID);
+            o.put("GUID", this.guid);
+            o.put("Name", this.getName());
+            o.put("Number", this.getId());
 
-        output = new byte[1 + 10 +
-                name.length +
-                guid.length +
-                number.length];
-
-        int position = 0;
-        output[position] = (byte) Sender.Type.EXECUTOR.ordinal();
-        position++;
-
-        output[position] = (byte)name.length;
-        position++;
-        for (int i = 0; i < name.length; i++)
-        {
-            output[position] = name[i];
-            position++;
+            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            return;
         }
+        catch(Exception e) {
 
-        output[position] = (byte)guid.length;
-        position++;
-        for (int i = 0; i < guid.length; i++)
-        {
-            output[position] = guid[i];
-            position++;
         }
-
-        output[position] = (byte)number.length;
-        position++;
-        for (int i = 0; i < number.length; i++)
-        {
-            output[position] = number[i];
-            position++;
-        }
-        Prefs.get().getUDPSender().addSendData(output);
-        output=null;
     }
 }

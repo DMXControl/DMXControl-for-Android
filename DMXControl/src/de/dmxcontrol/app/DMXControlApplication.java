@@ -66,6 +66,7 @@ public class DMXControlApplication extends Application {
     public void onCreate() {
         try {
             super.onCreate();
+
             prefs = Prefs.get();
             prefs.setPreferences(this);
             ServiceFrontend.initOnce(this);

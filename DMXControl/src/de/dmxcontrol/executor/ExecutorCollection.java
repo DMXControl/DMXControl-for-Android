@@ -12,6 +12,7 @@ public class ExecutorCollection implements Collection<EntityExecutor> {
     private ArrayList<EntityExecutor> list= new ArrayList<EntityExecutor>();
 
     public boolean add(EntityExecutor object) {
+        if(object==null){return false;}
         if(!contains(object)) {
             return list.add(object);
         }
@@ -20,7 +21,7 @@ public class ExecutorCollection implements Collection<EntityExecutor> {
 
             EntityExecutor obj=list.get(indexOf(object));
             obj.setId(object.getId());
-            obj.setName(object.getName());
+            obj.setName(object.getName(),true);
             obj.setImage(object.getBitmapFileName());
             obj.setValue(object.getValue(),true);
             obj.setFlash(object.getFlash(),true);

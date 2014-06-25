@@ -2,6 +2,8 @@ package de.dmxcontrol.network.UDP;
 
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.ArrayList;
@@ -93,36 +95,28 @@ public class Reader extends Thread {
             message = new String(lmessage, 0, packet.getLength());
             lastMessage = message;
             if (message.length() > 0) {
-                Type t=Type.convert(lmessage[0]);
+                //Type t=Type.convert(lmessage[0]);
                 Entity entity = null;
-                switch(t){
-                    case DEVICE:
-                        entity= EntityDevice.Receive(lmessage);
-                        ReceivedData.get().Devices.add((EntityDevice)entity);
-                        break;
-                    case DEVICECOUNT:
 
-                        break;
-                    case GROUP:
-                        entity= EntityGroup.Receive(lmessage);
-                        break;
-                    case GROUPCOUNT:
-                        break;
-                    case PRESET:
-                        //entity=  EntityPreset(lmessage);
-                        break;
-                    case EXECUTOR:
-                        entity= EntityExecutor.Receive(lmessage);
-                        ReceivedData.get().Executors.add((EntityExecutor)entity);
-                        break;
-                    case EXECUTORPAGE:
-                        entity= EntityExecutorPage.Receive(lmessage);
-                        ReceivedData.get().ExecutorPages.add((EntityExecutorPage)entity);
-                        break;
-                    default:
-                        break;
+                JSONObject o = new JSONObject(message);
+                String type=o.getString("Type");
+                if (type.equals("Device")) {
+                    ReceivedData.get().Devices.add((EntityDevice) EntityDevice.Receive(o));
                 }
+                else if (type.equals("DeviceGroup")) {
+                    ReceivedData.get().Groups.add((EntityGroup) EntityGroup.Receive(o));
+                }
+                else if (type.equals("Preset")) {//entity=  EntityPreset(lmessage);
+                    //ReceivedData.get().Presets.add((EntityPreset) EntityPreset.Receive(o));
+                }
+                else if (type.equals("Executor")) {
+                    ReceivedData.get().Executors.add((EntityExecutor)EntityExecutor.Receive(o));
 
+                }
+                else if (type.equals("ExecutorPage")) {
+                    ReceivedData.get().ExecutorPages.add((EntityExecutorPage)EntityExecutorPage.Receive(o));
+
+                }
                 lastEntity=entity;
 
                 for (NewsUpdateListener listener : listeners) {
