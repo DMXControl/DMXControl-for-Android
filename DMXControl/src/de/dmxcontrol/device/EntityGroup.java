@@ -35,7 +35,7 @@ import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.EntityManager.Type;
 
 public class EntityGroup extends Entity {
-    public final static String defaultDeviceGroupIcon = "device_group_new";
+    public final static String defaultDeviceGroupIcon = "device_group_new.png";
     public static String NetworkID = "DeviceGroup";
     
     @Override

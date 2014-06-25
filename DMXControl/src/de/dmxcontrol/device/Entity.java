@@ -27,8 +27,7 @@
 
 package de.dmxcontrol.device;
 
-import android.content.res.Resources;
-
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
@@ -102,10 +101,9 @@ public abstract class Entity implements IPropertyContainer {
         }
     }
 
-    public Bitmap getImage() {
+    public Bitmap getImage(Context context) {
 
         File imgFile = new File(IconStorageName + File.separator + mImage);
-
         if(imgFile.isFile())
         {
             if (imgFile.exists())
@@ -115,7 +113,7 @@ public abstract class Entity implements IPropertyContainer {
         }
 
         // Replace this icon with something else
-        return BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.icon);
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
     }
     public String getImageName(){
         return mImage;
