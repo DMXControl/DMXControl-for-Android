@@ -29,7 +29,6 @@ package de.dmxcontrol.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
-//import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -40,6 +39,8 @@ import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.device.EntityManager.Type;
+
+//import android.view.MotionEvent;
 
 public class DeviceAdapter extends BaseAdapter {
     private EntityManager mEntityManager;
@@ -111,7 +112,7 @@ public class DeviceAdapter extends BaseAdapter {
         Entity ent = mEntityManager.getItemForType(Type.DEVICE, index);
 
         try {
-            imageView.setImageBitmap(ent.getImage());
+            imageView.setImageBitmap(ent.getImage(ctx));
         }
         catch (Exception ex) {
         }

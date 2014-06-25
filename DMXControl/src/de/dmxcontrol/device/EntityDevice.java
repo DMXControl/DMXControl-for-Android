@@ -36,7 +36,7 @@ import de.dmxcontrol.device.EntityManager.Type;
 
 //This is One Device
 public class EntityDevice extends Entity {
-    public final static String defaultDeviceIcon = "device_new";
+    public final static String defaultDeviceIcon = "device_new.png";
     public static String NetworkID = "Device";
     
     @Override

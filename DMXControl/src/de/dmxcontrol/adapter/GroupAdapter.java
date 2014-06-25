@@ -28,7 +28,6 @@
 package de.dmxcontrol.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
@@ -109,7 +108,7 @@ public class GroupAdapter extends BaseAdapter {
 
         Entity ent = mEntityManager.getItemForType(Type.GROUP, position);
 
-        imageView.setImageBitmap(ent.getImage());
+        imageView.setImageBitmap(ent.getImage(ctx));
 
 
         if (mEntityManager.isInEntitySelection(Type.GROUP, mEntitySelection, ent.getId())) {
