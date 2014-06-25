@@ -15,15 +15,15 @@ public class DeviceCollection implements Collection<EntityDevice> {
 
     private ArrayList<EntityDevice> list= new ArrayList<EntityDevice>();
 
-    public boolean add(EntityDevice object) {
+    public boolean add(EntityDevice object){
         if(!contains(object)) {
             return list.add(object);
         }
         else {
-            EntityDevice obj=list.get(indexOf(object));
+            EntityDevice obj = list.get(indexOf(object));
             obj.setId(object.getId());
             obj.setName(object.getName());
-            obj.setImage(object.getBitmapFileName());
+            obj.setImage(object.getImageName());
         return false;
         }
     }

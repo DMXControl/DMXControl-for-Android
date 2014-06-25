@@ -31,7 +31,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
@@ -42,7 +41,7 @@ import de.dmxcontrol.network.UDP.Sender;
 
 //This is One Executor
 public class EntityExecutorPage extends Entity {
-    public static int defaultIcon = R.drawable.device_new;
+    public static String defaultExecuterPageIcon = "device_new";
     private ArrayList<String>ExecutorGUIDs;
 
     public ExecutorCollection getExecutors() {
@@ -72,22 +71,17 @@ public class EntityExecutorPage extends Entity {
 
     public EntityExecutorPage(int id) {
         super(id, "ExecutorPage: " + id, Type.EXECUTOR);
-        mImage = defaultIcon;
+        mImage = defaultExecuterPageIcon;
     }
 
     public EntityExecutorPage(int id, String name) {
         super(id, name, Type.EXECUTOR);
-        mImage = defaultIcon;
-    }
-
-    public EntityExecutorPage(int id, String name, int image) {
-        super(id, name, Type.EXECUTOR);
-        mImage = image;
+        mImage = defaultExecuterPageIcon;
     }
 
     public EntityExecutorPage(int id, String name, String image) {
         super(id, name, Type.EXECUTOR);
-        lImage = image;
+        mImage = image;
     }
 
     public EntityExecutorPage(byte[] message) {
@@ -95,7 +89,7 @@ public class EntityExecutorPage extends Entity {
         Receive(message);
     }
 
-    public static Entity Receive(byte[] message) {
+    public static EntityExecutorPage Receive(byte[] message) {
         int pointer = 1;
 
         String name = new String(message, pointer + 1, message[pointer]);

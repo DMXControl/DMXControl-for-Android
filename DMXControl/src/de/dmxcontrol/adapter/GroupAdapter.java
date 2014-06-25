@@ -80,8 +80,8 @@ public class GroupAdapter extends BaseAdapter {
             imageView = new ImageView(ctx);
             imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(4, 4, 4, 4);/**
-            imageView.setOnHoverListener(new View.OnHoverListener() {
+            imageView.setPadding(4, 4, 4, 4);
+            /* imageView.setOnHoverListener(new View.OnHoverListener() {
                 @Override
                 public boolean onHover(View view, MotionEvent motionEvent) {
                     ImageView imageView = (ImageView) view;
@@ -101,22 +101,23 @@ public class GroupAdapter extends BaseAdapter {
                     }
                     return false;
                 }
-            });**/
-        } else {
+            }); */
+        }
+        else {
             imageView = (ImageView) convertView;
         }
-        Entity e = mEntityManager.getItemForType(Type.GROUP, position);
-        Bitmap bitmap = e.getBitmap();
-        if (e.getBitmapFileName().equals("")|| bitmap == null) {
-            imageView.setImageResource(e.getImage());
-        } else {
-            imageView.setImageBitmap(bitmap);
-        }
-        if (mEntityManager.isInEntitySelection(Type.GROUP, mEntitySelection,
-                e.getId()))
+
+        Entity ent = mEntityManager.getItemForType(Type.GROUP, position);
+
+        imageView.setImageBitmap(ent.getImage());
+
+
+        if (mEntityManager.isInEntitySelection(Type.GROUP, mEntitySelection, ent.getId())) {
             imageView.setBackgroundColor(SelectionColor);
-        else
+        }
+        else {
             imageView.setBackgroundColor(Color.TRANSPARENT);
+        }
         return imageView;
     }
 

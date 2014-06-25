@@ -20,7 +20,7 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
                 EntityExecutorPage obj=list.get(indexOf(object));
                 obj.setId(object.getId());
                 obj.setName(object.getName());
-                obj.setImage(object.getBitmapFileName());
+                obj.setImage(object.getImageName());
                 obj.setExecutorGUIDs(object.getExecutorGUIDs());
             }
             catch(Exception e){
@@ -45,8 +45,10 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
 
     @Override
     public boolean contains(Object object) {
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){return true;}
+        for (int i = 0; i <size(); i++) {
+            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){
+                return true;
+            }
         }
         return false;
     }
@@ -62,7 +64,9 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
 
     public int indexOf(Object object) {
         for (int i = 0; i <size() ; i++) {
-            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){return i;}
+            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){
+                return i;
+            }
         }
         return Integer.MIN_VALUE;
     }
@@ -80,7 +84,9 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
     public int lastIndexOf(Object object) {
         int out=Integer.MIN_VALUE;
         for (int i = 0; i <size() ; i++) {
-            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){out = i;}
+            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){
+                out = i;
+            }
         }
         return out;
     }

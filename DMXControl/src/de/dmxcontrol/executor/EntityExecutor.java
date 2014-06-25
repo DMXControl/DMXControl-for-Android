@@ -29,7 +29,6 @@ package de.dmxcontrol.executor;
 
 import java.util.ArrayList;
 
-import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager.Type;
@@ -38,7 +37,7 @@ import de.dmxcontrol.network.UDP.Sender;
 
 //This is One Executor
 public class EntityExecutor extends Entity {
-    public static int defaultIcon = R.drawable.device_new;
+    public final static String defaultExecuterIcon = "device_new";
     private float value;
     private boolean toggle;
     private boolean doGO;
@@ -84,22 +83,17 @@ public class EntityExecutor extends Entity {
 
     public EntityExecutor(int id) {
         super(id, "Executor: " + id, Type.EXECUTOR);
-        mImage = defaultIcon;
+        mImage = defaultExecuterIcon;
     }
 
     public EntityExecutor(int id, String name) {
         super(id, name, Type.EXECUTOR);
-        mImage = defaultIcon;
-    }
-
-    public EntityExecutor(int id, String name, int image) {
-        super(id, name, Type.EXECUTOR);
-        mImage = image;
+        mImage = defaultExecuterIcon;
     }
 
     public EntityExecutor(int id, String name, String image) {
         super(id, name, Type.EXECUTOR);
-        lImage = image;
+        mImage = image;
     }
 
     public EntityExecutor(byte[]  message) {
@@ -107,7 +101,7 @@ public class EntityExecutor extends Entity {
         Receive(message);
     }
 
-    public static Entity Receive(byte[] message) {
+    public static EntityExecutor Receive(byte[] message) {
         int pointer = 1;
 
         String name = new String(message, pointer + 1, message[pointer]);
@@ -276,10 +270,10 @@ public class EntityExecutor extends Entity {
         else if(!isEqual&&!fromReader)
             Send();
     }
-
     public float getValue() {
         return value;
     }
+
     public void setFlash(boolean flash,boolean fromReader) {
         boolean isEqual=this.flash==flash;
         this.flash = flash;
@@ -294,7 +288,6 @@ public class EntityExecutor extends Entity {
         //Prefs.get().getUDPSender().addSendData(new byte[]{(byte)0xff});
         //Send();
     }
-
     public boolean getFlash() {
         return flash;
     }

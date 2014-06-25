@@ -29,38 +29,27 @@ package de.dmxcontrol.device;
 
 import java.lang.String;
 
-import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.EntityManager.Type;
 
 public class EntityGroup extends Entity {
-    public static int defaultIcon = R.drawable.device_group_new;
+    private final static String defaultDeviceGroupIcon = "device_group_new";
 
     public EntityGroup(int id) {
         super(id, "Group: " + id, Type.GROUP);
-        mImage = defaultIcon;
+        mImage = defaultDeviceGroupIcon;
     }
 
     public EntityGroup(int id, String name) {
         super(id, name, Type.GROUP);
-        mImage = defaultIcon;
-    }
-
-    public EntityGroup(int id, String name, int image) {
-        super(id, name, Type.GROUP);
-        mImage = image;
+        mImage = defaultDeviceGroupIcon;
     }
 
     public EntityGroup(int id, String name, String image) {
         super(id, name, Type.GROUP);
-        lImage = image;
+        mImage = image;
     }
 
-    public EntityGroup(byte[] message) {
-        super(0,"",Type.GROUP);
-        Receive(message);
-    }
-
-    public static Entity Receive(byte[] message) {
+    public static EntityGroup Receive(byte[] message) {
         return null;
     }
 }

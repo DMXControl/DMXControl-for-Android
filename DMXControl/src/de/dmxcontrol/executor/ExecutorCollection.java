@@ -21,7 +21,7 @@ public class ExecutorCollection implements Collection<EntityExecutor> {
             EntityExecutor obj=list.get(indexOf(object));
             obj.setId(object.getId());
             obj.setName(object.getName());
-            obj.setImage(object.getBitmapFileName());
+            obj.setImage(object.getImageName());
             obj.setValue(object.getValue(),true);
             obj.setFlash(object.getFlash(),true);
             }
@@ -61,7 +61,6 @@ public class ExecutorCollection implements Collection<EntityExecutor> {
         }
         return false;
     }
-
 
     @Override
     public boolean containsAll(Collection<?> collection) {

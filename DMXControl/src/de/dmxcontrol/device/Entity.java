@@ -27,6 +27,7 @@
 
 package de.dmxcontrol.device;
 
+import android.content.res.Resources;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -40,15 +41,18 @@ import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.EntityManager.Type;
 
 public abstract class Entity implements IPropertyContainer {
-    HashMap<String, Object[]> properties;
     private final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
     private final static String IconStorageName = StoragePath + File.separator + "Icons";
+
+    // Replace this icon with something else
+    private final static String defaultIcon = "icon";
+
     private int mId;
     private Type mType;
     private String mName;
-    protected int mImage;
-    protected String lImage;
-    public String guid;
+    protected String mImage;
+    public String guid; // maybe refactor ro mguid
+    HashMap<String, Object[]> properties;
 
     private ArrayList<NameChangedListener> NameChangedListeners = new ArrayList<NameChangedListener>();
 
@@ -66,11 +70,10 @@ public abstract class Entity implements IPropertyContainer {
 
     public Entity(int id, String name, Type type) {
         mId = id;
-        mName = name;
-        properties = new HashMap<String, Object[]>();
         mType = type;
-        mImage = R.drawable.icon;
-        lImage = "";
+        mName = name;
+        mImage = defaultIcon;
+        properties = new HashMap<String, Object[]>();
     }
 
     public int getId() {
@@ -94,25 +97,26 @@ public abstract class Entity implements IPropertyContainer {
         }
     }
 
-    public int getImage() {
-        return mImage;
-    }
-    public void setImage(String image) {
-        lImage=image;
-    }
+    public Bitmap getImage() {
 
-    public String getBitmapFileName() {
-        return lImage;
-    }
+        File imgFile = new File(IconStorageName + File.separator + mImage);
 
-    public Bitmap getBitmap() {
-        File imgFile = new File(IconStorageName + File.separator + this.getBitmapFileName());
-        if(imgFile.isFile()) {
-            if (imgFile.exists()) {
+        if(imgFile.isFile())
+        {
+            if (imgFile.exists())
+            {
                 return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             }
         }
-        return null;
+
+        // Replace this icon with something else
+        return BitmapFactory.decodeResource(Resources.getSystem(), R.drawable.icon);
+    }
+    public String getImageName(){
+        return mImage;
+    }
+    public void setImage(String image) {
+        mImage = image;
     }
 
     public Type getType() {
@@ -127,13 +131,6 @@ public abstract class Entity implements IPropertyContainer {
     @Override
     public Object[] getProperty(String name) {
         return properties.get(name);
-    }
-
-    public static Entity Receive(byte[] message) {
-        return receive(message);
-    }
-    protected static Entity receive(byte[] message){
-        return null;
     }
 
 }

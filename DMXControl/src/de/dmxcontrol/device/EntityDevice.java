@@ -29,42 +29,35 @@ package de.dmxcontrol.device;
 
 import java.lang.String;
 
-import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.EntityManager.Type;
 
 //This is One Device
 public class EntityDevice extends Entity {
-    public static int defaultIcon = R.drawable.device_new;
+    public final static String defaultDeviceIcon = "device_new";
 
     public EntityDevice(int id) {
         super(id, "Device: " + id, Type.DEVICE);
-        mImage = defaultIcon;
+        mImage = defaultDeviceIcon;
     }
 
     public EntityDevice(int id, String name) {
         super(id, name, Type.DEVICE);
-        mImage = defaultIcon;
-    }
-
-    public EntityDevice(int id, String name, int image) {
-        super(id, name, Type.DEVICE);
-        mImage = image;
+        mImage = defaultDeviceIcon;
     }
 
     public EntityDevice(int id, String name, String image) {
         super(id, name, Type.DEVICE);
-        lImage = image;
+        mImage = image;
     }
 
-    public static Entity Receive(byte[]  message) {
+    public static EntityDevice Receive(byte[]  message) {
 
         int pointer = 1;
 
-
-        String name = new String(message, pointer + 1, message[pointer]);
+        String devName = new String(message, pointer + 1, message[pointer]);
         pointer += message[pointer] + 1;
 
-        String guid = new String(message, pointer + 1, message[pointer]);
+        String devGuid = new String(message, pointer + 1, message[pointer]);
         pointer += message[pointer] + 1;
 
         byte[] addressarray = new byte[message[pointer]];
@@ -92,8 +85,9 @@ public class EntityDevice extends Entity {
             number += (10 ^ (numberarray.length - i)) * numberarray[i];
             pointer++;
         }
-        Entity entity = new EntityDevice(number, name,iconname);
-        entity.guid=guid;
+
+        EntityDevice entity = new EntityDevice(number, devName, iconname);
+        entity.guid = devGuid;
         return entity;
     }
 }

@@ -28,9 +28,8 @@
 package de.dmxcontrol.adapter;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.view.MotionEvent;
+//import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -50,8 +49,8 @@ public class DeviceAdapter extends BaseAdapter {
 
     public DeviceAdapter(EntityManager em, int entitySelection, Context ctx) {
         mEntityManager = em;
-        mEntitySelection = entitySelection;
         this.ctx = ctx;
+        mEntitySelection = entitySelection;
         SelectionColor = this.ctx.getResources().getColor(R.color.btn_background_highlight);
     }
 
@@ -77,12 +76,13 @@ public class DeviceAdapter extends BaseAdapter {
     @Override
     public View getView(int index, View convertView, ViewGroup parent) {
         ImageView imageView;
+
         if (convertView == null) {
             imageView = new ImageView(ctx);
             imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
-            imageView.setOnHoverListener(new View.OnHoverListener() {
+            /* imageView.setOnHoverListener(new View.OnHoverListener() {
                 @Override
                 public boolean onHover(View view, MotionEvent motionEvent) {
                     ImageView imageView = (ImageView) view;
@@ -101,25 +101,27 @@ public class DeviceAdapter extends BaseAdapter {
                     }
                     return false;
                 }
-            });
-        } else {
+            }); */
+        }
+        else
+        {
             imageView = (ImageView) convertView;
         }
-        Entity e = mEntityManager.getItemForType(Type.DEVICE, index);
+
+        Entity ent = mEntityManager.getItemForType(Type.DEVICE, index);
+
         try {
-            Bitmap bitmap = e.getBitmap();
-            if (e.getBitmapFileName().equals("") || bitmap == null) {
-                imageView.setImageResource(e.getImage());
-            } else {
-                imageView.setImageBitmap(bitmap);
-            }
-        }catch (Exception ex) {
+            imageView.setImageBitmap(ent.getImage());
         }
-        if (mEntityManager.isInEntitySelection(Type.DEVICE, mEntitySelection,
-                e.getId()))
+        catch (Exception ex) {
+        }
+
+        if (mEntityManager.isInEntitySelection(Type.DEVICE, mEntitySelection, ent.getId())) {
             imageView.setBackgroundColor(SelectionColor);
-        else
+        }
+        else {
             imageView.setBackgroundColor(Color.TRANSPARENT);
+        }
         return imageView;
     }
 

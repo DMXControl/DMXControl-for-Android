@@ -19,7 +19,7 @@ public class GroupCollection implements Collection<EntityGroup> {
             EntityGroup obj=list.get(indexOf(object));
             obj.setId(object.getId());
             obj.setName(object.getName());
-            obj.setImage(object.getBitmapFileName());
+            obj.setImage(object.getImageName());
         return false;
         }
     }
@@ -40,7 +40,9 @@ public class GroupCollection implements Collection<EntityGroup> {
     @Override
     public boolean contains(Object object) {
         for (int i = 0; i <size() ; i++) {
-            if(((EntityGroup)object).guid.equals(list.get(i).guid)){return true;}
+            if(((EntityGroup)object).guid.equals(list.get(i).guid)){
+                return true;
+            }
         }
         return false;
     }
@@ -56,7 +58,9 @@ public class GroupCollection implements Collection<EntityGroup> {
 
     public int indexOf(Object object) {
         for (int i = 0; i <size() ; i++) {
-            if(((EntityDevice)object).guid.equals(list.get(i).guid)){return i;}
+            if(((EntityDevice)object).guid.equals(list.get(i).guid)) {
+                return i;
+            }
         }
         return Integer.MIN_VALUE;
     }
@@ -73,8 +77,11 @@ public class GroupCollection implements Collection<EntityGroup> {
 
     public int lastIndexOf(Object object) {
         int out=Integer.MIN_VALUE;
+
         for (int i = 0; i <size() ; i++) {
-            if(((EntityDevice)object).guid.equals(list.get(i).guid)){out = i;}
+            if(((EntityDevice)object).guid.equals(list.get(i).guid)) {
+                out = i;
+            }
         }
         return out;
     }
