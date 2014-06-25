@@ -33,7 +33,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
@@ -47,16 +46,15 @@ public class EntityExecutor extends Entity {
 
     private float value;
     private boolean toggle;
+    private int faderMode = 0;
     private boolean doGO;
     private boolean doStop;
     private boolean doBreakBack;
     private boolean flash;
-
     @Override
     public String getNetworkID() {
         return NetworkID;
     }
-
 
     private ArrayList<ValueChangedListener> ValueChangedListeners = new ArrayList<ValueChangedListener>();
 
@@ -64,10 +62,25 @@ public class EntityExecutor extends Entity {
         this.ValueChangedListeners.add(listener);
     }
 
+    public int getFaderMode() {
+        return faderMode;
+    }
+
+    public void setToggle(boolean toggle, boolean fromReader) {
+        this.toggle=toggle;
+        if(!fromReader)
+            Send();
+    }
+
+    public void setFaderMode(int faderMode, boolean fromReader) {
+        this.faderMode=faderMode;
+        if(!fromReader)
+            Send();
+    }
+
     public interface ValueChangedListener {
         void onValueChanged(float value);
     }
-
 
     private ArrayList<FlashChangedListener> FlashChangedListeners = new ArrayList<FlashChangedListener>();
 
@@ -78,7 +91,6 @@ public class EntityExecutor extends Entity {
     public interface FlashChangedListener {
         void onFlashChanged(float value);
     }
-
 
     public void BreakBack() {
         doBreakBack = true;
@@ -92,6 +104,7 @@ public class EntityExecutor extends Entity {
         doStop = true;
         Send();
     }
+
     public boolean getToggle() {
         return toggle;
     }
@@ -150,6 +163,10 @@ public class EntityExecutor extends Entity {
         mImage = image;
     }
 
+    public EntityExecutor(JSONObject o) {
+        super(0,"",Type.EXECUTOR);
+        Receive(o);
+    }
 
     public static EntityExecutor Receive(JSONObject o) {
         EntityExecutor entity = null;
@@ -159,6 +176,8 @@ public class EntityExecutor extends Entity {
                 entity.guid = o.getString("GUID");
                 entity.value = Float.parseFloat(o.getString("Value").replace(",", "."));//Float.parseFloat(svalue.replace(",", "."));
                 entity.flash = o.getBoolean("Flash");
+                entity.toggle = o.getBoolean("Toggle");
+                entity.faderMode = o.getInt("FaderMode");
             }
         }
         catch(Exception e)
