@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+    <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toggleButton_flash"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_marginTop="57dp"
+        android:id="@+id/gridLayout">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Name"
+            android:id="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_row="0"
+            android:layout_column="0" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/editName"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentLeft="true"
+            android:layout_row="0"
+            android:layout_column="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Fader mode"
+            android:id="@+id/textView2"
+            android:layout_below="@+id/editName"
+            android:layout_alignParentLeft="true"
+            android:layout_row="1"
+            android:layout_column="0" />
+
+        <RadioGroup
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentEnd="false"
+            android:id="@+id/radioButtonGroup"
+            android:layout_row="1"
+            android:layout_column="1">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Intensity"
+                android:id="@+id/radioButton_Intensity" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Timing"
+                android:id="@+id/radioButton_Timing" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Effect speed"
+                android:id="@+id/radioButton_EffectSpeed"
+                android:singleLine="false" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Toggle flash button"
+            android:id="@+id/textView3"
+            android:singleLine="true"
+            android:layout_below="@+id/radioButtonGroup"
+            android:layout_alignParentLeft="true"
+            android:layout_row="2"
+            android:layout_column="0" />
+
+        <ToggleButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New ToggleButton"
+            android:id="@+id/toggleButton_flash"
+            android:layout_row="2"
+            android:layout_column="1" />
+
+    </GridLayout>

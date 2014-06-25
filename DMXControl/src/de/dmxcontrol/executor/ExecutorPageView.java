@@ -143,6 +143,7 @@ public class ExecutorPageView {
     }
 
     public void LoadExecutors() {
+        if(ReceivedData.get().ExecutorPages.size()==0){return;}
         if (ReceivedData.get().SelectedExecutorPage == null) {
             ReceivedData.get().SelectedExecutorPage = ReceivedData.get().ExecutorPages.get(0);
         }

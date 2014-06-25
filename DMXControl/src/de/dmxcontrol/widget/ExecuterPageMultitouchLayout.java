@@ -155,7 +155,10 @@ public class ExecuterPageMultitouchLayout extends LinearLayout {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        boolean result=super.dispatchTouchEvent(event);
+        boolean result=false;
+        try {
+            result = super.dispatchTouchEvent(event);
+        }catch(Exception e){}
         return result;
     }
 

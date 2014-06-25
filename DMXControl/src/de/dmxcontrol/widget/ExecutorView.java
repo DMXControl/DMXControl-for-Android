@@ -14,8 +14,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -72,15 +75,36 @@ public class ExecutorView extends LinearLayout {
             @Override
             public boolean onLongClick(View v) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(Context);
-                alert.setTitle("Rename");
-                alert.setMessage("Enter Executor Name");
-                final EditText input = new EditText(Context);
+                alert.setTitle("Edit Executor");
+                final View view=View.inflate(Context, R.layout.executor_setting_dialog, null);
+                final EditText input =  (EditText)view.findViewById(R.id.editName);
                 input.setText(textView.getText());
-                alert.setView(input);
+                final RadioGroup dropdown = (RadioGroup)view.findViewById(R.id.radioButtonGroup);
+                final RadioButton intensity_btn = (RadioButton)view.findViewById(R.id.radioButton_Intensity);
+                final RadioButton timing_btn= (RadioButton)view.findViewById(R.id.radioButton_Timing);
+                final RadioButton speed_btn= (RadioButton)view.findViewById(R.id.radioButton_EffectSpeed);
+                switch(mExecutor.getFaderMode()) {
+                    case 0 :
+                        intensity_btn.setChecked(true);
+                        break;
+                    case 1 :
+                        timing_btn.setChecked(true);
+                        break;
+                    case 2:
+                        speed_btn.setChecked(true);
+                        break;
+                }
+                final ToggleButton toggle_btn= (ToggleButton)view.findViewById(R.id.toggleButton_flash);
+                toggle_btn.setChecked(mExecutor.getToggle());
+                alert.setView(view);
                 alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String str = input.getEditableText().toString();
                         mExecutor.setName(str,false);
+                        mExecutor.setToggle(toggle_btn.isChecked(),false);
+                        if(intensity_btn.isChecked()){mExecutor.setFaderMode(0,false);}
+                        else if(timing_btn.isChecked()){mExecutor.setFaderMode(1,false);}
+                        else if(speed_btn.isChecked()){mExecutor.setFaderMode(2,false);}
                         textView.setText(mExecutor.getName());
                         Toast.makeText(Context, str, Toast.LENGTH_LONG).show();
                     }
@@ -149,7 +173,6 @@ public class ExecutorView extends LinearLayout {
         flashbtn.setEnabled(false);
         flashbtn.setBackgroundResource(R.drawable.btn_normal_selector);
         flashbtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
-        flashbtn.setText("FLASH");
         flashbtn.setTextSize(18);
         flashbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
         flashbtn.setText("\u26A1");
@@ -176,7 +199,6 @@ public class ExecutorView extends LinearLayout {
         breakbtn = new Button(Context);
         breakbtn.setBackgroundResource(R.drawable.btn_normal_selector);
         breakbtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
-        breakbtn.setText("Break/Back");
         breakbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
         breakbtn.setText("\uf0bb / \uf0bc");
         breakbtn.setLayoutParams(new LinearLayout.LayoutParams(
@@ -193,7 +215,6 @@ public class ExecutorView extends LinearLayout {
         gobtn = new Button(Context);
         gobtn.setBackgroundResource(R.drawable.btn_normal_selector);
         gobtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
-        gobtn.setText("►");
         gobtn.setTextSize(18);
         gobtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
         gobtn.setText("\uf0bf");
@@ -211,7 +232,6 @@ public class ExecutorView extends LinearLayout {
         stopbtn = new Button(Context);
         stopbtn.setBackgroundResource(R.drawable.btn_normal_selector);
         stopbtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
-        stopbtn.setText("■");
         stopbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
         stopbtn.setText("\uf053");
         stopbtn.setTag(stopbtn.getText()+" "+mExecutor.getName());
