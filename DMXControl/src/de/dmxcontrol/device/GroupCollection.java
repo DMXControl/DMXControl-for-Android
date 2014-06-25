@@ -9,7 +9,7 @@ import java.util.Iterator;
  */
 public class GroupCollection implements Collection<EntityGroup> {
 
-    private ArrayList<EntityGroup> list= new ArrayList<EntityGroup>();
+    private ArrayList<EntityGroup> list = new ArrayList<EntityGroup>();
 
     public boolean add(EntityGroup object) {
         if(object==null){return false;}

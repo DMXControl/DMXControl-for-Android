@@ -67,7 +67,7 @@ public abstract class Entity implements IPropertyContainer {
     public interface NameChangedListener {
         void onNameChanged(String name);
     }
-    public abstract String getNetworkID();
+
 
     public Entity(int id, String name, Type type) {
         mId = id;
@@ -128,6 +128,7 @@ public abstract class Entity implements IPropertyContainer {
         return mType;
     }
 
+
     @Override
     public void setProperty(String name, Object[] values) {
         properties.put(name, values);
@@ -137,6 +138,9 @@ public abstract class Entity implements IPropertyContainer {
     public Object[] getProperty(String name) {
         return properties.get(name);
     }
-    
+
+
+    public abstract String getNetworkID();
+
     public abstract void Send();
 }

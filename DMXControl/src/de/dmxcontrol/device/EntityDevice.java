@@ -37,7 +37,7 @@ import de.dmxcontrol.device.EntityManager.Type;
 //This is One Device
 public class EntityDevice extends Entity {
     public final static String defaultDeviceIcon = "device_new";
-    public static String NetworkID="Device";
+    public static String NetworkID = "Device";
     
     @Override
     public String getNetworkID() {
@@ -50,7 +50,7 @@ public class EntityDevice extends Entity {
     }
 
     public EntityDevice(int id) {
-        super(id, NetworkID+": " + id, Type.DEVICE);
+        super(id, NetworkID + ": " + id, Type.DEVICE);
         mImage = defaultDeviceIcon;
     }
 
@@ -64,12 +64,12 @@ public class EntityDevice extends Entity {
         mImage = image;
     }
 
-    public static Entity Receive(JSONObject o) {
-        EntityDevice entity=null;
+    public static EntityDevice Receive(JSONObject o) {
+        EntityDevice entity = null;
         try {
             if (o.getString("Type").equals(NetworkID)) {
-                entity = new EntityDevice(o.getInt("Number"), o.getString("Name"),o.getString("Image"));
-                entity.guid=o.getString("GUID");
+                entity = new EntityDevice(o.getInt("Number"), o.getString("Name"), o.getString("Image"));
+                entity.guid = o.getString("GUID");
             }
         }
         catch(Exception e)
