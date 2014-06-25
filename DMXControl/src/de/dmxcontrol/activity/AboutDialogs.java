@@ -85,9 +85,7 @@ public class AboutDialogs {
 
     private DialogInterface.OnClickListener mOnClickListener = new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {
-
             switch (which) {
-
                 // Credits
                 case 0:
                     activity.showDialog(ABOUT_DIALOG_CREDITS);
@@ -115,28 +113,25 @@ public class AboutDialogs {
                 // activity.startActivity(intent);
                 // break;
                 default:
-
             }
         }
     };
 
     public AlertDialog creditsDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(activity)
-                .setTitle(R.string.about_title)
-                .setIcon(R.drawable.androidmann_neu)
-                .setNeutralButton(R.string.about_dismiss,
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-
-								/* User clicked Something so do some stuff */
-                            }
+                     .setTitle(R.string.about_title)
+                     .setIcon(R.drawable.androidmann_neu)
+                     .setNeutralButton(R.string.about_dismiss,
+                     new DialogInterface.OnClickListener() {
+public void onClick(DialogInterface dialog,
+                    int whichButton) {
+					    /* User clicked Something so do some stuff */
+                         }
                         }
                 );
         // FrameLayout fl = (FrameLayout) ad.findViewById(android.R.id.custom);
         // fl.addView(myView, new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
-        ScrollView sv = (ScrollView) LayoutInflater.from(activity).inflate(
-                R.layout.about_credits, null);
+        ScrollView sv = (ScrollView) LayoutInflater.from(activity).inflate(R.layout.about_credits, null);
 
         adb.setView(sv);
         AlertDialog ad = adb.create();
@@ -147,29 +142,29 @@ public class AboutDialogs {
         if (listener == null) {
             listener = new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
-
 					/* User clicked Something so do some stuff */
                 }
             };
         }
 
         AlertDialog.Builder adb = new AlertDialog.Builder(activity)
-                .setTitle(R.string.about_title_changelog)
-                .setIcon(R.drawable.androidmann_neu)
-                .setNeutralButton(R.string.about_dismiss, listener);
+                                                 .setTitle(R.string.about_title_changelog)
+                                                 .setIcon(R.drawable.androidmann_neu)
+                                                 .setNeutralButton(R.string.about_dismiss, listener);
 
         // FrameLayout fl = (FrameLayout) ad.findViewById(android.R.id.custom);
         // fl.addView(myView, new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
 
         Changelog cl = new Changelog(activity.getApplicationContext());
+
         try {
             cl.populateItems(activity);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             e.printStackTrace();
         }
 
-        LinearLayout ll = (LinearLayout) LayoutInflater.from(activity).inflate(
-                R.layout.changelog_list, null);
+        LinearLayout ll = (LinearLayout) LayoutInflater.from(activity).inflate(R.layout.changelog_list, null);
         adb.setView(ll);
 
         ListView lv = (ListView) ll.findViewById(R.id.changelog_list);

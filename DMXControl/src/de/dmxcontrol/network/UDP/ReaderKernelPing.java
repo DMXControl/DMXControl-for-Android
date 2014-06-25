@@ -7,7 +7,6 @@ import java.net.DatagramSocket;
 import java.util.ArrayList;
 
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.device.Entity;
 
 /**
  * Created by Qasi on 12.06.2014.
@@ -16,18 +15,17 @@ import de.dmxcontrol.device.Entity;
 public class ReaderKernelPing extends Thread {
     private boolean bKeepRunning = true;
     private String lastMessage = "";
-    private KernelPingDeserielizer lastKernelPing;
-    private Entity lastEntity;
+    private KernelPingDeserializer lastKernelPing;
 
     private DatagramSocket kernelsocket;
 
-    public KernelPingDeserielizer GetLastKernelPing() {
+    public KernelPingDeserializer GetLastKernelPing() {
         return lastKernelPing;
     }
 
-    private ArrayList<KernelPingDeserielizer> KernelPings;
+    private ArrayList<KernelPingDeserializer> KernelPings;
 
-    public ArrayList<KernelPingDeserielizer> GetKernelPings() {
+    public ArrayList<KernelPingDeserializer> GetKernelPings() {
         return KernelPings;
     }
 
@@ -38,8 +36,7 @@ public class ReaderKernelPing extends Thread {
     private ArrayList<NewsUpdateListener> listeners = new ArrayList<NewsUpdateListener>();
 
     public void setOnNewsUpdateListener(NewsUpdateListener listener) {
-        // Store the listener object
-        this.listeners.add(listener);
+        this.listeners.add(listener); // Store the listener object
     }
 
     private ArrayList<byte[]> sendData=new ArrayList<byte[]>();
@@ -49,27 +46,33 @@ public class ReaderKernelPing extends Thread {
         String message = "";
         byte[] lmessage = new byte[0x000fff];
         DatagramPacket packet = new DatagramPacket(lmessage, lmessage.length);
-        KernelPings = new ArrayList<KernelPingDeserielizer>();
+        KernelPings = new ArrayList<KernelPingDeserializer>();
+
         try {
             if(kernelsocket==null) {
                 kernelsocket = new DatagramSocket(12352);
             }
-                while (bKeepRunning) {
-                    try {
-                        receiveKernalPing(message, lmessage, kernelsocket, packet);
-                    }catch (Exception e) {
-                        Log.w("",DMXControlApplication.stackTraceToString(e));
-                        DMXControlApplication.SaveLog();
-                    }
-                    finally {
+
+            while (bKeepRunning) {
+                try {
+                    receiveKernalPing(message, lmessage, kernelsocket, packet);
+                }
+                catch (Exception e) {
+                    Log.w("",DMXControlApplication.stackTraceToString(e));
+                    DMXControlApplication.SaveLog();
+                }
+                finally {
                     Thread.sleep(2);
+
                 }
             }
+
             if (kernelsocket != null) {
                 if(!kernelsocket.isClosed())
                     kernelsocket.close();
             }
-        } catch (Throwable e) {
+        }
+        catch (Throwable e) {
             Log.e("UDP Listener", e.getMessage());
             DMXControlApplication.SaveLog();
             run();
@@ -81,11 +84,13 @@ public class ReaderKernelPing extends Thread {
             socket.receive(packet);
             message = new String(lmessage, 0, packet.getLength());
             lastMessage = message;
+
             if (message.length() > 0) {
-                lastKernelPing = KernelPingDeserielizer.Get(message);
+                lastKernelPing = KernelPingDeserializer.Get(message);
 
                 Log.d("UDP", "KernelPing Received: IP "+lastKernelPing.GetIPAdresses()[0]);
                 boolean add = true;
+
                 if (KernelPings.size() > 0) {
                     for (int i = 0; i < KernelPings.size(); i++) {
                         if (KernelPings.get(i).GetHostName().equals(lastKernelPing.GetHostName())) {
@@ -95,13 +100,16 @@ public class ReaderKernelPing extends Thread {
                         }
                     }
                 }
+
                 if (add) {
                     KernelPings.add(lastKernelPing);
                 }
+
                 for (NewsUpdateListener listener : listeners) {
                     listener.onNewsUpdate();
                 }
             }
+
             message=null;
             if(message!=null) {
                 message = null;
@@ -110,7 +118,8 @@ public class ReaderKernelPing extends Thread {
             if(lmessage!=null) {
                 lmessage = null;
             }
-        } catch (Throwable e) {
+        }
+        catch (Throwable e) {
             Log.e("Can't receive KernelPing", e.getMessage());
             DMXControlApplication.SaveLog();
         }
@@ -118,8 +127,9 @@ public class ReaderKernelPing extends Thread {
 
     public void kill() {
         bKeepRunning = false;
-        if(!kernelsocket.isClosed())
+        if(!kernelsocket.isClosed()) {
             kernelsocket.close();
+        }
     }
 
     public String getLastMessage() {

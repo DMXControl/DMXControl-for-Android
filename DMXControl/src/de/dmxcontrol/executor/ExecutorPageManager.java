@@ -5,6 +5,7 @@ package de.dmxcontrol.executor;
  */
 public class ExecutorPageManager {
     private static ExecutorPageManager INSTANCE = null;
+
     public static ExecutorPageManager get() {
         if (INSTANCE == null) {
             INSTANCE = new ExecutorPageManager();

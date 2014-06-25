@@ -38,8 +38,7 @@ public class LiveActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         try {
             if(ReceivedData.get().executorPageView==null){
                 ReceivedData.get().executorPageView=new ExecutorPageView(1,"",context);}
@@ -48,16 +47,19 @@ public class LiveActivity extends Activity {
             }
             view = ReceivedData.get().executorPageView.getView();
             boolean needResize=false;
-            if(view.getParent()!=null){
+
+            if(view.getParent()!=null) {
                 ((FrameLayout)view.getParent()).removeAllViews();
                 needResize=true;
             }
             ReceivedData.get().executorPageView.SetParentActivity(this);
             setContentView(view);
-            if(needResize){
+
+            if(needResize) {
                 ReceivedData.get().executorPageView.Resize();
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Log.w("",DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }

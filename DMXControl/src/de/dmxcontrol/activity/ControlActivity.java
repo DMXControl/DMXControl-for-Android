@@ -90,8 +90,7 @@ public class ControlActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.root_screen_with_selector_drawer);
 
-        if (((DMXControlApplication) getApplication()).getJustStarted()
-                && !DISABLE_SPLASH) {
+        if (((DMXControlApplication) getApplication()).getJustStarted() && !DISABLE_SPLASH) {
             showDialog(DIALOG_SPLASH);
         }
 
@@ -155,8 +154,7 @@ public class ControlActivity extends FragmentActivity implements
             DockPanel panel = (DockPanel) frame.findViewById(R.id.panel);
             panel.setOnDockOpenListener(this);
 
-            mConnectionImage = (ImageView) panel
-                    .findViewById(DockPanel.IMAGEVIEW_ID);
+            mConnectionImage = (ImageView) panel.findViewById(DockPanel.IMAGEVIEW_ID);
             ServiceFrontend s = ServiceFrontend.get();
             s.addListener(this);
             onServiceChanged(s);
@@ -166,10 +164,10 @@ public class ControlActivity extends FragmentActivity implements
         @Override
         public void onDockOpenListener(ViewGroup viewGroup) {
             PanelSelectorFragment fragment = (PanelSelectorFragment) ControlActivity.this
-                    .getSupportFragmentManager().findFragmentById(
-                            R.id.panel_fragment);
-            if (fragment == null)
+                    .getSupportFragmentManager().findFragmentById(R.id.panel_fragment);
+            if (fragment == null) {
                 return;
+            }
 
             fragment.updateActiveInputType();
 
@@ -177,11 +175,12 @@ public class ControlActivity extends FragmentActivity implements
 
         @Override
         public void onServiceChanged(ServiceFrontend cs) {
-            if (cs.isConnected())
+            if (cs.isConnected()) {
                 mConnectionImage.setImageResource(R.drawable.device_connected);
-            else
-                mConnectionImage
-                        .setImageResource(R.drawable.device_not_connected);
+            }
+            else {
+                mConnectionImage.setImageResource(R.drawable.device_not_connected);
+            }
         }
     }
 
@@ -189,8 +188,9 @@ public class ControlActivity extends FragmentActivity implements
     public void onUpdateActionView(int state) {
         Log.d(TAG, "onUpdateActionView state = " + state);
 
-        if (state == oldState)
+        if (state == oldState) {
             return;
+        }
 
         Fragment newFragment;
 
@@ -225,10 +225,10 @@ public class ControlActivity extends FragmentActivity implements
     @Override
     public void onPanelResumed() {
         FragmentManager fManager = getSupportFragmentManager();
-        ActionSelectorFragment asf = (ActionSelectorFragment) fManager
-                .findFragmentById(R.id.action_fragment);
-        if (asf != null)
+        ActionSelectorFragment asf = (ActionSelectorFragment) fManager.findFragmentById(R.id.action_fragment);
+        if (asf != null) {
             asf.updateStateSelected();
+        }
 
     }
 
@@ -262,7 +262,8 @@ public class ControlActivity extends FragmentActivity implements
                         liveActivity = new Intent(getApplicationContext(), ServerConnection.class);
                     }
                     startActivity(liveActivity);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     Log.e("Can't open ConnectionDialog", e.toString());
                     DMXControlApplication.SaveLog();
                 }
@@ -271,7 +272,8 @@ public class ControlActivity extends FragmentActivity implements
                 try {
                     i = new Intent(getApplicationContext(), LiveActivity.class);
                     startActivity(i);
-                } catch (Exception e) {
+                }
+                catch (Exception e) {
                     Log.e("Can't open Live", e.toString());
                     DMXControlApplication.SaveLog();
                 }
@@ -307,8 +309,7 @@ public class ControlActivity extends FragmentActivity implements
     }
 
     private Dialog createSplashDialog() {
-        Dialog dialog = new Dialog(this,
-                android.R.style.Theme_Translucent_NoTitleBar);
+        Dialog dialog = new Dialog(this, android.R.style.Theme_Translucent_NoTitleBar);
         dialog.setContentView(R.layout.dialog_splash);
         ImageView image = (ImageView) dialog.findViewById(R.id.image_splash);
         image.setImageResource(R.drawable.image_splash);
@@ -316,15 +317,13 @@ public class ControlActivity extends FragmentActivity implements
         AnimationSet set = new AnimationSet(true);
         Animation animation = new AlphaAnimation(0.0f, 1.0f);
         animation.setDuration(500);
-        animation.setInterpolator(AnimationUtils.loadInterpolator(this,
-                android.R.anim.accelerate_decelerate_interpolator));
+        animation.setInterpolator(AnimationUtils.loadInterpolator(this, android.R.anim.accelerate_decelerate_interpolator));
         set.addAnimation(animation);
         animation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
                 0.5f);
         animation.setDuration(500);
-        animation.setInterpolator(AnimationUtils.loadInterpolator(this,
-                android.R.anim.accelerate_decelerate_interpolator));
+        animation.setInterpolator(AnimationUtils.loadInterpolator(this, android.R.anim.accelerate_decelerate_interpolator));
         set.addAnimation(animation);
 
         image.setAnimation(set);
@@ -341,7 +340,8 @@ public class ControlActivity extends FragmentActivity implements
             public void run() {
                 try {
                     ControlActivity.this.removeDialog(DIALOG_SPLASH);
-                } catch (IllegalArgumentException e) {
+                }
+                catch (IllegalArgumentException e) {
                     // We ignore this here - race condition error
                 }
             }
@@ -353,22 +353,29 @@ public class ControlActivity extends FragmentActivity implements
     public void showErrorDialog(String msg) {
         FragmentManager fm = getSupportFragmentManager();
         ErrorDialogFragment errorDialog = ErrorDialogFragment.newInstance(msg);
-        if (errorDialog == null)
+
+        if (errorDialog == null) {
             return;
-        if (!isInForeground)
+        }
+
+        if (!isInForeground) {
             return;
+        }
 
         errorDialog.show(fm, ErrorDialogFragment.TAG);
     }
 
     public void showNetworkErrorDialog(String msg) {
         FragmentManager fm = getSupportFragmentManager();
-        NetworkErrorDialogFragment errorDialog = NetworkErrorDialogFragment
-                .newInstance(msg);
-        if (errorDialog == null)
+        NetworkErrorDialogFragment errorDialog = NetworkErrorDialogFragment.newInstance(msg);
+
+        if (errorDialog == null) {
             return;
-        if (!isInForeground)
+        }
+
+        if (!isInForeground) {
             return;
+        }
 
         errorDialog.show(fm, NetworkErrorDialogFragment.TAG);
     }

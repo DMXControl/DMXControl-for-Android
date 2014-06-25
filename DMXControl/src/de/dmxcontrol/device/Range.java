@@ -35,7 +35,8 @@ public class Range {
         if (end > begin) {
             mOscRange = String.format("[%d-%d]", begin, end);
             mReadableRange = String.format("%d-%d", begin, end);
-        } else {
+        }
+        else {
             mOscRange = String.format("[%d]", begin);
             mReadableRange = String.format("%d", begin);
         }

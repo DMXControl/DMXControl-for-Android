@@ -43,14 +43,13 @@ public class EntityManager {
         DEVICE, EXECUTOR, GROUP
     }
 
-    ;
-
     public static final Integer CENTRAL_ENTITY_SELECTION = 0;
     private static EntityManager INSTANCE;
 
     public static EntityManager get() {
-        if (INSTANCE == null)
+        if (INSTANCE == null) {
             INSTANCE = new EntityManager();
+        }
         return INSTANCE;
     }
 
@@ -95,13 +94,16 @@ public class EntityManager {
     }
 
     private void createMockDevices() {
+
         EntityGroup groupZero = new EntityGroup(1);
         addEntity(groupZero);
 
         EntityGroup groupOne = new EntityGroup(2);
         addEntity(groupOne);
+
         EntityGroup groupTwo = new EntityGroup(3);
         addEntity(groupTwo);
+
         EntityGroup groupThree = new EntityGroup(4);
         addEntity(groupThree);
 

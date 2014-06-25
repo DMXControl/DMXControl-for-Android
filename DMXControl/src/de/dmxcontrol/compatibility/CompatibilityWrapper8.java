@@ -47,8 +47,7 @@ public class CompatibilityWrapper8 {
 
     public boolean isDisplayPortrait() {
         int o = ctx.getResources().getConfiguration().orientation;
-        if (o == Configuration.ORIENTATION_PORTRAIT
-                || o == Configuration.ORIENTATION_SQUARE)
+        if (o == Configuration.ORIENTATION_PORTRAIT || o == Configuration.ORIENTATION_SQUARE)
             return true;
         else
             return false;

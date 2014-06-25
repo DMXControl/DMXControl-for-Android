@@ -11,7 +11,7 @@ import de.dmxcontrol.executor.ExecutorPageView;
  * Created by Qasi on 15.06.2014.
  */
 public class ReceivedData
-    {
+{
 
     private static ReceivedData INSTANCE = null;
     public static ReceivedData get() {
@@ -20,6 +20,7 @@ public class ReceivedData
         }
         return INSTANCE;
     }
+
     public final DeviceCollection Devices = new DeviceCollection();
     public final GroupCollection Groups = new GroupCollection();
     public final ExecutorCollection Executors = new ExecutorCollection();

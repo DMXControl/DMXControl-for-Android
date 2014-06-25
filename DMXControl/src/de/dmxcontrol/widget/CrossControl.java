@@ -114,8 +114,7 @@ public class CrossControl extends BaseValueWidget {
     private void init() {
 
         compat8 = CompatibilityWrapper8.wrap(getContext());
-        int highlightColor = getResources().getColor(
-                R.color.btn_background_highlight);
+        int highlightColor = getResources().getColor(R.color.btn_background_highlight);
 
         int red = Color.red(highlightColor);
         int green = Color.green(highlightColor);
@@ -210,26 +209,25 @@ public class CrossControl extends BaseValueWidget {
 
         drawBorder(canvas);
 
-        if (mMode == MODE_POINTER_FOLLOW)
+        if (mMode == MODE_POINTER_FOLLOW) {
             drawFollowMarks(canvas, xPosition, yPosition);
+        }
 
         drawMarker(canvas, xPosition, yPosition);
         super.onDraw(canvas);
 
-        if (mMode == MODE_POINTER_FOLLOW)
+        if (mMode == MODE_POINTER_FOLLOW) {
             driveFollowMode();
+        }
     }
 
     private void drawBorder(Canvas canvas) {
 
         RectF rectBorder = new RectF(0, 0, getWidth(), getHeight());
-        canvas.drawRoundRect(rectBorder, ROUND_EDGE_X, ROUND_EDGE_Y,
-                mPaintBorder);
+        canvas.drawRoundRect(rectBorder, ROUND_EDGE_X, ROUND_EDGE_Y, mPaintBorder);
 
-        canvas.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2,
-                mPaintInnerCross);
-        canvas.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight(),
-                mPaintInnerCross);
+        canvas.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2, mPaintInnerCross);
+        canvas.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight(), mPaintInnerCross);
     }
 
     private void drawFollowMarks(Canvas canvas, int xPosition, int yPosition) {
@@ -264,8 +262,8 @@ public class CrossControl extends BaseValueWidget {
                 - FOLLOW_MARKER_SIZE_Y / 2, xDrivenPosition
                 + FOLLOW_MARKER_SIZE_X / 2, yDrivenPosition
                 + FOLLOW_MARKER_SIZE_Y / 2);
-        canvas.drawRoundRect(rectDrivenMarked, MARKER_ROUND_EDGE_X,
-                MARKER_ROUND_EDGE_Y, mPaintFollowMarker);
+
+        canvas.drawRoundRect(rectDrivenMarked, MARKER_ROUND_EDGE_X, MARKER_ROUND_EDGE_Y, mPaintFollowMarker);
     }
 
     private void drawMarker(Canvas canvas, int xPosition, int yPosition) {
@@ -277,8 +275,7 @@ public class CrossControl extends BaseValueWidget {
                 - MARKER_SIZE_Y / 2, xPosition + MARKER_SIZE_X / 2, yPosition
                 + MARKER_SIZE_Y / 2);
 
-        canvas.drawRoundRect(rectMarked, MARKER_ROUND_EDGE_X,
-                MARKER_ROUND_EDGE_Y, mPaintMarker);
+        canvas.drawRoundRect(rectMarked, MARKER_ROUND_EDGE_X, MARKER_ROUND_EDGE_Y, mPaintMarker);
     }
 
     @Override
@@ -323,27 +320,34 @@ public class CrossControl extends BaseValueWidget {
         float percentXValue = x / getWidth();
         float percentYValue = 1 - (y / getHeight());
 
-        if (percentXValue < 0 || percentYValue > 1)
+        if (percentXValue < 0 || percentYValue > 1) {
             return;
+        }
 
-        if (percentYValue < 0 || percentYValue > 1)
+        if (percentYValue < 0 || percentYValue > 1) {
             return;
+        }
 
-        if (mMode == MODE_POINTER_PLAIN)
+        if (mMode == MODE_POINTER_PLAIN) {
             pointerPlainPosition(percentXValue, percentYValue);
-        else if (mMode == MODE_POINTER_FOLLOW)
+        }
+        else if (mMode == MODE_POINTER_FOLLOW) {
             pointerFollowPosition(percentXValue, percentYValue);
-        else
+        }
+        else {
             pointerSensorPosition(percentXValue, percentYValue);
+        }
     }
 
     private void pointerPlainPosition(float x, float y) {
 
-        if (!mEnableLockXDirection)
+        if (!mEnableLockXDirection) {
             setValue(x, getValueY());
+        }
 
-        if (!mEnableLockYDirection)
+        if (!mEnableLockYDirection) {
             setValue(getValueX(), y);
+        }
 
         notifyListener();
         // Log.d(TAG, "pointerPlainPosition: x = " + x + " y = " + y);
@@ -351,21 +355,25 @@ public class CrossControl extends BaseValueWidget {
 
     private void pointerFollowPosition(float x, float y) {
 
-        if (!mEnableLockXDirection)
+        if (!mEnableLockXDirection) {
             mXFollowValue = x;
+        }
 
-        if (!mEnableLockYDirection)
+        if (!mEnableLockYDirection) {
             mYFollowValue = y;
+        }
 
         invalidate();
     }
 
     private void pointerSensorPosition(float x, float y) {
-        if ((x >= 0 && x <= 1) && !mEnableLockXDirection)
+        if ((x >= 0 && x <= 1) && !mEnableLockXDirection) {
             setValue(x, getValueY());
+        }
 
-        if ((y >= 0 && y <= 1) && !mEnableLockYDirection)
+        if ((y >= 0 && y <= 1) && !mEnableLockYDirection) {
             setValue(getValueX(), y);
+        }
 
         Log.d(TAG, "pointerPlainPosition: x = " + x + " y = " + y);
         notifyListener();
@@ -421,24 +429,25 @@ public class CrossControl extends BaseValueWidget {
         boolean noXDelta = (Math.abs(deltaX) <= MIN_DELTA);
         boolean noYDelta = (Math.abs(deltaY) <= MIN_DELTA);
 
-        if (noXDelta && noYDelta)
+        if (noXDelta && noYDelta) {
             return;
+        }
 
         // Log.d(TAG, "deltaX = " + deltaX + " deltaY = "
         // + deltaY);
 
         float normDiv = (float) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
         if (Float.isInfinite(normDiv)) {
             normDiv = (float) Math.sqrt(2d);
-        } else if (Float.isNaN(normDiv) || normDiv <= 0.01f) {
+        }
+        else if (Float.isNaN(normDiv) || normDiv <= 0.01f) {
             normDiv = 0.01f;
         }
         // Log.d(TAG, "normDiv = " + normDiv);
 
-        float deltaXNorm = deltaX
-                / (normDiv * (100 - mSpeed) * POINTER_FOLLOW_SPEED_FACTOR);
-        float deltaYNorm = deltaY
-                / (normDiv * (100 - mSpeed) * POINTER_FOLLOW_SPEED_FACTOR);
+        float deltaXNorm = deltaX / (normDiv * (100 - mSpeed) * POINTER_FOLLOW_SPEED_FACTOR);
+        float deltaYNorm = deltaY / (normDiv * (100 - mSpeed) * POINTER_FOLLOW_SPEED_FACTOR);
         // Log.d(TAG, "deltaXNorm = " + deltaXNorm
         // + " deltaYNorm = " + deltaYNorm);
 
@@ -476,14 +485,10 @@ public class CrossControl extends BaseValueWidget {
             SensorManager sensorManager = (SensorManager) CrossControl.this
                     .getContext().getSystemService(Context.SENSOR_SERVICE);
 
-            Sensor sensorAccel = sensorManager
-                    .getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-            sensorManager.registerListener(this, sensorAccel,
-                    SensorManager.SENSOR_DELAY_FASTEST);
-            Sensor sensorMag = sensorManager
-                    .getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-            sensorManager.registerListener(this, sensorMag,
-                    SensorManager.SENSOR_DELAY_FASTEST);
+            Sensor sensorAccel = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            sensorManager.registerListener(this, sensorAccel, SensorManager.SENSOR_DELAY_FASTEST);
+            Sensor sensorMag = sensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+            sensorManager.registerListener(this, sensorMag, SensorManager.SENSOR_DELAY_FASTEST);
         }
 
         public void unregister() {
@@ -512,8 +517,7 @@ public class CrossControl extends BaseValueWidget {
                 isReady = false;
 
                 SensorManager.getRotationMatrix(R, I, accels, mags);
-                SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_Y,
-                        SensorManager.AXIS_MINUS_X, outR);
+                SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, outR);
                 SensorManager.getOrientation(outR, values);
                 int[] v = new int[3];
 
@@ -525,17 +529,14 @@ public class CrossControl extends BaseValueWidget {
                 if (compat8.isDisplayPortrait()) {
                     xFollowValue = v[1];
                     yFollowValue = v[2];
-                } else {
+                }
+                else {
                     xFollowValue = v[2];
                     yFollowValue = -v[1];
                 }
 
-                final float newX = getValueX()
-                        + (Math.signum(xFollowValue)
-                        * POINTER_SENSOR_SPEED_FACTOR * mSpeed);
-                final float newY = getValueY()
-                        + (-1 * Math.signum(yFollowValue)
-                        * POINTER_SENSOR_SPEED_FACTOR * mSpeed);
+                final float newX = getValueX() + (Math.signum(xFollowValue) * POINTER_SENSOR_SPEED_FACTOR * mSpeed);
+                final float newY = getValueY() + (-1 * Math.signum(yFollowValue) * POINTER_SENSOR_SPEED_FACTOR * mSpeed);
                 // Log.d(TAG, " newX = " + newX + " newY = " + newY);
 
                 CrossControl.this.post(new Runnable() {
@@ -566,9 +567,11 @@ public class CrossControl extends BaseValueWidget {
             if (mLocPos > mLocHistory.length - 1) {
                 mLocPos = 0;
             }
+
             for (double h : mLocHistory) {
                 avg += h;
             }
+
             avg /= mLocHistory.length;
 
             return (int) avg;

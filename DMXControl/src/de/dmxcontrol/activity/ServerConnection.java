@@ -21,7 +21,7 @@ import java.util.TimerTask;
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
-import de.dmxcontrol.network.UDP.KernelPingDeserielizer;
+import de.dmxcontrol.network.UDP.KernelPingDeserializer;
 import de.dmxcontrol.network.UDP.ReaderKernelPing;
 
 
@@ -104,9 +104,9 @@ public class ServerConnection extends Activity {
 
     private ArrayList<ClipData.Item> generateData() {
         ArrayList<ClipData.Item> items = new ArrayList<ClipData.Item>();
-        ArrayList<KernelPingDeserielizer> kernelPinglist = Prefs.get().getKernelPing();
+        ArrayList<KernelPingDeserializer> kernelPinglist = Prefs.get().getKernelPing();
         for (int i = 0; i < kernelPinglist.size(); i++) {
-            KernelPingDeserielizer kernelPing = kernelPinglist.get(i);
+            KernelPingDeserializer kernelPing = kernelPinglist.get(i);
             String ips = kernelPing.GetIPAdresses()[0];
             if (kernelPing.GetIPAdresses().length > 1) {
                 for (int j = 1; j < kernelPing.GetIPAdresses().length; j++) {

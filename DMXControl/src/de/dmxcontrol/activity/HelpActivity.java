@@ -44,6 +44,5 @@ public class HelpActivity extends Activity {
         setContentView(webView);
 
         webView.loadUrl(helpPage);
-
     }
 }

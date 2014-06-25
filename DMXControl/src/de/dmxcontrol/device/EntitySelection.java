@@ -133,7 +133,8 @@ public class EntitySelection implements OnModelListener {
         if (entities.contains(entity)) {
             entities.remove(entity);
             lookup.remove(entity.getId());
-        } else {
+        }
+        else {
             entities.add(entity);
             lookup.put(entity.getId(), entity);
         }
@@ -183,8 +184,8 @@ public class EntitySelection implements OnModelListener {
     }
 
     public void notifyListener() {
-        Iterator<OnEntitySelectionListener> iter = mListeners.keySet()
-                .iterator();
+        Iterator<OnEntitySelectionListener> iter = mListeners.keySet().iterator();
+
         while (iter.hasNext()) {
             OnEntitySelectionListener listener = iter.next();
             listener.onEntitySelectionChanged(this);
@@ -195,23 +196,23 @@ public class EntitySelection implements OnModelListener {
     public void onModelChanged(BaseModel model) {
         for (Set<Entity> entities : mEntities) {
             for (Entity e : entities) {
-                e.setProperty(model.getOSCAttributeName(),
-                        model.getOSCAttributes());
+                e.setProperty(model.getOSCAttributeName(), model.getOSCAttributes());
             }
         }
     }
 
     public void parse(Type type, String entityString) {
-        Set<Integer> result = findMatching(entityString, mEm.getMinId(type),
-                mEm.getMaxId(type));
+        Set<Integer> result = findMatching(entityString, mEm.getMinId(type), mEm.getMaxId(type));
 
         clearEntities(type);
-        Log.d(TAG, "entityselection: type = " + type + " entites "
-                + getEntities(type).size());
+        Log.d(TAG, "entityselection: type = " + type + " entites " + getEntities(type).size());
+
         for (Integer id : result) {
             Entity e = mEm.lookupEntity(type, id);
-            if (e == null)
+
+            if (e == null) {
                 continue;
+            }
 
             getEntities(type).add(e);
             getLookup(type).put(e.getId(), e);
@@ -220,8 +221,7 @@ public class EntitySelection implements OnModelListener {
         updateRanges(type);
         notifyListener();
 
-        Log.d(TAG, "entityselection: type = " + type + " entites "
-                + getEntities(type).size());
+        Log.d(TAG, "entityselection: type = " + type + " entites " + getEntities(type).size());
     }
 
     private Set<Integer> findMatching(String matchString, int begin, int end) {
@@ -231,24 +231,27 @@ public class EntitySelection implements OnModelListener {
         Set<Integer> resultSet = new HashSet<Integer>();
 
         int beginSpan = -1, endSpan = -1;
-        while (scan.hasNextInt() || scan.hasNext(span)
-                || scan.hasNext(spanOpen) || scan.hasNext(star)) {
+
+        while (scan.hasNextInt() || scan.hasNext(span) || scan.hasNext(spanOpen) || scan.hasNext(star)) {
             if (scan.hasNext(star)) {
                 scan.next(star);
                 addToResultSet(begin, end, resultSet);
                 Log.d(TAG, "findMatching: star found");
-            } else if (scan.hasNext(span)) {
+            }
+            else if (scan.hasNext(span)) {
                 String spanStrings[] = scan.next(span).split("-");
                 beginSpan = Integer.valueOf(spanStrings[0]);
                 endSpan = Integer.valueOf(spanStrings[1]);
                 addToResultSet(beginSpan, endSpan, resultSet);
                 Log.d(TAG, "findMatching: span found");
-            } else if (scan.hasNext(spanOpen)) {
+            }
+            else if (scan.hasNext(spanOpen)) {
                 String spanStrings[] = scan.next(spanOpen).split("-");
                 beginSpan = Integer.valueOf(spanStrings[0]);
                 endSpan = end;
                 addToResultSet(beginSpan, endSpan, resultSet);
-            } else if (scan.hasNextInt()) {
+            }
+            else if (scan.hasNextInt()) {
                 resultSet.add(scan.nextInt());
                 Log.d(TAG, "findMatching: num found");
             }
@@ -260,6 +263,7 @@ public class EntitySelection implements OnModelListener {
 
     private void addToResultSet(int begin, int end, Set<Integer> resultSet) {
         int index = begin;
+
         while (index <= end) {
             if (index >= begin && index <= end) {
                 resultSet.add(index);
@@ -271,6 +275,7 @@ public class EntitySelection implements OnModelListener {
     private String setToString(Set<Integer> set) {
         StringBuilder sb = new StringBuilder();
         Iterator<Integer> iter = set.iterator();
+
         while (iter.hasNext()) {
             sb.append(iter.next() + " ");
         }

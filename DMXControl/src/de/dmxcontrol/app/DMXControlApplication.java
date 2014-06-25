@@ -81,18 +81,21 @@ public class DMXControlApplication extends Application {
                     Directory.mkdirs();
                 }
             }catch(Exception e){}**/
+
             EntityExecutor.SendAllRequest();
             EntityExecutorPage.SendAllRequest();
 
-            if (!prefs.getOffline())
+            if (!prefs.getOffline()){
                 ServiceFrontend.get().connect();
-        } catch (Exception e) {
+            }
+
+        }
+        catch (Exception e) {
             e.toString();
             Log.w("",DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
     }
-
 
     public boolean getJustStarted() {
         boolean result = mJustStarted;
@@ -102,18 +105,18 @@ public class DMXControlApplication extends Application {
 
     @Override
     public void onTerminate() {
-
         Log.w("","TERMINATE");
         DMXControlApplication.SaveLog();
     }
+
     public static void SaveLog(){
         try {
             Process process = Runtime.getRuntime().exec("logcat -d");
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(process.getInputStream()));
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
-            StringBuilder log=new StringBuilder();
+            StringBuilder log = new StringBuilder();
             String line = "";
+
             while ((line = bufferedReader.readLine()) != null) {
                 try {
                     log.append(line);
@@ -121,6 +124,7 @@ public class DMXControlApplication extends Application {
                 }
                 catch(Exception e){}
             }
+
             try {
 
                 Writer writer;
@@ -128,22 +132,23 @@ public class DMXControlApplication extends Application {
                 writer = new BufferedWriter(new FileWriter(outputFile));
                 writer.write(log.toString());
                 writer.close();
-            } catch (Exception e) {
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
-        }catch (IOException e) {
+        }
+        catch (IOException e) {
         }
     }
 
-
     public static String stackTraceToString(Throwable e) {
         StringBuilder sb = new StringBuilder();
+
         for (StackTraceElement element : e.getStackTrace()) {
             sb.append(element.toString());
             sb.append("\n");
         }
         return sb.toString();
     }
-
 
 }

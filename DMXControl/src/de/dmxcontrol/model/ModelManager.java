@@ -41,8 +41,6 @@ public class ModelManager {
 
     public enum Type {Color, Position, Dimmer, Strobe, Shutter, Effect}
 
-    ;
-
     private Map<Type, BaseModel> mModels = new HashMap<Type, BaseModel>();
     private static Map<Type, Class<? extends BaseModel>> mTypeLookup = new HashMap<Type, Class<? extends BaseModel>>();
     private Map<OnModelListener, Boolean> mDefaultModelListeners = new HashMap<OnModelListener, Boolean>();
@@ -65,8 +63,9 @@ public class ModelManager {
     @SuppressWarnings("unchecked")
     public <T extends BaseModel> T getModel(Type type) {
 
-        if (mModels.containsKey(type))
+        if (mModels.containsKey(type)) {
             return (T) mModels.get(type);
+        }
         else {
             T model;
             model = create(type);
@@ -81,7 +80,8 @@ public class ModelManager {
         T model;
         try {
             model = (T) clazz.getDeclaredConstructors()[0].newInstance(this);
-        } catch (Exception e) {
+        }
+        catch (Exception e) {
             Log.e(TAG, "error creation of model with class " + clazz.getName());
             Log.e(TAG, "exception: ", e);
             return null;

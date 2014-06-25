@@ -43,8 +43,7 @@ public abstract class BaseModel {
     private Map<OnModelListener, Boolean> mListeners = new WeakHashMap<OnModelListener, Boolean>();
     private ModelManager mManager;
 
-    public BaseModel(ModelManager manager, ModelManager.Type type,
-                     String oscAttributeName) {
+    public BaseModel(ModelManager manager, ModelManager.Type type, String oscAttributeName) {
         mManager = manager;
         mType = type;
         mOSCAttributeName = oscAttributeName;

@@ -46,6 +46,7 @@ class Ranges {
 
         boolean beginFound = false, endFound = false;
         int crrRangeBegin = 0, crrRangeEnd = 0;
+
         for (i = 0; i < entities.size(); i++) {
             Entity entity = entities.get(i);
 
@@ -57,7 +58,8 @@ class Ranges {
             if (beginFound && !selectedEntities.contains(entity)) {
                 crrRangeEnd = entities.get(i - 1).getId();
                 endFound = true;
-            } else if (beginFound && (i + 1) == entities.size()) {
+            }
+            else if (beginFound && (i + 1) == entities.size()) {
                 crrRangeEnd = entity.getId();
                 endFound = true;
             }
@@ -74,8 +76,8 @@ class Ranges {
 
     private void calculateString(List<Range> ranges) {
         StringBuilder sb = new StringBuilder();
-
         String appendConcat = "";
+
         for (Range range : ranges) {
             sb.append(appendConcat);
             sb.append(range.getReadableRange());

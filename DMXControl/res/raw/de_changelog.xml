@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <changelog>
-
     <release>
         <version>v0.5</version>
         <item>Neue About-Dialoge.</item>
-        <item>Neues Skelett für eine Hilfeseite.
-        </item>
+        <item>Neues Skelett für eine Hilfeseite.</item>
     </release>
     <release>
         <version>v0.6</version>

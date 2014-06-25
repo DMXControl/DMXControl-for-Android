@@ -22,13 +22,13 @@
  *
  *      For further information, please contact info [(at)] dmxcontrol.de
  *
- * 
+ *
  */
 
 package de.dmxcontrol.compatibility;
 
-import android.content.Context;
-import android.content.res.Configuration;
+        import android.content.Context;
+        import android.content.res.Configuration;
 
 public class CompatibilitySdk8 extends CompatibilityWrapper8 {
 
@@ -38,10 +38,11 @@ public class CompatibilitySdk8 extends CompatibilityWrapper8 {
 
     public boolean isDisplayPortrait() {
         int o = ctx.getResources().getConfiguration().orientation;
-        if (o == Configuration.ORIENTATION_PORTRAIT
-                || o == Configuration.ORIENTATION_SQUARE)
+        if (o == Configuration.ORIENTATION_PORTRAIT || o == Configuration.ORIENTATION_SQUARE) {
             return true;
-        else
+        }
+        else {
             return false;
+        }
     }
 }
