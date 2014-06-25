@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.network.ResceivdData;
+import de.dmxcontrol.network.ReceivedData;
 import de.dmxcontrol.widget.ExecuterPageMultitouchLayout;
 import de.dmxcontrol.widget.ExecuterPageSliderView;
 import de.dmxcontrol.widget.ExecutorView;
@@ -33,107 +33,129 @@ public class ExecutorPageView {
 
     public ExecutorPageView(int id, String name, Context context) throws Exception {
         try {
-
             view = View.inflate(context, R.layout.executor_page, null);
-            if(ResceivdData.get().ExecutorPages.size()>0) {
 
+            if(ReceivedData.get().ExecutorPages.size()>0) {
                 up_btn = (Button) view.findViewById(R.id.executorPageUp_btn);
                 up_btn.setTypeface(Typeface.createFromAsset(context.getAssets(), "octicons.ttf"));
                 up_btn.setText("\uf03d");
                 up_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                       if (ResceivdData.get().ExecutorPages.size() > ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage) + 1)
-                            ResceivdData.get().SelectedExecutorPage = ResceivdData.get().ExecutorPages.get(ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage) + 1);
-                        LoadExecutors();
+                       if (ReceivedData.get().ExecutorPages.size() > ReceivedData.get().ExecutorPages.indexOf(ReceivedData.get().SelectedExecutorPage) + 1) {
+                           ReceivedData.get().SelectedExecutorPage = ReceivedData.get().ExecutorPages.get(ReceivedData.get().ExecutorPages.indexOf(ReceivedData.get().SelectedExecutorPage) + 1);
+                       }
+
+                       LoadExecutors();
                     }
                 });
                 down_btn = (Button) view.findViewById(R.id.executorPageDown_btn);
                 down_btn.setTypeface(Typeface.createFromAsset(context.getAssets(), "octicons.ttf"));
                 down_btn.setText("\uf03f");
+
                 down_btn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (0 <= ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage) - 1)
-                            ResceivdData.get().SelectedExecutorPage = ResceivdData.get().ExecutorPages.get(ResceivdData.get().ExecutorPages.indexOf(ResceivdData.get().SelectedExecutorPage) - 1);
+                        if (0 <= ReceivedData.get().ExecutorPages.indexOf(ReceivedData.get().SelectedExecutorPage) - 1)
+                            ReceivedData.get().SelectedExecutorPage = ReceivedData.get().ExecutorPages.get(ReceivedData.get().ExecutorPages.indexOf(ReceivedData.get().SelectedExecutorPage) - 1);
                         LoadExecutors();
                     }
                 });
+
                 name_label = (TextView) view.findViewById(R.id.executorPageName);
                 LinearLayout layout = new LinearLayout(context);
                 layout.setOrientation(LinearLayout.VERTICAL);
                 layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
             }
+
             hsview = (ExecuterPageSliderView) view.findViewById(R.id.horizontalScrollView);
             llview = (ExecuterPageMultitouchLayout) hsview.findViewById(R.id.executor_collection);
-            if(ResceivdData.get().ExecutorPages.size()>0) {LoadExecutors();}
-        } catch (Exception e) {
+            if(ReceivedData.get().ExecutorPages.size()>0) {
+                LoadExecutors();
+            }
+        }
+        catch (Exception e) {
             Log.w("", e.getStackTrace().toString());
             DMXControlApplication.SaveLog();
         }
     }
 
     public void LoadExecutors() {
-        if (ResceivdData.get().SelectedExecutorPage == null) {
-            ResceivdData.get().SelectedExecutorPage = ResceivdData.get().ExecutorPages.get(0);
+        if (ReceivedData.get().SelectedExecutorPage == null) {
+            ReceivedData.get().SelectedExecutorPage = ReceivedData.get().ExecutorPages.get(0);
         }
-        name_label.setText(ResceivdData.get().SelectedExecutorPage.getName());
+
+        name_label.setText(ReceivedData.get().SelectedExecutorPage.getName());
+
         if (executors == null) {
             executors = new ArrayList<ExecutorView>();
-            for (int i = 0; i < ResceivdData.get().Executors.size(); i++) {
-                ExecutorView newView = new ExecutorView(llview.getContext(), ResceivdData.get().Executors.get(i));
+
+            for (int i = 0; i < ReceivedData.get().Executors.size(); i++) {
+                ExecutorView newView = new ExecutorView(llview.getContext(), ReceivedData.get().Executors.get(i));
                 executors.add(newView);
                 llview.addView(newView);
 
                 //executors.get(i).Resice();
             }
-        } else if (executors.size() != ResceivdData.get().Executors.size()) {
-            for (int i = 0; i < ResceivdData.get().Executors.size(); i++) {
+        }
+        else if (executors.size() != ReceivedData.get().Executors.size()) {
+
+            for (int i = 0; i < ReceivedData.get().Executors.size(); i++) {
                 if (executors.size() < i) {
-                    if (!ResceivdData.get().Executors.contains(executors.get(i).getEntityExecutor())) {
-                        ExecutorView newView = new ExecutorView(llview.getContext(), ResceivdData.get().Executors.get(i));
+                    if (!ReceivedData.get().Executors.contains(executors.get(i).getEntityExecutor())) {
+                        ExecutorView newView = new ExecutorView(llview.getContext(), ReceivedData.get().Executors.get(i));
                         executors.add(newView);
                         llview.addView(newView);
                     }
-                } else {
-                    ExecutorView newView = new ExecutorView(llview.getContext(), ResceivdData.get().Executors.get(i));
+                }
+                else {
+                    ExecutorView newView = new ExecutorView(llview.getContext(), ReceivedData.get().Executors.get(i));
                     executors.add(newView);
                     llview.addView(newView);
                 }
                 //executors.get(i).Resice();
             }
-        } else {
+        }
+        else {
             for (int i = 0; i < executors.size(); i++) {
                 //llview.addView(executors.get(i));
             }
         }
+
         llview.removeAllViews();
+
         for (int i = 0; i <executors.size() ; i++) {
-             if(ResceivdData.get().SelectedExecutorPage.getExecutors().contains(executors.get(i).getEntityExecutor().guid)){
+             if(ReceivedData.get().SelectedExecutorPage.getExecutors().contains(executors.get(i).getEntityExecutor().guid)){
                  llview.addView(executors.get(i));
              }
         }
+
         hsview.setEnabled(false);
         llview.executorPage = this;
     }
 
     public void Resize() {
-        if (executors != null)
-        for (int i = 0; i < executors.size(); i++) {
-            executors.get(i).Resize();
+        if (executors != null) {
+            for (int i = 0; i < executors.size(); i++) {
+                executors.get(i).Resize();
+            }
         }
     }
+
     public View getView() {
         return view;
     }
+
     public ExecuterPageSliderView getExecuterPageSliderView() {
         return hsview;
     }
+
     public void SetParentActivity(Activity parent) {
-        if (executors != null)
+        if (executors != null) {
             for (int i = 0; i < executors.size(); i++) {
                 executors.get(i).parentActivity = parent;
             }
+        }
     }
 
     public ArrayList<ExecutorView> getExecutors() {
