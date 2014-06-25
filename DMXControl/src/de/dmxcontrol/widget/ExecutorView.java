@@ -80,7 +80,8 @@ public class ExecutorView extends LinearLayout {
                 alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String str = input.getEditableText().toString();
-                        mExecutor.setName(str);
+                        mExecutor.setName(str,false);
+                        textView.setText(mExecutor.getName());
                         Toast.makeText(Context, str, Toast.LENGTH_LONG).show();
                     }
                 });

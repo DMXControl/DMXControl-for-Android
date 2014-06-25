@@ -12,13 +12,14 @@ public class GroupCollection implements Collection<EntityGroup> {
     private ArrayList<EntityGroup> list= new ArrayList<EntityGroup>();
 
     public boolean add(EntityGroup object) {
+        if(object==null){return false;}
         if(!contains(object)) {
             return list.add(object);
         }
         else {
             EntityGroup obj=list.get(indexOf(object));
             obj.setId(object.getId());
-            obj.setName(object.getName());
+            obj.setName(object.getName(),true);
             obj.setImage(object.getImageName());
         return false;
         }
@@ -58,7 +59,7 @@ public class GroupCollection implements Collection<EntityGroup> {
 
     public int indexOf(Object object) {
         for (int i = 0; i <size() ; i++) {
-            if(((EntityDevice)object).guid.equals(list.get(i).guid)) {
+            if(((EntityGroup)object).guid.equals(list.get(i).guid)){
                 return i;
             }
         }
@@ -79,7 +80,7 @@ public class GroupCollection implements Collection<EntityGroup> {
         int out=Integer.MIN_VALUE;
 
         for (int i = 0; i <size() ; i++) {
-            if(((EntityDevice)object).guid.equals(list.get(i).guid)) {
+            if(((EntityGroup)object).guid.equals(list.get(i).guid)){
                 out = i;
             }
         }

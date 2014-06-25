@@ -12,6 +12,7 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
     private ArrayList<EntityExecutorPage> list= new ArrayList<EntityExecutorPage>();
 
     public boolean add(EntityExecutorPage object) {
+        if(object==null){return false;}
         if(!contains(object)) {
             return list.add(object);
         }
@@ -19,7 +20,7 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
             try {
                 EntityExecutorPage obj=list.get(indexOf(object));
                 obj.setId(object.getId());
-                obj.setName(object.getName());
+                obj.setName(object.getName(), true);
                 obj.setImage(object.getImageName());
                 obj.setExecutorGUIDs(object.getExecutorGUIDs());
             }

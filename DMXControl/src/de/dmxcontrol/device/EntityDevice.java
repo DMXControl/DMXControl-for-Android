@@ -27,16 +27,30 @@
 
 package de.dmxcontrol.device;
 
-import java.lang.String;
+import android.util.Log;
 
+import org.json.JSONObject;
+
+import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.EntityManager.Type;
 
 //This is One Device
 public class EntityDevice extends Entity {
     public final static String defaultDeviceIcon = "device_new";
+    public static String NetworkID="Device";
+    
+    @Override
+    public String getNetworkID() {
+        return NetworkID;
+    }
+
+    @Override
+    public void Send() {
+
+    }
 
     public EntityDevice(int id) {
-        super(id, "Device: " + id, Type.DEVICE);
+        super(id, NetworkID+": " + id, Type.DEVICE);
         mImage = defaultDeviceIcon;
     }
 
@@ -50,44 +64,19 @@ public class EntityDevice extends Entity {
         mImage = image;
     }
 
-    public static EntityDevice Receive(byte[]  message) {
-
-        int pointer = 1;
-
-        String devName = new String(message, pointer + 1, message[pointer]);
-        pointer += message[pointer] + 1;
-
-        String devGuid = new String(message, pointer + 1, message[pointer]);
-        pointer += message[pointer] + 1;
-
-        byte[] addressarray = new byte[message[pointer]];
-        pointer++;
-        for (int i = 0; i < addressarray.length; i++) {
-            addressarray[i] = message[pointer];
-            pointer++;
+    public static Entity Receive(JSONObject o) {
+        EntityDevice entity=null;
+        try {
+            if (o.getString("Type").equals(NetworkID)) {
+                entity = new EntityDevice(o.getInt("Number"), o.getString("Name"),o.getString("Image"));
+                entity.guid=o.getString("GUID");
+            }
         }
-
-        byte[] addresscountarray = new byte[message[pointer]];
-        pointer++;
-        for (int i = 0; i < addresscountarray.length; i++) {
-            addresscountarray[i] = message[pointer];
-            pointer++;
+        catch(Exception e)
+        {
+            Log.e("UDP Listener", e.getMessage());
+            DMXControlApplication.SaveLog();
         }
-
-        String iconname = new String(message, pointer + 1, message[pointer]);
-        pointer += message[pointer] + 1;
-
-        byte[] numberarray = new byte[message[pointer]];
-        int number = 0;
-        pointer++;
-        for (int i = 0; i < numberarray.length; i++) {
-            numberarray[i] = message[pointer];
-            number += (10 ^ (numberarray.length - i)) * numberarray[i];
-            pointer++;
-        }
-
-        EntityDevice entity = new EntityDevice(number, devName, iconname);
-        entity.guid = devGuid;
         return entity;
     }
 }

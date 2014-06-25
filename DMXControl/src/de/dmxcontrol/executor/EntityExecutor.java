@@ -27,13 +27,18 @@
 
 package de.dmxcontrol.executor;
 
+import android.util.Log;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
+import de.dmxcontrol.android.R;
+import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager.Type;
 import de.dmxcontrol.network.UDP.Reader;
-import de.dmxcontrol.network.UDP.Sender;
 
 //This is One Executor
 public class EntityExecutor extends Entity {
@@ -44,6 +49,12 @@ public class EntityExecutor extends Entity {
     private boolean doStop;
     private boolean doBreakBack;
     private boolean flash;
+
+    public static String NetworkID="Executor";
+    @Override
+    public String getNetworkID() {
+        return NetworkID;
+    }
 
     private ArrayList<ValueChangedListener> ValueChangedListeners = new ArrayList<ValueChangedListener>();
 
@@ -82,7 +93,7 @@ public class EntityExecutor extends Entity {
     }
 
     public EntityExecutor(int id) {
-        super(id, "Executor: " + id, Type.EXECUTOR);
+        super(id, NetworkID + ": " + id, Type.EXECUTOR);
         mImage = defaultExecuterIcon;
     }
 
@@ -96,157 +107,48 @@ public class EntityExecutor extends Entity {
         mImage = image;
     }
 
-    public EntityExecutor(byte[]  message) {
+    public EntityExecutor(JSONObject o) {
         super(0,"",Type.EXECUTOR);
-        Receive(message);
+        Receive(o);
     }
 
-    public static EntityExecutor Receive(byte[] message) {
-        int pointer = 1;
-
-        String name = new String(message, pointer + 1, message[pointer]);
-        pointer += message[pointer] + 1;
-
-        String guid = new String(message, pointer + 1, message[pointer]);
-        pointer += message[pointer] + 1;
-
-        String svalue = new String(message, pointer + 1, message[pointer]);
-        pointer += message[pointer] + 1;
-
-        String flash = new String(message, pointer + 1, message[pointer]);
-        pointer += message[pointer] + 1;
-
-        byte[] numberarray = new byte[message[pointer]];
-        int number = 0;
-        pointer++;
-        for (int i = 0; i < numberarray.length; i++) {
-            numberarray[i] = message[pointer];
-            number += (10 ^ (numberarray.length - i)) * numberarray[i];
-            pointer++;
+    public static Entity Receive(JSONObject o) {
+        EntityExecutor entity=null;
+        try {
+            if (o.getString("Type").equals(NetworkID)) {
+                entity = new EntityExecutor(o.getInt("Number"), o.getString("Name"));
+                entity.guid=o.getString("GUID");
+                entity.value=Float.parseFloat(o.getString("Value").replace(",", "."));//Float.parseFloat(svalue.replace(",", "."));
+                entity.flash=o.getBoolean("Flash");
+            }
         }
-
-        EntityExecutor entity = new EntityExecutor(number, name);
-        entity.guid=guid;
-        entity.value=Float.parseFloat(svalue.replace(",", "."));
-        entity.flash=Boolean.parseBoolean(flash);
-        message=null;
+        catch(Exception e)
+        {
+            Log.e("UDP Listener", e.getMessage());
+            DMXControlApplication.SaveLog();
+        }
         return entity;
     }
 
     public void Send() {
-        byte[] output,
-                name =this.getName().getBytes(),
-                guid = this.guid.getBytes(),
-                value =(this.value+"").getBytes(),
-                flash = (this.flash+"").replace("f","F").replace("t","T").getBytes(),
-                number = (this.getId()+"").getBytes(),
-                GO = (this.doGO+"").replace("f","F").replace("t","T").getBytes(),
-                BREAKBACK = (this.doBreakBack+"").replace("f","F").replace("t", "T").getBytes(),
-                STOP = (this.doStop+"").replace("f","F").replace("t","T").getBytes(),
-                BREAK = (false+"").replace("f","F").replace("t","T").getBytes(),
-                BACK = (false+"").replace("f","F").replace("t","T").getBytes();
-        this.doGO=false;
-        this.doBreakBack=false;
-        this.doStop=false;
+        try {
+            JSONObject o = new JSONObject();
+            o.put("Type", NetworkID);
+            o.put("GUID", this.guid);
+            o.put("Name", this.getName());
+            o.put("Value", this.value);
+            o.put("Flash", this.flash);
+            o.put("Number", this.getId());
+            if(this.doGO){o.put("GO", true);}
+            if(this.doBreakBack){o.put("BreakBack", true);}
+            if(this.doStop){o.put("Stop", true);}
 
-        output = new byte[1 + 10 +
-                name.length +
-                guid.length +
-                value.length +
-                flash.length +
-                number.length+
-                GO.length+
-                BREAKBACK.length+
-                STOP.length+
-                BREAK.length+
-                BACK.length];
-
-        int position = 0;
-        output[position] = (byte) Sender.Type.EXECUTOR.ordinal();
-        position++;
-
-        output[position] = (byte)name.length;
-        position++;
-        for (int i = 0; i < name.length; i++)
-        {
-            output[position] = name[i];
-            position++;
+            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            return;
         }
+        catch(Exception e) {
 
-        output[position] = (byte)guid.length;
-        position++;
-        for (int i = 0; i < guid.length; i++)
-        {
-            output[position] = guid[i];
-            position++;
         }
-
-        output[position] = (byte)value.length;
-        position++;
-        for (int i = 0; i < value.length; i++)
-        {
-            output[position] = value[i];
-            position++;
-        }
-
-        output[position] = (byte)flash.length;
-        position++;
-        for (int i = 0; i < flash.length; i++)
-        {
-            output[position] = flash[i];
-            position++;
-        }
-
-        output[position] = (byte)number.length;
-        position++;
-        for (int i = 0; i < number.length; i++)
-        {
-            output[position] = number[i];
-            position++;
-        }
-
-        output[position] = (byte)GO.length;
-        position++;
-        for (int i = 0; i < GO.length; i++)
-        {
-            output[position] = GO[i];
-            position++;
-        }
-
-        output[position] = (byte)BREAKBACK.length;
-        position++;
-        for (int i = 0; i < BREAKBACK.length; i++)
-        {
-            output[position] = BREAKBACK[i];
-            position++;
-        }
-
-        output[position] = (byte)STOP.length;
-        position++;
-        for (int i = 0; i < STOP.length; i++)
-        {
-            output[position] = STOP[i];
-            position++;
-        }
-
-        output[position] = (byte)BREAK.length;
-        position++;
-        for (int i = 0; i < BREAK.length; i++)
-        {
-            output[position] = BREAK[i];
-            position++;
-        }
-
-        output[position] = (byte)BACK.length;
-        position++;
-        for (int i = 0; i < BACK.length; i++)
-        {
-            output[position] = BACK[i];
-            position++;
-        }
-
-        Prefs.get().getUDPSender().addSendData(output);
-        output=null;
     }
     public static void SendAllRequest(){
         byte[] output=new byte[4];
@@ -270,6 +172,7 @@ public class EntityExecutor extends Entity {
         else if(!isEqual&&!fromReader)
             Send();
     }
+    
     public float getValue() {
         return value;
     }
@@ -283,11 +186,13 @@ public class EntityExecutor extends Entity {
             }
             return;
         }
-        if(!isEqual&&!fromReader)
-        Send();
+        if(!isEqual&&!fromReader) {
+            Send();
+        }
         //Prefs.get().getUDPSender().addSendData(new byte[]{(byte)0xff});
         //Send();
     }
+    
     public boolean getFlash() {
         return flash;
     }

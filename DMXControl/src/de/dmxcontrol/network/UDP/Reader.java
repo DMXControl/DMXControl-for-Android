@@ -2,6 +2,8 @@ package de.dmxcontrol.network.UDP;
 
 import android.util.Log;
 
+import org.json.JSONObject;
+
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.ArrayList;
@@ -18,7 +20,6 @@ import de.dmxcontrol.network.ReceivedData;
  */
 
 public class Reader extends Thread {
-
     private boolean bKeepRunning = true;
 
     private DatagramSocket androidApp;
@@ -95,30 +96,26 @@ public class Reader extends Thread {
             message = new String(lmessage, 0, packet.getLength());
 
             if (message.length() > 0) {
+                //Type t=Type.convert(lmessage[0]);
 
-                Type t = Type.convert(lmessage[0]);
+                JSONObject o = new JSONObject(message);
+                String type=o.getString("Type");
+                if (type.equals("Device")) {
+                    ReceivedData.get().Devices.add((EntityDevice) EntityDevice.Receive(o));
+                }
+                else if (type.equals("DeviceGroup")) {
+                    ReceivedData.get().Groups.add((EntityGroup) EntityGroup.Receive(o));
+                }
+                else if (type.equals("Preset")) {//entity=  EntityPreset(lmessage);
+                    //ReceivedData.get().Presets.add((EntityPreset) EntityPreset.Receive(o));
+                }
+                else if (type.equals("Executor")) {
+                    ReceivedData.get().Executors.add((EntityExecutor)EntityExecutor.Receive(o));
 
-                switch(t){
-                    case DEVICE:
-                        ReceivedData.get().Devices.add(EntityDevice.Receive(lmessage));
-                        break;
-                    case DEVICECOUNT:
-                        break;
-                    case GROUP:
-                        ReceivedData.get().Groups.add(EntityGroup.Receive(lmessage));
-                        break;
-                    case GROUPCOUNT:
-                        break;
-                    case PRESET:
-                        break;
-                    case EXECUTOR:
-                        ReceivedData.get().Executors.add(EntityExecutor.Receive(lmessage));
-                        break;
-                    case EXECUTORPAGE:
-                        ReceivedData.get().ExecutorPages.add(EntityExecutorPage.Receive(lmessage));
-                        break;
-                    default:
-                        break;
+                }
+                else if (type.equals("ExecutorPage")) {
+                    ReceivedData.get().ExecutorPages.add((EntityExecutorPage)EntityExecutorPage.Receive(o));
+
                 }
 
                 for (NewsUpdateListener listener : listeners) {
