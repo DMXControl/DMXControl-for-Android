@@ -35,13 +35,19 @@ import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.EntityManager.Type;
 
 public class EntityGroup extends Entity {
-    private final static String defaultDeviceGroupIcon = "device_group_new";
-    public static String NetworkID="DeviceGroup";
+    public final static String defaultDeviceGroupIcon = "device_group_new";
+    public static String NetworkID = "DeviceGroup";
     
     @Override
     public String getNetworkID() {
         return NetworkID;
     }
+
+    @Override
+    public void Send() {
+
+    }
+
     public EntityGroup(int id) {
         super(id, NetworkID + ": " + id, Type.GROUP);
         mImage = defaultDeviceGroupIcon;
@@ -57,17 +63,12 @@ public class EntityGroup extends Entity {
         mImage = image;
     }
 
-    public EntityGroup(JSONObject o) {
-        super(0,"",Type.GROUP);
-        Receive(o);
-    }
-
     public static EntityGroup Receive(JSONObject o) {
-        EntityGroup entity=null;
+        EntityGroup entity = null;
         try {
             if (o.getString("Type").equals(NetworkID)) {
-                entity = new EntityGroup(o.getInt("Number"), o.getString("Name"),o.getString("Image"));
-                entity.guid=o.getString("GUID");
+                entity = new EntityGroup(o.getInt("Number"), o.getString("Name"), o.getString("Image"));
+                entity.guid = o.getString("GUID");
             }
         }
         catch(Exception e)
@@ -76,10 +77,5 @@ public class EntityGroup extends Entity {
             DMXControlApplication.SaveLog();
         }
         return entity;
-    }
-
-    @Override
-    public void Send() {
-
     }
 }

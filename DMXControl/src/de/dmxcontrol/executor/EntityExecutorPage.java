@@ -42,30 +42,24 @@ import de.dmxcontrol.network.UDP.Reader;
 
 //This is One Executor
 public class EntityExecutorPage extends Entity {
-    public static String defaultExecuterPageIcon = "device_new";
-    public static String NetworkID="ExecutorPage";
-
-    private ArrayList<String>ExecutorGUIDs;
+    public final static String defaultExecuterPageIcon = "device_new";
+    public final static String NetworkID = "ExecutorPage";
     
     @Override
     public String getNetworkID() {
         return NetworkID;
     }
+
+
+    private ArrayList<String>ExecutorGUIDs;
+
     public ExecutorCollection getExecutors() {
-        ExecutorCollection Executors=new ExecutorCollection();
+        ExecutorCollection Executors = new ExecutorCollection();
+
         for (int i = 0; i <ExecutorGUIDs.size() ; i++) {
             Executors.add(ReceivedData.get().Executors.get(ExecutorGUIDs.get(i)));
         }
         return Executors;
-    }
-
-    public static void SendAllRequest(){
-        byte[] output=new byte[4];
-        output[0]=(byte) Reader.Type.EXECUTORPAGE.ordinal();
-        output[1]='A';
-        output[2]='L';
-        output[3]='L';
-        Prefs.get().getUDPSender().addSendData(output);
     }
 
     public void setExecutorGUIDs(ArrayList<String> executorGUIDs) {
@@ -75,6 +69,7 @@ public class EntityExecutorPage extends Entity {
     public ArrayList<String> getExecutorGUIDs() {
         return ExecutorGUIDs;
     }
+
 
     public EntityExecutorPage(int id) {
         super(id, NetworkID + ": " + id, Type.EXECUTOR);
@@ -91,27 +86,26 @@ public class EntityExecutorPage extends Entity {
         mImage = image;
     }
 
-    public EntityExecutorPage(JSONObject o) {
-        super(0,"",Type.EXECUTOR);
-        Receive(o);
-    }
 
-    public static Entity Receive(JSONObject o) {
-        EntityExecutorPage entity=null;
+    public static EntityExecutorPage Receive(JSONObject o) {
+        EntityExecutorPage entity = null;
         try {
             if (o.getString("Type").equals(NetworkID)) {
                 entity = new EntityExecutorPage(o.getInt("Number"), o.getString("Name"));
-                entity.guid=o.getString("GUID");
-                ArrayList<String>executors= new ArrayList<String>();
+                entity.guid = o.getString("GUID");
+
+                ArrayList<String>executors = new ArrayList<String>();
+
                 for (int i = 0; i < o.getJSONArray("Executors").length() ; i++) {
                     executors.add(o.getJSONArray("Executors").getString(i));
                 }
+
                 entity.setExecutorGUIDs(executors);
             }
         }
         catch(Exception e)
         {
-            Log.e("UDP Listener", e.getMessage());
+            Log.e("UDP Listener: ", e.getMessage());
             DMXControlApplication.SaveLog();
         }
         return entity;
@@ -129,7 +123,17 @@ public class EntityExecutorPage extends Entity {
             return;
         }
         catch(Exception e) {
-
+            Log.e("UDP Send: ", e.getMessage());
+            DMXControlApplication.SaveLog();
         }
+    }
+
+    public static void SendAllRequest(){
+        byte[] output = new byte[4];
+        output[0] = (byte) Reader.Type.EXECUTORPAGE.ordinal();
+        output[1] = 'A';
+        output[2] = 'L';
+        output[3] = 'L';
+        Prefs.get().getUDPSender().addSendData(output);
     }
 }

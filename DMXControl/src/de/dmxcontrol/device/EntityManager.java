@@ -95,62 +95,17 @@ public class EntityManager {
 
     private void createMockDevices() {
 
-        EntityGroup groupZero = new EntityGroup(1);
-        addEntity(groupZero);
+        for(int i = 1; i < 5; i++)
+        {
+            addEntity(new EntityGroup(i));
+        }
 
-        EntityGroup groupOne = new EntityGroup(2);
-        addEntity(groupOne);
+        for(int i = 1; i < 43; i++)
+        {
+            addEntity(new EntityDevice(i));
+        }
 
-        EntityGroup groupTwo = new EntityGroup(3);
-        addEntity(groupTwo);
-
-        EntityGroup groupThree = new EntityGroup(4);
-        addEntity(groupThree);
-
-        addEntity(new EntityDevice(1, ""));
-        addEntity(new EntityDevice(2, ""));
-        addEntity(new EntityDevice(3, ""));
-        addEntity(new EntityDevice(4, ""));
-        addEntity(new EntityDevice(5, ""));
-        addEntity(new EntityDevice(6, ""));
-        addEntity(new EntityDevice(7, ""));
-        addEntity(new EntityDevice(8, ""));
-        addEntity(new EntityDevice(9, ""));
-        addEntity(new EntityDevice(10, ""));
-        addEntity(new EntityDevice(11, ""));
-        addEntity(new EntityDevice(12, ""));
-        addEntity(new EntityDevice(13, ""));
-        addEntity(new EntityDevice(14, ""));
-        addEntity(new EntityDevice(15, ""));
-        addEntity(new EntityDevice(16, ""));
-        addEntity(new EntityDevice(17, ""));
-        addEntity(new EntityDevice(18, ""));
-        addEntity(new EntityDevice(19, ""));
-        addEntity(new EntityDevice(20, ""));
-        addEntity(new EntityDevice(21, ""));
-        addEntity(new EntityDevice(22, ""));
-        addEntity(new EntityDevice(23, ""));
-        addEntity(new EntityDevice(24, ""));
-        addEntity(new EntityDevice(25, ""));
-        addEntity(new EntityDevice(26, ""));
-        addEntity(new EntityDevice(27, ""));
-        addEntity(new EntityDevice(28, ""));
-        addEntity(new EntityDevice(29, ""));
-        addEntity(new EntityDevice(30, ""));
-        addEntity(new EntityDevice(31, ""));
-        addEntity(new EntityDevice(32, ""));
-        addEntity(new EntityDevice(33, ""));
-        addEntity(new EntityDevice(34, ""));
-        addEntity(new EntityDevice(35, ""));
-        addEntity(new EntityDevice(36, ""));
-        addEntity(new EntityDevice(37, ""));
-        addEntity(new EntityDevice(38, ""));
-        addEntity(new EntityDevice(39, ""));
-        addEntity(new EntityDevice(40, ""));
-        addEntity(new EntityDevice(41, ""));
-        addEntity(new EntityDevice(42, ""));
-
-        addEntity(new EntityExecutor(11,""));
+        addEntity(new EntityExecutor(11));
     }
 
     public EntitySelection getEntitySelection(int id) {

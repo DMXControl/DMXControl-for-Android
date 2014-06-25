@@ -43,6 +43,8 @@ import de.dmxcontrol.network.UDP.Reader;
 //This is One Executor
 public class EntityExecutor extends Entity {
     public final static String defaultExecuterIcon = "device_new";
+    public final static String NetworkID = "Executor";
+
     private float value;
     private boolean toggle;
     private boolean doGO;
@@ -50,11 +52,11 @@ public class EntityExecutor extends Entity {
     private boolean doBreakBack;
     private boolean flash;
 
-    public static String NetworkID="Executor";
     @Override
     public String getNetworkID() {
         return NetworkID;
     }
+
 
     private ArrayList<ValueChangedListener> ValueChangedListeners = new ArrayList<ValueChangedListener>();
 
@@ -66,6 +68,7 @@ public class EntityExecutor extends Entity {
         void onValueChanged(float value);
     }
 
+
     private ArrayList<FlashChangedListener> FlashChangedListeners = new ArrayList<FlashChangedListener>();
 
     public void setFlashChangedListener(FlashChangedListener listener) {
@@ -75,6 +78,7 @@ public class EntityExecutor extends Entity {
     public interface FlashChangedListener {
         void onFlashChanged(float value);
     }
+
 
     public void BreakBack() {
         doBreakBack = true;
@@ -88,10 +92,48 @@ public class EntityExecutor extends Entity {
         doStop = true;
         Send();
     }
-
     public boolean getToggle() {
         return toggle;
     }
+
+    public void setValue(float value,boolean fromReader) {
+        int comp = Float.compare(this.value, value);
+        boolean isEqual = 0 == comp;
+        this.value = value;
+        if(!isEqual&&fromReader) {
+            for (ValueChangedListener listener : ValueChangedListeners) {
+                listener.onValueChanged(value);
+            }
+            return;
+        }
+        else if(!isEqual&&!fromReader) {
+            Send();
+        }
+    }
+    public float getValue() {
+        return value;
+    }
+
+    public void setFlash(boolean flash,boolean fromReader) {
+        boolean isEqual=this.flash==flash;
+        this.flash = flash;
+
+        if(!isEqual&&fromReader) {
+            for (FlashChangedListener listener : FlashChangedListeners) {
+                listener.onFlashChanged(value);
+            }
+            return;
+        }
+        if(!isEqual&&!fromReader) {
+            Send();
+        }
+        //Prefs.get().getUDPSender().addSendData(new byte[]{(byte)0xff});
+        //Send();
+    }
+    public boolean getFlash() {
+        return flash;
+    }
+
 
     public EntityExecutor(int id) {
         super(id, NetworkID + ": " + id, Type.EXECUTOR);
@@ -108,19 +150,15 @@ public class EntityExecutor extends Entity {
         mImage = image;
     }
 
-    public EntityExecutor(JSONObject o) {
-        super(0,"",Type.EXECUTOR);
-        Receive(o);
-    }
 
-    public static Entity Receive(JSONObject o) {
-        EntityExecutor entity=null;
+    public static EntityExecutor Receive(JSONObject o) {
+        EntityExecutor entity = null;
         try {
             if (o.getString("Type").equals(NetworkID)) {
                 entity = new EntityExecutor(o.getInt("Number"), o.getString("Name"));
-                entity.guid=o.getString("GUID");
-                entity.value=Float.parseFloat(o.getString("Value").replace(",", "."));//Float.parseFloat(svalue.replace(",", "."));
-                entity.flash=o.getBoolean("Flash");
+                entity.guid = o.getString("GUID");
+                entity.value = Float.parseFloat(o.getString("Value").replace(",", "."));//Float.parseFloat(svalue.replace(",", "."));
+                entity.flash = o.getBoolean("Flash");
             }
         }
         catch(Exception e)
@@ -148,55 +186,18 @@ public class EntityExecutor extends Entity {
             return;
         }
         catch(Exception e) {
-
+            Log.e("UDP Send: ", e.getMessage());
+            DMXControlApplication.SaveLog();
         }
     }
+
     public static void SendAllRequest(){
-        byte[] output=new byte[4];
-        output[0]=(byte) Reader.Type.EXECUTOR.ordinal();
-        output[1]='A';
-        output[2]='L';
-        output[3]='L';
+        byte[] output = new byte[4];
+        output[0] = (byte) Reader.Type.EXECUTOR.ordinal();
+        output[1] = 'A';
+        output[2] = 'L';
+        output[3] = 'L';
         Prefs.get().getUDPSender().addSendData(output);
     }
 
-    public void setValue(float value,boolean fromReader) {
-        int comp = Float.compare(this.value, value);
-        boolean isEqual = 0 == comp;
-        this.value = value;
-        if(!isEqual&&fromReader) {
-            for (ValueChangedListener listener : ValueChangedListeners) {
-                listener.onValueChanged(value);
-            }
-            return;
-        }
-        else if(!isEqual&&!fromReader) {
-            Send();
-        }
-    }
-    
-    public float getValue() {
-        return value;
-    }
-
-    public void setFlash(boolean flash,boolean fromReader) {
-        boolean isEqual=this.flash==flash;
-        this.flash = flash;
-        
-        if(!isEqual&&fromReader) {
-            for (FlashChangedListener listener : FlashChangedListeners) {
-                listener.onFlashChanged(value);
-            }
-            return;
-        }
-        if(!isEqual&&!fromReader) {
-            Send();
-        }
-        //Prefs.get().getUDPSender().addSendData(new byte[]{(byte)0xff});
-        //Send();
-    }
-    
-    public boolean getFlash() {
-        return flash;
-    }
 }

@@ -108,6 +108,7 @@ public class EntitySelection implements OnModelListener {
         return mLookups.get(t.ordinal());
     }
 
+
     public void addEntity(Entity entity) {
         Type t = entity.getType();
 
@@ -151,9 +152,11 @@ public class EntitySelection implements OnModelListener {
         notifyListener();
     }
 
+
     public boolean contains(Type type, int id) {
         return getLookup(type).containsKey(id);
     }
+
 
     private Ranges getRanges(Type t) {
         return mRanges.get(t.ordinal());
@@ -174,6 +177,7 @@ public class EntitySelection implements OnModelListener {
     void createRanges(List<Entity> entities, Type type) {
         getRanges(type).calcRanges(entities, getEntities(type));
     }
+
 
     public void addListener(OnEntitySelectionListener listener) {
         mListeners.put(listener, true);
