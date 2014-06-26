@@ -261,6 +261,8 @@ public class EntitySelection implements OnModelListener {
             }
         }
 
+        scan.close();
+
         Log.d(TAG, " Done: " + setToString(resultSet));
         return resultSet;
     }
