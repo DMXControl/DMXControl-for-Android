@@ -68,15 +68,21 @@ public class DMXControlApplication extends Application {
         try {
             super.onCreate();
 
+            // get Prefences and start new udp networking
             prefs = Prefs.get();
+            // load saved preferences
             prefs.setPreferences(this);
+
+            // Init OSC Service
             ServiceFrontend.initOnce(this);
 
             FileManager.get(this);
 
+            // Send request to Server to get all Executers and ExecuterPages
             EntityExecutor.SendAllRequest();
             EntityExecutorPage.SendAllRequest();
 
+            // Start OSC Service if offline isn't set in prefs
             if (!prefs.getOffline()){
                 ServiceFrontend.get().connect();
             }

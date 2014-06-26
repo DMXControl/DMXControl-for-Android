@@ -9,7 +9,7 @@ import java.util.Iterator;
  */
 public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
 
-    private ArrayList<EntityExecutorPage> list= new ArrayList<EntityExecutorPage>();
+    private ArrayList<EntityExecutorPage> list = new ArrayList<EntityExecutorPage>();
 
     public boolean add(EntityExecutorPage object) {
         if(object==null){return false;}

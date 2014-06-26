@@ -112,7 +112,7 @@ public class DeviceAdapter extends BaseAdapter {
         }
 
         Entity ent = ReceivedData.get().Devices.get(index);
-        if(ent==null)
+        if(ent == null)
         {
             //imageView.setClickable(false);
             imageView.setVisibility(View.INVISIBLE);
