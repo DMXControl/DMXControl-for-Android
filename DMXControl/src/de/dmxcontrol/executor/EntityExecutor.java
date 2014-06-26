@@ -37,7 +37,6 @@ import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager.Type;
-import de.dmxcontrol.network.UDP.Reader;
 
 //This is One Executor
 public class EntityExecutor extends Entity {
@@ -147,6 +146,7 @@ public class EntityExecutor extends Entity {
         return flash;
     }
 
+    public EntityExecutor(){}
 
     public EntityExecutor(int id) {
         super(id, NetworkID + ": " + id, Type.EXECUTOR);
@@ -188,6 +188,10 @@ public class EntityExecutor extends Entity {
         return entity;
     }
 
+    public static void SendRequest(String request) {
+        SendRequest(EntityExecutor.class, request);
+    }
+
     public void Send() {
         try {
             JSONObject o = new JSONObject();
@@ -210,13 +214,6 @@ public class EntityExecutor extends Entity {
         }
     }
 
-    public static void SendAllRequest(){
-        byte[] output = new byte[4];
-        output[0] = (byte) Reader.Type.EXECUTOR.ordinal();
-        output[1] = 'A';
-        output[2] = 'L';
-        output[3] = 'L';
-        Prefs.get().getUDPSender().addSendData(output);
-    }
+
 
 }

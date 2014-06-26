@@ -31,17 +31,24 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Environment;
+import android.util.Log;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import de.dmxcontrol.android.R;
+import de.dmxcontrol.app.DMXControlApplication;
+import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.EntityManager.Type;
 
 public abstract class Entity implements IPropertyContainer {
     private final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
     private final static String IconStorageName = StoragePath + File.separator + "Icons";
+    public static String NetworkID = new String();
+    public static String Request_All = "ALL";
 
     // Replace this icon with something else
     private final static String defaultIcon = "icon";
@@ -67,7 +74,7 @@ public abstract class Entity implements IPropertyContainer {
         void onNameChanged(String name);
     }
 
-
+    protected Entity(){}
     public Entity(int id, String name, Type type) {
         mId = id;
         mType = type;
@@ -141,4 +148,15 @@ public abstract class Entity implements IPropertyContainer {
     public abstract String getNetworkID();
 
     public abstract void Send();
+    public static void SendRequest(Class entity,String request) {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("Type", ((Entity) entity.newInstance()).getNetworkID());
+            o.put("Request", request);
+            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+        } catch (Exception e) {
+            Log.e("SendAllRequest: ", e.getMessage());
+            DMXControlApplication.SaveLog();
+        }
+    }
 }

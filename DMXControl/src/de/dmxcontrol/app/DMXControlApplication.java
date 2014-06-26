@@ -40,10 +40,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
 
+import de.dmxcontrol.cuelist.EntityCuelist;
+import de.dmxcontrol.device.Entity;
+import de.dmxcontrol.device.EntityDevice;
+import de.dmxcontrol.device.EntityGroup;
 import de.dmxcontrol.executor.EntityExecutor;
 import de.dmxcontrol.executor.EntityExecutorPage;
 import de.dmxcontrol.file.FileManager;
 import de.dmxcontrol.network.ServiceFrontend;
+import de.dmxcontrol.preset.EntityPreset;
 
 public class DMXControlApplication extends Application {
     private final static String TAG = "dmxcontrol";
@@ -74,8 +79,12 @@ public class DMXControlApplication extends Application {
 
             FileManager.get(this);
 
-            EntityExecutor.SendAllRequest();
-            EntityExecutorPage.SendAllRequest();
+            EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All);
+            EntityGroup.SendRequest(EntityGroup.class, Entity.Request_All);
+            EntityExecutor.SendRequest(EntityExecutor.class, Entity.Request_All);
+            EntityExecutorPage.SendRequest(EntityExecutorPage.class, Entity.Request_All);
+            EntityCuelist.SendRequest(EntityCuelist.class, Entity.Request_All);
+            EntityPreset.SendRequest(EntityPreset.class, Entity.Request_All);
 
             if (!prefs.getOffline()){
                 ServiceFrontend.get().connect();

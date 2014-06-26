@@ -46,6 +46,8 @@ public class EntityPreset extends Entity {
         return NetworkID;
     }
 
+    public EntityPreset(){}
+
     public EntityPreset(int id) {
         super(id, NetworkID + ": " + id, null);
         mImage = defaultExecuterPageIcon;
