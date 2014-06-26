@@ -138,7 +138,7 @@ public class Reader extends Thread {
 
         }
         catch (Throwable e) {
-            Log.e("Can't receive KernelPing", e.getMessage());
+            Log.e("Can't receive Android app data packet ", e.getMessage());
             run();
         }
     }
