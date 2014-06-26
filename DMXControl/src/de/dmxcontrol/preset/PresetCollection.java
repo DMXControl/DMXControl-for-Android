@@ -1,4 +1,4 @@
-package de.dmxcontrol.device;
+package de.dmxcontrol.preset;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -7,29 +7,34 @@ import java.util.Iterator;
 /**
  * Created by Qasi on 15.06.2014.
  */
-public class GroupCollection implements Collection<EntityGroup> {
+public class PresetCollection implements Collection<EntityPreset> {
 
-    private ArrayList<EntityGroup> list = new ArrayList<EntityGroup>();
+    private ArrayList<EntityPreset> list= new ArrayList<EntityPreset>();
 
-    public boolean add(EntityGroup object) {
+    public boolean add(EntityPreset object) {
         if(object==null){return false;}
         if(!contains(object)) {
             return list.add(object);
         }
         else {
-            EntityGroup obj=list.get(indexOf(object));
-            obj.setId(object.getId());
-            obj.setName(object.getName(),true);
-            obj.setImage(object.getImageName());
+            try {
+                EntityPreset obj=list.get(indexOf(object));
+                obj.setId(object.getId());
+                obj.setName(object.getName(), true);
+                obj.setImage(object.getImageName());
+            }
+            catch(Exception e){
+                e.toString();
+            }
         return false;
         }
     }
 
-    public boolean addAll(int location, Collection<? extends EntityGroup> collection) {
+    public boolean addAll(int location, Collection<? extends EntityPreset> collection) {
         return list.addAll(location, collection);
     }
 
-    public boolean addAll(Collection<? extends EntityGroup> collection) {
+    public boolean addAll(Collection<? extends EntityPreset> collection) {
         return list.addAll(collection);
     }
 
@@ -40,8 +45,8 @@ public class GroupCollection implements Collection<EntityGroup> {
 
     @Override
     public boolean contains(Object object) {
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityGroup)object).guid.equals(list.get(i).guid)){
+        for (int i = 0; i <size(); i++) {
+            if(((EntityPreset)object).guid.equals(list.get(i).guid)){
                 return true;
             }
         }
@@ -53,13 +58,13 @@ public class GroupCollection implements Collection<EntityGroup> {
         return false;
     }
 
-    public EntityGroup get(int location) {
+    public EntityPreset get(int location) {
         return list.get(location);
     }
 
     public int indexOf(Object object) {
         for (int i = 0; i <size() ; i++) {
-            if(((EntityGroup)object).guid.equals(list.get(i).guid)) {
+            if(((EntityPreset)object).guid.equals(list.get(i).guid)){
                 return i;
             }
         }
@@ -72,22 +77,21 @@ public class GroupCollection implements Collection<EntityGroup> {
     }
 
     @Override
-    public Iterator<EntityGroup> iterator() {
+    public Iterator<EntityPreset> iterator() {
         return null;
     }
 
     public int lastIndexOf(Object object) {
         int out=Integer.MIN_VALUE;
-
         for (int i = 0; i <size() ; i++) {
-            if(((EntityGroup)object).guid.equals(list.get(i).guid)){
+            if(((EntityPreset)object).guid.equals(list.get(i).guid)){
                 out = i;
             }
         }
         return out;
     }
 
-    public EntityGroup remove(int location) {
+    public EntityPreset remove(int location) {
         return list.remove(location);
     }
 

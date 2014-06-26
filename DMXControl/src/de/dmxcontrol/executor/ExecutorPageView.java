@@ -36,7 +36,7 @@ public class ExecutorPageView {
     private ArrayList<ExecutorView> executors;
     private Context Context;
 
-    public ExecutorPageView(int id, String name, Context context) throws Exception {
+    public ExecutorPageView(int id, String name, final Context context) throws Exception {
         try {
             this.Context=context;
             view = View.inflate(context, R.layout.executor_page, null);
@@ -48,6 +48,7 @@ public class ExecutorPageView {
                 @Override
                 public void onClick(View v) {
                     try {
+                        if(ReceivedData.get().ExecutorPages.size()==0){return;}
                         if (ReceivedData.get().ExecutorPages.size() > ReceivedData.get().ExecutorPages.indexOf(ReceivedData.get().SelectedExecutorPage) + 1)
                             ReceivedData.get().SelectedExecutorPage = ReceivedData.get().ExecutorPages.get(ReceivedData.get().ExecutorPages.indexOf(ReceivedData.get().SelectedExecutorPage) + 1);
                         LoadExecutors();
@@ -62,6 +63,7 @@ public class ExecutorPageView {
                 @Override
                 public boolean onLongClick(View v) {
                     try {
+                        if(ReceivedData.get().ExecutorPages.size()==0){return false;}
                         if (ReceivedData.get().ExecutorPages.size() - 1 != ReceivedData.get().ExecutorPages.indexOf(ReceivedData.get().SelectedExecutorPage))
                             ReceivedData.get().SelectedExecutorPage = ReceivedData.get().ExecutorPages.get(ReceivedData.get().ExecutorPages.size() - 1);
                         LoadExecutors();
@@ -80,6 +82,7 @@ public class ExecutorPageView {
                 @Override
                 public void onClick(View v) {
                     try {
+                        if(ReceivedData.get().ExecutorPages.size()==0){return;}
                         if (0 <= ReceivedData.get().ExecutorPages.indexOf(ReceivedData.get().SelectedExecutorPage) - 1)
                             ReceivedData.get().SelectedExecutorPage = ReceivedData.get().ExecutorPages.get(ReceivedData.get().ExecutorPages.indexOf(ReceivedData.get().SelectedExecutorPage) - 1);
                         LoadExecutors();
@@ -94,6 +97,7 @@ public class ExecutorPageView {
                 @Override
                 public boolean onLongClick(View v) {
                     try {
+                        if(ReceivedData.get().ExecutorPages.size()==0){return false;}
                         if (0 != ReceivedData.get().ExecutorPages.indexOf(ReceivedData.get().SelectedExecutorPage))
                             ReceivedData.get().SelectedExecutorPage = ReceivedData.get().ExecutorPages.get(0);
                         LoadExecutors();
@@ -127,6 +131,11 @@ public class ExecutorPageView {
                         AlertDialog alertDialog = alert.create();
                         alertDialog.show();
                         return true;
+                    }
+                    else {
+                        EntityExecutor.SendAllRequest();
+                        EntityExecutorPage.SendAllRequest();
+                        view.invalidate();
                     }
                     return false;
                 }

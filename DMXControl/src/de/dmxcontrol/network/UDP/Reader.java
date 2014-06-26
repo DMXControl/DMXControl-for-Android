@@ -9,11 +9,13 @@ import java.net.DatagramSocket;
 import java.util.ArrayList;
 
 import de.dmxcontrol.app.DMXControlApplication;
+import de.dmxcontrol.cuelist.EntityCuelist;
 import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;
 import de.dmxcontrol.executor.EntityExecutor;
 import de.dmxcontrol.executor.EntityExecutorPage;
 import de.dmxcontrol.network.ReceivedData;
+import de.dmxcontrol.preset.EntityPreset;
 
 /**
  * Created by Qasi on 12.06.2014.
@@ -101,20 +103,22 @@ public class Reader extends Thread {
                 JSONObject o = new JSONObject(message);
                 String type=o.getString("Type");
                 if (type.equals("Device")) {
-                    ReceivedData.get().Devices.add((EntityDevice) EntityDevice.Receive(o));
+                    ReceivedData.get().Devices.add(EntityDevice.Receive(o));
                 }
                 else if (type.equals("DeviceGroup")) {
-                    ReceivedData.get().Groups.add((EntityGroup) EntityGroup.Receive(o));
+                    ReceivedData.get().Groups.add(EntityGroup.Receive(o));
                 }
-                else if (type.equals("Preset")) {//entity=  EntityPreset(lmessage);
-                    //ReceivedData.get().Presets.add((EntityPreset) EntityPreset.Receive(o));
+                else if (type.equals("Preset")) {
+                    ReceivedData.get().Presets.add(EntityPreset.Receive(o));
                 }
                 else if (type.equals("Executor")) {
-                    ReceivedData.get().Executors.add((EntityExecutor)EntityExecutor.Receive(o));
-
+                    ReceivedData.get().Executors.add(EntityExecutor.Receive(o));
                 }
                 else if (type.equals("ExecutorPage")) {
-                    ReceivedData.get().ExecutorPages.add((EntityExecutorPage)EntityExecutorPage.Receive(o));
+                    ReceivedData.get().ExecutorPages.add(EntityExecutorPage.Receive(o));
+                }
+                else if (type.equals("Cuelist")) {
+                    ReceivedData.get().Cuelists.add(EntityCuelist.Receive(o));
                 }
 
                 for (NewsUpdateListener listener : listeners) {

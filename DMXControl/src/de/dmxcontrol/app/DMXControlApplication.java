@@ -42,6 +42,7 @@ import java.io.Writer;
 
 import de.dmxcontrol.executor.EntityExecutor;
 import de.dmxcontrol.executor.EntityExecutorPage;
+import de.dmxcontrol.file.FileManager;
 import de.dmxcontrol.network.ServiceFrontend;
 
 public class DMXControlApplication extends Application {
@@ -71,17 +72,7 @@ public class DMXControlApplication extends Application {
             prefs.setPreferences(this);
             ServiceFrontend.initOnce(this);
 
-            /**try {
-                File Directory = new Directory(StoragePath);
-                if (!Directory.exists()) {
-                    Directory.mkdirs();
-
-                }
-                Directory = new File(IconStorageName);
-                if (!Directory.exists()) {
-                    Directory.mkdirs();
-                }
-            }catch(Exception e){}**/
+            FileManager.get(this);
 
             EntityExecutor.SendAllRequest();
             EntityExecutorPage.SendAllRequest();
@@ -92,7 +83,6 @@ public class DMXControlApplication extends Application {
 
         }
         catch (Exception e) {
-            e.toString();
             Log.w("",DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }

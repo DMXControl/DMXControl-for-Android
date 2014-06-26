@@ -32,13 +32,17 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import de.dmxcontrol.app.DMXControlApplication;
+import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.EntityManager.Type;
 
 //This is One Device
 public class EntityDevice extends Entity {
     public final static String defaultDeviceIcon = "device_new.png";
     public static String NetworkID = "Device";
-    
+    private int channel, channelCount, color;
+    private String model, vendor, author, image;
+    private boolean enabled;
+
     @Override
     public String getNetworkID() {
         return NetworkID;
@@ -46,7 +50,20 @@ public class EntityDevice extends Entity {
 
     @Override
     public void Send() {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("Type", NetworkID);
+            o.put("GUID", this.guid);
+            o.put("Name", this.getName());
+            o.put("Number", this.getId());
 
+            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            return;
+        }
+        catch(Exception e) {
+            Log.e("UDP Send: ", e.getMessage());
+            DMXControlApplication.SaveLog();
+        }
     }
 
     public EntityDevice(int id) {
@@ -70,6 +87,13 @@ public class EntityDevice extends Entity {
             if (o.getString("Type").equals(NetworkID)) {
                 entity = new EntityDevice(o.getInt("Number"), o.getString("Name"), o.getString("Image"));
                 entity.guid = o.getString("GUID");
+                if(o.has("Channel")){if(o.getString("Channel")!=null){entity.channel = o.getInt("Channel");}}
+                if(o.has("ChannelCount")){entity.channelCount = o.getInt("ChannelCount");}
+                if(o.has("Color")){entity.color = o.getInt("Color");}
+                if(o.has("Model")){entity.model = o.getString("Model");}
+                if(o.has("Vendor")){entity.vendor = o.getString("Vendor");}
+                if(o.has("Author")){entity.author = o.getString("Author");}
+                if(o.has("Image")){entity.image = o.getString("Image");}
             }
         }
         catch(Exception e)
@@ -78,5 +102,29 @@ public class EntityDevice extends Entity {
             DMXControlApplication.SaveLog();
         }
         return entity;
+    }
+
+    public int getChannel() {
+        return channel;
+    }
+
+    public int getChannelCount() {
+        return channelCount;
+    }
+
+    public boolean getEnabled() {
+        return enabled;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public String getVendor() {
+        return vendor;
+    }
+
+    public String getAuthor() {
+        return author;
     }
 }

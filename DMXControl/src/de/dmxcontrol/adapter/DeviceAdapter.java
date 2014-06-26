@@ -39,6 +39,7 @@ import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.device.EntityManager.Type;
+import de.dmxcontrol.network.ReceivedData;
 
 //import android.view.MotionEvent;
 
@@ -61,17 +62,17 @@ public class DeviceAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mEntityManager.getSizeForType(Type.DEVICE);
+        return ReceivedData.get().Devices.size();
     }
 
     @Override
     public Object getItem(int index) {
-        return mEntityManager.getItemForType(Type.DEVICE, index);
+        return ReceivedData.get().Devices.get(index);
     }
 
     @Override
     public long getItemId(int i) {
-        return 0;
+        return ReceivedData.get().Devices.get(i).getId();
     }
 
     @Override
@@ -83,6 +84,7 @@ public class DeviceAdapter extends BaseAdapter {
             imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
             imageView.setPadding(8, 8, 8, 8);
+
             /* imageView.setOnHoverListener(new View.OnHoverListener() {
                 @Override
                 public boolean onHover(View view, MotionEvent motionEvent) {
@@ -109,13 +111,16 @@ public class DeviceAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        Entity ent = mEntityManager.getItemForType(Type.DEVICE, index);
-
-        try {
+        Entity ent = ReceivedData.get().Devices.get(index);
+        if(ent==null)
+        {
+            //imageView.setClickable(false);
+            imageView.setVisibility(View.INVISIBLE);
+            return imageView;
+        }
+            imageView.setVisibility(View.VISIBLE);
+            //imageView.setClickable(true);
             imageView.setImageBitmap(ent.getImage(ctx));
-        }
-        catch (Exception ex) {
-        }
 
         if (mEntityManager.isInEntitySelection(Type.DEVICE, mEntitySelection, ent.getId())) {
             imageView.setBackgroundColor(SelectionColor);

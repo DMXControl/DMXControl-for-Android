@@ -9,7 +9,7 @@
     <option name="USE_LAST_SELECTED_DEVICE" value="true" />
     <option name="PREFERRED_AVD" value="" />
     <option name="USE_COMMAND_LINE" value="true" />
-    <option name="COMMAND_LINE" value="" />
+    <option name="COMMAND_LINE" value="-dns-server 192.168.178.129" />
     <option name="WIPE_USER_DATA" value="false" />
     <option name="DISABLE_BOOT_ANIMATION" value="false" />
     <option name="NETWORK_SPEED" value="full" />

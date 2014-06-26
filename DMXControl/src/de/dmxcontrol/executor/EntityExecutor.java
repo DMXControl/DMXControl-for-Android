@@ -174,10 +174,10 @@ public class EntityExecutor extends Entity {
             if (o.getString("Type").equals(NetworkID)) {
                 entity = new EntityExecutor(o.getInt("Number"), o.getString("Name"));
                 entity.guid = o.getString("GUID");
-                entity.value = Float.parseFloat(o.getString("Value").replace(",", "."));//Float.parseFloat(svalue.replace(",", "."));
-                entity.flash = o.getBoolean("Flash");
-                entity.toggle = o.getBoolean("Toggle");
-                entity.faderMode = o.getInt("FaderMode");
+                if(o.has("Value")){ entity.value = Float.parseFloat(o.getString("Value").replace(",", "."));}
+                if(o.has("Flash")){ entity.flash = o.getBoolean("Flash");}
+                if(o.has("Toggle")){ entity.toggle = o.getBoolean("Toggle");}
+                if(o.has("FaderMode")){ entity.faderMode = o.getInt("FaderMode");}
             }
         }
         catch(Exception e)

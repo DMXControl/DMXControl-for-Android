@@ -14,9 +14,9 @@
             android:name="de.dmxcontrol.activity.ControlActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
-            <meta-data
+            <!--eta-data
                 android:name="com.sec.android.airview.enable"
-                android:value="true" />
+                android:value="true" />-->
 
             <!--<intent-filter>
                 <action android:name="com.sec.android.airview.HOVER" />
