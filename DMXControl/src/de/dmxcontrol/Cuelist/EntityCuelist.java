@@ -46,6 +46,8 @@ public class EntityCuelist extends Entity {
         return NetworkID;
     }
 
+    public EntityCuelist(){}
+
     public EntityCuelist(int id) {
         super(id, NetworkID + ": " + id, null);
         mImage = defaultExecuterPageIcon;
@@ -76,6 +78,10 @@ public class EntityCuelist extends Entity {
             DMXControlApplication.SaveLog();
         }
         return entity;
+    }
+
+    public static void SendRequest(String request) {
+        SendRequest(EntityCuelist.class, request);
     }
 
     public void Send() {

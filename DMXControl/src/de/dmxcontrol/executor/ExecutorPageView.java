@@ -112,12 +112,13 @@ public class ExecutorPageView {
             name_label = (TextView) view.findViewById(R.id.executorPageName);
             name_label.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onLongClick(View v) {
+                public boolean onLongClick(final View v) {
                     if (ReceivedData.get().SelectedExecutorPage != null) {
-                        AlertDialog.Builder alert = new AlertDialog.Builder(Context);
+                        final Context ctx=v.getContext();
+                        AlertDialog.Builder alert = new AlertDialog.Builder(ctx);
                         alert.setTitle("Rename");
                         alert.setMessage("Enter Executor Page Name");
-                        final EditText input = new EditText(Context);
+                        final EditText input = new EditText(ctx);
                         input.setText(name_label.getText());
                         alert.setView(input);
                         alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -125,7 +126,7 @@ public class ExecutorPageView {
                                 String str = input.getEditableText().toString();
                                 ReceivedData.get().SelectedExecutorPage.setName(str,false);
                                 name_label.setText(ReceivedData.get().SelectedExecutorPage.getName());
-                                Toast.makeText(Context, str, Toast.LENGTH_LONG).show();
+                                Toast.makeText(ctx, str, Toast.LENGTH_LONG).show();
                             }
                         });
                         AlertDialog alertDialog = alert.create();
@@ -133,8 +134,8 @@ public class ExecutorPageView {
                         return true;
                     }
                     else {
-                        EntityExecutor.SendAllRequest();
-                        EntityExecutorPage.SendAllRequest();
+                        EntityExecutor.SendRequest(Entity.Request_All);
+                        EntityExecutorPage.SendRequest(Entity.Request_All);
                         view.invalidate();
                     }
                     return false;

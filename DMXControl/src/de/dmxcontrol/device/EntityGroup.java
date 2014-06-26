@@ -43,10 +43,16 @@ public class EntityGroup extends Entity {
         return NetworkID;
     }
 
+    public static void SendRequest(String request) {
+        SendRequest(EntityGroup.class, request);
+    }
+
     @Override
     public void Send() {
 
     }
+
+    public EntityGroup(){}
 
     public EntityGroup(int id) {
         super(id, NetworkID + ": " + id, Type.GROUP);

@@ -37,7 +37,6 @@ import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.network.ReceivedData;
-import de.dmxcontrol.network.UDP.Reader;
 
 //This is One Executor
 public class EntityExecutorPage extends Entity {
@@ -69,6 +68,7 @@ public class EntityExecutorPage extends Entity {
         return ExecutorGUIDs;
     }
 
+    public EntityExecutorPage() {}
 
     public EntityExecutorPage(int id) {
         super(id, NetworkID + ": " + id, null);
@@ -110,6 +110,10 @@ public class EntityExecutorPage extends Entity {
         return entity;
     }
 
+    public static void SendRequest(String request) {
+        SendRequest(EntityExecutorPage.class, request);
+    }
+
     public void Send() {
         try {
             JSONObject o = new JSONObject();
@@ -125,14 +129,5 @@ public class EntityExecutorPage extends Entity {
             Log.e("UDP Send: ", e.getMessage());
             DMXControlApplication.SaveLog();
         }
-    }
-
-    public static void SendAllRequest(){
-        byte[] output = new byte[4];
-        output[0] = (byte) Reader.Type.EXECUTORPAGE.ordinal();
-        output[1] = 'A';
-        output[2] = 'L';
-        output[3] = 'L';
-        Prefs.get().getUDPSender().addSendData(output);
     }
 }

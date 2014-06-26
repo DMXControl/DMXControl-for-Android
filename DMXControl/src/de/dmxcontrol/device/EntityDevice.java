@@ -48,6 +48,10 @@ public class EntityDevice extends Entity {
         return NetworkID;
     }
 
+    public static void SendRequest(String request) {
+        SendRequest(EntityDevice.class, request);
+    }
+
     @Override
     public void Send() {
         try {
@@ -65,6 +69,8 @@ public class EntityDevice extends Entity {
             DMXControlApplication.SaveLog();
         }
     }
+
+    public EntityDevice(){}
 
     public EntityDevice(int id) {
         super(id, NetworkID + ": " + id, Type.DEVICE);
@@ -87,13 +93,34 @@ public class EntityDevice extends Entity {
             if (o.getString("Type").equals(NetworkID)) {
                 entity = new EntityDevice(o.getInt("Number"), o.getString("Name"), o.getString("Image"));
                 entity.guid = o.getString("GUID");
-                if(o.has("Channel")){if(o.getString("Channel")!=null){entity.channel = o.getInt("Channel");}}
-                if(o.has("ChannelCount")){entity.channelCount = o.getInt("ChannelCount");}
-                if(o.has("Color")){entity.color = o.getInt("Color");}
-                if(o.has("Model")){entity.model = o.getString("Model");}
-                if(o.has("Vendor")){entity.vendor = o.getString("Vendor");}
-                if(o.has("Author")){entity.author = o.getString("Author");}
-                if(o.has("Image")){entity.image = o.getString("Image");}
+                if (o.has("Channel")) {
+                    if (o.getString("Channel") != null) {
+                        entity.channel = o.getInt("Channel");
+                    }
+                }
+                if (o.has("ChannelCount")) {
+                    entity.channelCount = o.getInt("ChannelCount");
+                }
+                if (o.has("Color")) {
+                    entity.color = o.getInt("Color");
+                }
+                if (o.has("Model")) {
+                    entity.model = o.getString("Model");
+                }
+                if (o.has("Vendor")) {
+                    entity.vendor = o.getString("Vendor");
+                }
+                if (o.has("Author")) {
+                    entity.author = o.getString("Author");
+                }
+                if (o.has("Image")) {
+                    if (!o.getString("Image").equals("null")) {
+                        entity.image = o.getString("Image");
+                    }
+                    else {
+                        entity.setImage(defaultDeviceIcon);
+                    }
+                }
             }
         }
         catch(Exception e)
