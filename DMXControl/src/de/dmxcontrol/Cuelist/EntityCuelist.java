@@ -25,81 +25,49 @@
  * 
  */
 
-package de.dmxcontrol.executor;
+package de.dmxcontrol.cuelist;
 
 import android.util.Log;
 
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
-import de.dmxcontrol.network.ReceivedData;
 import de.dmxcontrol.network.UDP.Reader;
 
 //This is One Executor
-public class EntityExecutorPage extends Entity {
+public class EntityCuelist extends Entity {
     public final static String defaultExecuterPageIcon = "device_new";
-    public final static String NetworkID = "ExecutorPage";
-    
+    public final static String NetworkID = "Cuelist";
+
     @Override
     public String getNetworkID() {
         return NetworkID;
     }
 
-
-    private ArrayList<String>ExecutorGUIDs;
-
-    public ExecutorCollection getExecutors() {
-        ExecutorCollection Executors = new ExecutorCollection();
-
-        for (int i = 0; i <ExecutorGUIDs.size() ; i++) {
-            Executors.add(ReceivedData.get().Executors.get(ExecutorGUIDs.get(i)));
-        }
-        return Executors;
-    }
-
-    public void setExecutorGUIDs(ArrayList<String> executorGUIDs) {
-        this.ExecutorGUIDs = executorGUIDs;
-    }
-
-    public ArrayList<String> getExecutorGUIDs() {
-        return ExecutorGUIDs;
-    }
-
-
-    public EntityExecutorPage(int id) {
+    public EntityCuelist(int id) {
         super(id, NetworkID + ": " + id, null);
         mImage = defaultExecuterPageIcon;
     }
 
-    public EntityExecutorPage(int id, String name) {
-        super(id, name, null);
+    public EntityCuelist(int id, String name) {
+        super(id, name,null);
         mImage = defaultExecuterPageIcon;
     }
 
-    public EntityExecutorPage(int id, String name, String image) {
+    public EntityCuelist(int id, String name, String image) {
         super(id, name, null);
         mImage = image;
     }
 
 
-    public static EntityExecutorPage Receive(JSONObject o) {
-        EntityExecutorPage entity = null;
+    public static EntityCuelist Receive(JSONObject o) {
+        EntityCuelist entity = null;
         try {
             if (o.getString("Type").equals(NetworkID)) {
-                entity = new EntityExecutorPage(o.getInt("Number"), o.getString("Name"));
+                entity = new EntityCuelist(0, o.getString("Name"));
                 entity.guid = o.getString("GUID");
-
-                ArrayList<String>executors = new ArrayList<String>();
-
-                for (int i = 0; i < o.getJSONArray("Executors").length() ; i++) {
-                    executors.add(o.getJSONArray("Executors").getString(i));
-                }
-
-                entity.setExecutorGUIDs(executors);
             }
         }
         catch(Exception e)
@@ -116,7 +84,6 @@ public class EntityExecutorPage extends Entity {
             o.put("Type", NetworkID);
             o.put("GUID", this.guid);
             o.put("Name", this.getName());
-            o.put("Number", this.getId());
 
             Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
             return;

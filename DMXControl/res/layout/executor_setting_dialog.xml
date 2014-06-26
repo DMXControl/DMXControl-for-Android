@@ -6,7 +6,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/toggleButton_flash"
-        android:layout_toRightOf="@+id/textView2"
+        android:layout_toRightOf="@+id/deviceParameter_Channel"
         android:layout_marginTop="57dp"
         android:id="@+id/gridLayout">
 
@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Name"
-            android:id="@+id/textView"
+            android:id="@+id/deviceParameter_Name"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_row="0"
@@ -27,7 +27,7 @@
             android:inputType="textPersonName"
             android:ems="10"
             android:id="@+id/editName"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/deviceParameter_Name"
             android:layout_alignParentLeft="true"
             android:layout_row="0"
             android:layout_column="1" />
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Fader mode"
-            android:id="@+id/textView2"
+            android:id="@+id/deviceParameter_Channel"
             android:layout_below="@+id/editName"
             android:layout_alignParentLeft="true"
             android:layout_row="1"
@@ -46,7 +46,7 @@
         <RadioGroup
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/textView2"
+            android:layout_below="@+id/deviceParameter_Channel"
             android:layout_alignParentLeft="true"
             android:layout_alignParentEnd="false"
             android:id="@+id/radioButtonGroup"

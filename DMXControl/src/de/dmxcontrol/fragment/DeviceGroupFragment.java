@@ -28,11 +28,11 @@
 package de.dmxcontrol.fragment;
 
 import android.app.Activity;
-import android.graphics.Color;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -44,6 +44,7 @@ import de.dmxcontrol.adapter.DeviceAdapter;
 import de.dmxcontrol.adapter.GroupAdapter;
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.Prefs;
+import de.dmxcontrol.device.DeviceParameterDialog;
 import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;
 import de.dmxcontrol.device.EntityManager;
@@ -111,6 +112,26 @@ public class DeviceGroupFragment extends BasePanelFragment implements
         mDeviceAdapter = new DeviceAdapter(EntityManager.get(), EntityManager.CENTRAL_ENTITY_SELECTION, getActivity());
         mDeviceGrid.setAdapter(mDeviceAdapter);
         mDeviceGrid.setOnItemClickListener(this);
+        mDeviceGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                EntityDevice device = (EntityDevice) adapterView.getItemAtPosition(position);
+
+                if(device!=null){
+                    AlertDialog.Builder alert = new AlertDialog.Builder(adapterView.getContext());
+                    alert.setTitle("Parameter");
+                    alert.setView(new DeviceParameterDialog(adapterView.getContext(),device));
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    });
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+                    return true;
+                }
+                return false;
+            }
+        });
 
         if (!Prefs.get().getDisableAnimations())
             addFadeInAnimation(deviceLayout);
