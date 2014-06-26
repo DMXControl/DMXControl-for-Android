@@ -56,16 +56,24 @@ public class OSCService extends Service {
 
     private String mHost;
     private int mPort;
+
+    // replace this
     private OSCClient mClient;
+
     private String mConnectionType;
+
+    // replace this
     private ConcurrentHashMap<String, OSCMessage> mMessageMap;
+
     private volatile Thread mPacketSender;
     private int mWaitInMillis;
     private final static int TIME_WAIT_IN_MILLIS = 25;
     private final static int mLocalPort = 8001;
+
+    // rename this. Need this?
     private final static int OSC_BUNDLE_TIME_VALID = 50;
 
-    private IOSCSenderListener mDefaultSenderListener = new IOSCSenderListener() {
+    private INetworkSenderListener mDefaultSenderListener = new INetworkSenderListener() {
         public void notifyNetworkError(String msg) {
             Log.d(TAG, "SenderListener:notifyNetworkError: " + msg);
         }
@@ -80,7 +88,7 @@ public class OSCService extends Service {
 
     };
 
-    private IOSCSenderListener mSenderListener = mDefaultSenderListener;
+    private INetworkSenderListener mSenderListener = mDefaultSenderListener;
     private boolean mIsConnected;
 
     public class LocalBinder extends Binder {
@@ -94,9 +102,14 @@ public class OSCService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // replace this
         mConnectionType = OSCClient.UDP;
         mWaitInMillis = TIME_WAIT_IN_MILLIS;
+
+        // Ehat the hag is this used for?
         mMessageMap = new ConcurrentHashMap<String, OSCMessage>();
+
         //connect();
     }
 
@@ -118,7 +131,11 @@ public class OSCService extends Service {
 
     private void start() {
         Log.d(TAG, "Starting Thread");
-        if (isConnected()) {
+
+        if(isConnected()) {
+            // replace name here
+
+            // create an start thread of sender
             mPacketSender = new Thread(new SenderRunnable(), "OSCSender");
             mPacketSender.start();
         }
@@ -126,68 +143,85 @@ public class OSCService extends Service {
 
     private void stop() {
         Log.d(TAG, "Stopping Thread");
+
         Thread tmpThread = mPacketSender;
         mPacketSender = null;
-        if (tmpThread != null) {
+
+        if(tmpThread != null) {
             tmpThread.interrupt();
         }
+
         try {
             mClient.stop();
-        } catch (IOException e) {
-            if (mSenderListener != null) {
+        }
+        catch(IOException e) {
+            if(mSenderListener != null) {
                 mSenderListener.notifyError(e.getMessage());
             }
         }
+
         mClient.dispose();
         mClient = null;
     }
 
     public void connect() {
         try {
-            if (mClient != null && mClient.isActive()) {
+            // Stop client if running
+            if(mClient != null && mClient.isActive()) {
                 mClient.stop();
                 mClient = null;
             }
+
+            // get adress and port from prefs
             mHost = Prefs.get().getServerAddress();
             mPort = Prefs.get().getServerPort();
 
-            mClient = OSCClient.newUsing(OSCPacketCodec.getDefaultCodec(),
-                    mConnectionType, mLocalPort, false);
+            // create new client
+            mClient = OSCClient.newUsing(OSCPacketCodec.getDefaultCodec(), mConnectionType, mLocalPort, false);
 
-            if (mHost.length() > 0) {
+            if(mHost.length() > 0) {
                 Log.d(TAG, "OSC Target is " + mHost + ":" + mPort);
+
                 mClient.setTarget(new InetSocketAddress(mHost, mPort));
                 mClient.start();
                 mIsConnected = true;
+
                 InetSocketAddress address = mClient.getLocalAddress();
                 Log.d(TAG, "OSCManager: localAddress:" + address.toString());
-            } else {
-                throw new IOException(
-                        "No server address given. Consult settings.");
+
             }
-        } catch (IOException e) {
+            else {
+                throw new IOException("No server address given. Consult settings.");
+            }
+        }
+        catch(IOException e) {
+
             Prefs.get().setOffline(true);
-            if (mSenderListener != null) {
+
+            if(mSenderListener != null) {
                 mSenderListener.notifyNetworkError(e.getMessage());
             }
         }
 
-        if (!isRunning())
+        if(!isRunning()) {
             start();
+        }
     }
 
     public void disconnect() {
-        if (isRunning())
+        if(isRunning()) {
             stop();
+        }
 
         try {
-            if (mClient != null && mClient.isActive()) {
+            if(mClient != null && mClient.isActive()) {
                 mClient.stop();
                 mClient = null;
             }
-        } catch (IOException e) {
+        }
+        catch(IOException e) {
             Prefs.get().setOffline(true);
-            if (mSenderListener != null) {
+            if(mSenderListener != null) {
                 mSenderListener.notifyNetworkError(e.getMessage());
             }
         }
@@ -202,7 +236,7 @@ public class OSCService extends Service {
         return mPacketSender != null;
     }
 
-    public void setSenderListener(IOSCSenderListener listener) {
+    public void setSenderListener(INetworkSenderListener listener) {
         mSenderListener = listener;
     }
 
@@ -210,6 +244,7 @@ public class OSCService extends Service {
         mWaitInMillis = waitInMillis;
     }
 
+    // replace OSCMessage here
     public void addMessage(OSCMessage msg) {
         mMessageMap.put(msg.getName(), msg);
     }
@@ -219,39 +254,46 @@ public class OSCService extends Service {
     }
 
     public void notifyAllMessages() {
-        synchronized (mMessageMap) {
+        synchronized(mMessageMap) {
             mMessageMap.notifyAll();
         }
     }
 
+    // replace OSCMessage
     public void sendMessage(OSCMessage msg) {
         try {
             Log.d(TAG, "OSCManager:sendMessage");
             mClient.send(msg);
-        } catch (IOException e) {
+        }
+        catch(IOException e) {
             // Prefs.get().setOffline( true );
-            if (mSenderListener != null)
+            if(mSenderListener != null) {
                 mSenderListener.notifyNetworkError(e.getMessage());
+            }
         }
     }
 
+    // do we need this
     public void addListener(OSCListener listener) {
         mClient.addOSCListener(listener);
     }
 
+    // dump dump function :-P
     public void startDumpOSC() {
         FileOutputStream out = null;
         try {
             out = new FileOutputStream(Environment
                     .getExternalStorageDirectory().getCanonicalPath()
                     + File.separator + "oscdump.txt");
-        } catch (FileNotFoundException e) {
-            if (mSenderListener != null) {
+        }
+        catch(FileNotFoundException e) {
+            if(mSenderListener != null) {
                 mSenderListener.notifyError(e.getMessage());
             }
             return;
-        } catch (IOException e) {
-            if (mSenderListener != null) {
+        }
+        catch(IOException e) {
+            if(mSenderListener != null) {
                 mSenderListener.notifyError(e.getMessage());
             }
             return;
@@ -260,6 +302,7 @@ public class OSCService extends Service {
         mClient.dumpOSC(OSCChannel.kDumpBoth, print);
     }
 
+    // dump dump function :-P
     public void stopDumpOSC() {
         mClient.dumpOSC(OSCChannel.kDumpOff, null);
     }
@@ -268,67 +311,71 @@ public class OSCService extends Service {
 
         @Override
         public void run() {
-            if (mPacketSender == null)
+            if(mPacketSender == null) {
                 return;
+            }
             Thread thisThread = Thread.currentThread();
 
-            while (mPacketSender == thisThread) {
+            while(mPacketSender == thisThread) {
                 try {
                     Thread.sleep((long) mWaitInMillis, 0);
-                } catch (InterruptedException e1) {
+                }
+                catch(InterruptedException e1) {
                     continue;
                 }
 
                 int messageCount;
-                while ((messageCount = mMessageMap.size()) == 0) {
+                while((messageCount = mMessageMap.size()) == 0) {
                     try {
-                        synchronized (mMessageMap) {
+                        synchronized(mMessageMap) {
                             mMessageMap.wait();
                         }
-                    } catch (InterruptedException e) {
+                    }
+                    catch(InterruptedException e) {
                         continue;
                     }
                 }
 
-                if (messageCount == 1) {
+                if(messageCount == 1) {
                     String key = (String) mMessageMap.keySet().toArray()[0];
                     try {
                         OSCMessage msg = mMessageMap.remove(key);
-                        if (mClient != null) {
-                            Log.d(TAG,
-                                    "OSCManager:SenderRunnable: sending message (" + msg.getName() + " ");
+                        if(mClient != null) {
+                            Log.d(TAG, "OSCManager:SenderRunnable: sending message (" + msg.getName() + " ");
                             mClient.send(msg);
                         }
-                    } catch (IOException e) {
+                    }
+                    catch(IOException e) {
                         OSCService.this.stop();
                         Prefs.get().setOffline(true);
-                        if (mSenderListener != null) {
+                        if(mSenderListener != null) {
                             mSenderListener.notifyNetworkError(e.getMessage());
                         }
                     }
-                } else {
-                    OSCBundle bundle = new OSCBundle(System.currentTimeMillis()
-                            + OSC_BUNDLE_TIME_VALID);
+                }
+                else {
+                    OSCBundle bundle = new OSCBundle(System.currentTimeMillis() + OSC_BUNDLE_TIME_VALID);
                     Iterator<String> iter = mMessageMap.keySet().iterator();
-                    while (iter.hasNext()) {
+                    while(iter.hasNext()) {
                         bundle.addPacket(mMessageMap.remove(iter.next()));
                     }
                     try {
-                        if (mClient != null) {
+                        if(mClient != null) {
                             Log.d(TAG,
                                     "OSCManager:SenderRunnable: sending bundle");
                             mClient.send(bundle);
                         }
-                    } catch (IOException e) {
+                    }
+                    catch(IOException e) {
                         OSCService.this.stop();
                         Prefs.get().setOffline(true);
-                        if (mSenderListener != null) {
+                        if(mSenderListener != null) {
                             mSenderListener.notifyNetworkError(e.getMessage());
                         }
                     }
                 }
             }
-            if (mSenderListener != null) {
+            if(mSenderListener != null) {
                 mSenderListener.notifyInterrupted();
             }
         }

@@ -74,7 +74,9 @@ public abstract class Entity implements IPropertyContainer {
         void onNameChanged(String name);
     }
 
-    protected Entity(){}
+    protected Entity() {
+    }
+
     public Entity(int id, String name, Type type) {
         mId = id;
         mType = type;
@@ -86,24 +88,26 @@ public abstract class Entity implements IPropertyContainer {
     public int getId() {
         return mId;
     }
+
     public void setId(int id) {
-        mId=id;
+        mId = id;
     }
 
     public String getName() {
         return mName;
     }
+
     public void setName(String name, boolean fromReader) {
-        boolean isEqual= mName.equals(name);
-        mName=name;
-        
-        if(!isEqual&&fromReader) {
-            for (NameChangedListener listener : NameChangedListeners) {
+        boolean isEqual = mName.equals(name);
+        mName = name;
+
+        if(!isEqual && fromReader) {
+            for(NameChangedListener listener : NameChangedListeners) {
                 listener.onNameChanged(name);
             }
             return;
         }
-        if(!isEqual&&!fromReader) {
+        if(!isEqual && !fromReader) {
             Send();
         }
     }
@@ -111,10 +115,8 @@ public abstract class Entity implements IPropertyContainer {
     public Bitmap getImage(Context context) {
 
         File imgFile = new File(IconStorageName + File.separator + mImage);
-        if(imgFile.isFile())
-        {
-            if (imgFile.exists())
-            {
+        if(imgFile.isFile()) {
+            if(imgFile.exists()) {
                 return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
             }
         }
@@ -122,9 +124,11 @@ public abstract class Entity implements IPropertyContainer {
         // Replace this icon with something else
         return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
     }
-    public String getImageName(){
+
+    public String getImageName() {
         return mImage;
     }
+
     public void setImage(String image) {
         mImage = image;
     }
@@ -148,13 +152,15 @@ public abstract class Entity implements IPropertyContainer {
     public abstract String getNetworkID();
 
     public abstract void Send();
-    public static void SendRequest(Class entity,String request) {
+
+    public static void SendRequest(Class entity, String request) {
         try {
             JSONObject o = new JSONObject();
             o.put("Type", ((Entity) entity.newInstance()).getNetworkID());
             o.put("Request", request);
             Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
-        } catch (Exception e) {
+        }
+        catch(Exception e) {
             Log.e("SendAllRequest: ", e.getMessage());
             DMXControlApplication.SaveLog();
         }

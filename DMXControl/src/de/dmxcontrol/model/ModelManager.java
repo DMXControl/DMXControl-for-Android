@@ -63,7 +63,7 @@ public class ModelManager {
     @SuppressWarnings("unchecked")
     public <T extends BaseModel> T getModel(Type type) {
 
-        if (mModels.containsKey(type)) {
+        if(mModels.containsKey(type)) {
             return (T) mModels.get(type);
         }
         else {
@@ -81,7 +81,7 @@ public class ModelManager {
         try {
             model = (T) clazz.getDeclaredConstructors()[0].newInstance(this);
         }
-        catch (Exception e) {
+        catch(Exception e) {
             Log.e(TAG, "error creation of model with class " + clazz.getName());
             Log.e(TAG, "exception: ", e);
             return null;

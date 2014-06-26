@@ -12,22 +12,24 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
     private ArrayList<EntityExecutorPage> list = new ArrayList<EntityExecutorPage>();
 
     public boolean add(EntityExecutorPage object) {
-        if(object==null){return false;}
+        if(object == null) {
+            return false;
+        }
         if(!contains(object)) {
             return list.add(object);
         }
         else {
             try {
-                EntityExecutorPage obj=list.get(indexOf(object));
+                EntityExecutorPage obj = list.get(indexOf(object));
                 obj.setId(object.getId());
                 obj.setName(object.getName(), true);
                 obj.setImage(object.getImageName());
                 obj.setExecutorGUIDs(object.getExecutorGUIDs());
             }
-            catch(Exception e){
+            catch(Exception e) {
                 e.toString();
             }
-        return false;
+            return false;
         }
     }
 
@@ -46,8 +48,8 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
 
     @Override
     public boolean contains(Object object) {
-        for (int i = 0; i <size(); i++) {
-            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){
+        for(int i = 0; i < size(); i++) {
+            if(((EntityExecutorPage) object).guid.equals(list.get(i).guid)) {
                 return true;
             }
         }
@@ -64,8 +66,8 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
     }
 
     public int indexOf(Object object) {
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){
+        for(int i = 0; i < size(); i++) {
+            if(((EntityExecutorPage) object).guid.equals(list.get(i).guid)) {
                 return i;
             }
         }
@@ -83,9 +85,9 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
     }
 
     public int lastIndexOf(Object object) {
-        int out=Integer.MIN_VALUE;
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityExecutorPage)object).guid.equals(list.get(i).guid)){
+        int out = Integer.MIN_VALUE;
+        for(int i = 0; i < size(); i++) {
+            if(((EntityExecutorPage) object).guid.equals(list.get(i).guid)) {
                 out = i;
             }
         }

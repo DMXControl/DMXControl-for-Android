@@ -12,21 +12,23 @@ public class CuelistCollection implements Collection<EntityCuelist> {
     private ArrayList<EntityCuelist> list = new ArrayList<EntityCuelist>();
 
     public boolean add(EntityCuelist object) {
-        if(object == null){return false;}
+        if(object == null) {
+            return false;
+        }
         if(!contains(object)) {
             return list.add(object);
         }
         else {
             try {
-                EntityCuelist obj=list.get(indexOf(object));
+                EntityCuelist obj = list.get(indexOf(object));
                 obj.setId(object.getId());
                 obj.setName(object.getName(), true);
                 obj.setImage(object.getImageName());
             }
-            catch(Exception e){
+            catch(Exception e) {
                 e.toString();
             }
-        return false;
+            return false;
         }
     }
 
@@ -45,8 +47,8 @@ public class CuelistCollection implements Collection<EntityCuelist> {
 
     @Override
     public boolean contains(Object object) {
-        for (int i = 0; i <size(); i++) {
-            if(((EntityCuelist)object).guid.equals(list.get(i).guid)){
+        for(int i = 0; i < size(); i++) {
+            if(((EntityCuelist) object).guid.equals(list.get(i).guid)) {
                 return true;
             }
         }
@@ -63,8 +65,8 @@ public class CuelistCollection implements Collection<EntityCuelist> {
     }
 
     public int indexOf(Object object) {
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityCuelist)object).guid.equals(list.get(i).guid)){
+        for(int i = 0; i < size(); i++) {
+            if(((EntityCuelist) object).guid.equals(list.get(i).guid)) {
                 return i;
             }
         }
@@ -83,8 +85,8 @@ public class CuelistCollection implements Collection<EntityCuelist> {
 
     public int lastIndexOf(Object object) {
         int out = Integer.MIN_VALUE;
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityCuelist)object).guid.equals(list.get(i).guid)){
+        for(int i = 0; i < size(); i++) {
+            if(((EntityCuelist) object).guid.equals(list.get(i).guid)) {
                 out = i;
             }
         }

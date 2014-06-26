@@ -50,6 +50,7 @@ public class EntityExecutor extends Entity {
     private boolean doStop;
     private boolean doBreakBack;
     private boolean flash;
+
     @Override
     public String getNetworkID() {
         return NetworkID;
@@ -66,15 +67,17 @@ public class EntityExecutor extends Entity {
     }
 
     public void setToggle(boolean toggle, boolean fromReader) {
-        this.toggle=toggle;
-        if(!fromReader)
+        this.toggle = toggle;
+        if(!fromReader) {
             Send();
+        }
     }
 
     public void setFaderMode(int faderMode, boolean fromReader) {
-        this.faderMode=faderMode;
-        if(!fromReader)
+        this.faderMode = faderMode;
+        if(!fromReader) {
             Send();
+        }
     }
 
     public interface ValueChangedListener {
@@ -95,11 +98,13 @@ public class EntityExecutor extends Entity {
         doBreakBack = true;
         Send();
     }
+
     public void GO() {
         doGO = true;
         Send();
     }
-    public void Stop(){
+
+    public void Stop() {
         doStop = true;
         Send();
     }
@@ -108,45 +113,48 @@ public class EntityExecutor extends Entity {
         return toggle;
     }
 
-    public void setValue(float value,boolean fromReader) {
+    public void setValue(float value, boolean fromReader) {
         int comp = Float.compare(this.value, value);
         boolean isEqual = 0 == comp;
         this.value = value;
-        if(!isEqual&&fromReader) {
-            for (ValueChangedListener listener : ValueChangedListeners) {
+        if(!isEqual && fromReader) {
+            for(ValueChangedListener listener : ValueChangedListeners) {
                 listener.onValueChanged(value);
             }
             return;
         }
-        else if(!isEqual&&!fromReader) {
+        else if(!isEqual && !fromReader) {
             Send();
         }
     }
+
     public float getValue() {
         return value;
     }
 
-    public void setFlash(boolean flash,boolean fromReader) {
-        boolean isEqual=this.flash==flash;
+    public void setFlash(boolean flash, boolean fromReader) {
+        boolean isEqual = this.flash == flash;
         this.flash = flash;
 
-        if(!isEqual&&fromReader) {
-            for (FlashChangedListener listener : FlashChangedListeners) {
+        if(!isEqual && fromReader) {
+            for(FlashChangedListener listener : FlashChangedListeners) {
                 listener.onFlashChanged(value);
             }
             return;
         }
-        if(!isEqual&&!fromReader) {
+        if(!isEqual && !fromReader) {
             Send();
         }
         //Prefs.get().getUDPSender().addSendData(new byte[]{(byte)0xff});
         //Send();
     }
+
     public boolean getFlash() {
         return flash;
     }
 
-    public EntityExecutor(){}
+    public EntityExecutor() {
+    }
 
     public EntityExecutor(int id) {
         super(id, NetworkID + ": " + id, Type.EXECUTOR);
@@ -164,24 +172,31 @@ public class EntityExecutor extends Entity {
     }
 
     public EntityExecutor(JSONObject o) {
-        super(0,"",Type.EXECUTOR);
+        super(0, "", Type.EXECUTOR);
         Receive(o);
     }
 
     public static EntityExecutor Receive(JSONObject o) {
         EntityExecutor entity = null;
         try {
-            if (o.getString("Type").equals(NetworkID)) {
+            if(o.getString("Type").equals(NetworkID)) {
                 entity = new EntityExecutor(o.getInt("Number"), o.getString("Name"));
                 entity.guid = o.getString("GUID");
-                if(o.has("Value")){ entity.value = Float.parseFloat(o.getString("Value").replace(",", "."));}
-                if(o.has("Flash")){ entity.flash = o.getBoolean("Flash");}
-                if(o.has("Toggle")){ entity.toggle = o.getBoolean("Toggle");}
-                if(o.has("FaderMode")){ entity.faderMode = o.getInt("FaderMode");}
+                if(o.has("Value")) {
+                    entity.value = Float.parseFloat(o.getString("Value").replace(",", "."));
+                }
+                if(o.has("Flash")) {
+                    entity.flash = o.getBoolean("Flash");
+                }
+                if(o.has("Toggle")) {
+                    entity.toggle = o.getBoolean("Toggle");
+                }
+                if(o.has("FaderMode")) {
+                    entity.faderMode = o.getInt("FaderMode");
+                }
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             Log.e("UDP Listener", e.getMessage());
             DMXControlApplication.SaveLog();
         }
@@ -201,9 +216,15 @@ public class EntityExecutor extends Entity {
             o.put("Value", this.value);
             o.put("Flash", this.flash);
             o.put("Number", this.getId());
-            if(this.doGO){o.put("GO", true);}
-            if(this.doBreakBack){o.put("BreakBack", true);}
-            if(this.doStop){o.put("Stop", true);}
+            if(this.doGO) {
+                o.put("GO", true);
+            }
+            if(this.doBreakBack) {
+                o.put("BreakBack", true);
+            }
+            if(this.doStop) {
+                o.put("Stop", true);
+            }
 
             Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
             return;
@@ -213,7 +234,6 @@ public class EntityExecutor extends Entity {
             DMXControlApplication.SaveLog();
         }
     }
-
 
 
 }

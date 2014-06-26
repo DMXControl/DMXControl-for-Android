@@ -47,7 +47,7 @@ public class EntityManager {
     private static EntityManager INSTANCE;
 
     public static EntityManager get() {
-        if (INSTANCE == null) {
+        if(INSTANCE == null) {
             INSTANCE = new EntityManager();
         }
         return INSTANCE;
@@ -95,13 +95,11 @@ public class EntityManager {
 
     private void createMockDevices() {
 
-        for(int i = 1; i < 5; i++)
-        {
+        for(int i = 1; i < 5; i++) {
             addEntity(new EntityGroup(i));
         }
 
-        for(int i = 1; i < 43; i++)
-        {
+        for(int i = 1; i < 43; i++) {
             addEntity(new EntityDevice(i));
         }
 

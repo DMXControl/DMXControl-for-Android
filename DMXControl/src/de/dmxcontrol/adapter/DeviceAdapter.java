@@ -79,7 +79,7 @@ public class DeviceAdapter extends BaseAdapter {
     public View getView(int index, View convertView, ViewGroup parent) {
         ImageView imageView;
 
-        if (convertView == null) {
+        if(convertView == null) {
             imageView = new ImageView(ctx);
             imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -106,23 +106,21 @@ public class DeviceAdapter extends BaseAdapter {
                 }
             }); */
         }
-        else
-        {
+        else {
             imageView = (ImageView) convertView;
         }
 
         Entity ent = ReceivedData.get().Devices.get(index);
-        if(ent == null)
-        {
+        if(ent == null) {
             //imageView.setClickable(false);
             imageView.setVisibility(View.INVISIBLE);
             return imageView;
         }
-            imageView.setVisibility(View.VISIBLE);
-            //imageView.setClickable(true);
-            imageView.setImageBitmap(ent.getImage(ctx));
+        imageView.setVisibility(View.VISIBLE);
+        //imageView.setClickable(true);
+        imageView.setImageBitmap(ent.getImage(ctx));
 
-        if (mEntityManager.isInEntitySelection(Type.DEVICE, mEntitySelection, ent.getId())) {
+        if(mEntityManager.isInEntitySelection(Type.DEVICE, mEntitySelection, ent.getId())) {
             imageView.setBackgroundColor(SelectionColor);
         }
         else {

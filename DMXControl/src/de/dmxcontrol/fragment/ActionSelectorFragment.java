@@ -79,7 +79,7 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (savedInstanceState != null) {
+        if(savedInstanceState != null) {
             mState = savedInstanceState.getInt(EXTRA_PANEL_STATE);
         }
     }
@@ -93,8 +93,9 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
                 R.layout.action_selector_fragment, container, false);
         ViewGroup vg = (ViewGroup) actionButtons
                 .findViewById(R.id.action_selector_scroll);
-        if (!Prefs.get().getDisableAnimations())
+        if(!Prefs.get().getDisableAnimations()) {
             addBounceInAnimation(vg);
+        }
 
         bDeviceAction = (Button) actionButtons
                 .findViewById(R.id.button_device_action);
@@ -171,7 +172,7 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        switch (id) {
+        switch(id) {
             case R.id.button_device_action:
                 mState = STATE_DEVICE_PANEL;
                 break;
@@ -192,17 +193,18 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
         crrActionButton = (Button) view;
         crrActionButton.setSelected(true);
 
-        if (updateActionViewListener != null) {
+        if(updateActionViewListener != null) {
             updateActionViewListener.onUpdateActionView(mState);
         }
     }
 
     public void updateStateSelected() {
 
-        if (crrActionButton != null)
+        if(crrActionButton != null) {
             crrActionButton.setSelected(false);
+        }
 
-        switch (mState) {
+        switch(mState) {
             case STATE_DEVICE_PANEL:
                 crrActionButton = bDeviceAction;
                 break;
@@ -226,14 +228,15 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
         AnimationSet set = new AnimationSet(true);
         Animation animation;
 
-        if (compat8.isDisplayPortrait()) {
+        if(compat8.isDisplayPortrait()) {
             // Portrait
             animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
                     1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
                     Animation.RELATIVE_TO_PARENT, 0.0f,
                     Animation.RELATIVE_TO_PARENT, 0.0f);
 
-        } else {
+        }
+        else {
             // Landscape
             animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
                     0.0f, Animation.RELATIVE_TO_PARENT, 0.0f,

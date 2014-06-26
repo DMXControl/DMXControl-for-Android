@@ -37,7 +37,7 @@ import de.dmxcontrol.device.EntityManager.Type;
 public class EntityGroup extends Entity {
     public final static String defaultDeviceGroupIcon = "device_group_new.png";
     public static String NetworkID = "DeviceGroup";
-    
+
     @Override
     public String getNetworkID() {
         return NetworkID;
@@ -52,7 +52,8 @@ public class EntityGroup extends Entity {
 
     }
 
-    public EntityGroup(){}
+    public EntityGroup() {
+    }
 
     public EntityGroup(int id) {
         super(id, NetworkID + ": " + id, Type.GROUP);
@@ -72,13 +73,12 @@ public class EntityGroup extends Entity {
     public static EntityGroup Receive(JSONObject o) {
         EntityGroup entity = null;
         try {
-            if (o.getString("Type").equals(NetworkID)) {
+            if(o.getString("Type").equals(NetworkID)) {
                 entity = new EntityGroup(o.getInt("Number"), o.getString("Name"), o.getString("Image"));
                 entity.guid = o.getString("GUID");
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             Log.e("UDP Listener", e.getMessage());
             DMXControlApplication.SaveLog();
         }

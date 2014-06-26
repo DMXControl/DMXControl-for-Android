@@ -62,8 +62,9 @@ public class Changelog {
     }
 
     public ChangelogListAdapter getChangelogListAdapter() {
-        if (ila == null)
+        if(ila == null) {
             ila = new ChangelogListAdapter(mCtx, this);
+        }
         return ila;
     }
 
@@ -77,8 +78,9 @@ public class Changelog {
     }
 
     public Release getRelease(int index) {
-        if (index < 0 || index >= mReleases.size())
+        if(index < 0 || index >= mReleases.size()) {
             throw new IndexOutOfBoundsException();
+        }
         return mReleases.get(index);
     }
 
@@ -88,13 +90,14 @@ public class Changelog {
 
     public void clear() {
         mReleases.clear();
-        if (mUpdateListener != null)
+        if(mUpdateListener != null) {
             mUpdateListener.notifyUpdate();
+        }
     }
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Release r : mReleases) {
+        for(Release r : mReleases) {
             sb.append(r.toString());
         }
         return sb.toString();
@@ -103,11 +106,12 @@ public class Changelog {
     public void populateItems(Context ctx) throws SAXException,
             ParserConfigurationException, IOException {
         ArrayList<Release> res = mXMLParsing.parse(ctx);
-        for (int i = 0; i < res.size(); i++) {
+        for(int i = 0; i < res.size(); i++) {
             this.addRelease(res.get(i));
         }
-        if (mUpdateListener != null)
+        if(mUpdateListener != null) {
             mUpdateListener.notifyUpdate();
+        }
     }
 
     public int getTypeCount() {

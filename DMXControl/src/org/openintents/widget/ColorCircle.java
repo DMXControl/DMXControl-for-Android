@@ -107,13 +107,14 @@ public class ColorCircle extends View {
         // This is the center "activation button" circle
         canvas.drawCircle(0, 0, center_radius, mCenterPaint);
 
-        if (mTrackingCenter) {
+        if(mTrackingCenter) {
             int c = mCenterPaint.getColor();
             mCenterPaint.setStyle(Paint.Style.STROKE);
 
-            if (mHighlightCenter) {
+            if(mHighlightCenter) {
                 mCenterPaint.setAlpha(0xFF);
-            } else {
+            }
+            else {
                 mCenterPaint.setAlpha(0x80);
             }
 
@@ -161,10 +162,10 @@ public class ColorCircle extends View {
     }
 
     private int interpColor(int colors[], float unit) {
-        if (unit <= 0) {
+        if(unit <= 0) {
             return colors[0];
         }
-        if (unit >= 1) {
+        if(unit >= 1) {
             return colors[colors.length - 1];
         }
 
@@ -189,40 +190,41 @@ public class ColorCircle extends View {
         float y = event.getY() - getHeight() / 2;
         boolean inCenter = PointF.length(x, y) <= center_radius;
 
-        switch (event.getAction()) {
+        switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mTrackingCenter = inCenter;
-                if (inCenter) {
+                if(inCenter) {
                     mHighlightCenter = true;
                     invalidate();
                     break;
                 }
             case MotionEvent.ACTION_MOVE:
-                if (mTrackingCenter) {
-                    if (mHighlightCenter != inCenter) {
+                if(mTrackingCenter) {
+                    if(mHighlightCenter != inCenter) {
                         mHighlightCenter = inCenter;
                         invalidate();
                     }
-                } else {
+                }
+                else {
                     float angle = (float) java.lang.Math.atan2(y, x);
                     // need to turn angle [-PI ... PI] into unit [0....1]
                     float unit = angle / (2 * (float) Math.PI);
-                    if (unit < 0) {
+                    if(unit < 0) {
                         unit += 1;
                     }
                     int newcolor = interpColor(mColors, unit);
                     mCenterPaint.setColor(newcolor);
 
-                    if (mListener != null) {
+                    if(mListener != null) {
                         mListener.onColorChanged(this, newcolor);
                     }
                     invalidate();
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (mTrackingCenter) {
-                    if (inCenter) {
-                        if (mListener != null) {
+                if(mTrackingCenter) {
+                    if(inCenter) {
+                        if(mListener != null) {
                             mListener.onColorPicked(this, mCenterPaint.getColor());
                         }
                     }

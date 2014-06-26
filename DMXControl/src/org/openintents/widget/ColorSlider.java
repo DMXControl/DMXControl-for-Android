@@ -108,6 +108,7 @@ public class ColorSlider extends View {
      * Determines the width of this view
      *
      * @param measureSpec A measureSpec packed into an int
+     *
      * @return The width of the view, honoring constraints from measureSpec
      */
     private int measureWidth(int measureSpec) {
@@ -115,13 +116,14 @@ public class ColorSlider extends View {
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
 
-        if (specMode == MeasureSpec.EXACTLY) {
+        if(specMode == MeasureSpec.EXACTLY) {
             // We were told how big to be
             result = specSize;
-        } else {
+        }
+        else {
             // Default width:
             result = defaultWidth;
-            if (specMode == MeasureSpec.AT_MOST) {
+            if(specMode == MeasureSpec.AT_MOST) {
                 // Respect AT_MOST value if that was what is called for by
                 // measureSpec
                 result = Math.min(result, specSize);
@@ -134,6 +136,7 @@ public class ColorSlider extends View {
      * Determines the height of this view
      *
      * @param measureSpec A measureSpec packed into an int
+     *
      * @return The height of the view, honoring constraints from measureSpec
      */
     private int measureHeight(int measureSpec) {
@@ -141,13 +144,14 @@ public class ColorSlider extends View {
         int specMode = MeasureSpec.getMode(measureSpec);
         int specSize = MeasureSpec.getSize(measureSpec);
 
-        if (specMode == MeasureSpec.EXACTLY) {
+        if(specMode == MeasureSpec.EXACTLY) {
             // We were told how big to be
             result = specSize;
-        } else {
+        }
+        else {
             // Default height
             result = defaultHeight;
-            if (specMode == MeasureSpec.AT_MOST) {
+            if(specMode == MeasureSpec.AT_MOST) {
                 // Respect AT_MOST value if that was what is called for by
                 // measureSpec
                 result = Math.min(result, specSize);
@@ -173,10 +177,10 @@ public class ColorSlider extends View {
     }
 
     private int interpColor(int color1, int color2, float unit) {
-        if (unit <= 0) {
+        if(unit <= 0) {
             return color1;
         }
-        if (unit >= 1) {
+        if(unit >= 1) {
             return color2;
         }
 
@@ -198,7 +202,7 @@ public class ColorSlider extends View {
         float x = event.getX();
         float y = event.getY();
 
-        switch (event.getAction()) {
+        switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
 
@@ -206,7 +210,7 @@ public class ColorSlider extends View {
 
                 int newcolor = interpColor(mColor1, mColor2, unit);
 
-                if (mListener != null) {
+                if(mListener != null) {
                     mListener.onColorChanged(this, newcolor);
                 }
                 invalidate();

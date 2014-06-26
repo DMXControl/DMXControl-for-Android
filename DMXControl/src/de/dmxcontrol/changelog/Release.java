@@ -64,7 +64,7 @@ public class Release {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("Version: " + mVersion + "\n");
-        for (String item : mItems) {
+        for(String item : mItems) {
             sb.append("Release: " + item + "\n");
         }
         return sb.toString();

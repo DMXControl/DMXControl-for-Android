@@ -27,6 +27,6 @@
 
 package de.dmxcontrol.network;
 
-public interface IMessageListener extends IOSCSenderListener {
+public interface IMessageListener extends INetworkSenderListener {
 
 }

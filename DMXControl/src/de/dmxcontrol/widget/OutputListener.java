@@ -47,7 +47,7 @@ public class OutputListener implements IValueListener {
         Log.d(TAG, "Time in s: " + second + ":" + millisecondsTime + " Value: "
                 + x);
 
-        if (second - lastSecond == 1) {
+        if(second - lastSecond == 1) {
             Log.d(TAG, "Eventcount = " + eventCount);
             eventCount = 0;
         }

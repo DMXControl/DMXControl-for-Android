@@ -9,19 +9,21 @@ import java.util.Iterator;
  */
 public class DeviceCollection implements Collection<EntityDevice> {
 
-    private ArrayList<EntityDevice> list= new ArrayList<EntityDevice>();
+    private ArrayList<EntityDevice> list = new ArrayList<EntityDevice>();
 
     public boolean add(EntityDevice object) {
-        if(object==null){return false;}
+        if(object == null) {
+            return false;
+        }
         if(!contains(object)) {
             return list.add(object);
         }
         else {
             EntityDevice obj = list.get(indexOf(object));
             obj.setId(object.getId());
-            obj.setName(object.getName(),true);
+            obj.setName(object.getName(), true);
             obj.setImage(object.getImageName());
-        return false;
+            return false;
         }
     }
 
@@ -40,8 +42,10 @@ public class DeviceCollection implements Collection<EntityDevice> {
 
     @Override
     public boolean contains(Object object) {
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityDevice)object).guid.equals(list.get(i).guid)){return true;}
+        for(int i = 0; i < size(); i++) {
+            if(((EntityDevice) object).guid.equals(list.get(i).guid)) {
+                return true;
+            }
         }
         return false;
     }
@@ -52,13 +56,17 @@ public class DeviceCollection implements Collection<EntityDevice> {
     }
 
     public EntityDevice get(int location) {
-        if(location>=list.size()){return null;}
+        if(location >= list.size()) {
+            return null;
+        }
         return list.get(location);
     }
 
     public int indexOf(Object object) {
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityDevice)object).guid.equals(list.get(i).guid)){return i;}
+        for(int i = 0; i < size(); i++) {
+            if(((EntityDevice) object).guid.equals(list.get(i).guid)) {
+                return i;
+            }
         }
         return Integer.MIN_VALUE;
     }
@@ -74,9 +82,11 @@ public class DeviceCollection implements Collection<EntityDevice> {
     }
 
     public int lastIndexOf(Object object) {
-        int out=Integer.MIN_VALUE;
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityDevice)object).guid.equals(list.get(i).guid)){out = i;}
+        int out = Integer.MIN_VALUE;
+        for(int i = 0; i < size(); i++) {
+            if(((EntityDevice) object).guid.equals(list.get(i).guid)) {
+                out = i;
+            }
         }
         return out;
     }

@@ -75,7 +75,7 @@ public class GroupAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView;
-        if (convertView == null) {
+        if(convertView == null) {
             imageView = new ImageView(ctx);
             imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
             imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -111,7 +111,7 @@ public class GroupAdapter extends BaseAdapter {
         imageView.setImageBitmap(ent.getImage(ctx));
 
 
-        if (mEntityManager.isInEntitySelection(Type.GROUP, mEntitySelection, ent.getId())) {
+        if(mEntityManager.isInEntitySelection(Type.GROUP, mEntitySelection, ent.getId())) {
             imageView.setBackgroundColor(SelectionColor);
         }
         else {

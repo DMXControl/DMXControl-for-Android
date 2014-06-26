@@ -80,7 +80,7 @@ public class RelativeLayoutWithMultitouch extends RelativeLayout {
         // Log.d(TAG, "dispatchTouchEvent: received event: pid = " + pid
         // + " count = " + mMew.getPointerCount());
 
-        if (actionMasked == MotionEvent.ACTION_DOWN
+        if(actionMasked == MotionEvent.ACTION_DOWN
                 || actionMasked == mMew.getActionPointerDownCONST()) {
             // Log.d(TAG, "dispatchTouchEvent: ACTION_DOWN");
             int pointerIndex = mMew.findPointerIndex(pid);
@@ -88,15 +88,15 @@ public class RelativeLayoutWithMultitouch extends RelativeLayout {
             int y = (int) mMew.getY(pointerIndex);
             int idxChild = 0;
             int numChild = getChildCount();
-            for (idxChild = 0; idxChild < numChild; idxChild++) {
+            for(idxChild = 0; idxChild < numChild; idxChild++) {
                 View child = getChildAt(idxChild);
-                if (child.getVisibility() == View.INVISIBLE
+                if(child.getVisibility() == View.INVISIBLE
                         && child.getAnimation() == null) {
                     // Log.d(TAG, "dispatchTouchEvent: child invisible.");
                     continue;
                 }
                 child.getHitRect(frame);
-                if (!frame.contains(x, y)) {
+                if(!frame.contains(x, y)) {
                     // Log.d(TAG, "dispatchTouchEvent: child outside. ");
                     continue;
                 }
@@ -106,20 +106,22 @@ public class RelativeLayoutWithMultitouch extends RelativeLayout {
 
                 event.setLocation(xMoved, yMoved);
 
-                if (child.dispatchTouchEvent(event)) {
+                if(child.dispatchTouchEvent(event)) {
                     // Log.d(TAG, "Sending event to " + child.getId());
                     mMultitouchTargets.put(pid, child);
                     result = true;
                 }
             }
-        } else if (actionMasked == MotionEvent.ACTION_MOVE) {
+        }
+        else if(actionMasked == MotionEvent.ACTION_MOVE) {
             // Log.d(TAG, "dispatchTouchEvent: ACTION_MOVE");
 
-            for (int key : mMultitouchTargets.keySet()) {
+            for(int key : mMultitouchTargets.keySet()) {
                 View child = mMultitouchTargets.get(key);
                 int idx = mMew.findPointerIndex(key);
-                if (idx >= mMew.getPointerCount() || idx < 0)
+                if(idx >= mMew.getPointerCount() || idx < 0) {
                     continue;
+                }
                 int xMoved = (int) mMew.getX(idx) - child.getLeft();
                 int yMoved = (int) mMew.getY(idx) - child.getTop();
 
@@ -127,12 +129,13 @@ public class RelativeLayoutWithMultitouch extends RelativeLayout {
 
                 result = mMultitouchTargets.get(key).dispatchTouchEvent(event);
             }
-        } else if (actionMasked == MotionEvent.ACTION_UP
+        }
+        else if(actionMasked == MotionEvent.ACTION_UP
                 || actionMasked == MotionEvent.ACTION_CANCEL
                 || actionMasked == mMew.getActionPointerUpCONST()) {
             // Log.d(TAG, "dispatchTouchEvent: ACTION_UP");
             View child = mMultitouchTargets.get(pid);
-            if (child != null) {
+            if(child != null) {
 
                 int idx = mMew.findPointerIndex(pid);
                 int xMoved = (int) mMew.getX(idx) - child.getLeft();

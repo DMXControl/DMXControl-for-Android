@@ -12,11 +12,11 @@ import de.dmxcontrol.preset.PresetCollection;
 /**
  * Created by Qasi on 15.06.2014.
  */
-public class ReceivedData
-{
+public class ReceivedData {
     private static ReceivedData INSTANCE = null;
+
     public static ReceivedData get() {
-        if (INSTANCE == null) {
+        if(INSTANCE == null) {
             INSTANCE = new ReceivedData();
         }
         return INSTANCE;

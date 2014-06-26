@@ -35,7 +35,7 @@ import android.util.Log;
 public class NetworkChecker {
     private final static String TAG = "network";
 
-    public static void isNetworkAvailable(Context ctx){
+    public static void isNetworkAvailable(Context ctx) {
         ConnectivityManager cm = (ConnectivityManager) ctx
                 .getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();

@@ -75,11 +75,13 @@ public class PanelSelectorFragment extends Fragment implements OnClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (savedInstanceState != null)
+        if(savedInstanceState != null) {
             mActiveInputType = savedInstanceState.getInt(
                     EXTRA_ACTIVE_INPUT_TYPE, ACTIVE_INPUT_TYPE_DEVICE);
-        else
+        }
+        else {
             mActiveInputType = ACTIVE_INPUT_TYPE_DEVICE;
+        }
 
         LinearLayout layout = (LinearLayout) inflater.inflate(
                 R.layout.group_device_selector_fragment, container, false);
@@ -142,7 +144,7 @@ public class PanelSelectorFragment extends Fragment implements OnClickListener,
 
     @Override
     public void onStart() {
-            super.onStart();
+        super.onStart();
     }
 
     @Override
@@ -187,7 +189,7 @@ public class PanelSelectorFragment extends Fragment implements OnClickListener,
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        switch (id) {
+        switch(id) {
             case R.id.button_dev:
                 toggleActiveInputType();
                 updateActiveInputType();
@@ -241,7 +243,7 @@ public class PanelSelectorFragment extends Fragment implements OnClickListener,
     @Override
     public boolean onLongClick(View view) {
         int id = view.getId();
-        switch (id) {
+        switch(id) {
             case R.id.button_clear:
                 clearActive();
                 break;
@@ -253,21 +255,25 @@ public class PanelSelectorFragment extends Fragment implements OnClickListener,
     }
 
     private void clearActive() {
-        if (mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE)
+        if(mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE) {
             mEntitySelection.clearEntities(Type.DEVICE);
-        else
+        }
+        else {
             mEntitySelection.clearEntities(Type.GROUP);
+        }
     }
 
     private void removeLastCharFromActive() {
         Editable et;
 
-        if (mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE)
+        if(mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE) {
             et = mEditDevice.getEditableText();
-        else
+        }
+        else {
             et = mEditGroup.getEditableText();
+        }
 
-        if (et.length() > 0) {
+        if(et.length() > 0) {
             Log.d(TAG,
                     "deleting from " + (et.length() - 1) + " - " + et.length());
             et.delete(et.length() - 1, et.length());
@@ -281,10 +287,12 @@ public class PanelSelectorFragment extends Fragment implements OnClickListener,
     private void appendToActive(String s) {
         Editable et;
 
-        if (mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE)
+        if(mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE) {
             et = mEditDevice.getEditableText();
-        else
+        }
+        else {
             et = mEditGroup.getEditableText();
+        }
 
         et.append(s);
         mIsEditing = true;
@@ -293,10 +301,11 @@ public class PanelSelectorFragment extends Fragment implements OnClickListener,
     }
 
     public void updateActiveInputType() {
-        if (mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE) {
+        if(mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE) {
             mEditDevice.requestFocus();
             mBDevice.setText("D");
-        } else {
+        }
+        else {
             mEditGroup.requestFocus();
             mBDevice.setText("G");
         }
@@ -305,23 +314,28 @@ public class PanelSelectorFragment extends Fragment implements OnClickListener,
     private void updateEntitySelection(Editable et) {
         String s = et.toString();
 
-        if (mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE)
+        if(mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE) {
             mEntitySelection.parse(Type.DEVICE, s);
-        else
+        }
+        else {
             mEntitySelection.parse(Type.GROUP, s);
+        }
     }
 
     private void toggleActiveInputType() {
-        if (mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE)
+        if(mActiveInputType == ACTIVE_INPUT_TYPE_DEVICE) {
             mActiveInputType = ACTIVE_INPUT_TYPE_GROUP;
-        else
+        }
+        else {
             mActiveInputType = ACTIVE_INPUT_TYPE_DEVICE;
+        }
     }
 
     @Override
     public void onEntitySelectionChanged(EntitySelection es) {
-        if (mIsEditing)
+        if(mIsEditing) {
             return;
+        }
 
         mEditDevice.setText(es.getRangesString(Type.DEVICE));
         mEditGroup.setText(es.getRangesString(Type.GROUP));

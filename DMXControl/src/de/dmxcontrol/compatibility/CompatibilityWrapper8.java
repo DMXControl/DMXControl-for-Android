@@ -36,7 +36,8 @@ public class CompatibilityWrapper8 {
     static public CompatibilityWrapper8 wrap(Context ctx) {
         try {
             return new CompatibilitySdk8(ctx);
-        } catch (VerifyError e) {
+        }
+        catch(VerifyError e) {
             return new CompatibilityWrapper8(ctx);
         }
     }
@@ -47,10 +48,12 @@ public class CompatibilityWrapper8 {
 
     public boolean isDisplayPortrait() {
         int o = ctx.getResources().getConfiguration().orientation;
-        if (o == Configuration.ORIENTATION_PORTRAIT || o == Configuration.ORIENTATION_SQUARE)
+        if(o == Configuration.ORIENTATION_PORTRAIT || o == Configuration.ORIENTATION_SQUARE) {
             return true;
-        else
+        }
+        else {
             return false;
+        }
     }
 
 }

@@ -38,19 +38,20 @@ public class LiveActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         try {
-            if(ReceivedData.get().executorPageView==null){
-                ReceivedData.get().executorPageView=new ExecutorPageView(1,"",context);}
-            else{
+            if(ReceivedData.get().executorPageView == null) {
+                ReceivedData.get().executorPageView = new ExecutorPageView(1, "", context);
+            }
+            else {
                 ReceivedData.get().executorPageView.LoadExecutors();
             }
             view = ReceivedData.get().executorPageView.getView();
-            boolean needResize=false;
+            boolean needResize = false;
 
-            if(view.getParent()!=null) {
-                ((FrameLayout)view.getParent()).removeAllViews();
-                needResize=true;
+            if(view.getParent() != null) {
+                ((FrameLayout) view.getParent()).removeAllViews();
+                needResize = true;
             }
             ReceivedData.get().executorPageView.SetParentActivity(this);
             setContentView(view);
@@ -59,29 +60,30 @@ public class LiveActivity extends Activity {
                 ReceivedData.get().executorPageView.Resize();
             }
         }
-        catch (Exception e) {
-            Log.w("",DMXControlApplication.stackTraceToString(e));
+        catch(Exception e) {
+            Log.w("", DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
     }
 
-   /** @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        try {
-            int counter = event.getPointerCount();
-            MotionEvent.PointerCoords[] coords = new MotionEvent.PointerCoords[counter];
-            for (int i = 0; i < counter; i++) {
-                MotionEvent.PointerCoords coordinate = new MotionEvent.PointerCoords();
-                event.getPointerCoords(i, coordinate);
-                coords[i] = coordinate;
-            }
-            ReceivedData.get().executorPage.RaiseMultiTouch(coords, event);
-        }
-        catch (Exception e){
-            e.toString();
-        }
-        return false;
-    }**/
+    /**
+     * @Override public boolean onTouchEvent(MotionEvent event) {
+     * try {
+     * int counter = event.getPointerCount();
+     * MotionEvent.PointerCoords[] coords = new MotionEvent.PointerCoords[counter];
+     * for (int i = 0; i < counter; i++) {
+     * MotionEvent.PointerCoords coordinate = new MotionEvent.PointerCoords();
+     * event.getPointerCoords(i, coordinate);
+     * coords[i] = coordinate;
+     * }
+     * ReceivedData.get().executorPage.RaiseMultiTouch(coords, event);
+     * }
+     * catch (Exception e){
+     * e.toString();
+     * }
+     * return false;
+     * }*
+     */
 
     private DialogInterface.OnClickListener mOnClickListener = new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {

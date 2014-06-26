@@ -35,7 +35,7 @@ public class MotionEventWrapper {
     private static IMotionEventWrapper wrappedInstance = null;
 
     public static IMotionEventWrapper get(MotionEvent event) {
-        if (wrappedInstance != null) {
+        if(wrappedInstance != null) {
             wrappedInstance.setEvent(event);
             return wrappedInstance;
         }
@@ -45,13 +45,15 @@ public class MotionEventWrapper {
         try {
             clazz = Class.forName(MotionEventWrapper.class.getPackage()
                     .getName() + ".MotionEventWrapper8");
-        } catch (Exception ex) {
+        }
+        catch(Exception ex) {
             // Log.d( TAG, "MotionEventWrapper exception: " +
             // ex.getClass().getName() + " " + ex.getMessage());
             try {
                 clazz = Class.forName(MotionEventWrapper.class.getPackage()
                         .getName() + ".MotionEventWrapperPre8");
-            } catch (ClassNotFoundException e) {
+            }
+            catch(ClassNotFoundException e) {
                 return null;
             }
         }
@@ -59,7 +61,8 @@ public class MotionEventWrapper {
         try {
             wrappedInstance = (IMotionEventWrapper) clazz.newInstance();
             wrappedInstance.setEvent(event);
-        } catch (Exception e) {
+        }
+        catch(Exception e) {
             return null;
         }
 

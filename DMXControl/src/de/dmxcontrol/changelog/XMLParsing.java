@@ -52,10 +52,12 @@ public class XMLParsing {
         Locale l = ctx.getResources().getConfiguration().locale;
 
         InputStream in;
-        if (l.toString().startsWith("de"))
+        if(l.toString().startsWith("de")) {
             in = ctx.getResources().openRawResource(R.raw.de_changelog);
-        else
+        }
+        else {
             in = ctx.getResources().openRawResource(R.raw.en_changelog);
+        }
 
 		/* Get a SAXParser from the SAXPArserFactory. */
         SAXParserFactory spf = SAXParserFactory.newInstance();

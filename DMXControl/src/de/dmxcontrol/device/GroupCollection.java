@@ -12,16 +12,18 @@ public class GroupCollection implements Collection<EntityGroup> {
     private ArrayList<EntityGroup> list = new ArrayList<EntityGroup>();
 
     public boolean add(EntityGroup object) {
-        if(object==null){return false;}
+        if(object == null) {
+            return false;
+        }
         if(!contains(object)) {
             return list.add(object);
         }
         else {
-            EntityGroup obj=list.get(indexOf(object));
+            EntityGroup obj = list.get(indexOf(object));
             obj.setId(object.getId());
-            obj.setName(object.getName(),true);
+            obj.setName(object.getName(), true);
             obj.setImage(object.getImageName());
-        return false;
+            return false;
         }
     }
 
@@ -40,8 +42,8 @@ public class GroupCollection implements Collection<EntityGroup> {
 
     @Override
     public boolean contains(Object object) {
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityGroup)object).guid.equals(list.get(i).guid)){
+        for(int i = 0; i < size(); i++) {
+            if(((EntityGroup) object).guid.equals(list.get(i).guid)) {
                 return true;
             }
         }
@@ -58,8 +60,8 @@ public class GroupCollection implements Collection<EntityGroup> {
     }
 
     public int indexOf(Object object) {
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityGroup)object).guid.equals(list.get(i).guid)) {
+        for(int i = 0; i < size(); i++) {
+            if(((EntityGroup) object).guid.equals(list.get(i).guid)) {
                 return i;
             }
         }
@@ -77,10 +79,10 @@ public class GroupCollection implements Collection<EntityGroup> {
     }
 
     public int lastIndexOf(Object object) {
-        int out=Integer.MIN_VALUE;
+        int out = Integer.MIN_VALUE;
 
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityGroup)object).guid.equals(list.get(i).guid)){
+        for(int i = 0; i < size(); i++) {
+            if(((EntityGroup) object).guid.equals(list.get(i).guid)) {
                 out = i;
             }
         }

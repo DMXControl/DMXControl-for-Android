@@ -42,19 +42,19 @@ import de.dmxcontrol.network.ReceivedData;
 public class EntityExecutorPage extends Entity {
     public final static String defaultExecutorPageIcon = "device_new";
     public final static String NetworkID = "ExecutorPage";
-    
+
     @Override
     public String getNetworkID() {
         return NetworkID;
     }
 
 
-    private ArrayList<String>ExecutorGUIDs;
+    private ArrayList<String> ExecutorGUIDs;
 
     public ExecutorCollection getExecutors() {
         ExecutorCollection Executors = new ExecutorCollection();
 
-        for (int i = 0; i <ExecutorGUIDs.size() ; i++) {
+        for(int i = 0; i < ExecutorGUIDs.size(); i++) {
             Executors.add(ReceivedData.get().Executors.get(ExecutorGUIDs.get(i)));
         }
         return Executors;
@@ -68,7 +68,8 @@ public class EntityExecutorPage extends Entity {
         return ExecutorGUIDs;
     }
 
-    public EntityExecutorPage() {}
+    public EntityExecutorPage() {
+    }
 
     public EntityExecutorPage(int id) {
         super(id, NetworkID + ": " + id, null);
@@ -89,21 +90,20 @@ public class EntityExecutorPage extends Entity {
     public static EntityExecutorPage Receive(JSONObject o) {
         EntityExecutorPage entity = null;
         try {
-            if (o.getString("Type").equals(NetworkID)) {
+            if(o.getString("Type").equals(NetworkID)) {
                 entity = new EntityExecutorPage(o.getInt("Number"), o.getString("Name"));
                 entity.guid = o.getString("GUID");
 
-                ArrayList<String>executors = new ArrayList<String>();
+                ArrayList<String> executors = new ArrayList<String>();
 
-                for (int i = 0; i < o.getJSONArray("Executors").length() ; i++) {
+                for(int i = 0; i < o.getJSONArray("Executors").length(); i++) {
                     executors.add(o.getJSONArray("Executors").getString(i));
                 }
 
                 entity.setExecutorGUIDs(executors);
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             Log.e("UDP Listener: ", e.getMessage());
             DMXControlApplication.SaveLog();
         }

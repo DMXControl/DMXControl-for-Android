@@ -27,7 +27,7 @@
 
 package de.dmxcontrol.network;
 
-public interface IOSCSenderListener {
+public interface INetworkSenderListener {
 
     public void notifyNetworkError(String msg);
 

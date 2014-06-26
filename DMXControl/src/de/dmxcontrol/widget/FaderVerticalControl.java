@@ -46,25 +46,29 @@ public class FaderVerticalControl extends BaseValueWidget {
     private final static float ROUND_EDGE_Y = 15f;
 
     private ArrayList<ValueChangedListener> listeners = new ArrayList<ValueChangedListener>();
+
     public void setValueChangedListener(ValueChangedListener listener) {
         this.listeners.add(listener);
     }
+
     public interface ValueChangedListener {
         void onValueChanged(float value);
     }
+
     private Paint mPaintBorder;
     private Paint mPaintInside;
     private Paint mPaintMarker;
     private Paint mPaintMarked;
 
     private int markerSizeY;
+
     public FaderVerticalControl(Context context) {
         super(context);
         int height = context.getResources().getDisplayMetrics().heightPixels;
-        if(height<context.getResources().getDisplayMetrics().widthPixels) {
+        if(height < context.getResources().getDisplayMetrics().widthPixels) {
             height = context.getResources().getDisplayMetrics().widthPixels;
         }
-        markerSizeY=height/24;
+        markerSizeY = height / 24;
         init();
     }
 
@@ -144,11 +148,11 @@ public class FaderVerticalControl extends BaseValueWidget {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (heightMeasureSpec != 0) {
+        if(heightMeasureSpec != 0) {
             int sizeWidth = MeasureSpec.getSize(widthMeasureSpec);
             int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
 
-            if (sizeHeight < sizeWidth && false) {
+            if(sizeHeight < sizeWidth && false) {
                 //sizeHeight = sizeWidth * 3 / 2;
 
                 heightMeasureSpec = MeasureSpec.makeMeasureSpec(
@@ -164,11 +168,12 @@ public class FaderVerticalControl extends BaseValueWidget {
     public void pointerPosition(float x, float y) {
         float percentValue = 1 - ((y - (markerSizeY / 2)) / (getHeight() - markerSizeY));
 
-        if (percentValue < 0 || percentValue > 1)
+        if(percentValue < 0 || percentValue > 1) {
             return;
+        }
         setValue(percentValue, 0f);
         notifyListener();
-        for (ValueChangedListener listener : listeners) {
+        for(ValueChangedListener listener : listeners) {
             listener.onValueChanged(percentValue);
         }
         Log.d(TAG, "pointerPosition: " + percentValue);

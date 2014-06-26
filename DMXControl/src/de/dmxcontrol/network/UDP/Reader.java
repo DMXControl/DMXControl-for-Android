@@ -61,16 +61,16 @@ public class Reader extends Thread {
         DatagramPacket packet = new DatagramPacket(lmessage, lmessage.length);
 
         try {
-            if (androidApp == null) {
+            if(androidApp == null) {
                 androidApp = new DatagramSocket(13141);
             }
 
-            while (bKeepRunning) {
+            while(bKeepRunning) {
                 try {
                     receiveAndroidAppPluginEntity(message, lmessage, androidApp, packet);
                 }
-                catch (Exception e){
-                    Log.w("",DMXControlApplication.stackTraceToString(e));
+                catch(Exception e) {
+                    Log.w("", DMXControlApplication.stackTraceToString(e));
                     DMXControlApplication.SaveLog();
                 }
                 finally {
@@ -78,14 +78,14 @@ public class Reader extends Thread {
                 }
             }
 
-            if (androidApp != null) {
-                if(!androidApp.isClosed()){
+            if(androidApp != null) {
+                if(!androidApp.isClosed()) {
                     androidApp.close();
                 }
             }
 
         }
-        catch (Throwable e) {
+        catch(Throwable e) {
             Log.e("UDP Listener", e.getMessage());
             DMXControlApplication.SaveLog();
             run();
@@ -97,47 +97,47 @@ public class Reader extends Thread {
             socket.receive(packet);
             message = new String(lmessage, 0, packet.getLength());
 
-            if (message.length() > 0) {
+            if(message.length() > 0) {
                 //Type t=Type.convert(lmessage[0]);
 
                 JSONObject o = new JSONObject(message);
-                String type=o.getString("Type");
-                if (type.equals("Device")) {
+                String type = o.getString("Type");
+                if(type.equals("Device")) {
                     ReceivedData.get().Devices.add(EntityDevice.Receive(o));
                 }
-                else if (type.equals("DeviceGroup")) {
+                else if(type.equals("DeviceGroup")) {
                     ReceivedData.get().Groups.add(EntityGroup.Receive(o));
                 }
-                else if (type.equals("Preset")) {
+                else if(type.equals("Preset")) {
                     ReceivedData.get().Presets.add(EntityPreset.Receive(o));
                 }
-                else if (type.equals("Executor")) {
+                else if(type.equals("Executor")) {
                     ReceivedData.get().Executors.add(EntityExecutor.Receive(o));
                 }
-                else if (type.equals("ExecutorPage")) {
+                else if(type.equals("ExecutorPage")) {
                     ReceivedData.get().ExecutorPages.add(EntityExecutorPage.Receive(o));
                 }
-                else if (type.equals("Cuelist")) {
+                else if(type.equals("Cuelist")) {
                     ReceivedData.get().Cuelists.add(EntityCuelist.Receive(o));
                 }
 
-                for (NewsUpdateListener listener : listeners) {
+                for(NewsUpdateListener listener : listeners) {
                     listener.onNewsUpdate();
                 }
             }
 
-            message=null;
-            if(message!=null) {
+            message = null;
+            if(message != null) {
                 message = null;
             }
 
-            lmessage=null;
-            if(lmessage!=null) {
+            lmessage = null;
+            if(lmessage != null) {
                 lmessage = null;
             }
 
         }
-        catch (Throwable e) {
+        catch(Throwable e) {
             Log.e("Can't receive Android app data packet ", e.getMessage());
             run();
         }
@@ -145,8 +145,9 @@ public class Reader extends Thread {
 
     public void kill() {
         bKeepRunning = false;
-        if(!androidApp.isClosed())
+        if(!androidApp.isClosed()) {
             androidApp.close();
+        }
     }
 //}
 

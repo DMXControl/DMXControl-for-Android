@@ -51,8 +51,9 @@ public class ErrorDialogFragment extends DialogFragment implements
     }
 
     public final static ErrorDialogFragment newInstance(String msg) {
-        if (isShowing)
+        if(isShowing) {
             return null;
+        }
 
         isShowing = true;
         ErrorDialogFragment dialog = new ErrorDialogFragment();
@@ -69,8 +70,9 @@ public class ErrorDialogFragment extends DialogFragment implements
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof CloseListener)
+        if(activity instanceof CloseListener) {
             mListener = (CloseListener) activity;
+        }
     }
 
     @Override
@@ -97,8 +99,9 @@ public class ErrorDialogFragment extends DialogFragment implements
         isShowing = false;
         dialog.dismiss();
 
-        if (mListener != null)
+        if(mListener != null) {
             mListener.onCloseDialog(TAG);
+        }
     }
 
 }

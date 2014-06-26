@@ -85,13 +85,16 @@ public class PanTiltFragment extends BasePanelFragment implements
                 new ViewTreeObserver.OnGlobalLayoutListener() {
                     public void onGlobalLayout() {
                         Log.d(ControlActivity.TAG, "onGlobalLayout called");
-                        if (cc == null || fader == null)
+                        if(cc == null || fader == null) {
                             return;
+                        }
 
-                        if (cc.getMode() == CrossControl.MODE_POINTER_PLAIN)
+                        if(cc.getMode() == CrossControl.MODE_POINTER_PLAIN) {
                             fader.setVisibility(View.GONE);
-                        else
+                        }
+                        else {
                             fader.setVisibility(View.VISIBLE);
+                        }
                         fader.setValue(cc.getSpeed() / 100.0f, 0);
                         setCrrSelected();
                         setEnableLock();
@@ -141,8 +144,9 @@ public class PanTiltFragment extends BasePanelFragment implements
         Button reset = (Button) softpultLayout.findViewById(R.id.reset);
         reset.setOnClickListener(this);
 
-        if (!Prefs.get().getDisableAnimations())
+        if(!Prefs.get().getDisableAnimations()) {
             addFadeInAnimation(softpultLayout);
+        }
 
         return softpultLayout;
 
@@ -201,9 +205,10 @@ public class PanTiltFragment extends BasePanelFragment implements
     }
 
     private void setCrrSelected() {
-        if (modeCrrSelected != null)
+        if(modeCrrSelected != null) {
             modeCrrSelected.setSelected(false);
-        switch (cc.getMode()) {
+        }
+        switch(cc.getMode()) {
             case CrossControl.MODE_POINTER_PLAIN:
                 modeCrrSelected = modePlain;
                 break;
@@ -229,7 +234,7 @@ public class PanTiltFragment extends BasePanelFragment implements
     public void onClick(View v) {
         int id = v.getId();
 
-        switch (id) {
+        switch(id) {
             case R.id.mode_plain:
                 cc.setMode(CrossControl.MODE_POINTER_PLAIN);
                 fader.setVisibility(View.GONE);
@@ -246,18 +251,22 @@ public class PanTiltFragment extends BasePanelFragment implements
                 setCrrSelected();
                 break;
             case R.id.lockxdirection:
-                if (!lockedX)
+                if(!lockedX) {
                     lockedX = true;
-                else
+                }
+                else {
                     lockedX = false;
+                }
                 cc.enableLockXDirection(lockedX);
                 lockX.setSelected(lockedX);
                 break;
             case R.id.lockydirection:
-                if (!lockedY)
+                if(!lockedY) {
                     lockedY = true;
-                else
+                }
+                else {
                     lockedY = false;
+                }
                 cc.enableLockYDirection(lockedY);
                 lockY.setSelected(lockedY);
 

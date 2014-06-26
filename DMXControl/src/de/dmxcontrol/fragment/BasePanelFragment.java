@@ -44,8 +44,9 @@ public class BasePanelFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof OnPanelResumedListener)
+        if(activity instanceof OnPanelResumedListener) {
             resumedListener = (OnPanelResumedListener) activity;
+        }
 
     }
 
@@ -57,8 +58,9 @@ public class BasePanelFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (resumedListener != null)
+        if(resumedListener != null) {
             resumedListener.onPanelResumed();
+        }
     }
 
     protected static void addFadeInAnimation(ViewGroup vg) {

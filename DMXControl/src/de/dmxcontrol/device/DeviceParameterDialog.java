@@ -22,9 +22,11 @@ public class DeviceParameterDialog extends FrameLayout {
     private View xmlView;
     private TextView name, channel, channelCount, image, enabled, model, vendor, author, number;
     private EntityDevice device;
-    public EntityDevice getDevice(){
+
+    public EntityDevice getDevice() {
         return device;
     }
+
     public DeviceParameterDialog(final Context context, final EntityDevice device) {
         super(context);
         this.device = device;
@@ -41,20 +43,20 @@ public class DeviceParameterDialog extends FrameLayout {
             author = ((TextView) grid.findViewWithTag("deviceParameter_Author"));
             number = ((TextView) grid.findViewWithTag("deviceParameter_Number"));
         }
-        catch (Exception e) {
+        catch(Exception e) {
             Log.w("DeviceParameterDialog", DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
         try {
             name.setText(device.getName());
-            int fulllChannel=device.getChannel();
-            if(fulllChannel<=512) {
+            int fulllChannel = device.getChannel();
+            if(fulllChannel <= 512) {
                 channel.setText(fulllChannel + "");
             }
-            else{
-                int universeChannel = (fulllChannel/512)+1;
-                int realChannel = fulllChannel-((universeChannel-1)*512);
-                channel.setText(universeChannel + "."+ realChannel+" ("+fulllChannel+")");
+            else {
+                int universeChannel = (fulllChannel / 512) + 1;
+                int realChannel = fulllChannel - ((universeChannel - 1) * 512);
+                channel.setText(universeChannel + "." + realChannel + " (" + fulllChannel + ")");
             }
             channelCount.setText(device.getChannelCount() + "");
             image.setText(device.getImageName());
@@ -64,7 +66,7 @@ public class DeviceParameterDialog extends FrameLayout {
             author.setText(device.getAuthor());
             number.setText(device.getId() + "");
         }
-        catch (Exception e) {
+        catch(Exception e) {
             Log.w("DeviceParameterDialog", DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
@@ -81,7 +83,7 @@ public class DeviceParameterDialog extends FrameLayout {
                 alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String str = input.getEditableText().toString();
-                        device.setName(str,false);
+                        device.setName(str, false);
                         name.setText(device.getName());
                         Toast.makeText(context, str, Toast.LENGTH_LONG).show();
                     }

@@ -9,24 +9,26 @@ import java.util.Iterator;
  */
 public class PresetCollection implements Collection<EntityPreset> {
 
-    private ArrayList<EntityPreset> list= new ArrayList<EntityPreset>();
+    private ArrayList<EntityPreset> list = new ArrayList<EntityPreset>();
 
     public boolean add(EntityPreset object) {
-        if(object==null){return false;}
+        if(object == null) {
+            return false;
+        }
         if(!contains(object)) {
             return list.add(object);
         }
         else {
             try {
-                EntityPreset obj=list.get(indexOf(object));
+                EntityPreset obj = list.get(indexOf(object));
                 obj.setId(object.getId());
                 obj.setName(object.getName(), true);
                 obj.setImage(object.getImageName());
             }
-            catch(Exception e){
+            catch(Exception e) {
                 e.toString();
             }
-        return false;
+            return false;
         }
     }
 
@@ -45,8 +47,8 @@ public class PresetCollection implements Collection<EntityPreset> {
 
     @Override
     public boolean contains(Object object) {
-        for (int i = 0; i <size(); i++) {
-            if(((EntityPreset)object).guid.equals(list.get(i).guid)){
+        for(int i = 0; i < size(); i++) {
+            if(((EntityPreset) object).guid.equals(list.get(i).guid)) {
                 return true;
             }
         }
@@ -63,8 +65,8 @@ public class PresetCollection implements Collection<EntityPreset> {
     }
 
     public int indexOf(Object object) {
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityPreset)object).guid.equals(list.get(i).guid)){
+        for(int i = 0; i < size(); i++) {
+            if(((EntityPreset) object).guid.equals(list.get(i).guid)) {
                 return i;
             }
         }
@@ -82,9 +84,9 @@ public class PresetCollection implements Collection<EntityPreset> {
     }
 
     public int lastIndexOf(Object object) {
-        int out=Integer.MIN_VALUE;
-        for (int i = 0; i <size() ; i++) {
-            if(((EntityPreset)object).guid.equals(list.get(i).guid)){
+        int out = Integer.MIN_VALUE;
+        for(int i = 0; i < size(); i++) {
+            if(((EntityPreset) object).guid.equals(list.get(i).guid)) {
                 out = i;
             }
         }

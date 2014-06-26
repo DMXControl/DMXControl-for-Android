@@ -63,16 +63,21 @@ public class XMLDescriptionHandler extends DefaultHandler {
     public void startElement(String uri, String localName, String qName,
                              Attributes attributes) throws SAXException {
         localName = localName.toLowerCase();
-        if (localName.equals("changelog"))
+        if(localName.equals("changelog")) {
             mChangelogTag = true;
-        else if (localName.equals("release"))
+        }
+        else if(localName.equals("release")) {
             mReleaseTag = true;
-        else if (localName.equals("version"))
+        }
+        else if(localName.equals("version")) {
             mVersionTag = true;
-        else if (localName.equals("item"))
+        }
+        else if(localName.equals("item")) {
             mItemTag = true;
-        else
+        }
+        else {
             throw new SAXException("Unknown Tag: " + localName);
+        }
 
     }
 
@@ -80,30 +85,38 @@ public class XMLDescriptionHandler extends DefaultHandler {
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
         localName = localName.toLowerCase();
-        if (localName.equals("changelog"))
+        if(localName.equals("changelog")) {
             mChangelogTag = false;
-        else if (localName.equals("release")) {
+        }
+        else if(localName.equals("release")) {
             mReleasesParsed.add(mCrrRelease);
             mReleaseTag = false;
-        } else if (localName.equals("version")) {
+        }
+        else if(localName.equals("version")) {
             mCrrRelease = new Release(mCrrVersion);
             mVersionTag = false;
-        } else if (localName.equals("item")) {
+        }
+        else if(localName.equals("item")) {
             mCrrRelease.add(mCrrItem);
             mItemTag = false;
-        } else
+        }
+        else {
             throw new SAXException("Unknown Tag: " + localName);
+        }
     }
 
     @Override
     public void characters(char[] ch, int start, int length)
             throws SAXException {
-        if (!mChangelogTag || !mReleaseTag)
+        if(!mChangelogTag || !mReleaseTag) {
             return;
+        }
 
-        if (mVersionTag)
+        if(mVersionTag) {
             mCrrVersion = new String(ch, start, length);
-        else if (mItemTag)
+        }
+        else if(mItemTag) {
             mCrrItem = new String(ch, start, length);
+        }
     }
 }

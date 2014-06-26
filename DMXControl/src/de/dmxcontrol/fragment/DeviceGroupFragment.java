@@ -117,10 +117,10 @@ public class DeviceGroupFragment extends BasePanelFragment implements
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
                 EntityDevice device = (EntityDevice) adapterView.getItemAtPosition(position);
 
-                if(device!=null){
+                if(device != null) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(adapterView.getContext());
                     alert.setTitle("Parameter");
-                    alert.setView(new DeviceParameterDialog(adapterView.getContext(),device));
+                    alert.setView(new DeviceParameterDialog(adapterView.getContext(), device));
                     alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
                         }
@@ -133,8 +133,9 @@ public class DeviceGroupFragment extends BasePanelFragment implements
             }
         });
 
-        if (!Prefs.get().getDisableAnimations())
+        if(!Prefs.get().getDisableAnimations()) {
             addFadeInAnimation(deviceLayout);
+        }
 
         return deviceLayout;
     }
@@ -194,7 +195,7 @@ public class DeviceGroupFragment extends BasePanelFragment implements
     public void onItemClick(AdapterView<?> adapterView, View v, int position,
                             long id) {
 
-        switch (adapterView.getId()) {
+        switch(adapterView.getId()) {
             case R.id.group_grid:
                 EntityGroup group = (EntityGroup) adapterView
                         .getItemAtPosition(position);

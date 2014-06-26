@@ -126,8 +126,7 @@ import java.net.SocketAddress;
  * @see OSCServer
  * @since NetUtil 0.30
  */
-public class OSCClient
-        implements OSCBidi {
+public class OSCClient implements OSCBidi {
     private final OSCReceiver rcv;
     private final OSCTransmitter trns;
     private int bufSize = DEFAULTBUFSIZE;

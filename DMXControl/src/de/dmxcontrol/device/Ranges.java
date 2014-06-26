@@ -47,24 +47,24 @@ class Ranges {
         boolean beginFound = false, endFound = false;
         int crrRangeBegin = 0, crrRangeEnd = 0;
 
-        for (i = 0; i < entities.size(); i++) {
+        for(i = 0; i < entities.size(); i++) {
             Entity entity = entities.get(i);
 
-            if (!beginFound && selectedEntities.contains(entity)) {
+            if(!beginFound && selectedEntities.contains(entity)) {
                 crrRangeBegin = entity.getId();
                 beginFound = true;
             }
 
-            if (beginFound && !selectedEntities.contains(entity)) {
+            if(beginFound && !selectedEntities.contains(entity)) {
                 crrRangeEnd = entities.get(i - 1).getId();
                 endFound = true;
             }
-            else if (beginFound && (i + 1) == entities.size()) {
+            else if(beginFound && (i + 1) == entities.size()) {
                 crrRangeEnd = entity.getId();
                 endFound = true;
             }
 
-            if (beginFound && endFound) {
+            if(beginFound && endFound) {
                 beginFound = false;
                 endFound = false;
                 mRanges.add(new Range(crrRangeBegin, crrRangeEnd));
@@ -78,7 +78,7 @@ class Ranges {
         StringBuilder sb = new StringBuilder();
         String appendConcat = "";
 
-        for (Range range : ranges) {
+        for(Range range : ranges) {
             sb.append(appendConcat);
             sb.append(range.getReadableRange());
             appendConcat = "+";

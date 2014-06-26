@@ -77,7 +77,7 @@ public abstract class BaseModel {
 
     public void notifyListener() {
         Iterator<OnModelListener> iter = mListeners.keySet().iterator();
-        while (iter.hasNext()) {
+        while(iter.hasNext()) {
             OnModelListener listener = iter.next();
             listener.onModelChanged(this);
         }

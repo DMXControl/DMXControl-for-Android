@@ -28,6 +28,7 @@
 package de.dmxcontrol.model;
 
 import org.openintents.widget.OnColorChangedListener;
+
 import android.graphics.Color;
 import android.view.View;
 

@@ -138,11 +138,11 @@ public class FaderTest extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (heightMeasureSpec != 0) {
+        if(heightMeasureSpec != 0) {
             int sizeWidth = MeasureSpec.getSize(widthMeasureSpec);
             int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
 
-            if (sizeHeight < sizeWidth) {
+            if(sizeHeight < sizeWidth) {
                 sizeHeight = sizeWidth * 3 / 2;
 
                 heightMeasureSpec = MeasureSpec.makeMeasureSpec(
@@ -158,13 +158,14 @@ public class FaderTest extends View {
 
         int action = event.getAction();
         Log.d(TAG, "onTouchEvent: action = " + action);
-        if (action == MotionEvent.ACTION_DOWN
+        if(action == MotionEvent.ACTION_DOWN
                 || action == MotionEvent.ACTION_MOVE) {
             float y = event.getY();
             Log.d(TAG, "onTouchEvent: y = " + y);
             percentValue = y / getHeight();
-            if (percentValue < 0 || percentValue > 1)
+            if(percentValue < 0 || percentValue > 1) {
                 return false;
+            }
 
             setPercentValue(percentValue);
             return true;

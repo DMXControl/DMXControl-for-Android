@@ -131,8 +131,9 @@ public class IntensityFragment extends BasePanelFragment {
                 .findViewById(R.id.button_intensity_nox);
         buttonIntensityNox.setOnClickListener(oll);
 
-        if (!Prefs.get().getDisableAnimations())
+        if(!Prefs.get().getDisableAnimations()) {
             addFadeInAnimation(intensityLayout);
+        }
 
         return intensityLayout;
     }
@@ -202,7 +203,7 @@ public class IntensityFragment extends BasePanelFragment {
         public void onClick(View view) {
             int id = view.getId();
             int value;
-            switch (id) {
+            switch(id) {
                 case R.id.button_shutter_open:
                     value = ShutterModel.SHUTTER_OPEN;
                     break;
@@ -230,7 +231,7 @@ public class IntensityFragment extends BasePanelFragment {
         @Override
         public void onClick(View view) {
             int id = view.getId();
-            switch (id) {
+            switch(id) {
                 case R.id.button_intensity_lumos:
                     mFaderDimmer.setValue(1f, 0f);
                     mFaderDimmer.notifyListener();

@@ -67,7 +67,7 @@ public class ExecuterPageMultitouchLayout extends LinearLayout {
     @SuppressLint("NewApi")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        switch(event.getAction()){
+        switch(event.getAction()) {
             case MotionEvent.ACTION_MOVE:
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_UP:
@@ -76,89 +76,93 @@ public class ExecuterPageMultitouchLayout extends LinearLayout {
                 int action = event.getAction();
                 int actionMasked = action & mMew.getActionMaskCONST();
                 int pid = mMew.getPointerIdByAction(action);
-                    float x = event.getX(pid)-executorPage.getExecuterPageSliderView().getScrollX();
-                    Log.i(executorPage.getExecuterPageSliderView().getScrollX()+"","");
-                    float y = event.getY(pid);
-                    if (executorPage != null) {
-                        for (ExecutorView ev : executorPage.getExecutors())
-                            if (isPointInsideView(x, y, ev)) {
-                                switch (actionMasked) {
-                                    case MotionEvent.ACTION_DOWN:
-                                    case MotionEvent.ACTION_POINTER_DOWN:
-                                    case MotionEvent.ACTION_CANCEL:
-                                        Log.i(ev.getTag().toString(), "Pointer " + "ID " + pid + "   X: " + x + "   Y: " + y + "    Action: " + "DOWN");
-                                        return ev.TouchEvent(MotionEvent.obtain(
-                                                event.getDownTime(),
-                                                event.getEventTime(),
-                                                MotionEvent.ACTION_DOWN,
-                                                x,
-                                                y,
-                                                event.getPressure(pid),
-                                                event.getSize(pid),
-                                                event.getMetaState(),
-                                                event.getXPrecision(),
-                                                event.getYPrecision(),
-                                                event.getDeviceId(),
-                                                event.getEdgeFlags()));
-                                    case MotionEvent.ACTION_UP:
-                                    case MotionEvent.ACTION_POINTER_UP:
-                                        Log.i(ev.getTag().toString(), "Pointer " + "ID " + pid + "   X: " + x + "   Y: " + y + "    Action: " + "UP");
-                                        return ev.TouchEvent(MotionEvent.obtain(
-                                                event.getDownTime(),
-                                                event.getEventTime(),
-                                                MotionEvent.ACTION_UP,
-                                                x,
-                                                y,
-                                                event.getPressure(pid),
-                                                event.getSize(pid),
-                                                event.getMetaState(),
-                                                event.getXPrecision(),
-                                                event.getYPrecision(),
-                                                event.getDeviceId(),
-                                                event.getEdgeFlags()));
-                                    case MotionEvent.ACTION_MOVE:
-                                        Log.i(ev.getTag().toString(), "Pointer " + "ID " + pid + "   X: " + x + "   Y: " + y + "    Action: " + "MOVING");
-                                        return ev.TouchEvent(MotionEvent.obtain(
-                                                event.getDownTime(),
-                                                event.getEventTime(),
-                                                MotionEvent.ACTION_MOVE,
-                                                x,
-                                                y,
-                                                event.getPressure(pid),
-                                                event.getSize(pid),
-                                                event.getMetaState(),
-                                                event.getXPrecision(),
-                                                event.getYPrecision(),
-                                                event.getDeviceId(),
-                                                event.getEdgeFlags()));
-                                }
-                                Log.i(ev.getTag().toString(), "Pointer " + "ID " + pid + "   X: " + x + "   Y: " + y + "    Action: " + actionMasked);
-
+                float x = event.getX(pid) - executorPage.getExecuterPageSliderView().getScrollX();
+                Log.i(executorPage.getExecuterPageSliderView().getScrollX() + "", "");
+                float y = event.getY(pid);
+                if(executorPage != null) {
+                    for(ExecutorView ev : executorPage.getExecutors()) {
+                        if(isPointInsideView(x, y, ev)) {
+                            switch(actionMasked) {
+                                case MotionEvent.ACTION_DOWN:
+                                case MotionEvent.ACTION_POINTER_DOWN:
+                                case MotionEvent.ACTION_CANCEL:
+                                    Log.i(ev.getTag().toString(), "Pointer " + "ID " + pid + "   X: " + x + "   Y: " + y + "    Action: " + "DOWN");
+                                    return ev.TouchEvent(MotionEvent.obtain(
+                                            event.getDownTime(),
+                                            event.getEventTime(),
+                                            MotionEvent.ACTION_DOWN,
+                                            x,
+                                            y,
+                                            event.getPressure(pid),
+                                            event.getSize(pid),
+                                            event.getMetaState(),
+                                            event.getXPrecision(),
+                                            event.getYPrecision(),
+                                            event.getDeviceId(),
+                                            event.getEdgeFlags()));
+                                case MotionEvent.ACTION_UP:
+                                case MotionEvent.ACTION_POINTER_UP:
+                                    Log.i(ev.getTag().toString(), "Pointer " + "ID " + pid + "   X: " + x + "   Y: " + y + "    Action: " + "UP");
+                                    return ev.TouchEvent(MotionEvent.obtain(
+                                            event.getDownTime(),
+                                            event.getEventTime(),
+                                            MotionEvent.ACTION_UP,
+                                            x,
+                                            y,
+                                            event.getPressure(pid),
+                                            event.getSize(pid),
+                                            event.getMetaState(),
+                                            event.getXPrecision(),
+                                            event.getYPrecision(),
+                                            event.getDeviceId(),
+                                            event.getEdgeFlags()));
+                                case MotionEvent.ACTION_MOVE:
+                                    Log.i(ev.getTag().toString(), "Pointer " + "ID " + pid + "   X: " + x + "   Y: " + y + "    Action: " + "MOVING");
+                                    return ev.TouchEvent(MotionEvent.obtain(
+                                            event.getDownTime(),
+                                            event.getEventTime(),
+                                            MotionEvent.ACTION_MOVE,
+                                            x,
+                                            y,
+                                            event.getPressure(pid),
+                                            event.getSize(pid),
+                                            event.getMetaState(),
+                                            event.getXPrecision(),
+                                            event.getYPrecision(),
+                                            event.getDeviceId(),
+                                            event.getEdgeFlags()));
                             }
+                            Log.i(ev.getTag().toString(), "Pointer " + "ID " + pid + "   X: " + x + "   Y: " + y + "    Action: " + actionMasked);
+
+                        }
                     }
+                }
         }
         return false;
     }
 
-    private boolean isPointInsideView(float x, float y, View view){
+    private boolean isPointInsideView(float x, float y, View view) {
         int location[] = new int[2];
         view.getLocationOnScreen(location);
         int viewX = location[0];
         int viewY = location[1];
-        if(( x > viewX && x < (viewX + view.getWidth())) &&
-                ( y > viewY && y < (viewY + view.getHeight()))){
+        if((x > viewX && x < (viewX + view.getWidth())) &&
+                (y > viewY && y < (viewY + view.getHeight()))) {
             return true;
-        } else {
+        }
+        else {
             return false;
         }
     }
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        boolean result=false;
+        boolean result = false;
         try {
             result = super.dispatchTouchEvent(event);
-        }catch(Exception e){}
+        }
+        catch(Exception e) {
+        }
         return result;
     }
 

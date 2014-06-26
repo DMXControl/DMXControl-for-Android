@@ -7,7 +7,7 @@ public class ExecutorPageManager {
     private static ExecutorPageManager INSTANCE = null;
 
     public static ExecutorPageManager get() {
-        if (INSTANCE == null) {
+        if(INSTANCE == null) {
             INSTANCE = new ExecutorPageManager();
         }
         return INSTANCE;

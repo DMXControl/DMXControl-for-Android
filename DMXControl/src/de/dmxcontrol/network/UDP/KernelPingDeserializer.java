@@ -35,9 +35,10 @@ public class KernelPingDeserializer {
     public static KernelPingDeserializer Get(String str) {
         KernelPingDeserializer out = new KernelPingDeserializer();
         try {
-            for (int i = 0; i < 0xffff; i++) {
-                if ((i < 0x0021 || i > 0x007e) && i != 0x0020)
+            for(int i = 0; i < 0xffff; i++) {
+                if((i < 0x0021 || i > 0x007e) && i != 0x0020) {
                     str = str.replace((char) i, (char) 0x00);
+                }
             }
 
             char ch = (char) 0x00;
@@ -45,16 +46,16 @@ public class KernelPingDeserializer {
             String[] strArrayOut = new String[strArray.length];
             int removeCount = 0;
 
-            for (int i = 0; i < strArray.length; i++) {
+            for(int i = 0; i < strArray.length; i++) {
                 byte[] strig = strArray[i].getBytes();
 
-                if (strig.length == 0) {
+                if(strig.length == 0) {
                     removeCount++;
                 }
-                else if (strig.length > 4) {
+                else if(strig.length > 4) {
                     String org = (String.valueOf((char) strig[1]) + String.valueOf((char) strig[2]) + String.valueOf((char) strig[3]) + String.valueOf((char) strig[4]));
 
-                    if (org.equals("org.")) {
+                    if(org.equals("org.")) {
                         strArray[i] = null;
                         removeCount++;
                     }
@@ -72,7 +73,7 @@ public class KernelPingDeserializer {
             out.hostName = strArrayOut[19];
             out.iPAdresses = FindIPs(strArrayOut);
         }
-        catch (Exception e) {
+        catch(Exception e) {
             Log.e("KernelPingDeserializer", e.getMessage());
             DMXControlApplication.SaveLog();
         }
@@ -82,17 +83,17 @@ public class KernelPingDeserializer {
     private static String[] FindIPs(String[] strgs) {
         ArrayList<String> IPs = new ArrayList<String>();
 
-        for (int i = 0; i < strgs.length; i++) {
-            if (strgs[i] != null) {
+        for(int i = 0; i < strgs.length; i++) {
+            if(strgs[i] != null) {
                 int l = strgs[i].toCharArray().length;
                 String st = strgs[i];
 
-                if (l <= 15 && l >= 7 && st.contains(".")) {
+                if(l <= 15 && l >= 7 && st.contains(".")) {
                     try {
                         InetAddress.getByName(st);
                         IPs.add(st.toString());
                     }
-                    catch (Exception e) {
+                    catch(Exception e) {
 
                     }
                 }
@@ -101,7 +102,7 @@ public class KernelPingDeserializer {
 
         String[] out = new String[IPs.size()];
 
-        for (int i = 0; i < out.length; i++) {
+        for(int i = 0; i < out.length; i++) {
             out[i] = IPs.get(i);
         }
         return out;

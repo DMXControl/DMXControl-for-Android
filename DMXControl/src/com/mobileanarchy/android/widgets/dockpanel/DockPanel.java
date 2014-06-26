@@ -65,8 +65,9 @@ public class DockPanel extends LinearLayout {
         // to prevent from crashing the designer
         try {
             Init(attrs);
-        } catch (Exception e) {
-            Log.w("",e.getStackTrace().toString());
+        }
+        catch(Exception e) {
+            Log.w("", e.getStackTrace().toString());
             DMXControlApplication.SaveLog();
         }
     }
@@ -95,14 +96,15 @@ public class DockPanel extends LinearLayout {
 
         // setting the layout of the panel parameters according to the docking
         // position
-        if (position == DockPosition.LEFT || position == DockPosition.RIGHT) {
+        if(position == DockPosition.LEFT || position == DockPosition.RIGHT) {
             handleContainer.setLayoutParams(new LayoutParams(
                     android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                     android.view.ViewGroup.LayoutParams.FILL_PARENT, 1));
             contentPlaceHolder.setLayoutParams(new LayoutParams(
                     android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                     android.view.ViewGroup.LayoutParams.FILL_PARENT, 1));
-        } else {
+        }
+        else {
             handleContainer.setLayoutParams(new LayoutParams(
                     android.view.ViewGroup.LayoutParams.FILL_PARENT,
                     android.view.ViewGroup.LayoutParams.WRAP_CONTENT, 1));
@@ -112,15 +114,16 @@ public class DockPanel extends LinearLayout {
         }
 
         // adding the view to the parent layout according to docking position
-        if (position == DockPosition.RIGHT || position == DockPosition.BOTTOM) {
+        if(position == DockPosition.RIGHT || position == DockPosition.BOTTOM) {
             this.addView(handleContainer);
             this.addView(contentPlaceHolder);
-        } else {
+        }
+        else {
             this.addView(contentPlaceHolder);
             this.addView(handleContainer);
         }
 
-        if (!isOpen) {
+        if(!isOpen) {
             contentPlaceHolder.setVisibility(View.GONE);
         }
     }
@@ -133,7 +136,7 @@ public class DockPanel extends LinearLayout {
         setPosition(DockPosition.RIGHT);
 
         // Try to load values set by xml markup
-        if (attrs != null) {
+        if(attrs != null) {
             String namespace = "http://com.MobileAnarchy.Android.Widgets";
 
             animationDuration = attrs.getAttributeIntValue(namespace,
@@ -149,8 +152,9 @@ public class DockPanel extends LinearLayout {
                 position = DockPosition.valueOf(DockPosition.class, attrs.getAttributeValue(
                         namespace, "dockPosition").toUpperCase());
                 setPosition(position);
-            } catch (Exception e) {
-                Log.w("",DMXControlApplication.stackTraceToString(e));
+            }
+            catch(Exception e) {
+                Log.w("", DMXControlApplication.stackTraceToString(e));
                 DMXControlApplication.SaveLog();
                 // Docking to the left is the default behavior
                 setPosition(DockPosition.LEFT);
@@ -166,10 +170,12 @@ public class DockPanel extends LinearLayout {
 
         int animationDurationSaved = getAnimationDuration();
         setAnimationDuration(0);
-        if (isOpenSaved && !isOpen) {
+        if(isOpenSaved && !isOpen) {
             open();
-        } else if (!isOpenSaved && isOpen)
+        }
+        else if(!isOpenSaved && isOpen) {
             close();
+        }
         setAnimationDuration(animationDurationSaved);
     }
 
@@ -216,7 +222,7 @@ public class DockPanel extends LinearLayout {
 
     private void setPosition(DockPosition position) {
         this.position = position;
-        switch (position) {
+        switch(position) {
             case TOP:
                 setOrientation(LinearLayout.VERTICAL);
                 setGravity(Gravity.TOP);
@@ -257,7 +263,7 @@ public class DockPanel extends LinearLayout {
     }
 
     public void open() {
-        if (!animationRunning) {
+        if(!animationRunning) {
             Log.d(TAG, "Opening...");
 
             Animation animation = createShowAnimation();
@@ -269,7 +275,7 @@ public class DockPanel extends LinearLayout {
     }
 
     public void close() {
-        if (!animationRunning) {
+        if(!animationRunning) {
             Log.d(TAG, "Closing...");
 
             Animation animation = createHideAnimation();
@@ -280,9 +286,10 @@ public class DockPanel extends LinearLayout {
     }
 
     public void toggle() {
-        if (isOpen) {
+        if(isOpen) {
             close();
-        } else {
+        }
+        else {
             open();
         }
     }
@@ -293,7 +300,7 @@ public class DockPanel extends LinearLayout {
 
     private Animation createHideAnimation() {
         Animation animation = null;
-        switch (position) {
+        switch(position) {
             case TOP:
                 animation = new TranslateAnimation(0, 0, 0, -contentPlaceHolder
                         .getHeight());
@@ -335,7 +342,7 @@ public class DockPanel extends LinearLayout {
 
     private Animation createShowAnimation() {
         Animation animation = null;
-        switch (position) {
+        switch(position) {
             case TOP:
                 animation = new TranslateAnimation(0, 0, -contentPlaceHolder
                         .getHeight(), 0);
@@ -371,8 +378,9 @@ public class DockPanel extends LinearLayout {
             @Override
             public void onAnimationEnd(Animation animation) {
                 animationRunning = false;
-                if (onDockOpenListener != null)
+                if(onDockOpenListener != null) {
                     onDockOpenListener.onDockOpenListener(DockPanel.this);
+                }
                 Log.d(TAG, "\"Show\" Animation ended");
             }
         });

@@ -43,7 +43,7 @@ public class SwatchAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        if (convertView == null) {
+        if(convertView == null) {
             convertView = factory.inflate(R.layout.color_swatch, null);
         }
 

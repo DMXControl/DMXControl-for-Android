@@ -32,7 +32,7 @@ public class Range {
     private String mReadableRange;
 
     public Range(int begin, int end) {
-        if (end > begin) {
+        if(end > begin) {
             mOscRange = String.format("[%d-%d]", begin, end);
             mReadableRange = String.format("%d-%d", begin, end);
         }

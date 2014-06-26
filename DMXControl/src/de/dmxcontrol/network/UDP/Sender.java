@@ -47,22 +47,22 @@ public class Sender extends Thread {
 
     public void run() {
         try {
-            if(androidApp==null) {
+            if(androidApp == null) {
                 androidApp = new DatagramSocket(23242);
             }
 
-            while (bKeepRunning) {
+            while(bKeepRunning) {
                 send(androidApp);
                 Thread.sleep(33);
             }
 
-            if (androidApp != null) {
+            if(androidApp != null) {
                 if(!androidApp.isClosed()) {
                     androidApp.close();
                 }
             }
         }
-        catch (Throwable e) {
+        catch(Throwable e) {
             Log.e("UDP Sender", e.getMessage());
             run();
         }
@@ -70,14 +70,14 @@ public class Sender extends Thread {
 
     private void send(DatagramSocket socket) {
         try {
-            for (int i = 0; i < sendData.size(); i++) {
+            for(int i = 0; i < sendData.size(); i++) {
                 socket.send(new DatagramPacket(sendData.get(i), sendData.get(i).length, InetAddress.getByName(Prefs.get().getServerAddress()), 23242));
-                sendData.set(i,null);
+                sendData.set(i, null);
                 sendData.remove(i);
             }
         }
-        catch (Exception e) {
-            Log.w("",DMXControlApplication.stackTraceToString(e));
+        catch(Exception e) {
+            Log.w("", DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
     }

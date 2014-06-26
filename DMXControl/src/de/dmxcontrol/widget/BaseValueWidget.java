@@ -92,7 +92,7 @@ public abstract class BaseValueWidget extends View {
     }
 
     public void notifyListener() {
-        if (vl != null) {
+        if(vl != null) {
             vl.onValueChanged(this, mValueX, mValueY);
         }
     }
@@ -105,7 +105,7 @@ public abstract class BaseValueWidget extends View {
     public boolean onTouchEvent(MotionEvent event) {
         mew = MotionEventWrapper.get(event);
 
-        if (mew == null) {
+        if(mew == null) {
             Log.e(TAG, "MotionEventWrapper not available. Can't do anything.");
             return false;
         }
@@ -113,7 +113,7 @@ public abstract class BaseValueWidget extends View {
         final int action = event.getAction();
         final int actionMasked = action & mew.getActionMaskCONST();
 
-        if (actionMasked == MotionEvent.ACTION_DOWN || actionMasked == mew.getActionPointerDownCONST()) {
+        if(actionMasked == MotionEvent.ACTION_DOWN || actionMasked == mew.getActionPointerDownCONST()) {
             int pid = mew.getPointerIdByAction(action);
             int idx = mew.findPointerIndex(pid);
             final float x = mew.getX(idx);
@@ -127,11 +127,11 @@ public abstract class BaseValueWidget extends View {
             // + " y = " + y);
 
         }
-        else if (actionMasked == MotionEvent.ACTION_MOVE) {
+        else if(actionMasked == MotionEvent.ACTION_MOVE) {
             // Find the index of the active pointer and fetch its position
             final int idx = mew.findPointerIndex(mActivePointerId);
 
-            if (idx < 0) {
+            if(idx < 0) {
                 return false;
             }
 
@@ -142,12 +142,12 @@ public abstract class BaseValueWidget extends View {
 
             pointerPosition(x, y);
         }
-        else if (actionMasked == MotionEvent.ACTION_UP || actionMasked == mew.getActionPointerUpCONST()) {
+        else if(actionMasked == MotionEvent.ACTION_UP || actionMasked == mew.getActionPointerUpCONST()) {
             // Log.d(TAG, "MotionEvent.ACTION_UP: id = " + getId());
             mActivePointerId = INVALID_POINTER_ID;
             pointerCancelled();
         }
-        else if (actionMasked == MotionEvent.ACTION_CANCEL) {
+        else if(actionMasked == MotionEvent.ACTION_CANCEL) {
             mActivePointerId = INVALID_POINTER_ID;
             pointerCancelled();
         }

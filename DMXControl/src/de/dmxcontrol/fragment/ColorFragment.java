@@ -72,8 +72,9 @@ public class ColorFragment extends BasePanelFragment {
         circle.setOnColorChangedListener(colorModel);
         circle.setColor(colorModel.getValue());
 
-        if (!Prefs.get().getDisableAnimations())
+        if(!Prefs.get().getDisableAnimations()) {
             addFadeInAnimation(colorLayout);
+        }
 
         return colorLayout;
     }

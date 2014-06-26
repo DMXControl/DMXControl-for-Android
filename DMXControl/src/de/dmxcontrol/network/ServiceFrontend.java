@@ -69,8 +69,9 @@ public class ServiceFrontend implements IMessageListener, OnModelListener {
     }
 
     public static void initOnce(Context context) {
-        if (INSTANCE == null)
+        if(INSTANCE == null) {
             INSTANCE = new ServiceFrontend(context);
+        }
     }
 
     private ServiceFrontend(Context context) {
@@ -89,17 +90,19 @@ public class ServiceFrontend implements IMessageListener, OnModelListener {
         boolean result = mContext.bindService(intent, connection,
                 Context.BIND_AUTO_CREATE | Context.BIND_DEBUG_UNBIND);
 
-        if (result) {
+        if(result) {
             Log.d(TAG, "bindService bind successful.");
-        } else {
+        }
+        else {
             Log.d(TAG, "bindService bind unsuccessful.");
         }
     }
 
     public void unbindService() {
         Log.d(TAG, "unbindService: connection=" + connection.toString());
-        if (mService != null)
+        if(mService != null) {
             mContext.unbindService(connection);
+        }
     }
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -125,7 +128,7 @@ public class ServiceFrontend implements IMessageListener, OnModelListener {
     }
 
     public void connect() {
-        if (mService != null) {
+        if(mService != null) {
             mService.connect();
             mService.setSenderListener(mListener);
         }
@@ -133,58 +136,64 @@ public class ServiceFrontend implements IMessageListener, OnModelListener {
     }
 
     public void disconnect(boolean silent) {
-        if (!silent) {
+        if(!silent) {
             unregister();
             try {
                 Thread.sleep(100);
-            } catch (InterruptedException e) {
+            }
+            catch(InterruptedException e) {
                 // Ignore
             }
         }
 
-        if (mService != null)
+        if(mService != null) {
             mService.disconnect();
+        }
     }
 
     public boolean isConnected() {
-        if (mService != null)
+        if(mService != null) {
             return mService.isConnected();
+        }
         return false;
     }
 
     private void register() {
         OSCMessage msg = new OSCMessage(DMXCONTROL_OSC_ROOT + OSC_DELIMITER
                 + OSC_REGISTER, new Object[]{DEVICENAME});
-        if (mService != null)
+        if(mService != null) {
             mService.sendMessage(msg);
+        }
     }
 
     private void unregister() {
         OSCMessage msg = new OSCMessage(DMXCONTROL_OSC_ROOT + OSC_DELIMITER
                 + OSC_UNREGISTER, new Object[]{DEVICENAME});
-        if (mService != null)
+        if(mService != null) {
             mService.sendMessage(msg);
+        }
     }
 
     private void processAttributes(BaseModel model) {
         processAttributes(Type.DEVICE, OSC_DMXC_FIXTURE, model);
         processAttributes(Type.GROUP, OSC_DMXC_GROUP, model);
 
-        if (mService != null)
+        if(mService != null) {
             mService.notifyAllMessages();
-    }
-
-    private void processAttributes(Type type, String deviceType, BaseModel model) {
-        for (Range range : model.getEntitySelection().getRangesList(type)) {
-            OSCMessage msg = createOSCMessage(deviceType, range, model);
-
-            if (mService != null)
-                mService.addMessage(msg);
         }
     }
 
-    private OSCMessage createOSCMessage(String deviceType, Range range,
-                                        BaseModel model) {
+    private void processAttributes(Type type, String deviceType, BaseModel model) {
+        for(Range range : model.getEntitySelection().getRangesList(type)) {
+            OSCMessage msg = createOSCMessage(deviceType, range, model);
+
+            if(mService != null) {
+                mService.addMessage(msg);
+            }
+        }
+    }
+
+    private OSCMessage createOSCMessage(String deviceType, Range range, BaseModel model) {
         String oscPath = String.format("%s%s%s%s%s%s%s%s%s",
                 DMXCONTROL_OSC_ROOT, OSC_DELIMITER, deviceType, OSC_DELIMITER,
                 range.getOSCRange(), OSC_DELIMITER, OSC_BEAMNUMBER,
@@ -219,7 +228,7 @@ public class ServiceFrontend implements IMessageListener, OnModelListener {
 
     public void notifyListener() {
         Iterator<OnServiceListener> iter = mListeners.keySet().iterator();
-        while (iter.hasNext()) {
+        while(iter.hasNext()) {
             OnServiceListener listener = iter.next();
             listener.onServiceChanged(this);
         }

@@ -57,8 +57,9 @@ public class NetworkErrorDialogFragment extends DialogFragment implements
     }
 
     public final static NetworkErrorDialogFragment newInstance(String msg) {
-        if (isShowing)
+        if(isShowing) {
             return null;
+        }
 
         isShowing = true;
         NetworkErrorDialogFragment dialog = new NetworkErrorDialogFragment();
@@ -75,8 +76,9 @@ public class NetworkErrorDialogFragment extends DialogFragment implements
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof CloseListener)
+        if(activity instanceof CloseListener) {
             mListener = (CloseListener) activity;
+        }
     }
 
     @Override
@@ -99,16 +101,19 @@ public class NetworkErrorDialogFragment extends DialogFragment implements
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
-        if (mCheckBox.isChecked())
+        if(mCheckBox.isChecked()) {
             Prefs.get().setOffline(true);
-        else
+        }
+        else {
             ServiceFrontend.get().connect();
+        }
 
         isShowing = false;
         dialog.dismiss();
 
-        if (mListener != null)
+        if(mListener != null) {
             mListener.onCloseDialog(TAG);
+        }
     }
 
 }

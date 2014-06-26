@@ -92,7 +92,7 @@ public class ControlActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.root_screen_with_selector_drawer);
 
-        if (((DMXControlApplication) getApplication()).getJustStarted() && !DISABLE_SPLASH) {
+        if(((DMXControlApplication) getApplication()).getJustStarted() && !DISABLE_SPLASH) {
             showDialog(DIALOG_SPLASH);
         }
 
@@ -103,7 +103,7 @@ public class ControlActivity extends FragmentActivity implements
     protected void onStart() {
         super.onStart();
 
-        switch (SCREEN_MODE) {
+        switch(SCREEN_MODE) {
             case Prefs.SCREEN_MODE_AUTOMATIC:
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
                 break;
@@ -167,7 +167,7 @@ public class ControlActivity extends FragmentActivity implements
         public void onDockOpenListener(ViewGroup viewGroup) {
             PanelSelectorFragment fragment = (PanelSelectorFragment) ControlActivity.this
                     .getSupportFragmentManager().findFragmentById(R.id.panel_fragment);
-            if (fragment == null) {
+            if(fragment == null) {
                 return;
             }
 
@@ -177,7 +177,7 @@ public class ControlActivity extends FragmentActivity implements
 
         @Override
         public void onServiceChanged(ServiceFrontend cs) {
-            if (cs.isConnected()) {
+            if(cs.isConnected()) {
                 mConnectionImage.setImageResource(R.drawable.device_connected);
             }
             else {
@@ -190,13 +190,13 @@ public class ControlActivity extends FragmentActivity implements
     public void onUpdateActionView(int state) {
         Log.d(TAG, "onUpdateActionView state = " + state);
 
-        if (state == oldState) {
+        if(state == oldState) {
             return;
         }
 
         Fragment newFragment;
 
-        switch (state) {
+        switch(state) {
             case ActionSelectorFragment.STATE_DEVICE_PANEL:
                 newFragment = new DeviceGroupFragment();
                 break;
@@ -228,7 +228,7 @@ public class ControlActivity extends FragmentActivity implements
     public void onPanelResumed() {
         FragmentManager fManager = getSupportFragmentManager();
         ActionSelectorFragment asf = (ActionSelectorFragment) fManager.findFragmentById(R.id.action_fragment);
-        if (asf != null) {
+        if(asf != null) {
             asf.updateStateSelected();
         }
 
@@ -252,7 +252,7 @@ public class ControlActivity extends FragmentActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         Intent i;
-        switch (item.getItemId()) {
+        switch(item.getItemId()) {
 
             case R.id.preferences:
                 i = new Intent(getApplicationContext(), PreferencesActivity.class);
@@ -260,12 +260,12 @@ public class ControlActivity extends FragmentActivity implements
                 return true;
             case R.id.connection:
                 try {
-                    if(liveActivity==null) {
+                    if(liveActivity == null) {
                         liveActivity = new Intent(getApplicationContext(), ServerConnection.class);
                     }
                     startActivity(liveActivity);
                 }
-                catch (Exception e) {
+                catch(Exception e) {
                     Log.e("Can't open ConnectionDialog", e.toString());
                     DMXControlApplication.SaveLog();
                 }
@@ -275,7 +275,7 @@ public class ControlActivity extends FragmentActivity implements
                     i = new Intent(getApplicationContext(), LiveActivity.class);
                     startActivity(i);
                 }
-                catch (Exception e) {
+                catch(Exception e) {
                     Log.e("Can't open Live", e.toString());
                     DMXControlApplication.SaveLog();
                 }
@@ -294,7 +294,7 @@ public class ControlActivity extends FragmentActivity implements
 
     @Override
     public Dialog onCreateDialog(int id) {
-        switch (id) {
+        switch(id) {
             case DIALOG_SPLASH:
                 return createSplashDialog();
             default:
@@ -343,7 +343,7 @@ public class ControlActivity extends FragmentActivity implements
                 try {
                     ControlActivity.this.removeDialog(DIALOG_SPLASH);
                 }
-                catch (IllegalArgumentException e) {
+                catch(IllegalArgumentException e) {
                     // We ignore this here - race condition error
                 }
             }
@@ -356,11 +356,11 @@ public class ControlActivity extends FragmentActivity implements
         FragmentManager fm = getSupportFragmentManager();
         ErrorDialogFragment errorDialog = ErrorDialogFragment.newInstance(msg);
 
-        if (errorDialog == null) {
+        if(errorDialog == null) {
             return;
         }
 
-        if (!isInForeground) {
+        if(!isInForeground) {
             return;
         }
 
@@ -371,11 +371,11 @@ public class ControlActivity extends FragmentActivity implements
         FragmentManager fm = getSupportFragmentManager();
         NetworkErrorDialogFragment errorDialog = NetworkErrorDialogFragment.newInstance(msg);
 
-        if (errorDialog == null) {
+        if(errorDialog == null) {
             return;
         }
 
-        if (!isInForeground) {
+        if(!isInForeground) {
             return;
         }
 

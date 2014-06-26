@@ -161,7 +161,7 @@ public class CrossControl extends BaseValueWidget {
     }
 
     public void stopAllThings() {
-        if (mSensorDriver != null) {
+        if(mSensorDriver != null) {
             mSensorDriver.unregister();
             mSensorDriver = null;
         }
@@ -170,7 +170,7 @@ public class CrossControl extends BaseValueWidget {
     public void setMode(int mode) {
         stopAllThings();
 
-        switch (mode) {
+        switch(mode) {
             case MODE_POINTER_PLAIN:
                 break;
             case MODE_POINTER_FOLLOW:
@@ -209,14 +209,14 @@ public class CrossControl extends BaseValueWidget {
 
         drawBorder(canvas);
 
-        if (mMode == MODE_POINTER_FOLLOW) {
+        if(mMode == MODE_POINTER_FOLLOW) {
             drawFollowMarks(canvas, xPosition, yPosition);
         }
 
         drawMarker(canvas, xPosition, yPosition);
         super.onDraw(canvas);
 
-        if (mMode == MODE_POINTER_FOLLOW) {
+        if(mMode == MODE_POINTER_FOLLOW) {
             driveFollowMode();
         }
     }
@@ -246,7 +246,7 @@ public class CrossControl extends BaseValueWidget {
         float distY = deltaY * 0.2f;
 
         int idx;
-        for (idx = 0; idx < fractions; idx++) {
+        for(idx = 0; idx < fractions; idx++) {
             points[numPoints * idx] = xPosition + (idx * deltaX) + distX;
             points[numPoints * idx + 1] = yPosition + (idx * deltaY) + distY;
             points[numPoints * idx + 2] = xPosition + ((idx + 1) * deltaX)
@@ -320,18 +320,18 @@ public class CrossControl extends BaseValueWidget {
         float percentXValue = x / getWidth();
         float percentYValue = 1 - (y / getHeight());
 
-        if (percentXValue < 0 || percentYValue > 1) {
+        if(percentXValue < 0 || percentYValue > 1) {
             return;
         }
 
-        if (percentYValue < 0 || percentYValue > 1) {
+        if(percentYValue < 0 || percentYValue > 1) {
             return;
         }
 
-        if (mMode == MODE_POINTER_PLAIN) {
+        if(mMode == MODE_POINTER_PLAIN) {
             pointerPlainPosition(percentXValue, percentYValue);
         }
-        else if (mMode == MODE_POINTER_FOLLOW) {
+        else if(mMode == MODE_POINTER_FOLLOW) {
             pointerFollowPosition(percentXValue, percentYValue);
         }
         else {
@@ -341,11 +341,11 @@ public class CrossControl extends BaseValueWidget {
 
     private void pointerPlainPosition(float x, float y) {
 
-        if (!mEnableLockXDirection) {
+        if(!mEnableLockXDirection) {
             setValue(x, getValueY());
         }
 
-        if (!mEnableLockYDirection) {
+        if(!mEnableLockYDirection) {
             setValue(getValueX(), y);
         }
 
@@ -355,11 +355,11 @@ public class CrossControl extends BaseValueWidget {
 
     private void pointerFollowPosition(float x, float y) {
 
-        if (!mEnableLockXDirection) {
+        if(!mEnableLockXDirection) {
             mXFollowValue = x;
         }
 
-        if (!mEnableLockYDirection) {
+        if(!mEnableLockYDirection) {
             mYFollowValue = y;
         }
 
@@ -367,11 +367,11 @@ public class CrossControl extends BaseValueWidget {
     }
 
     private void pointerSensorPosition(float x, float y) {
-        if ((x >= 0 && x <= 1) && !mEnableLockXDirection) {
+        if((x >= 0 && x <= 1) && !mEnableLockXDirection) {
             setValue(x, getValueY());
         }
 
-        if ((y >= 0 && y <= 1) && !mEnableLockYDirection) {
+        if((y >= 0 && y <= 1) && !mEnableLockYDirection) {
             setValue(getValueX(), y);
         }
 
@@ -415,7 +415,7 @@ public class CrossControl extends BaseValueWidget {
     private void driveFollowMode() {
         long now = System.currentTimeMillis();
 
-        if (now - lastTime >= POINTER_FOLLOW_INTERVAL) {
+        if(now - lastTime >= POINTER_FOLLOW_INTERVAL) {
             computeFollowDriver();
             lastTime = now;
         }
@@ -429,7 +429,7 @@ public class CrossControl extends BaseValueWidget {
         boolean noXDelta = (Math.abs(deltaX) <= MIN_DELTA);
         boolean noYDelta = (Math.abs(deltaY) <= MIN_DELTA);
 
-        if (noXDelta && noYDelta) {
+        if(noXDelta && noYDelta) {
             return;
         }
 
@@ -438,10 +438,10 @@ public class CrossControl extends BaseValueWidget {
 
         float normDiv = (float) Math.sqrt(deltaX * deltaX + deltaY * deltaY);
 
-        if (Float.isInfinite(normDiv)) {
+        if(Float.isInfinite(normDiv)) {
             normDiv = (float) Math.sqrt(2d);
         }
-        else if (Float.isNaN(normDiv) || normDiv <= 0.01f) {
+        else if(Float.isNaN(normDiv) || normDiv <= 0.01f) {
             normDiv = 0.01f;
         }
         // Log.d(TAG, "normDiv = " + normDiv);
@@ -502,7 +502,7 @@ public class CrossControl extends BaseValueWidget {
 
             int type = sensor.getType();
 
-            switch (type) {
+            switch(type) {
                 case Sensor.TYPE_MAGNETIC_FIELD:
                     mags = sensorEvent.values;
                     isReady = true;
@@ -513,7 +513,7 @@ public class CrossControl extends BaseValueWidget {
 
             }
 
-            if (mags != null && accels != null && isReady) {
+            if(mags != null && accels != null && isReady) {
                 isReady = false;
 
                 SensorManager.getRotationMatrix(R, I, accels, mags);
@@ -526,7 +526,7 @@ public class CrossControl extends BaseValueWidget {
                 v[2] = filter[2].average(values[2] * 100);
 
                 final float xFollowValue, yFollowValue;
-                if (compat8.isDisplayPortrait()) {
+                if(compat8.isDisplayPortrait()) {
                     xFollowValue = v[1];
                     yFollowValue = v[2];
                 }
@@ -564,11 +564,11 @@ public class CrossControl extends BaseValueWidget {
             mLocHistory[mLocPos] = d;
 
             mLocPos++;
-            if (mLocPos > mLocHistory.length - 1) {
+            if(mLocPos > mLocHistory.length - 1) {
                 mLocPos = 0;
             }
 
-            for (double h : mLocHistory) {
+            for(double h : mLocHistory) {
                 avg += h;
             }
 

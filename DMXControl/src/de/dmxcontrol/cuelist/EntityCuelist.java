@@ -46,7 +46,8 @@ public class EntityCuelist extends Entity {
         return NetworkID;
     }
 
-    public EntityCuelist(){}
+    public EntityCuelist() {
+    }
 
     public EntityCuelist(int id) {
         super(id, NetworkID + ": " + id, null);
@@ -54,7 +55,7 @@ public class EntityCuelist extends Entity {
     }
 
     public EntityCuelist(int id, String name) {
-        super(id, name,null);
+        super(id, name, null);
         mImage = defaultCuelistIcon;
     }
 
@@ -67,13 +68,12 @@ public class EntityCuelist extends Entity {
     public static EntityCuelist Receive(JSONObject o) {
         EntityCuelist entity = null;
         try {
-            if (o.getString("Type").equals(NetworkID)) {
+            if(o.getString("Type").equals(NetworkID)) {
                 entity = new EntityCuelist(0, o.getString("Name"));
                 entity.guid = o.getString("GUID");
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             Log.e("UDP Listener: ", e.getMessage());
             DMXControlApplication.SaveLog();
         }
@@ -100,7 +100,7 @@ public class EntityCuelist extends Entity {
         }
     }
 
-    public static void SendAllRequest(){
+    public static void SendAllRequest() {
         byte[] output = new byte[4];
         output[0] = (byte) Reader.Type.EXECUTORPAGE.ordinal();
         output[1] = 'A';

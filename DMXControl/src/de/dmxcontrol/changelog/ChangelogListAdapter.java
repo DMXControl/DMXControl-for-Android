@@ -77,10 +77,11 @@ public class ChangelogListAdapter extends BaseAdapter {
 
     public View getView(int index, View convertView, ViewGroup parent) {
         LinearLayout ll;
-        if (convertView == null) {
+        if(convertView == null) {
             ll = (LinearLayout) LayoutInflater.from(mCtx).inflate(
                     R.layout.changelog_release, parent, false);
-        } else {
+        }
+        else {
             ll = (LinearLayout) convertView;
         }
 
@@ -89,12 +90,13 @@ public class ChangelogListAdapter extends BaseAdapter {
         tvVersion.setText(r.getVersion());
 
         int crrItem = 0;
-        while (crrItem < r.size()) {
+        while(crrItem < r.size()) {
             TextView tvItem;
             LinearLayout llChild;
-            if (crrItem < ll.getChildCount() - 1) {
+            if(crrItem < ll.getChildCount() - 1) {
                 llChild = (LinearLayout) ll.getChildAt(crrItem + 1);
-            } else {
+            }
+            else {
                 llChild = (LinearLayout) LayoutInflater.from(mCtx).inflate(
                         R.layout.changelog_release_item, ll, false);
                 ll.addView(llChild);

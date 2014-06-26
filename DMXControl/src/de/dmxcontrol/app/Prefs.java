@@ -71,9 +71,11 @@ public class Prefs {
     public Reader getUDPReader() {
         return reader;
     }
+
     public ReaderKernelPing getUDPReaderKernelPing() {
         return Pingreader;
     }
+
     public Sender getUDPSender() {
         return sender;
     }
@@ -84,7 +86,7 @@ public class Prefs {
         StartNetwork();
     }
 
-    public void StartNetwork(){
+    public void StartNetwork() {
         CloseNetwork();
         Pingreader = new ReaderKernelPing();
         Thread Pingreader1 = new Thread(Pingreader);
@@ -99,22 +101,22 @@ public class Prefs {
         sender1.start();
     }
 
-    public void CloseNetwork(){
-        if(Pingreader!=null) {
+    public void CloseNetwork() {
+        if(Pingreader != null) {
             Pingreader.kill();
         }
 
-        if(reader!=null) {
+        if(reader != null) {
             reader.kill();
         }
 
-        if(sender!=null) {
+        if(sender != null) {
             sender.kill();
         }
     }
 
     public static Prefs get() {
-        if (INSTANCE == null) {
+        if(INSTANCE == null) {
             INSTANCE = new Prefs();
         }
 
@@ -130,10 +132,10 @@ public class Prefs {
         //Set<String> seter= new String[3];
         try {
             //if( reader.GetLastKernelPing().GetHostName()!=null){
-                //prefs.edit().putString("@array/founded_servers_values", "sdsfsdfsd" /**reader.GetLastKernelPing().GetHostName()**/);
+            //prefs.edit().putString("@array/founded_servers_values", "sdsfsdfsd" /**reader.GetLastKernelPing().GetHostName()**/);
             //}
         }
-        catch (Exception e) {
+        catch(Exception e) {
             e.toString();
         }
         viewConfigChanged = false;
@@ -142,7 +144,7 @@ public class Prefs {
 
         String deviceName = prefs.getString("pref_connect_device_name", "My Android Phone");
 
-        if (!mDeviceName.equals(deviceName)) {
+        if(!mDeviceName.equals(deviceName)) {
             connectConfigChanged = true;
         }
         mDeviceName = deviceName;
@@ -150,25 +152,25 @@ public class Prefs {
 
         String serverAddress = prefs.getString("pref_connect_address", "");
 
-        if (!mServerAddress.equals(serverAddress)) {
+        if(!mServerAddress.equals(serverAddress)) {
             connectConfigChanged = true;
         }
         mServerAddress = serverAddress;
         String serverHost = prefs.getString("pref_selected_servers", "");
 
-        if (!mServerHost.equals(serverHost)) {
+        if(!mServerHost.equals(serverHost)) {
             connectConfigChanged = true;
         }
         mServerHost = serverHost;
 
         int serverPort = Integer.valueOf(prefs.getString("pref_connect_port", "8001"));
-        if (mServerPort != serverPort) {
+        if(mServerPort != serverPort) {
             connectConfigChanged = true;
         }
         mServerPort = serverPort;
 
         boolean offline = prefs.getBoolean("pref_connect_offline", false);
-        if (mOffline != offline) {
+        if(mOffline != offline) {
             connectConfigChanged = true;
         }
         mOffline = offline;
@@ -189,13 +191,13 @@ public class Prefs {
         try {
             versionPackageValue = ctx.getPackageManager().getPackageInfo("de.dmxcontrol", 0).versionName;
         }
-        catch (NameNotFoundException e) {
+        catch(NameNotFoundException e) {
             versionPackageValue = "v0.0";
         }
 
         Log.d(TAG, "versionValue = " + versionValue + " versionPackageValue = " + versionPackageValue);
 
-        if (versionValue.equals("v0.0") || !versionValue.equals(versionPackageValue)) {
+        if(versionValue.equals("v0.0") || !versionValue.equals(versionPackageValue)) {
             versionChanged = true;
             prefs.edit().putString("version_def", versionPackageValue).commit();
         }
@@ -223,7 +225,7 @@ public class Prefs {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         mOffline = prefs.getBoolean("pref_connect_offline", false);
 
-        if (offline != mOffline) {
+        if(offline != mOffline) {
             prefs.edit().putBoolean("pref_connect_offline", offline).commit();
         }
 

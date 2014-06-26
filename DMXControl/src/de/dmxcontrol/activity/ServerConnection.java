@@ -62,8 +62,9 @@ public class ServerConnection extends Activity {
         try {
             view = View.inflate(this, R.layout.connection, null);
             listView = (ListView) view.findViewById(R.id.connection_listView);
-        } catch (Exception e) {
-            Log.w("",DMXControlApplication.stackTraceToString(e));
+        }
+        catch(Exception e) {
+            Log.w("", DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
         setContentView(view);
@@ -87,7 +88,7 @@ public class ServerConnection extends Activity {
     }
 
     private void Update() {
-        if (update) {
+        if(update) {
             update = false;
             try {
                 runOnUiThread(new Runnable() {
@@ -97,8 +98,9 @@ public class ServerConnection extends Activity {
                         listView.setAdapter(adapter);
                     }
                 });
-            } catch (Exception e) {
-                Log.w("",DMXControlApplication.stackTraceToString(e));
+            }
+            catch(Exception e) {
+                Log.w("", DMXControlApplication.stackTraceToString(e));
                 DMXControlApplication.SaveLog();
             }
         }
@@ -107,11 +109,11 @@ public class ServerConnection extends Activity {
     private ArrayList<ClipData.Item> generateData() {
         ArrayList<ClipData.Item> items = new ArrayList<ClipData.Item>();
         ArrayList<KernelPingDeserializer> kernelPinglist = Prefs.get().getKernelPing();
-        for (int i = 0; i < kernelPinglist.size(); i++) {
+        for(int i = 0; i < kernelPinglist.size(); i++) {
             KernelPingDeserializer kernelPing = kernelPinglist.get(i);
             String ips = kernelPing.GetIPAdresses()[0];
-            if (kernelPing.GetIPAdresses().length > 1) {
-                for (int j = 1; j < kernelPing.GetIPAdresses().length; j++) {
+            if(kernelPing.GetIPAdresses().length > 1) {
+                for(int j = 1; j < kernelPing.GetIPAdresses().length; j++) {
                     ips += " , " + kernelPing.GetIPAdresses()[j];
                 }
             }
@@ -150,9 +152,10 @@ public class ServerConnection extends Activity {
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (value.getHtmlText().contains(" , ")) {
+                    if(value.getHtmlText().contains(" , ")) {
                         Prefs.get().setServerAddress(value.getHtmlText().split(" , ")[0]);
-                    } else {
+                    }
+                    else {
                         Prefs.get().setServerAddress(value.getHtmlText());
                     }
                     Prefs.get().setPreferences(context);

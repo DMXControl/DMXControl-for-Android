@@ -46,7 +46,8 @@ public class EntityPreset extends Entity {
         return NetworkID;
     }
 
-    public EntityPreset(){}
+    public EntityPreset() {
+    }
 
     public EntityPreset(int id) {
         super(id, NetworkID + ": " + id, null);
@@ -67,13 +68,12 @@ public class EntityPreset extends Entity {
     public static EntityPreset Receive(JSONObject o) {
         EntityPreset entity = null;
         try {
-            if (o.getString("Type").equals(NetworkID)) {
+            if(o.getString("Type").equals(NetworkID)) {
                 entity = new EntityPreset(o.getInt("Number"), o.getString("Name"));
                 entity.guid = o.getString("GUID");
             }
         }
-        catch(Exception e)
-        {
+        catch(Exception e) {
             Log.e("UDP Listener: ", e.getMessage());
             DMXControlApplication.SaveLog();
         }
@@ -97,7 +97,7 @@ public class EntityPreset extends Entity {
         }
     }
 
-    public static void SendAllRequest(){
+    public static void SendAllRequest() {
         byte[] output = new byte[4];
         output[0] = (byte) Reader.Type.EXECUTORPAGE.ordinal();
         output[1] = 'A';

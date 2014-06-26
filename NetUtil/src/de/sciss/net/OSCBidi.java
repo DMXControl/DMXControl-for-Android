@@ -39,8 +39,7 @@ import java.io.PrintStream;
  * @version 0.32, 02-Mar-07
  * @since NetUtil 0.30
  */
-public interface OSCBidi
-        extends OSCChannel {
+public interface OSCBidi extends OSCChannel {
     /**
      * Starts the communicator.
      *
