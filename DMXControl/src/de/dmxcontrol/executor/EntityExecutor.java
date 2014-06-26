@@ -41,7 +41,7 @@ import de.dmxcontrol.network.UDP.Reader;
 
 //This is One Executor
 public class EntityExecutor extends Entity {
-    public final static String defaultExecuterIcon = "device_new";
+    public final static String defaultExecutorIcon = "device_new";
     public final static String NetworkID = "Executor";
 
     private float value;
@@ -150,12 +150,12 @@ public class EntityExecutor extends Entity {
 
     public EntityExecutor(int id) {
         super(id, NetworkID + ": " + id, Type.EXECUTOR);
-        mImage = defaultExecuterIcon;
+        mImage = defaultExecutorIcon;
     }
 
     public EntityExecutor(int id, String name) {
         super(id, name, Type.EXECUTOR);
-        mImage = defaultExecuterIcon;
+        mImage = defaultExecutorIcon;
     }
 
     public EntityExecutor(int id, String name, String image) {

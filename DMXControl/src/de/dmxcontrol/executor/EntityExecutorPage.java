@@ -41,7 +41,7 @@ import de.dmxcontrol.network.UDP.Reader;
 
 //This is One Executor
 public class EntityExecutorPage extends Entity {
-    public final static String defaultExecuterPageIcon = "device_new";
+    public final static String defaultExecutorPageIcon = "device_new";
     public final static String NetworkID = "ExecutorPage";
     
     @Override
@@ -72,12 +72,12 @@ public class EntityExecutorPage extends Entity {
 
     public EntityExecutorPage(int id) {
         super(id, NetworkID + ": " + id, null);
-        mImage = defaultExecuterPageIcon;
+        mImage = defaultExecutorPageIcon;
     }
 
     public EntityExecutorPage(int id, String name) {
         super(id, name, null);
-        mImage = defaultExecuterPageIcon;
+        mImage = defaultExecutorPageIcon;
     }
 
     public EntityExecutorPage(int id, String name, String image) {
