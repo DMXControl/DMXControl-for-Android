@@ -40,7 +40,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
 
-import de.dmxcontrol.cuelist.EntityCuelist;
+import de.dmxcontrol.Cuelist.EntityCuelist;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;
@@ -73,7 +73,7 @@ public class DMXControlApplication extends Application {
         try {
             super.onCreate();
 
-            // get Prefences and start new udp networking
+            // Init Prefences and start new udp networking
             prefs = Prefs.get();
             // load saved preferences
             prefs.setPreferences(this);
@@ -81,8 +81,10 @@ public class DMXControlApplication extends Application {
             // Init OSC Service
             ServiceFrontend.initOnce(this);
 
+            // Init FileManager
             FileManager.get(this);
 
+            // Send "All" request to server. One for each Entity
             EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All);
             EntityGroup.SendRequest(EntityGroup.class, Entity.Request_All);
             EntityExecutor.SendRequest(EntityExecutor.class, Entity.Request_All);
