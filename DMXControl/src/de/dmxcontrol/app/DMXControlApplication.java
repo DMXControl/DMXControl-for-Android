@@ -40,7 +40,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
 
-import de.dmxcontrol.Cuelist.EntityCuelist;
+import de.dmxcontrol.cuelist.EntityCuelist;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;

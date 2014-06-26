@@ -9,10 +9,10 @@ import java.util.Iterator;
  */
 public class CuelistCollection implements Collection<EntityCuelist> {
 
-    private ArrayList<EntityCuelist> list= new ArrayList<EntityCuelist>();
+    private ArrayList<EntityCuelist> list = new ArrayList<EntityCuelist>();
 
     public boolean add(EntityCuelist object) {
-        if(object==null){return false;}
+        if(object == null){return false;}
         if(!contains(object)) {
             return list.add(object);
         }
@@ -82,7 +82,7 @@ public class CuelistCollection implements Collection<EntityCuelist> {
     }
 
     public int lastIndexOf(Object object) {
-        int out=Integer.MIN_VALUE;
+        int out = Integer.MIN_VALUE;
         for (int i = 0; i <size() ; i++) {
             if(((EntityCuelist)object).guid.equals(list.get(i).guid)){
                 out = i;

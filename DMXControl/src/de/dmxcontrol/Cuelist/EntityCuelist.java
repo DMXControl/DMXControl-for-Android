@@ -38,7 +38,7 @@ import de.dmxcontrol.network.UDP.Reader;
 
 //This is One Executor
 public class EntityCuelist extends Entity {
-    public final static String defaultExecuterPageIcon = "device_new";
+    public final static String defaultCuelistIcon = "device_new";
     public final static String NetworkID = "Cuelist";
 
     @Override
@@ -50,12 +50,12 @@ public class EntityCuelist extends Entity {
 
     public EntityCuelist(int id) {
         super(id, NetworkID + ": " + id, null);
-        mImage = defaultExecuterPageIcon;
+        mImage = defaultCuelistIcon;
     }
 
     public EntityCuelist(int id, String name) {
         super(id, name,null);
-        mImage = defaultExecuterPageIcon;
+        mImage = defaultCuelistIcon;
     }
 
     public EntityCuelist(int id, String name, String image) {
