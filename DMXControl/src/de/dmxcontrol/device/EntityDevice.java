@@ -60,6 +60,7 @@ public class EntityDevice extends Entity {
             o.put("GUID", this.guid);
             o.put("Name", this.getName());
             o.put("Number", this.getId());
+            o.put("Channel", this.getChannel());
 
             Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
             return;
@@ -133,6 +134,15 @@ public class EntityDevice extends Entity {
 
     public int getChannel() {
         return channel;
+    }
+
+    public void setChannel(int channel, boolean fromReader) {
+        boolean isEqual = this.channel == channel;
+        this.channel = channel;
+
+        if(!isEqual && !fromReader) {
+            Send();
+        }
     }
 
     public int getChannelCount() {

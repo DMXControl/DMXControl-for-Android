@@ -93,6 +93,28 @@ public class DeviceParameterDialog extends FrameLayout {
                 return true;
             }
         });
+        channel.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("Re-Address");
+                alert.setMessage("Enter Channel");
+                final EditText input = new EditText(context);
+                input.setText(device.getChannel() + "");
+                alert.setView(input);
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        String str = input.getEditableText().toString();
+                        device.setChannel(Integer.parseInt(str), false);
+                        channel.setText(device.getChannel() + "");
+                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+                    }
+                });
+                AlertDialog alertDialog = alert.create();
+                alertDialog.show();
+                return true;
+            }
+        });
         this.addView(xmlView);
     }
 }
