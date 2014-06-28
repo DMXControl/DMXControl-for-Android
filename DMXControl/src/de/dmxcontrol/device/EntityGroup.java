@@ -76,6 +76,14 @@ public class EntityGroup extends Entity {
             if(o.getString("Type").equals(NetworkID)) {
                 entity = new EntityGroup(o.getInt("Number"), o.getString("Name"), o.getString("Image"));
                 entity.guid = o.getString("GUID");
+                if(o.has("Image")) {
+                    if(!o.getString("Image").equals("null")) {
+                        entity.setImage(o.getString("Image"));
+                    }
+                    else {
+                        entity.setImage(defaultDeviceGroupIcon);
+                    }
+                }
             }
         }
         catch(Exception e) {

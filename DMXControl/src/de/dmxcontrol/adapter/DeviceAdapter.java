@@ -112,12 +112,10 @@ public class DeviceAdapter extends BaseAdapter {
 
         Entity ent = ReceivedData.get().Devices.get(index);
         if(ent == null) {
-            //imageView.setClickable(false);
             imageView.setVisibility(View.INVISIBLE);
             return imageView;
         }
         imageView.setVisibility(View.VISIBLE);
-        //imageView.setClickable(true);
         imageView.setImageBitmap(ent.getImage(ctx));
 
         if(mEntityManager.isInEntitySelection(Type.DEVICE, mEntitySelection, ent.getId())) {

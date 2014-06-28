@@ -39,6 +39,7 @@ import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.device.EntityManager.Type;
+import de.dmxcontrol.network.ReceivedData;
 
 public class GroupAdapter extends BaseAdapter {
     private EntityManager mEntityManager;
@@ -59,12 +60,12 @@ public class GroupAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return mEntityManager.getSizeForType(Type.GROUP);
+        return ReceivedData.get().Groups.size();
     }
 
     @Override
     public Object getItem(int index) {
-        return mEntityManager.getItemForType(Type.GROUP, index);
+        return ReceivedData.get().Groups.get(index);
     }
 
     @Override
@@ -106,10 +107,13 @@ public class GroupAdapter extends BaseAdapter {
             imageView = (ImageView) convertView;
         }
 
-        Entity ent = mEntityManager.getItemForType(Type.GROUP, position);
-
+        Entity ent = ReceivedData.get().Groups.get(position);
+        if(ent == null) {
+            imageView.setVisibility(View.INVISIBLE);
+            return imageView;
+        }
+        imageView.setVisibility(View.VISIBLE);
         imageView.setImageBitmap(ent.getImage(ctx));
-
 
         if(mEntityManager.isInEntitySelection(Type.GROUP, mEntitySelection, ent.getId())) {
             imageView.setBackgroundColor(SelectionColor);
