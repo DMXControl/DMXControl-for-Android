@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,7 @@ import java.util.TimerTask;
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
+import de.dmxcontrol.file.FileManager;
 import de.dmxcontrol.network.UDP.KernelPingDeserializer;
 import de.dmxcontrol.network.UDP.ReaderKernelPing;
 
@@ -168,13 +170,14 @@ public class ServerConnection extends Activity {
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    String ip;
                     if(value.getIPs().contains(" , ")) {
-                        Prefs.get().setServerAddress(value.getIPs().split(" , ")[0]);
+                        ip = value.getIPs().split(" , ")[0];
                     }
                     else {
-                        Prefs.get().setServerAddress(value.getIPs());
+                        ip = value.getIPs();
                     }
-                    Prefs.get().setPreferences(context);
+                    PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit().putString("pref_connect_address", ip).commit();
                     Toast.makeText(getApplicationContext(), "You'r now Connected", Toast.LENGTH_SHORT).show();
                     Prefs.get().StartNetwork();
                 }

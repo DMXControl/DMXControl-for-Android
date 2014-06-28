@@ -6,7 +6,7 @@
     <option name="DEPLOY" value="true" />
     <option name="ARTIFACT_NAME" value="" />
     <option name="TARGET_SELECTION_MODE" value="SHOW_DIALOG" />
-    <option name="USE_LAST_SELECTED_DEVICE" value="true" />
+    <option name="USE_LAST_SELECTED_DEVICE" value="false" />
     <option name="PREFERRED_AVD" value="" />
     <option name="USE_COMMAND_LINE" value="true" />
     <option name="COMMAND_LINE" value="-dns-server 192.168.178.129" />

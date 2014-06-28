@@ -128,11 +128,12 @@ public class ServiceFrontend implements IMessageListener, OnModelListener {
     }
 
     public void connect() {
-        if(mService != null) {
-            mService.connect();
-            mService.setSenderListener(mListener);
-        }
-        register();
+        //Disable OSC
+        //if(mService != null) {
+        //    mService.connect();
+        //    mService.setSenderListener(mListener);
+        //}
+        //register();
     }
 
     public void disconnect(boolean silent) {
