@@ -32,6 +32,7 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import de.dmxcontrol.app.DMXControlApplication;
+import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.EntityManager.Type;
 
 public class EntityGroup extends Entity {
@@ -49,7 +50,20 @@ public class EntityGroup extends Entity {
 
     @Override
     public void Send() {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("Type", NetworkID);
+            o.put("GUID", this.guid);
+            o.put("Name", this.getName());
+            o.put("Number", this.getId());
 
+            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            return;
+        }
+        catch(Exception e) {
+            Log.e("UDP Send: ", e.getMessage());
+            DMXControlApplication.SaveLog();
+        }
     }
 
     public EntityGroup() {
