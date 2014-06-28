@@ -3,7 +3,8 @@
 
 3. Run Kernel and GUI
 4. Run the AndroidApp
-5. Have Fun
+5. You can copy all Icons from the Kernel/Device/Icons Directory on your PC to the DMXControl/Icons Directory on your Phone, to Display the Icons in the App
+6. Have Fun
 
 
 ----------------------------------------------------------------------
