@@ -61,6 +61,7 @@ public class EntityDevice extends Entity {
             o.put("Name", this.getName());
             o.put("Number", this.getId());
             o.put("Channel", this.getChannel());
+            o.put("Enabled", this.getEnabled());
 
             Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
             return;
@@ -115,6 +116,9 @@ public class EntityDevice extends Entity {
                 if(o.has("Author")) {
                     entity.author = o.getString("Author");
                 }
+                if(o.has("Enabled")) {
+                    entity.enabled = o.getBoolean("Enabled");
+                }
                 if(o.has("Image")) {
                     if(!o.getString("Image").equals("null")) {
                         entity.image = o.getString("Image");
@@ -163,5 +167,14 @@ public class EntityDevice extends Entity {
 
     public String getAuthor() {
         return author;
+    }
+
+    public void setEnabled(boolean enabled, boolean fromReader) {
+        boolean isEqual = this.enabled == enabled;
+        this.enabled = enabled;
+
+        if(!isEqual && !fromReader) {
+            Send();
+        }
     }
 }

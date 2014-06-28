@@ -24,6 +24,7 @@ public class DeviceCollection implements Collection<EntityDevice> {
             obj.setName(object.getName(), true);
             obj.setImage(object.getImageName());
             obj.setChannel(object.getChannel(), true);
+            obj.setEnabled(object.getEnabled(), true);
             return false;
         }
     }

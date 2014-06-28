@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -85,7 +86,7 @@ public class DeviceParameterDialog extends FrameLayout {
                         String str = input.getEditableText().toString();
                         device.setName(str, false);
                         name.setText(device.getName());
-                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Name: " + str, Toast.LENGTH_LONG).show();
                     }
                 });
                 AlertDialog alertDialog = alert.create();
@@ -107,7 +108,27 @@ public class DeviceParameterDialog extends FrameLayout {
                         String str = input.getEditableText().toString();
                         device.setChannel(Integer.parseInt(str), false);
                         channel.setText(device.getChannel() + "");
-                        Toast.makeText(context, str, Toast.LENGTH_LONG).show();
+                        Toast.makeText(context, "Channel. " + str, Toast.LENGTH_LONG).show();
+                    }
+                });
+                AlertDialog alertDialog = alert.create();
+                alertDialog.show();
+                return true;
+            }
+        });
+        enabled.setOnLongClickListener(new OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(context);
+                alert.setTitle("Enabled");
+                final Switch input = new Switch(context);
+                input.setChecked(device.getEnabled());
+                alert.setView(input);
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        device.setEnabled(input.isChecked(), false);
+                        enabled.setText(device.getEnabled() + "");
+                        Toast.makeText(context, "Enable: " + input.isChecked(), Toast.LENGTH_LONG).show();
                     }
                 });
                 AlertDialog alertDialog = alert.create();
