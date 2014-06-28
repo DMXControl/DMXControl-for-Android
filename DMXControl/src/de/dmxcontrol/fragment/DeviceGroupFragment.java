@@ -30,6 +30,8 @@ package de.dmxcontrol.fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -120,6 +122,7 @@ public class DeviceGroupFragment extends BasePanelFragment implements
                 if(device != null) {
                     AlertDialog.Builder alert = new AlertDialog.Builder(adapterView.getContext());
                     alert.setTitle("Parameter");
+                    alert.setIcon(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(device.getImage(adapterView.getContext()), 120, 120, false)));
                     alert.setView(new DeviceParameterDialog(adapterView.getContext(), device));
                     alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int whichButton) {
