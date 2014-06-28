@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:id="@+id/deviceParameterView">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/deviceParameterView">
 
     <GridLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/deviceParameter_GridLayout"
-        android:layoutMode="opticalBounds"
         android:useDefaultMargins="true"
         android:columnCount="2"
         android:clickable="false">
@@ -21,7 +21,7 @@
             android:text="Name: "
             android:id="@+id/textView10"
             android:layout_row="0"
-            android:layout_column="0" />
+            android:layout_column="0"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
             android:tag="deviceParameter_Name"
             android:id="@+id/deviceParameter_Name"
             android:layout_row="0"
-            android:layout_column="1" />
+            android:layout_column="1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,7 +40,7 @@
             android:text="Channel: "
             android:id="@+id/textView9"
             android:layout_row="1"
-            android:layout_column="0" />
+            android:layout_column="0"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,7 +50,7 @@
             android:tag="deviceParameter_Channel"
             android:id="@+id/deviceParameter_Channel"
             android:layout_row="1"
-            android:layout_column="1" />
+            android:layout_column="1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -59,7 +59,7 @@
             android:text="Channelcount: "
             android:id="@+id/textView8"
             android:layout_row="2"
-            android:layout_column="0" />
+            android:layout_column="0"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
             android:tag="deviceParameter_ChannelCount"
             android:id="@+id/deviceParameter_ChannelCount"
             android:layout_row="2"
-            android:layout_column="1" />
+            android:layout_column="1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -78,7 +78,7 @@
             android:text="Image: "
             android:id="@+id/textView7"
             android:layout_row="3"
-            android:layout_column="0" />
+            android:layout_column="0"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -88,7 +88,7 @@
             android:tag="deviceParameter_Image"
             android:id="@+id/deviceParameter_Image"
             android:layout_row="3"
-            android:layout_column="1" />
+            android:layout_column="1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
             android:text="Enabled"
             android:id="@+id/textView6"
             android:layout_row="4"
-            android:layout_column="0" />
+            android:layout_column="0"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
             android:tag="deviceParameter_Enabled"
             android:id="@+id/deviceParameter_Enabled"
             android:layout_row="4"
-            android:layout_column="1" />
+            android:layout_column="1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -116,7 +116,7 @@
             android:text="Model: "
             android:id="@+id/textView5"
             android:layout_row="5"
-            android:layout_column="0" />
+            android:layout_column="0"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -126,7 +126,7 @@
             android:tag="deviceParameter_Model"
             android:id="@+id/deviceParameter_Model"
             android:layout_row="5"
-            android:layout_column="1" />
+            android:layout_column="1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -135,7 +135,7 @@
             android:text="Vendor: "
             android:id="@+id/textView4"
             android:layout_row="6"
-            android:layout_column="0" />
+            android:layout_column="0"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -145,7 +145,7 @@
             android:tag="deviceParameter_Vendor"
             android:id="@+id/deviceParameter_Vendor"
             android:layout_row="6"
-            android:layout_column="1" />
+            android:layout_column="1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -154,7 +154,7 @@
             android:text="Author: "
             android:id="@+id/textView2"
             android:layout_row="7"
-            android:layout_column="0" />
+            android:layout_column="0"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -164,7 +164,7 @@
             android:tag="deviceParameter_Author"
             android:id="@+id/deviceParameter_Author"
             android:layout_row="7"
-            android:layout_column="1" />
+            android:layout_column="1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -174,7 +174,7 @@
             android:tag="deviceParameter_Number"
             android:id="@+id/deviceParameter_Number"
             android:layout_row="8"
-            android:layout_column="1" />
+            android:layout_column="1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -183,6 +183,6 @@
             android:text="Index:"
             android:id="@+id/textView"
             android:layout_row="8"
-            android:layout_column="0" />
+            android:layout_column="0"/>
     </GridLayout>
 </ScrollView>

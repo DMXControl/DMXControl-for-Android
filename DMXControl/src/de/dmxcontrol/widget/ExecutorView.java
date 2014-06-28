@@ -67,7 +67,7 @@ public class ExecutorView extends LinearLayout {
         textView.setMinWidth(max);
         textView.setMaxLines(1);
         textView.setSingleLine();
-        textView.setTextAlignment(TEXT_ALIGNMENT_CENTER);
+        //textView.setTextAlignment(TEXT_ALIGNMENT_CENTER);
         textView.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         textView.setText(mExecutor.getName());

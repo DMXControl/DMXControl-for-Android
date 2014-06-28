@@ -27,7 +27,8 @@
 
 package de.dmxcontrol.widget;
 
-import android.annotation.SuppressLint;
+//import android.annotation.SuppressLint;
+
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -64,7 +65,7 @@ public class ExecuterPageMultitouchLayout extends LinearLayout {
         mMultitouchTargets = new HashMap<Integer, View>();
     }
 
-    @SuppressLint("NewApi")
+    //@SuppressLint("NewApi")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch(event.getAction()) {

@@ -1,7 +1,6 @@
 package de.dmxcontrol.activity;
 
 import android.app.Activity;
-import android.content.ClipData;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -106,8 +105,8 @@ public class ServerConnection extends Activity {
         }
     }
 
-    private ArrayList<ClipData.Item> generateData() {
-        ArrayList<ClipData.Item> items = new ArrayList<ClipData.Item>();
+    private ArrayList<KernelPingItem> generateData() {
+        ArrayList<KernelPingItem> items = new ArrayList<KernelPingItem>();
         ArrayList<KernelPingDeserializer> kernelPinglist = Prefs.get().getKernelPing();
         for(int i = 0; i < kernelPinglist.size(); i++) {
             KernelPingDeserializer kernelPing = kernelPinglist.get(i);
@@ -117,7 +116,7 @@ public class ServerConnection extends Activity {
                     ips += " , " + kernelPing.GetIPAdresses()[j];
                 }
             }
-            items.add(new ClipData.Item(kernelPing.GetHostName(), ips));
+            items.add(new KernelPingItem(kernelPing.GetHostName(), ips));
         }
         return items;
     }
@@ -127,11 +126,28 @@ public class ServerConnection extends Activity {
         }
     };
 
-    public class MyAdapter extends ArrayAdapter<ClipData.Item> {
-        private final Context context;
-        private final ArrayList<ClipData.Item> itemsArrayList;
+    private class KernelPingItem {
+        private String name, ips;
 
-        public MyAdapter(Context context, ArrayList<ClipData.Item> itemsArrayList) {
+        public KernelPingItem(String Name, String IPs) {
+            this.name = Name;
+            this.ips = IPs;
+        }
+
+        public String getName() {
+            return this.name;
+        }
+
+        public String getIPs() {
+            return this.ips;
+        }
+    }
+
+    public class MyAdapter extends ArrayAdapter<KernelPingItem> {
+        private final Context context;
+        private final ArrayList<KernelPingItem> itemsArrayList;
+
+        public MyAdapter(Context context, ArrayList<KernelPingItem> itemsArrayList) {
 
             super(context, R.layout.listview_row, itemsArrayList);
 
@@ -142,7 +158,7 @@ public class ServerConnection extends Activity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            final ClipData.Item value = itemsArrayList.get(position);
+            final KernelPingItem value = itemsArrayList.get(position);
             // 1. Create inflater
             LayoutInflater inflater = (LayoutInflater) context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -152,11 +168,11 @@ public class ServerConnection extends Activity {
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(value.getHtmlText().contains(" , ")) {
-                        Prefs.get().setServerAddress(value.getHtmlText().split(" , ")[0]);
+                    if(value.getIPs().contains(" , ")) {
+                        Prefs.get().setServerAddress(value.getIPs().split(" , ")[0]);
                     }
                     else {
-                        Prefs.get().setServerAddress(value.getHtmlText());
+                        Prefs.get().setServerAddress(value.getIPs());
                     }
                     Prefs.get().setPreferences(context);
                     Toast.makeText(getApplicationContext(), "You'r now Connected", Toast.LENGTH_SHORT).show();
@@ -168,8 +184,8 @@ public class ServerConnection extends Activity {
             TextView valueView = (TextView) rowView.findViewById(R.id.value);
 
             // 4. Set the text for textView
-            labelView.setText(value.getText());
-            valueView.setText(value.getHtmlText());
+            labelView.setText(value.getName());
+            valueView.setText(value.getIPs());
 
             // 5. retrn rowView
             return rowView;
