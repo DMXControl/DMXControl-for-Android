@@ -137,12 +137,11 @@ public class DeviceAdapter extends BaseAdapter {
             imageView.setImageBitmap(ent.getImage(ctx));
             editText.setText(ent.getName());
             final TextView finalEditText = editText;
-            final View finalView = view;
             ent.setNameChangedListener(new Entity.NameChangedListener() {
                 @Override
                 public void onNameChanged(String name) {
                     finalEditText.setText(name);
-                    finalView.invalidate();
+                    notifyDataSetChanged();
                 }
             });
 

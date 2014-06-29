@@ -131,16 +131,15 @@ public class GroupAdapter extends BaseAdapter {
             imageView.setImageBitmap(ent.getImage(ctx));
             editText.setText(ent.getName());
             final TextView finalEditText = editText;
-            final View finalView = view;
             ent.setNameChangedListener(new Entity.NameChangedListener() {
                 @Override
                 public void onNameChanged(String name) {
                     finalEditText.setText(name);
-                    finalView.invalidate();
+                    notifyDataSetChanged();
                 }
             });
 
-            if(mEntityManager.isInEntitySelection(Type.DEVICE, mEntitySelection, ent.getId())) {
+            if(mEntityManager.isInEntitySelection(Type.GROUP, mEntitySelection, ent.getId())) {
                 imageView.setBackgroundColor(SelectionColor);
             }
             else {
