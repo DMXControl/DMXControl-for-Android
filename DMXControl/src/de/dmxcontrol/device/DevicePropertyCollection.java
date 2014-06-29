@@ -1,5 +1,9 @@
 package de.dmxcontrol.device;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -7,11 +11,25 @@ import java.util.Iterator;
 /**
  * Created by Qasi on 15.06.2014.
  */
-public class DeviceCollection implements Collection<EntityDevice> {
+public class DevicePropertyCollection implements Collection<DeviceProperty> {
 
-    private ArrayList<EntityDevice> list = new ArrayList<EntityDevice>();
+    public static String NetworkID = "Propertys";
+    private ArrayList<DeviceProperty> list = new ArrayList<DeviceProperty>();
 
-    public boolean add(EntityDevice object) {
+    public DevicePropertyCollection(JSONObject o) throws Exception {
+        if(!o.has("Type")) {
+            throw new Exception("Type not found!");
+        }
+        if(o.get(NetworkID) == null) {
+            throw new Exception("Type isn't " + NetworkID);
+        }
+        JSONArray array = o.getJSONArray(NetworkID);
+        for(int i = 0; i < array.length(); i++) {
+            list.add(new DeviceProperty(array.getJSONObject(i)));
+        }
+    }
+
+    public boolean add(DeviceProperty object) {
         if(object == null) {
             return false;
         }
@@ -19,22 +37,17 @@ public class DeviceCollection implements Collection<EntityDevice> {
             return list.add(object);
         }
         else {
-            EntityDevice obj = list.get(indexOf(object));
-            obj.setId(object.getId());
-            obj.setName(object.getName(), true);
-            obj.setImage(object.getImageName());
-            obj.setChannel(object.getChannel(), true);
-            obj.setEnabled(object.getEnabled(), true);
-            obj.setChannelCount(object.getChannelCount());
+            DeviceProperty obj = list.get(indexOf(object));
+            obj.setValue(object.getValue());
             return false;
         }
     }
 
-    public boolean addAll(int location, Collection<? extends EntityDevice> collection) {
+    public boolean addAll(int location, Collection<? extends DeviceProperty> collection) {
         return list.addAll(location, collection);
     }
 
-    public boolean addAll(Collection<? extends EntityDevice> collection) {
+    public boolean addAll(Collection<? extends DeviceProperty> collection) {
         return list.addAll(collection);
     }
 
@@ -46,7 +59,7 @@ public class DeviceCollection implements Collection<EntityDevice> {
     @Override
     public boolean contains(Object object) {
         for(int i = 0; i < size(); i++) {
-            if(((EntityDevice) object).guid.equals(list.get(i).guid)) {
+            if(((DeviceProperty) object).getGUID().equals(list.get(i).getGUID())) {
                 return true;
             }
         }
@@ -58,7 +71,7 @@ public class DeviceCollection implements Collection<EntityDevice> {
         return false;
     }
 
-    public EntityDevice get(int location) {
+    public DeviceProperty get(int location) {
         if(location >= list.size()) {
             return null;
         }
@@ -67,7 +80,7 @@ public class DeviceCollection implements Collection<EntityDevice> {
 
     public int indexOf(Object object) {
         for(int i = 0; i < size(); i++) {
-            if(((EntityDevice) object).guid.equals(list.get(i).guid)) {
+            if(((DeviceProperty) object).getGUID().equals(list.get(i).getGUID())) {
                 return i;
             }
         }
@@ -80,21 +93,21 @@ public class DeviceCollection implements Collection<EntityDevice> {
     }
 
     @Override
-    public Iterator<EntityDevice> iterator() {
+    public Iterator<DeviceProperty> iterator() {
         return null;
     }
 
     public int lastIndexOf(Object object) {
         int out = Integer.MIN_VALUE;
         for(int i = 0; i < size(); i++) {
-            if(((EntityDevice) object).guid.equals(list.get(i).guid)) {
+            if(((DeviceProperty) object).getGUID().equals(list.get(i).getGUID())) {
                 out = i;
             }
         }
         return out;
     }
 
-    public EntityDevice remove(int location) {
+    public DeviceProperty remove(int location) {
         return list.remove(location);
     }
 

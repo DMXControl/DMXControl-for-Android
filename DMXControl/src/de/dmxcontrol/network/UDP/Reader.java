@@ -26,23 +26,6 @@ public class Reader extends Thread {
 
     private DatagramSocket androidApp;
 
-    public enum Type {
-        DEVICE,
-        DEVICECOUNT,
-        GROUP,
-        GROUPCOUNT,
-        PRESET,
-        PRESETCOUNT,
-        EXECUTOR,
-        EXECUTORCOUNT,
-        EXECUTORPAGE,
-        EXECUTORPAGECOUNT;
-
-        public static Type convert(byte value) {
-            return Type.values()[value];
-        }
-    }
-
     public interface NewsUpdateListener {
         void onNewsUpdate();
     }

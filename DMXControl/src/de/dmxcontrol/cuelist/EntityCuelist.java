@@ -99,13 +99,4 @@ public class EntityCuelist extends Entity {
             DMXControlApplication.SaveLog();
         }
     }
-
-    public static void SendAllRequest() {
-        byte[] output = new byte[4];
-        output[0] = (byte) Reader.Type.EXECUTORPAGE.ordinal();
-        output[1] = 'A';
-        output[2] = 'L';
-        output[3] = 'L';
-        Prefs.get().getUDPSender().addSendData(output);
-    }
 }

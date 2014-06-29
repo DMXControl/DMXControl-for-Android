@@ -1,5 +1,8 @@
 package de.dmxcontrol.device;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -7,34 +10,39 @@ import java.util.Iterator;
 /**
  * Created by Qasi on 15.06.2014.
  */
-public class DeviceCollection implements Collection<EntityDevice> {
+public class DeviceProcedureCollection implements Collection<DeviceProcedure> {
 
-    private ArrayList<EntityDevice> list = new ArrayList<EntityDevice>();
+    public static String NetworkID = "Procedures";
+    private ArrayList<DeviceProcedure> list = new ArrayList<DeviceProcedure>();
 
-    public boolean add(EntityDevice object) {
+    public DeviceProcedureCollection(JSONObject o) throws Exception {
+        if(!o.has("Type")) {
+            throw new Exception("Type not found!");
+        }
+        if(o.get(NetworkID) == null) {
+            throw new Exception("Type isn't " + NetworkID);
+        }
+        JSONArray array = o.getJSONArray(NetworkID);
+        for(int i = 0; i < array.length(); i++) {
+            list.add(new DeviceProcedure(array.getJSONObject(i)));
+        }
+    }
+
+    public boolean add(DeviceProcedure object) {
         if(object == null) {
             return false;
         }
         if(!contains(object)) {
             return list.add(object);
         }
-        else {
-            EntityDevice obj = list.get(indexOf(object));
-            obj.setId(object.getId());
-            obj.setName(object.getName(), true);
-            obj.setImage(object.getImageName());
-            obj.setChannel(object.getChannel(), true);
-            obj.setEnabled(object.getEnabled(), true);
-            obj.setChannelCount(object.getChannelCount());
-            return false;
-        }
+        return false;
     }
 
-    public boolean addAll(int location, Collection<? extends EntityDevice> collection) {
+    public boolean addAll(int location, Collection<? extends DeviceProcedure> collection) {
         return list.addAll(location, collection);
     }
 
-    public boolean addAll(Collection<? extends EntityDevice> collection) {
+    public boolean addAll(Collection<? extends DeviceProcedure> collection) {
         return list.addAll(collection);
     }
 
@@ -46,7 +54,7 @@ public class DeviceCollection implements Collection<EntityDevice> {
     @Override
     public boolean contains(Object object) {
         for(int i = 0; i < size(); i++) {
-            if(((EntityDevice) object).guid.equals(list.get(i).guid)) {
+            if(((DeviceProcedure) object).getName().equals(list.get(i).getName())) {
                 return true;
             }
         }
@@ -58,7 +66,7 @@ public class DeviceCollection implements Collection<EntityDevice> {
         return false;
     }
 
-    public EntityDevice get(int location) {
+    public DeviceProcedure get(int location) {
         if(location >= list.size()) {
             return null;
         }
@@ -67,7 +75,7 @@ public class DeviceCollection implements Collection<EntityDevice> {
 
     public int indexOf(Object object) {
         for(int i = 0; i < size(); i++) {
-            if(((EntityDevice) object).guid.equals(list.get(i).guid)) {
+            if(((DeviceProcedure) object).getName().equals(list.get(i).getName())) {
                 return i;
             }
         }
@@ -80,21 +88,21 @@ public class DeviceCollection implements Collection<EntityDevice> {
     }
 
     @Override
-    public Iterator<EntityDevice> iterator() {
+    public Iterator<DeviceProcedure> iterator() {
         return null;
     }
 
     public int lastIndexOf(Object object) {
         int out = Integer.MIN_VALUE;
         for(int i = 0; i < size(); i++) {
-            if(((EntityDevice) object).guid.equals(list.get(i).guid)) {
+            if(((DeviceProcedure) object).getName().equals(list.get(i).getName())) {
                 out = i;
             }
         }
         return out;
     }
 
-    public EntityDevice remove(int location) {
+    public DeviceProcedure remove(int location) {
         return list.remove(location);
     }
 

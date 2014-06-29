@@ -42,6 +42,8 @@ public class EntityDevice extends Entity {
     private int channel, channelCount, color;
     private String model, vendor, author, image;
     private boolean enabled;
+    private DevicePropertyCollection Propertys;
+    private DeviceProcedureCollection Procedures;
 
     @Override
     public String getNetworkID() {
@@ -62,6 +64,22 @@ public class EntityDevice extends Entity {
             o.put("Number", this.getId());
             o.put("Channel", this.getChannel());
             o.put("Enabled", this.getEnabled());
+
+            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            return;
+        }
+        catch(Exception e) {
+            Log.e("UDP Send: ", e.getMessage());
+            DMXControlApplication.SaveLog();
+        }
+    }
+
+    public void ExecuteProcedure(DeviceProcedure procedure) {
+        try {
+            JSONObject o = new JSONObject();
+            o.put("Type", NetworkID);
+            o.put("GUID", this.guid);
+            o.put("Procedure", procedure.getName());
 
             Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
             return;
@@ -97,8 +115,11 @@ public class EntityDevice extends Entity {
                 entity = new EntityDevice(o.getInt("Number"), o.getString("Name"), o.getString("Image"));
                 entity.guid = o.getString("GUID");
                 if(o.has("Channel")) {
-                    if(o.getString("Channel") != null) {
+                    if(o.getString("Channel").equals(null)) {
                         entity.channel = o.getInt("Channel");
+                    }
+                    else {
+                        entity.channel = Integer.MIN_VALUE;
                     }
                 }
                 if(o.has("ChannelCount")) {
@@ -127,6 +148,8 @@ public class EntityDevice extends Entity {
                         entity.setImage(defaultDeviceIcon);
                     }
                 }
+                entity.Propertys = new DevicePropertyCollection(o);
+                entity.Procedures = new DeviceProcedureCollection(o);
             }
         }
         catch(Exception e) {
@@ -176,5 +199,9 @@ public class EntityDevice extends Entity {
         if(!isEqual && !fromReader) {
             Send();
         }
+    }
+
+    public void setChannelCount(int channelCount) {
+        this.channelCount = channelCount;
     }
 }

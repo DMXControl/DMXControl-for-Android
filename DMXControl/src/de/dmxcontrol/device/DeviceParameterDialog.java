@@ -49,9 +49,12 @@ public class DeviceParameterDialog extends FrameLayout {
             DMXControlApplication.SaveLog();
         }
         try {
-            name.setText(device.getName());
+            name.setText(device.getName() + "                                 ");
             int fulllChannel = device.getChannel();
-            if(fulllChannel <= 512) {
+            if(fulllChannel == Integer.MIN_VALUE) {
+                channel.setText("                                 ");
+            }
+            else if(fulllChannel <= 512) {
                 channel.setText(fulllChannel + "");
             }
             else {
@@ -101,7 +104,12 @@ public class DeviceParameterDialog extends FrameLayout {
                 alert.setTitle("Re-Address");
                 alert.setMessage("Enter Channel");
                 final EditText input = new EditText(context);
-                input.setText(device.getChannel() + "");
+                if(device.getChannel() == Integer.MIN_VALUE) {
+                    input.setText("");
+                }
+                else {
+                    input.setText(device.getChannel() + "");
+                }
                 alert.setView(input);
                 alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {

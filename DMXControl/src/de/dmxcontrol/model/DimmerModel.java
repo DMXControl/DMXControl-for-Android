@@ -29,6 +29,7 @@ package de.dmxcontrol.model;
 
 import android.view.View;
 
+import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.widget.IValueListener;
 
 public class DimmerModel extends BaseModel implements IValueListener {
