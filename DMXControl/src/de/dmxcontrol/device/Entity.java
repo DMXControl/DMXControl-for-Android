@@ -108,6 +108,9 @@ public abstract class Entity implements IPropertyContainer {
             return;
         }
         if(!isEqual && !fromReader) {
+            for(NameChangedListener listener : NameChangedListeners) {
+                listener.onNameChanged(name);
+            }
             Send();
         }
     }
