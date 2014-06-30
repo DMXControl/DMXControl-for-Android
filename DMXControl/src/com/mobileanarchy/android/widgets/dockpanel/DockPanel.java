@@ -1,6 +1,9 @@
 package com.mobileanarchy.android.widgets.dockpanel;
 
 
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -9,7 +12,9 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -20,6 +25,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
 
 public class DockPanel extends LinearLayout {
@@ -31,14 +37,21 @@ public class DockPanel extends LinearLayout {
     private static final String TAG = "DockPanel";
     private DockPosition position;
     private int contentLayoutId;
-    private int handleButtonDrawableId;
+    private int handleToggleButtonDrawableId;
+    private int handleMenuButtonDrawableId;
     private Boolean isOpen;
     private Boolean animationRunning;
     private FrameLayout contentPlaceHolder;
     private ImageButton toggleButton;
+    private ImageButton menuButton;
     private int animationDuration;
+    private Context ctx;
 
-    public final static int IMAGEVIEW_ID = 0x928472;
+    public ImageView getImageView() {
+        return imageView;
+    }
+
+    public final static String IMAGEVIEW_TAG = "connectionImage";
 
     // Hacked mod for DMXControl
     private OnDockOpenListener onDockOpenListener;
@@ -51,9 +64,10 @@ public class DockPanel extends LinearLayout {
     public DockPanel(Context context, int contentLayoutId,
                      int handleButtonDrawableId, Boolean isOpen) {
         super(context);
-
+        this.ctx = context;
         this.contentLayoutId = contentLayoutId;
-        this.handleButtonDrawableId = handleButtonDrawableId;
+        this.handleToggleButtonDrawableId = handleButtonDrawableId;
+        this.handleMenuButtonDrawableId = handleButtonDrawableId;
         this.isOpen = isOpen;
 
         Init(null);
@@ -80,11 +94,15 @@ public class DockPanel extends LinearLayout {
         setDefaultValues(attrs);
 
         createHandleToggleButton();
+        createHandleMenuButton();
         createImageView();
 
         // create the handle container
         FrameLayout handleContainer = new FrameLayout(getContext());
         handleContainer.addView(toggleButton);
+        if(!ViewConfiguration.get(getContext()).hasPermanentMenuKey()) {
+            handleContainer.addView(menuButton);
+        }
         handleContainer.addView(imageView);
 
         // create and populate the panel's container, and inflate it
@@ -143,8 +161,10 @@ public class DockPanel extends LinearLayout {
                     "animationDuration", 500);
             contentLayoutId = attrs.getAttributeResourceValue(namespace,
                     "contentLayoutId", 0);
-            handleButtonDrawableId = attrs.getAttributeResourceValue(
-                    namespace, "handleButtonDrawableResourceId", 0);
+            handleToggleButtonDrawableId = attrs.getAttributeResourceValue(
+                    namespace, "handleToggleButtonDrawableResourceId", 0);
+            handleMenuButtonDrawableId = attrs.getAttributeResourceValue(
+                    namespace, "handleMenuButtonDrawableResourceId", 0);
             isOpen = attrs.getAttributeBooleanValue(namespace, "isOpen", true);
 
             // Enums are a bit trickier (needs to be parsed)
@@ -202,11 +222,29 @@ public class DockPanel extends LinearLayout {
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                 Gravity.CENTER));
         toggleButton.setBackgroundColor(Color.TRANSPARENT);
-        toggleButton.setImageResource(handleButtonDrawableId);
+        toggleButton.setImageResource(handleToggleButtonDrawableId);
         toggleButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 toggle();
+            }
+        });
+    }
+
+    private void createHandleMenuButton() {
+        menuButton = new ImageButton(getContext());
+        menuButton.setPadding(0, 0, 0, 0);
+        menuButton.setLayoutParams(new FrameLayout.LayoutParams(
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                Gravity.LEFT));
+        menuButton.setBackgroundColor(Color.TRANSPARENT);
+        menuButton.setImageResource(handleMenuButtonDrawableId);
+        menuButton.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Activity activity = (Activity) getContext();
+                activity.openOptionsMenu();
             }
         });
     }
@@ -217,7 +255,7 @@ public class DockPanel extends LinearLayout {
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                 Gravity.RIGHT));
-        imageView.setId(IMAGEVIEW_ID);
+        imageView.setTag(IMAGEVIEW_TAG);
     }
 
     private void setPosition(DockPosition position) {

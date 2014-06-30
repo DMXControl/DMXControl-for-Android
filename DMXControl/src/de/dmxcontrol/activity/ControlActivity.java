@@ -156,7 +156,7 @@ public class ControlActivity extends FragmentActivity implements
             DockPanel panel = (DockPanel) frame.findViewById(R.id.panel);
             panel.setOnDockOpenListener(this);
 
-            mConnectionImage = (ImageView) panel.findViewById(DockPanel.IMAGEVIEW_ID);
+            mConnectionImage = panel.getImageView();//(ImageView) panel.findViewWithTag("connectionImage");
             ServiceFrontend s = ServiceFrontend.get();
             s.addListener(this);
             onServiceChanged(s);

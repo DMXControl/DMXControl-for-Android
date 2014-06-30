@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:ma="http://com.MobileAnarchy.Android.Widgets"
-    android:id="@+id/root"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+             xmlns:ma="http://com.MobileAnarchy.Android.Widgets"
+             android:id="@+id/root"
+             android:layout_width="fill_parent"
+             android:layout_height="fill_parent">
 
     <RelativeLayout
         android:id="@+id/root_screen"
@@ -27,7 +27,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:name="de.dmxcontrol.fragment.ActionSelectorFragment" />
+            android:name="de.dmxcontrol.fragment.ActionSelectorFragment"/>
     </RelativeLayout>
 
     <com.mobileanarchy.android.widgets.dockpanel.DockPanel
@@ -39,6 +39,7 @@
         android:background="#FF000000"
         ma:contentLayoutId="@layout/content_drawer"
         ma:dockPosition="top"
-        ma:handleButtonDrawableResourceId="@drawable/top_dock_handle" />
+        ma:handleToggleButtonDrawableResourceId="@drawable/top_dock_handle"
+        ma:handleMenuButtonDrawableResourceId="@drawable/icon"/>
 
 </FrameLayout>

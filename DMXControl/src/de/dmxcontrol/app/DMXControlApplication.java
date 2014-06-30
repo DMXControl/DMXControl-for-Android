@@ -70,6 +70,10 @@ public class DMXControlApplication extends Application {
 
     @Override
     public void onCreate() {
+        if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof ExceptionReport)) {
+            Thread.setDefaultUncaughtExceptionHandler(new ExceptionReport(
+                    StoragePath, null));
+        }
         try {
             super.onCreate();
 
