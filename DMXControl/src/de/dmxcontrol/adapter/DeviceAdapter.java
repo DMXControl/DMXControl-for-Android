@@ -136,14 +136,14 @@ public class DeviceAdapter extends BaseAdapter {
             imageView.setVisibility(View.VISIBLE);
             imageView.setImageBitmap(ent.getImage(ctx));
             editText.setText(ent.getName());
-            final TextView finalEditText = editText;
+            /*final TextView finalEditText = editText;
             ent.setNameChangedListener(new Entity.NameChangedListener() {
                 @Override
                 public void onNameChanged(String name) {
                     finalEditText.setText(name);
                     notifyDataSetChanged();
                 }
-            });
+            });*/
 
             if(mEntityManager.isInEntitySelection(Type.DEVICE, mEntitySelection, ent.getId())) {
                 imageView.setBackgroundColor(SelectionColor);

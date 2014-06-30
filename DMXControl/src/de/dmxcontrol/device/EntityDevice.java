@@ -115,7 +115,7 @@ public class EntityDevice extends Entity {
                 entity = new EntityDevice(o.getInt("Number"), o.getString("Name"), o.getString("Image"));
                 entity.guid = o.getString("GUID");
                 if(o.has("Channel")) {
-                    if(o.getString("Channel").equals(null)) {
+                    if(!o.getString("Channel").equals("null")) {
                         entity.channel = o.getInt("Channel");
                     }
                     else {
