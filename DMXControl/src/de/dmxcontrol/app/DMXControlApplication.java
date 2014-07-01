@@ -73,12 +73,12 @@ public class DMXControlApplication extends Application {
         try {
             super.onCreate();
 
-            // Init Prefences and start new udp networking
+            // Init Preferences and start new udp networking
             prefs = Prefs.get();
             // load saved preferences
             prefs.setPreferences(this);
 
-            // Init OSC Service
+            // Init network Service
             ServiceFrontend.initOnce(this);
 
             // Init FileManager
@@ -92,11 +92,10 @@ public class DMXControlApplication extends Application {
             EntityCuelist.SendRequest(EntityCuelist.class, Entity.Request_All);
             EntityPreset.SendRequest(EntityPreset.class, Entity.Request_All);
 
-            // Start OSC Service if offline isn't set in prefs
+            // Start network Service if offline isn't set in prefs
             if(!prefs.getOffline()) {
                 ServiceFrontend.get().connect();
             }
-
         }
         catch(Exception e) {
             Log.w("", DMXControlApplication.stackTraceToString(e));

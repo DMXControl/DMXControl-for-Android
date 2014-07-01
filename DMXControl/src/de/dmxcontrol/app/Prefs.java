@@ -38,9 +38,7 @@ import java.util.ArrayList;
 import de.dmxcontrol.activity.ControlActivity;
 import de.dmxcontrol.network.ServiceFrontend;
 import de.dmxcontrol.network.UDP.KernelPingDeserializer;
-import de.dmxcontrol.network.UDP.Reader;
 import de.dmxcontrol.network.UDP.ReaderKernelPing;
-import de.dmxcontrol.network.UDP.Sender;
 
 public class Prefs {
     private final static String TAG = "dmxcontrol";
@@ -63,21 +61,10 @@ public class Prefs {
     public static final int SCREEN_MODE_PORTRAIT = 1;
     public static final int SCREEN_MODE_LANDSCAPE = 2;
 
-    //private Thread reader1;
     private ReaderKernelPing Pingreader;
-    private Reader reader;
-    private Sender sender;
-
-    public Reader getUDPReader() {
-        return reader;
-    }
 
     public ReaderKernelPing getUDPReaderKernelPing() {
         return Pingreader;
-    }
-
-    public Sender getUDPSender() {
-        return sender;
     }
 
     private Context ctx;
@@ -91,27 +78,11 @@ public class Prefs {
         Pingreader = new ReaderKernelPing();
         Thread Pingreader1 = new Thread(Pingreader);
         Pingreader1.start();
-
-        reader = new Reader();
-        Thread reader1 = new Thread(reader);
-        reader1.start();
-
-        sender = new Sender();
-        Thread sender1 = new Thread(sender);
-        sender1.start();
     }
 
     public void CloseNetwork() {
         if(Pingreader != null) {
             Pingreader.kill();
-        }
-
-        if(reader != null) {
-            reader.kill();
-        }
-
-        if(sender != null) {
-            sender.kill();
         }
     }
 
@@ -124,12 +95,14 @@ public class Prefs {
     }
 
     public void setPreferences(Context ctx) {
+
         this.ctx = ctx;
+
         Log.d(TAG, "Prefs.setPreferences");
 
         // Get the xml/preferences.xml preferences
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
-        //Set<String> seter= new String[3];
+        //Set<String> seter = new String[3];
         try {
             //if( reader.GetLastKernelPing().GetHostName()!=null){
             //prefs.edit().putString("@array/founded_servers_values", "sdsfsdfsd" /**reader.GetLastKernelPing().GetHostName()**/);
@@ -138,6 +111,7 @@ public class Prefs {
         catch(Exception e) {
             e.toString();
         }
+
         viewConfigChanged = false;
         connectConfigChanged = false;
         versionChanged = false;
@@ -148,6 +122,7 @@ public class Prefs {
             connectConfigChanged = true;
         }
         mDeviceName = deviceName;
+
         ServiceFrontend.setName(mDeviceName);
 
         String serverAddress = prefs.getString("pref_connect_address", "");
@@ -163,7 +138,7 @@ public class Prefs {
         }
         mServerHost = serverHost;
 
-        int serverPort = Integer.valueOf(prefs.getString("pref_connect_port", "8001"));
+        int serverPort = Integer.valueOf(prefs.getString("pref_connect_port", "23242"));
         if(mServerPort != serverPort) {
             connectConfigChanged = true;
         }
@@ -221,6 +196,10 @@ public class Prefs {
         return result;
     }
 
+    public boolean getOffline() {
+        return mOffline;
+    }
+
     public void setOffline(boolean offline) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         mOffline = prefs.getBoolean("pref_connect_offline", false);
@@ -232,12 +211,12 @@ public class Prefs {
         mOffline = offline;
     }
 
-    public boolean getOffline() {
-        return mOffline;
-    }
-
     public String getServerAddress() {
         return mServerAddress;
+    }
+
+    public void setServerAddress(String serverAddress) {
+        this.mServerAddress = serverAddress;
     }
 
     public int getServerPort() {
@@ -252,7 +231,4 @@ public class Prefs {
         return Pingreader.GetKernelPings();
     }
 
-    public void setServerAddress(String serverAddress) {
-        this.mServerAddress = serverAddress;
-    }
 }

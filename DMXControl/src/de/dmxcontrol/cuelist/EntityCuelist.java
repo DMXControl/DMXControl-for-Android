@@ -32,9 +32,8 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
-import de.dmxcontrol.network.UDP.Reader;
+import de.dmxcontrol.network.ServiceFrontend;
 
 //This is One Executor
 public class EntityCuelist extends Entity {
@@ -91,7 +90,7 @@ public class EntityCuelist extends Entity {
             o.put("GUID", this.guid);
             o.put("Name", this.getName());
 
-            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            ServiceFrontend.get().sendMessage(o.toString().getBytes());
             return;
         }
         catch(Exception e) {
@@ -99,4 +98,5 @@ public class EntityCuelist extends Entity {
             DMXControlApplication.SaveLog();
         }
     }
+
 }

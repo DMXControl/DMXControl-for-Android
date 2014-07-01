@@ -5,91 +5,109 @@ import android.util.Log;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.app.Prefs;
 
 /**
  * Created by Qasi on 12.06.2014.
  */
-//private MyDatagramReceiver myDatagramReceiver = null;
+public class Sender implements Runnable {
 
-//protected void onResume() {
-//        myDatagramReceiver = new MyDatagramReceiver();
-//        myDatagramReceiver.start();
-//        }
+    private final static String TAG = "Network - Sender";
 
-//protected void onPause() {
-//        myDatagramReceiver.kill();
-//        }
-
-public class Sender extends Thread {
-    private boolean bKeepRunning = true;
-
-    public enum Type {
-        DEVICE,
-        DEVICECOUNT,
-        GROUP,
-        GROUPCOUNT,
-        PRESET,
-        PRESETCOUNT,
-        EXECUTOR,
-        EXECUTORCOUNT;
-
-        public static Type convert(byte value) {
-            return Type.values()[value];
-        }
-    }
+    private boolean bKeepRunning;
 
     private ArrayList<byte[]> sendData = new ArrayList<byte[]>();
-    private DatagramSocket androidApp;
 
-    public void run() {
-        try {
-            if(androidApp == null) {
-                androidApp = new DatagramSocket(23242);
-            }
+    private DatagramSocket mSenderSocket;
 
-            while(bKeepRunning) {
-                send(androidApp);
-                Thread.sleep(33);
-            }
+    private InetAddress mServerAddress;
 
-            if(androidApp != null) {
-                if(!androidApp.isClosed()) {
-                    androidApp.close();
-                }
-            }
-        }
-        catch(Throwable e) {
-            Log.e("UDP Sender", e.getMessage());
-            run();
-        }
-    }
+    private int mServerPort;
 
-    private void send(DatagramSocket socket) {
+
+    private void sendDataOut(DatagramSocket socket) {
         try {
             for(int i = 0; i < sendData.size(); i++) {
-                socket.send(new DatagramPacket(sendData.get(i), sendData.get(i).length, InetAddress.getByName(Prefs.get().getServerAddress()), 23242));
+
+                socket.send(new DatagramPacket(sendData.get(i), sendData.get(i).length, mServerAddress, mServerPort));
+
                 sendData.set(i, null);
                 sendData.remove(i);
             }
         }
         catch(Exception e) {
-            Log.w("", DMXControlApplication.stackTraceToString(e));
+            // Just log this and do not notify user
+            Log.w(TAG, DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
+    }
+
+
+    public Sender(String serverAddress, int serverPort) throws SocketException, UnknownHostException {
+        super();
+
+        mServerPort = serverPort;
+        try {
+            mServerAddress = InetAddress.getByName(serverAddress);
+        }
+        catch(UnknownHostException e) {
+            throw e;
+        }
+
+        try {
+            // Create and open socket
+            if(mSenderSocket == null) {
+                mSenderSocket = new DatagramSocket(mServerPort);
+
+                // Maybe use this to avoid a blocked transmission
+                //mSenderSocket.setSoTimeout();
+            }
+        }
+        catch(SocketException e) {
+            throw e;
+        }
+
     }
 
     public void addSendData(byte[] data) {
         sendData.add(data);
     }
 
+    public void run() {
+
+        bKeepRunning = true;
+
+        try {
+            while(bKeepRunning) {
+                sendDataOut(mSenderSocket);
+
+                Thread.sleep(33);
+            }
+        }
+        catch(InterruptedException e) {
+            Log.d(TAG, e.getMessage());
+        }
+        finally {
+            // close socket
+            if(mSenderSocket != null) {
+                // close socket if it is open
+                if(!mSenderSocket.isClosed()) {
+                    mSenderSocket.close();
+                }
+                // Reset socket
+                mSenderSocket = null;
+            }
+
+            // Clear data
+            sendData.clear();
+        }
+    }
+
     public void kill() {
         bKeepRunning = false;
-        if(!androidApp.isClosed()) {
-            androidApp.close();
-        }
     }
 }

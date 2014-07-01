@@ -34,9 +34,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager.Type;
+import de.dmxcontrol.network.ServiceFrontend;
 
 //This is One Executor
 public class EntityExecutor extends Entity {
@@ -226,7 +226,7 @@ public class EntityExecutor extends Entity {
                 o.put("Stop", true);
             }
 
-            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            ServiceFrontend.get().sendMessage(o.toString().getBytes());
             return;
         }
         catch(Exception e) {

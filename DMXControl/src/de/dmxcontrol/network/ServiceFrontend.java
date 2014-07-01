@@ -38,31 +38,38 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
 
-import de.dmxcontrol.device.EntityManager.Type;
-import de.dmxcontrol.device.Range;
-import de.dmxcontrol.model.BaseModel;
-import de.dmxcontrol.model.BaseModel.OnModelListener;
-import de.sciss.net.OSCMessage;
+public class ServiceFrontend implements IMessageListener {
 
-public class ServiceFrontend implements IMessageListener, OnModelListener {
-    private final static String TAG = "network";
+    private final static String TAG = "network - Frontend";
 
     private static ServiceFrontend INSTANCE;
     private Context mContext;
-    private OSCService mService;
+
+    private NetworkService mService;
+
+    // name for register and unregister process
+    private static String mDeviceName = "";
+
     private IMessageListener mListener;
     private Map<OnServiceListener, Boolean> mListeners;
 
-    private static String DEVICENAME = "";
+    private ServiceConnection connection = new ServiceConnection() {
 
-    private final static String DMXCONTROL_OSC_ROOT = "/DMXControl";
-    private final static String OSC_DELIMITER = "/";
-    private final static String OSC_REGISTER = "register";
-    private final static String OSC_UNREGISTER = "unregister";
-    private final static String OSC_BEAMNUMBER = "*";
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mService = ((NetworkService.LocalBinder) service).getService();
+            Log.d(TAG, "ServiceConnection: mService = " + mService);
 
-    private final static String OSC_DMXC_FIXTURE = "fixture";
-    private final static String OSC_DMXC_GROUP = "group";
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            Log.d(TAG, "ServiceConnection: nas is disconnected");
+            mService = null;
+        }
+    };
+
+    public static void setName(String name) {
+        mDeviceName = name;
+    }
 
     public interface OnServiceListener {
         public void onServiceChanged(ServiceFrontend dm);
@@ -85,10 +92,9 @@ public class ServiceFrontend implements IMessageListener, OnModelListener {
     }
 
     public void bindService() {
-        Intent intent = new Intent(mContext, OSCService.class);
+        Intent intent = new Intent(mContext, NetworkService.class);
 
-        boolean result = mContext.bindService(intent, connection,
-                Context.BIND_AUTO_CREATE | Context.BIND_DEBUG_UNBIND);
+        boolean result = mContext.bindService(intent, connection, Context.BIND_AUTO_CREATE | Context.BIND_DEBUG_UNBIND);
 
         if(result) {
             Log.d(TAG, "bindService bind successful.");
@@ -105,41 +111,26 @@ public class ServiceFrontend implements IMessageListener, OnModelListener {
         }
     }
 
-    private ServiceConnection connection = new ServiceConnection() {
-
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mService = ((OSCService.LocalBinder) service).getService();
-            Log.d(TAG, "ServiceConnection: mService = " + mService);
-
-        }
-
-        public void onServiceDisconnected(ComponentName name) {
-            Log.d(TAG, "ServiceConnection: nas is disconnectd");
-            mService = null;
-        }
-    };
-
-    public static void setName(String name) {
-        DEVICENAME = name;
-    }
-
     public void setListener(IMessageListener listener) {
         mListener = listener;
     }
 
     public void connect() {
-        //Disable OSC
-        //if(mService != null) {
-        //    mService.connect();
-        //    mService.setSenderListener(mListener);
-        //}
+        if(mService == null) {
+            return;
+        }
+        // Start network service
+        mService.connect();
+        mService.setSenderListener(mListener);
         //register();
     }
 
     public void disconnect(boolean silent) {
         if(!silent) {
-            unregister();
+            //unregister();
+
             try {
+                // we need time to unregister
                 Thread.sleep(100);
             }
             catch(InterruptedException e) {
@@ -159,50 +150,28 @@ public class ServiceFrontend implements IMessageListener, OnModelListener {
         return false;
     }
 
+    public void sendMessage(byte[] data) {
+        if(mService != null) {
+            mService.sendMessage(data);
+        }
+    }
+
+    /*
+    maybe use such a a thing later
     private void register() {
-        OSCMessage msg = new OSCMessage(DMXCONTROL_OSC_ROOT + OSC_DELIMITER
-                + OSC_REGISTER, new Object[]{DEVICENAME});
+        OSCMessage msg = new OSCMessage(DMXCONTROL_OSC_ROOT + OSC_DELIMITER + OSC_REGISTER, new Object[]{DEVICENAME});
         if(mService != null) {
             mService.sendMessage(msg);
         }
     }
 
     private void unregister() {
-        OSCMessage msg = new OSCMessage(DMXCONTROL_OSC_ROOT + OSC_DELIMITER
-                + OSC_UNREGISTER, new Object[]{DEVICENAME});
+        OSCMessage msg = new OSCMessage(DMXCONTROL_OSC_ROOT + OSC_DELIMITER + OSC_UNREGISTER, new Object[]{DEVICENAME});
         if(mService != null) {
             mService.sendMessage(msg);
         }
     }
-
-    private void processAttributes(BaseModel model) {
-        processAttributes(Type.DEVICE, OSC_DMXC_FIXTURE, model);
-        processAttributes(Type.GROUP, OSC_DMXC_GROUP, model);
-
-        if(mService != null) {
-            mService.notifyAllMessages();
-        }
-    }
-
-    private void processAttributes(Type type, String deviceType, BaseModel model) {
-        for(Range range : model.getEntitySelection().getRangesList(type)) {
-            OSCMessage msg = createOSCMessage(deviceType, range, model);
-
-            if(mService != null) {
-                mService.addMessage(msg);
-            }
-        }
-    }
-
-    private OSCMessage createOSCMessage(String deviceType, Range range, BaseModel model) {
-        String oscPath = String.format("%s%s%s%s%s%s%s%s%s",
-                DMXCONTROL_OSC_ROOT, OSC_DELIMITER, deviceType, OSC_DELIMITER,
-                range.getOSCRange(), OSC_DELIMITER, OSC_BEAMNUMBER,
-                OSC_DELIMITER, model.getOSCAttributeName());
-        // Log.d(TAG, "createOSCMessage: oscPath = " + oscPath);
-        OSCMessage msg = new OSCMessage(oscPath, model.getOSCAttributes());
-        return msg;
-    }
+    */
 
     @Override
     public void notifyNetworkError(String msg) {
@@ -219,6 +188,7 @@ public class ServiceFrontend implements IMessageListener, OnModelListener {
         notifyListener();
     }
 
+
     public void addListener(OnServiceListener listener) {
         mListeners.put(listener, true);
     }
@@ -233,10 +203,5 @@ public class ServiceFrontend implements IMessageListener, OnModelListener {
             OnServiceListener listener = iter.next();
             listener.onServiceChanged(this);
         }
-    }
-
-    @Override
-    public void onModelChanged(BaseModel model) {
-        processAttributes(model);
     }
 }
