@@ -22,7 +22,6 @@ import java.util.TimerTask;
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.app.Prefs;
-import de.dmxcontrol.file.FileManager;
 import de.dmxcontrol.network.UDP.KernelPingDeserializer;
 import de.dmxcontrol.network.UDP.ReaderKernelPing;
 

@@ -57,6 +57,7 @@ public class PreferencesActivity extends PreferenceActivity {
         boolean networkChanged = prefs.connectConfigChanged();
 
         ServiceFrontend cs = ServiceFrontend.get();
+
         if(networkChanged && prefs.getOffline()) {
             cs.disconnect(true);
         }
