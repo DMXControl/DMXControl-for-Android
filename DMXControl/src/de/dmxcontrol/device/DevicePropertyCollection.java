@@ -1,7 +1,6 @@
 package de.dmxcontrol.device;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -20,12 +19,17 @@ public class DevicePropertyCollection implements Collection<DeviceProperty> {
         if(!o.has("Type")) {
             throw new Exception("Type not found!");
         }
+
         if(o.get(NetworkID) == null) {
             throw new Exception("Type isn't " + NetworkID);
         }
-        JSONArray array = o.getJSONArray(NetworkID);
-        for(int i = 0; i < array.length(); i++) {
-            list.add(new DeviceProperty(array.getJSONObject(i)));
+
+        if(o.has(NetworkID)) {
+            JSONArray array = o.getJSONArray(NetworkID);
+
+            for(int i = 0; i < array.length(); i++) {
+                list.add(new DeviceProperty(array.getJSONObject(i)));
+            }
         }
     }
 

@@ -32,9 +32,8 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
-import de.dmxcontrol.network.UDP.Reader;
+import de.dmxcontrol.network.ServiceFrontend;
 
 //This is One Executor
 public class EntityPreset extends Entity {
@@ -88,7 +87,7 @@ public class EntityPreset extends Entity {
             o.put("Name", this.getName());
             o.put("Number", this.getId());
 
-            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            ServiceFrontend.get().sendMessage(o.toString().getBytes());
             return;
         }
         catch(Exception e) {
@@ -96,4 +95,5 @@ public class EntityPreset extends Entity {
             DMXControlApplication.SaveLog();
         }
     }
+
 }

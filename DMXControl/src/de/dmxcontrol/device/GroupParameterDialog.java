@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 

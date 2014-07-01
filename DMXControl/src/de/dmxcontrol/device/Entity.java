@@ -41,8 +41,8 @@ import java.util.HashMap;
 
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.EntityManager.Type;
+import de.dmxcontrol.network.ServiceFrontend;
 
 public abstract class Entity implements IPropertyContainer {
     private final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
@@ -161,7 +161,8 @@ public abstract class Entity implements IPropertyContainer {
             JSONObject o = new JSONObject();
             o.put("Type", ((Entity) entity.newInstance()).getNetworkID());
             o.put("Request", request);
-            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+
+            ServiceFrontend.get().sendMessage(o.toString().getBytes());
         }
         catch(Exception e) {
             Log.e("SendAllRequest: ", e.getMessage());

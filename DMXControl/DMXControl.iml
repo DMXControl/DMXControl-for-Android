@@ -21,7 +21,6 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="module" module-name="NetUtil" exported="" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
 </module>

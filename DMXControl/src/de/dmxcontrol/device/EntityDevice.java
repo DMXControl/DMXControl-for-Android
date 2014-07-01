@@ -32,8 +32,8 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.EntityManager.Type;
+import de.dmxcontrol.network.ServiceFrontend;
 
 //This is One Device
 public class EntityDevice extends Entity {
@@ -65,7 +65,7 @@ public class EntityDevice extends Entity {
             o.put("Channel", this.getChannel());
             o.put("Enabled", this.getEnabled());
 
-            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            ServiceFrontend.get().sendMessage(o.toString().getBytes());
             return;
         }
         catch(Exception e) {
@@ -81,7 +81,8 @@ public class EntityDevice extends Entity {
             o.put("GUID", this.guid);
             o.put("Procedure", procedure.getName());
 
-            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            ServiceFrontend.get().sendMessage(o.toString().getBytes());
+            //Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
             return;
         }
         catch(Exception e) {
@@ -148,12 +149,13 @@ public class EntityDevice extends Entity {
                         entity.setImage(defaultDeviceIcon);
                     }
                 }
+
                 entity.Propertys = new DevicePropertyCollection(o);
                 entity.Procedures = new DeviceProcedureCollection(o);
             }
         }
         catch(Exception e) {
-            Log.e("UDP Listener", e.getMessage());
+            Log.e("Entity device", e.getMessage());
             DMXControlApplication.SaveLog();
         }
         return entity;

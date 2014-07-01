@@ -34,9 +34,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.network.ReceivedData;
+import de.dmxcontrol.network.ServiceFrontend;
 
 //This is One Executor
 public class EntityExecutorPage extends Entity {
@@ -122,7 +122,7 @@ public class EntityExecutorPage extends Entity {
             o.put("Name", this.getName());
             o.put("Number", this.getId());
 
-            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            ServiceFrontend.get().sendMessage(o.toString().getBytes());
             return;
         }
         catch(Exception e) {

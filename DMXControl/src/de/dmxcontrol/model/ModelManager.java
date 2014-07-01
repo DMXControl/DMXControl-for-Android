@@ -34,7 +34,6 @@ import android.util.Log;
 
 import de.dmxcontrol.device.EntitySelection;
 import de.dmxcontrol.model.BaseModel.OnModelListener;
-import de.dmxcontrol.network.ServiceFrontend;
 
 public class ModelManager {
     private final static String TAG = "modelmanager";
@@ -47,7 +46,7 @@ public class ModelManager {
     private EntitySelection mEntitySelection;
 
     public ModelManager(EntitySelection es) {
-        addDefaultModelListener(ServiceFrontend.get());
+
         addDefaultModelListener(es);
         mEntitySelection = es;
     }

@@ -32,8 +32,8 @@ import android.util.Log;
 import org.json.JSONObject;
 
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.EntityManager.Type;
+import de.dmxcontrol.network.ServiceFrontend;
 
 public class EntityGroup extends Entity {
     public final static String defaultDeviceGroupIcon = "device_group_new.png";
@@ -57,7 +57,7 @@ public class EntityGroup extends Entity {
             o.put("Name", this.getName());
             o.put("Number", this.getId());
 
-            Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            ServiceFrontend.get().sendMessage(o.toString().getBytes());
             return;
         }
         catch(Exception e) {

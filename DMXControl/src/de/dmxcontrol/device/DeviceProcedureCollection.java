@@ -19,13 +19,24 @@ public class DeviceProcedureCollection implements Collection<DeviceProcedure> {
         if(!o.has("Type")) {
             throw new Exception("Type not found!");
         }
-        if(o.get(NetworkID) == null) {
-            throw new Exception("Type isn't " + NetworkID);
+
+        if(o.has(NetworkID)) {
+
+            if(o.get(NetworkID) == null) {
+                throw new Exception("Type isn't " + NetworkID);
+            }
+
+            JSONArray array = o.getJSONArray(NetworkID);
+
+            for(int i = 0; i < array.length(); i++) {
+                list.add(new DeviceProcedure(array.getJSONObject(i)));
+            }
         }
-        JSONArray array = o.getJSONArray(NetworkID);
-        for(int i = 0; i < array.length(); i++) {
-            list.add(new DeviceProcedure(array.getJSONObject(i)));
+        else
+        {
+            //throw new Exception("No " + NetworkID + " type found.");
         }
+
     }
 
     public boolean add(DeviceProcedure object) {

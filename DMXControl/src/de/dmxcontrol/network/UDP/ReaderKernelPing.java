@@ -55,7 +55,7 @@ public class ReaderKernelPing extends Thread {
 
             while(bKeepRunning) {
                 try {
-                    receiveKernalPing(message, lmessage, kernelsocket, packet);
+                    receiveKernelPing(message, lmessage, kernelsocket, packet);
                 }
                 catch(Exception e) {
                     Log.w("", DMXControlApplication.stackTraceToString(e));
@@ -80,7 +80,7 @@ public class ReaderKernelPing extends Thread {
         }
     }
 
-    private void receiveKernalPing(String message, byte[] lmessage, DatagramSocket socket, DatagramPacket packet) {
+    private void receiveKernelPing(String message, byte[] lmessage, DatagramSocket socket, DatagramPacket packet) {
         try {
             socket.receive(packet);
             message = new String(lmessage, 0, packet.getLength());
