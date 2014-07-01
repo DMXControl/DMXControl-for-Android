@@ -18,10 +18,10 @@ import de.dmxcontrol.device.EntityGroup;
  * Created by Qasi on 15.06.2014.
  */
 public class FileManager {
-    private final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
-    private final static String IconStorageName = StoragePath + File.separator + "Icons";
+    public final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
+    public final static String IconStorageName = StoragePath + File.separator + "Icons";
 
-    private final static String[] DefaultFiles = new String[]{
+    public final static String[] DefaultFiles = new String[]{
             EntityDevice.defaultDeviceIcon,
             EntityGroup.defaultDeviceGroupIcon};
 
@@ -29,17 +29,17 @@ public class FileManager {
     private static FileManager INSTANCE = null;
 
     public static FileManager get() {
-        if (INSTANCE == null) {
+        if(INSTANCE == null) {
             INSTANCE = new FileManager();
         }
         return INSTANCE;
     }
 
     public static FileManager get(Context ctx) {
-        if (context == null) {
+        if(context == null) {
             context = ctx;
         }
-        if (INSTANCE == null) {
+        if(INSTANCE == null) {
             INSTANCE = new FileManager();
         }
         return INSTANCE;
@@ -57,43 +57,47 @@ public class FileManager {
     private static void createDirectory() {
         try {
             File Directory = new File(StoragePath);
-            if (!Directory.isDirectory()) {
+            if(!Directory.isDirectory()) {
                 Directory.mkdirs();
             }
             Directory = new File(IconStorageName);
-            if (!Directory.isDirectory()) {
+            if(!Directory.isDirectory()) {
                 Directory.mkdirs();
             }
-        } catch (Exception e) {
+        }
+        catch(Exception e) {
         }
     }
 
     private static void createDefaultIcons() {
         try {
-            if (context == null) {
+            if(context == null) {
                 return;
             }
             FileOutputStream out = null;
-            for (String string : DefaultFiles) {
+            for(String string : DefaultFiles) {
                 File file = new File(IconStorageName + File.separator + string);
-                if (!file.exists()) {
+                if(!file.exists()) {
                     Bitmap bmp = null;
-                    if (string.equals(EntityDevice.defaultDeviceIcon)) {
+                    if(string.equals(EntityDevice.defaultDeviceIcon)) {
                         bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.device_new);
-                    } else if (string.equals(EntityGroup.defaultDeviceGroupIcon)) {
+                    }
+                    else if(string.equals(EntityGroup.defaultDeviceGroupIcon)) {
                         bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.device_group_new);
                     }
 
                     try {
                         out = new FileOutputStream(IconStorageName + File.separator + string);
-                    } catch (Exception e) {
+                    }
+                    catch(Exception e) {
                         Log.e("", DMXControlApplication.stackTraceToString(e));
                         DMXControlApplication.SaveLog();
                     }
                     bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
                 }
             }
-        } catch (Exception e) {
+        }
+        catch(Exception e) {
             Log.e("", DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }

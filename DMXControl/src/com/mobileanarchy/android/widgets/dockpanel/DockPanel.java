@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -25,8 +26,11 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import java.io.File;
+
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
+import de.dmxcontrol.file.FileManager;
 
 public class DockPanel extends LinearLayout {
 
@@ -165,7 +169,7 @@ public class DockPanel extends LinearLayout {
                     namespace, "handleToggleButtonDrawableResourceId", 0);
             handleMenuButtonDrawableId = attrs.getAttributeResourceValue(
                     namespace, "handleMenuButtonDrawableResourceId", 0);
-            isOpen = attrs.getAttributeBooleanValue(namespace, "isOpen", true);
+            isOpen = attrs.getAttributeBooleanValue(namespace, "isOpen", false);
 
             // Enums are a bit trickier (needs to be parsed)
             try {
@@ -237,7 +241,7 @@ public class DockPanel extends LinearLayout {
         menuButton.setLayoutParams(new FrameLayout.LayoutParams(
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-                Gravity.LEFT));
+                Gravity.BOTTOM));
         menuButton.setBackgroundColor(Color.TRANSPARENT);
         menuButton.setImageResource(handleMenuButtonDrawableId);
         menuButton.setOnClickListener(new OnClickListener() {

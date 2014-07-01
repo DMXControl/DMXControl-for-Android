@@ -1,6 +1,7 @@
 package de.dmxcontrol.activity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -62,6 +63,7 @@ public class ServerConnection extends Activity {
         try {
             view = View.inflate(this, R.layout.connection, null);
             listView = (ListView) view.findViewById(R.id.connection_listView);
+            listView.setOnClickListener((View.OnClickListener) mOnClickListener);
         }
         catch(Exception e) {
             Log.w("", DMXControlApplication.stackTraceToString(e));
@@ -124,6 +126,7 @@ public class ServerConnection extends Activity {
 
     private DialogInterface.OnClickListener mOnClickListener = new DialogInterface.OnClickListener() {
         public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
         }
     };
 
@@ -157,7 +160,7 @@ public class ServerConnection extends Activity {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(int position, final View convertView, ViewGroup parent) {
 
             final KernelPingItem value = itemsArrayList.get(position);
             // 1. Create inflater

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="64dp"
-                android:layout_height="64dp">
+                android:layout_width="32pt"
+                android:layout_height="64pt">
 
-<ImageView
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+    <ImageView
+        android:layout_width="32pt"
+        android:layout_height="32pt"
         android:id="@+id/deviceCell_icon"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="8sp"
+        android:textSize="8pt"
         android:text="Small Text"
         android:id="@+id/deviceCell_name"
         android:layout_below="@+id/deviceCell_icon"

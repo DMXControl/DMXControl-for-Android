@@ -84,17 +84,21 @@ public class DMXControlApplication extends Application {
 
             // Init network Service
             ServiceFrontend.initOnce(this);
+            ServiceFrontend.get().setConmnectedListener(new ServiceFrontend.ConmnectedListener() {
+                @Override
+                public void onConnected() {
+                    // Send "All" request to server. One for each Entity
+                    EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All);
+                    EntityGroup.SendRequest(EntityGroup.class, Entity.Request_All);
+                    EntityExecutor.SendRequest(EntityExecutor.class, Entity.Request_All);
+                    EntityExecutorPage.SendRequest(EntityExecutorPage.class, Entity.Request_All);
+                    EntityCuelist.SendRequest(EntityCuelist.class, Entity.Request_All);
+                    EntityPreset.SendRequest(EntityPreset.class, Entity.Request_All);
+                }
+            });
 
             // Init FileManager
             FileManager.get(this);
-
-            // Send "All" request to server. One for each Entity
-            EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All);
-            EntityGroup.SendRequest(EntityGroup.class, Entity.Request_All);
-            EntityExecutor.SendRequest(EntityExecutor.class, Entity.Request_All);
-            EntityExecutorPage.SendRequest(EntityExecutorPage.class, Entity.Request_All);
-            EntityCuelist.SendRequest(EntityCuelist.class, Entity.Request_All);
-            EntityPreset.SendRequest(EntityPreset.class, Entity.Request_All);
 
             // Start network Service if offline isn't set in prefs
             if(!prefs.getOffline()) {

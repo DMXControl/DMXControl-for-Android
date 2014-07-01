@@ -27,6 +27,7 @@
 
 package de.dmxcontrol.network;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
@@ -53,10 +54,24 @@ public class ServiceFrontend implements IMessageListener {
     private IMessageListener mListener;
     private Map<OnServiceListener, Boolean> mListeners;
 
+    private ArrayList<ConmnectedListener> ConmnectedListeners = new ArrayList<ConmnectedListener>();
+
+    public void setConmnectedListener(ConmnectedListener listener) {
+        this.ConmnectedListeners.add(listener);
+    }
+
+    public void removeConmnectedListeners() {
+        this.ConmnectedListeners.clear();
+    }
+
+    public interface ConmnectedListener {
+        void onConnected();
+    }
     private ServiceConnection connection = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName name, IBinder service) {
             mService = ((NetworkService.LocalBinder) service).getService();
+            connect();
             Log.d(TAG, "ServiceConnection: mService = " + mService);
 
         }
@@ -122,6 +137,9 @@ public class ServiceFrontend implements IMessageListener {
         // Start network service
         mService.connect();
         mService.setSenderListener(mListener);
+        for(ConmnectedListener listener : ConmnectedListeners) {
+            listener.onConnected();
+        }
         //register();
     }
 
@@ -131,7 +149,7 @@ public class ServiceFrontend implements IMessageListener {
 
             try {
                 // we need time to unregister
-                Thread.sleep(100);
+                Thread.sleep(0);
             }
             catch(InterruptedException e) {
                 // Ignore

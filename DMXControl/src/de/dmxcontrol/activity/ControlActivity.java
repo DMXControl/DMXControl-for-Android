@@ -40,6 +40,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.animation.AlphaAnimation;
@@ -156,7 +157,16 @@ public class ControlActivity extends FragmentActivity implements
             DockPanel panel = (DockPanel) frame.findViewById(R.id.panel);
             panel.setOnDockOpenListener(this);
 
-            mConnectionImage = panel.getImageView();//(ImageView) panel.findViewWithTag("connectionImage");
+            mConnectionImage = panel.getImageView();
+            mConnectionImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(liveActivity == null) {
+                        liveActivity = new Intent(getApplicationContext(), ServerConnection.class);
+                    }
+                    startActivity(liveActivity);
+                }
+            });
             ServiceFrontend s = ServiceFrontend.get();
             s.addListener(this);
             onServiceChanged(s);

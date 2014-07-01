@@ -97,7 +97,7 @@ public class Reader implements Runnable {
             while(bKeepRunning) {
                 receiveData(mReaderSocket);
 
-                Thread.sleep(30);
+                Thread.sleep(2);
             }
         }
         catch(InterruptedException e) {

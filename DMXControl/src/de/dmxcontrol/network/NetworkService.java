@@ -111,7 +111,7 @@ public class NetworkService extends Service {
 
             // get address and port from prefs
             String serverAddress = Prefs.get().getServerAddress();
-            int serverPrt = Prefs.get().getServerPort();
+            int serverPrt = 23242;//Prefs.get().getServerPort();
 
             if(serverAddress.length() > 0 && serverPrt > 0) {
                 Log.d(TAG, "Network Target is " + serverAddress + ":" + serverPrt);
