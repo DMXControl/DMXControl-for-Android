@@ -40,7 +40,7 @@
             android:name="de.dmxcontrol.activity.LiveActivity"
             android:label="Live" />
 
-        <service android:name="de.dmxcontrol.network.OSCService" />
+        <service android:name="de.dmxcontrol.network.NetworkService" />
     </application>
 
     <uses-sdk
