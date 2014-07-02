@@ -1,11 +1,10 @@
 package de.dmxcontrol.device;
 
-import android.content.*;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -20,10 +19,15 @@ public class DeviceCollection implements Collection<EntityDevice> {
 
     public void setGUIDsList(JSONArray a) throws JSONException {
         guids = new String[a.length()];
+
         for(int i = 0; i < a.length(); i++) {
             guids[i] = a.getString(i);
         }
-        compairGuidListWithInternalGuids();
+
+        removeDeletedDevices();
+
+        compareGuidListWithInternalGuids();
+
         sort();
     }
 
@@ -40,13 +44,33 @@ public class DeviceCollection implements Collection<EntityDevice> {
         }
     }
 
-    public void compairGuidListWithInternalGuids() {
+    public void removeDeletedDevices() {
+        for(int i = 0; i < size(); i++) {
+            if(!Arrays.asList(guids).contains(list.get(i).guid)) {
+
+                // Null out object. Maybe remove this. GC should do this alone
+                EntityDevice dev = list.get(i);
+                if(dev != null){
+                    dev = null;
+                    if(dev != null){
+                        dev = null;
+                    }
+                }
+
+                // Remove device from ArrayList
+                list.remove(i);
+            }
+        }
+    }
+
+    public void compareGuidListWithInternalGuids() {
         for(int i = 0; i < guids.length; i++) {
             if(!contains(guids[i])) {
                 EntityDevice.SendRequest(EntityDevice.Request_GUID + guids[i]);
             }
         }
     }
+
     public boolean add(EntityDevice object) {
         if(object == null) {
             return false;
