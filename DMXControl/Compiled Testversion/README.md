@@ -1,7 +1,7 @@
-
-= Install test version =
+Install test version
+======================
 1. Open the *.apk File with your Android-Phone.
-2. Copy the *.dll und *.pdb File in the Plugin-Folder from the Kernel.
+2. Copy the *.dll und *.pdb file in the Plugin-Folder from the Kernel.
 
 3. Run Kernel and GUI
 4. Run the AndroidApp
