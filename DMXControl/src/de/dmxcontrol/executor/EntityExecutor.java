@@ -213,7 +213,7 @@ public class EntityExecutor extends Entity {
             o.put("Type", NetworkID);
             o.put("GUID", this.guid);
             o.put("Name", this.getName());
-            o.put("Value", this.value);
+            o.put("Value", (double) this.value);
             o.put("Flash", this.flash);
             o.put("Number", this.getId());
             if(this.doGO) {

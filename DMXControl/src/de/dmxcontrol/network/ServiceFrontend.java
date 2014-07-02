@@ -67,6 +67,7 @@ public class ServiceFrontend implements IMessageListener {
     public interface ConmnectedListener {
         void onConnected();
     }
+
     private ServiceConnection connection = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -137,6 +138,12 @@ public class ServiceFrontend implements IMessageListener {
         // Start network service
         mService.connect();
         mService.setSenderListener(mListener);
+        try {
+            Thread.sleep(700);
+        }
+        catch(InterruptedException e) {
+            e.printStackTrace();
+        }
         for(ConmnectedListener listener : ConmnectedListeners) {
             listener.onConnected();
         }

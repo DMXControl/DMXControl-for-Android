@@ -39,6 +39,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
+import java.util.Timer;
 
 import de.dmxcontrol.cuelist.EntityCuelist;
 import de.dmxcontrol.device.Entity;
@@ -89,6 +90,7 @@ public class DMXControlApplication extends Application {
                 public void onConnected() {
                     // Send "All" request to server. One for each Entity
                     EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All);
+                    EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All_GUIDs);
                     EntityGroup.SendRequest(EntityGroup.class, Entity.Request_All);
                     EntityExecutor.SendRequest(EntityExecutor.class, Entity.Request_All);
                     EntityExecutorPage.SendRequest(EntityExecutorPage.class, Entity.Request_All);

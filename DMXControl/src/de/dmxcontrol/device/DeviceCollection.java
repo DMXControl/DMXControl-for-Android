@@ -1,5 +1,10 @@
 package de.dmxcontrol.device;
 
+import android.content.*;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -9,8 +14,39 @@ import java.util.Iterator;
  */
 public class DeviceCollection implements Collection<EntityDevice> {
 
+    private String[] guids;
+
     private ArrayList<EntityDevice> list = new ArrayList<EntityDevice>();
 
+    public void setGUIDsList(JSONArray a) throws JSONException {
+        guids = new String[a.length()];
+        for(int i = 0; i < a.length(); i++) {
+            guids[i] = a.getString(i);
+        }
+        compairGuidListWithInternalGuids();
+        sort();
+    }
+
+    public void sort() {
+        EntityDevice temp;
+        for(int i = 1; i < list.size(); i++) {
+            for(int j = 0; j < list.size() - i; j++) {
+                if(list.get(j).getId() > list.get(j + 1).getId()) {
+                    temp = list.get(j);
+                    list.set(j, list.get(j + 1));
+                    list.set(j + 1, temp);
+                }
+            }
+        }
+    }
+
+    public void compairGuidListWithInternalGuids() {
+        for(int i = 0; i < guids.length; i++) {
+            if(!contains(guids[i])) {
+                EntityDevice.SendRequest(EntityDevice.Request_GUID + guids[i]);
+            }
+        }
+    }
     public boolean add(EntityDevice object) {
         if(object == null) {
             return false;
@@ -47,6 +83,15 @@ public class DeviceCollection implements Collection<EntityDevice> {
     public boolean contains(Object object) {
         for(int i = 0; i < size(); i++) {
             if(((EntityDevice) object).guid.equals(list.get(i).guid)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean contains(String guid) {
+        for(int i = 0; i < size(); i++) {
+            if(guid.equals(list.get(i).guid)) {
                 return true;
             }
         }

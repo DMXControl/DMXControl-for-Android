@@ -36,8 +36,8 @@ import android.os.IBinder;
 import android.util.Log;
 
 import de.dmxcontrol.app.Prefs;
-import de.dmxcontrol.network.UDP.Reader;
-import de.dmxcontrol.network.UDP.Sender;
+import de.dmxcontrol.network.TCP.TCPReader;
+import de.dmxcontrol.network.TCP.TCPSender;
 
 public class NetworkService extends Service {
 
@@ -45,10 +45,10 @@ public class NetworkService extends Service {
     private final static String TAG = "networkService";
 
     // Runnable instance of sender
-    private Sender mSender;
+    private TCPSender mSender;
 
     // Runnable Instance of reader
-    private Reader mReader;
+    private TCPReader mReader;
 
     // Thread that sends the data out
     private volatile Thread mSenderThread;
@@ -111,14 +111,14 @@ public class NetworkService extends Service {
 
             // get address and port from prefs
             String serverAddress = Prefs.get().getServerAddress();
-            int serverPrt = 23242;//Prefs.get().getServerPort();
+            int serverPrt = 13141;//Prefs.get().getServerPort();
 
             if(serverAddress.length() > 0 && serverPrt > 0) {
                 Log.d(TAG, "Network Target is " + serverAddress + ":" + serverPrt);
 
                 Log.d(TAG, "Starting sender thread");
                 // create new sender
-                mSender = new Sender(serverAddress, serverPrt);
+                mSender = new TCPSender(serverAddress, serverPrt);
 
                 // create and start thread of sender
                 mSenderThread = new Thread(mSender, "NetworkSender");
@@ -126,7 +126,7 @@ public class NetworkService extends Service {
 
                 Log.d(TAG, "Starting reader thread");
                 // create new reader
-                mReader = new Reader(13141);
+                mReader = new TCPReader(mSender);
 
                 // create, set priority to min and start thread of reader
                 mReaderThread = new Thread(mReader, "NetworkReader");

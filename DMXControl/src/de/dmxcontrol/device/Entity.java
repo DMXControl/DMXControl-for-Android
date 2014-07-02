@@ -49,6 +49,8 @@ public abstract class Entity implements IPropertyContainer {
     private final static String IconStorageName = StoragePath + File.separator + "Icons";
     public static String NetworkID = new String();
     public static String Request_All = "ALL";
+    public static String Request_All_GUIDs = "GUIDList";
+    public static String Request_GUID = "GUID";
 
     // Replace this icon with something else
     private final static String defaultIcon = "icon";
@@ -158,8 +160,13 @@ public abstract class Entity implements IPropertyContainer {
 
     public static void SendRequest(Class entity, String request) {
         try {
+            String type = ((Entity) entity.newInstance()).getNetworkID();
+            if(request.equals(Request_All_GUIDs)) {
+                type += Request_All_GUIDs;
+                request = Request_All;
+            }
             JSONObject o = new JSONObject();
-            o.put("Type", ((Entity) entity.newInstance()).getNetworkID());
+            o.put("Type", type);
             o.put("Request", request);
 
             ServiceFrontend.get().sendMessage(o.toString().getBytes());

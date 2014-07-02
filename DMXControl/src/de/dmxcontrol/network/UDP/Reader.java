@@ -20,7 +20,7 @@ import de.dmxcontrol.preset.EntityPreset;
 /**
  * Created by Qasi on 12.06.2014.
  */
-public class Reader implements Runnable {
+/*public class Reader implements Runnable {
 
     private final static String TAG = "Network - Reader";
 
@@ -45,6 +45,9 @@ public class Reader implements Runnable {
 
                 if(type.equals("Device")) {
                     ReceivedData.get().Devices.add(EntityDevice.Receive(o));
+                }
+                if(type.equals("DeviceGUIDList")) {
+                    ReceivedData.get().Devices.setGUIDsList(o.getJSONArray("GUIDs"));
                 }
                 else if(type.equals("DeviceGroup")) {
                     ReceivedData.get().Groups.add(EntityGroup.Receive(o));
@@ -119,4 +122,4 @@ public class Reader implements Runnable {
     public void kill() {
         bKeepRunning = false;
     }
-}
+}*/

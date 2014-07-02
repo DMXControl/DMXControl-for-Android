@@ -142,7 +142,12 @@ public class ExecutorPageView {
                             }
                         });
                         AlertDialog alertDialog = alert.create();
-                        alertDialog.show();
+                        try {
+                            alertDialog.show();
+                        }
+                        catch(Exception e) {
+                            return false;
+                        }
                         return true;
                     }
                     else {

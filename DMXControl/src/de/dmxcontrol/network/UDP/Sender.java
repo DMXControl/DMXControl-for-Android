@@ -10,11 +10,13 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import de.dmxcontrol.app.DMXControlApplication;
+import de.dmxcontrol.device.Entity;
+import de.dmxcontrol.device.EntityDevice;
 
 /**
  * Created by Qasi on 12.06.2014.
  */
-public class Sender implements Runnable {
+/*public class Sender implements Runnable {
 
     private final static String TAG = "Network - Sender";
 
@@ -35,6 +37,7 @@ public class Sender implements Runnable {
 
                 socket.send(new DatagramPacket(sendData.get(i), sendData.get(i).length, mServerAddress, mServerPort));
 
+                //TCPSender.runTcpClient(new String(sendData.get(i), 0, sendData.get(i).length));
                 sendData.set(i, null);
                 sendData.remove(i);
             }
@@ -82,7 +85,12 @@ public class Sender implements Runnable {
         bKeepRunning = true;
 
         try {
+            byte count=0;
             while(bKeepRunning) {
+                if(count==0){
+                    EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All_GUIDs);
+                }
+                count++;
                 sendDataOut(mSenderSocket);
 
                 Thread.sleep(33);
@@ -111,3 +119,4 @@ public class Sender implements Runnable {
         bKeepRunning = false;
     }
 }
+*/
