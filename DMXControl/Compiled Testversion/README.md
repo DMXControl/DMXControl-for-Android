@@ -10,4 +10,4 @@ Install test version
 
 
 ----------------------------------------------------------------------
-The Current App is in the Pre-Alpha state, there is no garantie dose the App works correct ore supports your Android-Phone
+The Current App is in the Pre-Alpha state, there is no garantie that the App works correct or supports your Android-Phone
