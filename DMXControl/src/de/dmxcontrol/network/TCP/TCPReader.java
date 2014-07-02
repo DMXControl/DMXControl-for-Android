@@ -8,15 +8,10 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.cuelist.EntityCuelist;
 import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;
@@ -38,7 +33,6 @@ public class TCPReader implements Runnable {
         return mSender.getSocket();
     }
 
-    ;
 
     private TCPSender mSender;
 
@@ -53,6 +47,7 @@ public class TCPReader implements Runnable {
                         new InputStreamReader(
                                 socket.getInputStream())
                 );
+
         char[] buffer = new char[1024 * 1024];
         int count = bufferedReader.read(buffer, 0, buffer.length);
         String message = new String(buffer, 0, count);
@@ -73,27 +68,42 @@ public class TCPReader implements Runnable {
 
                         Thread.sleep(1000);
                     }
+
                     s.setSoTimeout(6000);
+
                     message = readMessage(s);
-                    String spliter = new String(new byte[]{0x007d, 0x007b});
+
+                    // 0x007d is } 0x007b is { -> so we split at }{ pattern
+                    String splitter = new String(new byte[]{0x007d, 0x007b});
+
                     String[] split;
-                    if(message.contains(spliter)) {
-                        split = message.split(Pattern.quote(spliter));
+
+                    if(message.contains(splitter)) {
+
+                        split = message.split(Pattern.quote(splitter));
+
                         for(int i = 0; i < split.length; i++) {
+
                             if(split[i].length() > 3) {
-                                if(!split[i].startsWith("{")) {
+
+                                if(i == 0){
+                                    split[i] = split[i] + "}";
+                                }
+                                else if(i == split.length - 1){
                                     split[i] = "{" + split[i];
                                 }
-                                if(!split[i].endsWith("}")) {
-                                    split[i] = split[i] + "}";
+                                else {
+                                    split[i] = "{" + split[i] + "}";
                                 }
                             }
                         }
+
                         split.hashCode();
                     }
                     else {
                         split = new String[]{message};
                     }
+
                     for(String received : split) {
                         if(received.length() > 3 && received.contains("Type")) {
                             try {
@@ -140,7 +150,8 @@ public class TCPReader implements Runnable {
         catch(Exception e) {
             e.printStackTrace();
         }
-        finally {
+        finally{
+
         }
     }
 

@@ -2,23 +2,13 @@ package de.dmxcontrol.network.TCP;
 
 import android.util.Log;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
+import java.io.IOException;
+import java.net.UnknownHostException;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
-
-import javax.net.SocketFactory;
 
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.Entity;
@@ -41,10 +31,8 @@ public class TCPSender implements Runnable {
         return this.client;
     }
 
-    void writeMessage(java.net.Socket socket, String message) throws IOException {
-        OutputStreamWriter printWriter =
-                new OutputStreamWriter(
-                        socket.getOutputStream());
+    private void writeMessage(java.net.Socket socket, String message) throws IOException {
+        OutputStreamWriter printWriter = new OutputStreamWriter(socket.getOutputStream());
         printWriter.write(message);
         printWriter.flush();
     }
@@ -81,6 +69,7 @@ public class TCPSender implements Runnable {
         super();
 
         mServerPort = serverPort;
+
         try {
             mServerAddress = InetAddress.getByName(serverAddress);
         }
@@ -98,11 +87,15 @@ public class TCPSender implements Runnable {
 
         try {
             byte count = 0;
+
             while(bKeepRunning) {
+
                 if(client != null) {
+
                     if(client.isClosed()) {
                         client = null;
                     }
+
                     if(!client.isConnected() && !client.isClosed()) {
                         try {
                             client.close();
@@ -113,6 +106,7 @@ public class TCPSender implements Runnable {
                         }
                     }
                 }
+
                 if(client == null) {
                     try {
                         client = new Socket(mServerAddress, mServerPort);
@@ -128,10 +122,12 @@ public class TCPSender implements Runnable {
                 if(count == 0) {
                     EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All_GUIDs);
                 }
+
                 if(count > 128) {
                     count = 0;
                 }
                 count++;
+
                 sendDataOut();
 
                 Thread.sleep(33);
@@ -143,16 +139,17 @@ public class TCPSender implements Runnable {
         finally {
             // Clear data
             sendData.clear();
+
+            try {
+                client.close();
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void kill() {
         bKeepRunning = false;
-        try {
-            client.close();
-        }
-        catch(IOException e) {
-            e.printStackTrace();
-        }
     }
 }
