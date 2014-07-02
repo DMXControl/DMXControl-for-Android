@@ -1,0 +1,13 @@
+
+= Install test version =
+1. Open the *.apk File with your Android-Phone.
+2. Copy the *.dll und *.pdb File in the Plugin-Folder from the Kernel.
+
+3. Run Kernel and GUI
+4. Run the AndroidApp
+5. You can copy all Icons from the Kernel/Device/Icons Directory on your PC to the DMXControl/Icons Directory on your Phone, to Display the Icons in the App
+6. Have Fun
+
+
+----------------------------------------------------------------------
+The Current App is in the Pre-Alpha state, there is no garantie dose the App works correct ore supports your Android-Phone
