@@ -1,15 +1,77 @@
 package de.dmxcontrol.cuelist;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+
+import de.dmxcontrol.device.EntityDevice;
 
 /**
  * Created by Qasi on 15.06.2014.
  */
 public class CuelistCollection implements Collection<EntityCuelist> {
 
+    private String[] guids;
+
     private ArrayList<EntityCuelist> list = new ArrayList<EntityCuelist>();
+
+    public void setGUIDsList(JSONArray a) throws JSONException {
+        guids = new String[a.length()];
+
+        for(int i = 0; i < a.length(); i++) {
+            guids[i] = a.getString(i);
+        }
+
+        removeDeletedDevices();
+
+        compareGuidListWithInternalGuids();
+
+        sort();
+    }
+
+    public void sort() {
+        EntityCuelist temp;
+        for(int i = 1; i < list.size(); i++) {
+            for(int j = 0; j < list.size() - i; j++) {
+                if(list.get(j).getId() > list.get(j + 1).getId()) {
+                    temp = list.get(j);
+                    list.set(j, list.get(j + 1));
+                    list.set(j + 1, temp);
+                }
+            }
+        }
+    }
+
+    public void removeDeletedDevices() {
+        for(int i = 0; i < size(); i++) {
+            if(!Arrays.asList(guids).contains(list.get(i).guid)) {
+
+                // Null out object. Maybe remove this. GC should do this alone
+                EntityCuelist dev = list.get(i);
+                if(dev != null) {
+                    dev = null;
+                    if(dev != null) {
+                        dev = null;
+                    }
+                }
+
+                // Remove device from ArrayList
+                list.remove(i);
+            }
+        }
+    }
+
+    public void compareGuidListWithInternalGuids() {
+        for(int i = 0; i < guids.length; i++) {
+            if(!contains(guids[i])) {
+                EntityCuelist.SendRequest(EntityDevice.Request_GUID + guids[i]);
+            }
+        }
+    }
 
     public boolean add(EntityCuelist object) {
         if(object == null) {

@@ -2,17 +2,21 @@ package de.dmxcontrol.network.TCP;
 
 import android.util.Log;
 
-import java.io.OutputStreamWriter;
 import java.io.IOException;
-import java.net.UnknownHostException;
+import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 import de.dmxcontrol.app.DMXControlApplication;
+import de.dmxcontrol.cuelist.EntityCuelist;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityDevice;
+import de.dmxcontrol.device.EntityGroup;
+import de.dmxcontrol.executor.EntityExecutor;
+import de.dmxcontrol.executor.EntityExecutorPage;
 
 /**
  * Created by Qasi on 01.07.2014.
@@ -122,8 +126,20 @@ public class TCPSender implements Runnable {
                 if(count == 0) {
                     EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All_GUIDs);
                 }
+                else if(count == 40) {
+                    EntityGroup.SendRequest(EntityGroup.class, Entity.Request_All_GUIDs);
+                }
+                else if(count == 80) {
+                    EntityExecutor.SendRequest(EntityExecutor.class, Entity.Request_All_GUIDs);
+                }
+                else if(count == 120) {
+                    EntityExecutorPage.SendRequest(EntityExecutorPage.class, Entity.Request_All_GUIDs);
+                }
+                else if(count == 160) {
+                    EntityCuelist.SendRequest(EntityCuelist.class, Entity.Request_All_GUIDs);
+                }
 
-                if(count > 128) {
+                if(count > 160) {
                     count = 0;
                 }
                 count++;
@@ -151,5 +167,11 @@ public class TCPSender implements Runnable {
 
     public void kill() {
         bKeepRunning = false;
+        try {
+            client.close();
+        }
+        catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 }

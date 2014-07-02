@@ -27,17 +27,17 @@
 
 package de.dmxcontrol.network;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.WeakHashMap;
-
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 public class ServiceFrontend implements IMessageListener {
 
@@ -139,7 +139,7 @@ public class ServiceFrontend implements IMessageListener {
         mService.connect();
         mService.setSenderListener(mListener);
         try {
-            Thread.sleep(700);
+            Thread.sleep(0); //Change if needed
         }
         catch(InterruptedException e) {
             e.printStackTrace();
@@ -156,7 +156,7 @@ public class ServiceFrontend implements IMessageListener {
 
             try {
                 // we need time to unregister
-                Thread.sleep(0);
+                Thread.sleep(0); //Change if needed
             }
             catch(InterruptedException e) {
                 // Ignore

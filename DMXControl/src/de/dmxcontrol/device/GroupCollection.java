@@ -1,6 +1,10 @@
 package de.dmxcontrol.device;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -9,7 +13,63 @@ import java.util.Iterator;
  */
 public class GroupCollection implements Collection<EntityGroup> {
 
+    private String[] guids;
+
     private ArrayList<EntityGroup> list = new ArrayList<EntityGroup>();
+
+    public void setGUIDsList(JSONArray a) throws JSONException {
+        guids = new String[a.length()];
+
+        for(int i = 0; i < a.length(); i++) {
+            guids[i] = a.getString(i);
+        }
+
+        removeDeletedDevices();
+
+        compareGuidListWithInternalGuids();
+
+        sort();
+    }
+
+    public void sort() {
+        EntityGroup temp;
+        for(int i = 1; i < list.size(); i++) {
+            for(int j = 0; j < list.size() - i; j++) {
+                if(list.get(j).getId() > list.get(j + 1).getId()) {
+                    temp = list.get(j);
+                    list.set(j, list.get(j + 1));
+                    list.set(j + 1, temp);
+                }
+            }
+        }
+    }
+
+    public void removeDeletedDevices() {
+        for(int i = 0; i < size(); i++) {
+            if(!Arrays.asList(guids).contains(list.get(i).guid)) {
+
+                // Null out object. Maybe remove this. GC should do this alone
+                EntityGroup dev = list.get(i);
+                if(dev != null) {
+                    dev = null;
+                    if(dev != null) {
+                        dev = null;
+                    }
+                }
+
+                // Remove device from ArrayList
+                list.remove(i);
+            }
+        }
+    }
+
+    public void compareGuidListWithInternalGuids() {
+        for(int i = 0; i < guids.length; i++) {
+            if(!contains(guids[i])) {
+                EntityGroup.SendRequest(EntityDevice.Request_GUID + guids[i]);
+            }
+        }
+    }
 
     public boolean add(EntityGroup object) {
         if(object == null) {

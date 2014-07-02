@@ -110,27 +110,49 @@ public class TCPReader implements Runnable {
                                 JSONObject o = new JSONObject(received);
 
                                 String type = o.getString("Type");
-
-                                if(type.equals("Device")) {
-                                    ReceivedData.get().Devices.add(EntityDevice.Receive(o));
+                                boolean guidList = type.contains("GUIDList");
+                                if(type.contains("DeviceGroup")) {
+                                    if(guidList) {
+                                        ReceivedData.get().Groups.setGUIDsList(o.getJSONArray("GUIDs"));
+                                    }
+                                    else {
+                                        ReceivedData.get().Groups.add(EntityGroup.Receive(o));
+                                    }
                                 }
-                                if(type.equals("DeviceGUIDList")) {
-                                    ReceivedData.get().Devices.setGUIDsList(o.getJSONArray("GUIDs"));
+                                else if(type.contains("Device")) {
+                                    if(guidList) {
+                                        ReceivedData.get().Devices.setGUIDsList(o.getJSONArray("GUIDs"));
+                                    }
+                                    else {
+                                        ReceivedData.get().Devices.add(EntityDevice.Receive(o));
+                                    }
                                 }
-                                else if(type.equals("DeviceGroup")) {
-                                    ReceivedData.get().Groups.add(EntityGroup.Receive(o));
-                                }
-                                else if(type.equals("Preset")) {
+                                else if(type.contains("Preset")) {
                                     ReceivedData.get().Presets.add(EntityPreset.Receive(o));
                                 }
-                                else if(type.equals("Executor")) {
-                                    ReceivedData.get().Executors.add(EntityExecutor.Receive(o));
+                                else if(type.contains("ExecutorPage")) {
+                                    if(guidList) {
+                                        ReceivedData.get().ExecutorPages.setGUIDsList(o.getJSONArray("GUIDs"));
+                                    }
+                                    else {
+                                        ReceivedData.get().ExecutorPages.add(EntityExecutorPage.Receive(o));
+                                    }
                                 }
-                                else if(type.equals("ExecutorPage")) {
-                                    ReceivedData.get().ExecutorPages.add(EntityExecutorPage.Receive(o));
+                                else if(type.contains("Executor")) {
+                                    if(guidList) {
+                                        ReceivedData.get().Executors.setGUIDsList(o.getJSONArray("GUIDs"));
+                                    }
+                                    else {
+                                        ReceivedData.get().Executors.add(EntityExecutor.Receive(o));
+                                    }
                                 }
-                                else if(type.equals("Cuelist")) {
-                                    ReceivedData.get().Cuelists.add(EntityCuelist.Receive(o));
+                                else if(type.contains("Cuelist")) {
+                                    if(guidList) {
+                                        ReceivedData.get().Cuelists.setGUIDsList(o.getJSONArray("GUIDs"));
+                                    }
+                                    else {
+                                        ReceivedData.get().Cuelists.add(EntityCuelist.Receive(o));
+                                    }
                                 }
                             }
                             catch(JSONException e) {
