@@ -28,6 +28,8 @@
 package de.dmxcontrol.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -43,9 +45,13 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import org.json.JSONException;
+
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.compatibility.CompatibilityWrapper8;
+import de.dmxcontrol.device.DeviceManagerDialog;
+import de.dmxcontrol.network.ServiceFrontend;
 
 public class ActionSelectorFragment extends Fragment implements OnClickListener {
     private final static String TAG = "actionfragment";
@@ -106,6 +112,33 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
         bDeviceAction = (Button) actionButtons
                 .findViewById(R.id.button_device_action);
         bDeviceAction.setOnClickListener(this);
+        bDeviceAction.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                try {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
+                    alert.setTitle("Parameter");
+                    final DeviceManagerDialog view = new DeviceManagerDialog(alert.getContext());
+                    alert.setView(view);
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            try {
+                                ServiceFrontend.get().sendMessage(view.GetDeviceMetadata().getBytes());
+                            }
+                            catch(JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                    AlertDialog alertDialog = alert.create();
+                    alertDialog.show();
+                    return true;
+                }
+                catch(Exception e) {
+                    return false;
+                }
+            }
+        });
 
         bColorAction = (Button) actionButtons
                 .findViewById(R.id.button_color_action);

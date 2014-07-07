@@ -115,6 +115,7 @@ public class DeviceGroupFragment extends BasePanelFragment implements
         mDeviceAdapter = new DeviceAdapter(EntityManager.get(), EntityManager.CENTRAL_ENTITY_SELECTION, getActivity());
         mDeviceGrid.setAdapter(mDeviceAdapter);
         mDeviceGrid.setOnItemClickListener(this);
+
         mDeviceGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {

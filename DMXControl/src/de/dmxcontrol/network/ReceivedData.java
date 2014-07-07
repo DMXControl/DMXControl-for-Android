@@ -2,6 +2,7 @@ package de.dmxcontrol.network;
 
 import de.dmxcontrol.cuelist.CuelistCollection;
 import de.dmxcontrol.device.DeviceCollection;
+import de.dmxcontrol.device.DeviceMetadataCollection;
 import de.dmxcontrol.device.GroupCollection;
 import de.dmxcontrol.executor.EntityExecutorPage;
 import de.dmxcontrol.executor.ExecutorCollection;
@@ -28,6 +29,7 @@ public class ReceivedData {
     public final ExecutorPageCollection ExecutorPages = new ExecutorPageCollection();
     public final PresetCollection Presets = new PresetCollection();
     public final CuelistCollection Cuelists = new CuelistCollection();
+    public final DeviceMetadataCollection AvailableDevices = new DeviceMetadataCollection();
 
     public EntityExecutorPage SelectedExecutorPage;
     public ExecutorPageView executorPageView;

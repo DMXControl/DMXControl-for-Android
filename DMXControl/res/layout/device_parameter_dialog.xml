@@ -206,7 +206,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Index:"
-            android:id="@+id/textView"
+            android:id="@+id/deviceManager_DeviceView_Author"
             android:layout_row="8"
             android:layout_column="0"/>
     </GridLayout>

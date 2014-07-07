@@ -86,10 +86,10 @@ public class TCPReader implements Runnable {
 
                             if(split[i].length() > 3) {
 
-                                if(i == 0){
+                                if(i == 0) {
                                     split[i] = split[i] + "}";
                                 }
-                                else if(i == split.length - 1){
+                                else if(i == split.length - 1) {
                                     split[i] = "{" + split[i];
                                 }
                                 else {
@@ -111,7 +111,10 @@ public class TCPReader implements Runnable {
 
                                 String type = o.getString("Type");
                                 boolean guidList = type.contains("GUIDList");
-                                if(type.contains("DeviceGroup")) {
+                                if(type.equals("AvailabelDevices")) {
+                                    ReceivedData.get().AvailableDevices.FillByJSON(o);
+                                }
+                                else if(type.contains("DeviceGroup")) {
                                     if(guidList) {
                                         ReceivedData.get().Groups.setGUIDsList(o.getJSONArray("GUIDs"));
                                     }
@@ -172,7 +175,7 @@ public class TCPReader implements Runnable {
         catch(Exception e) {
             e.printStackTrace();
         }
-        finally{
+        finally {
 
         }
     }

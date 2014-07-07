@@ -27,12 +27,19 @@
 
 package de.dmxcontrol.device;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.json.JSONObject;
 
+import java.io.File;
+
+import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.EntityManager.Type;
+import de.dmxcontrol.file.FileManager;
 import de.dmxcontrol.network.ServiceFrontend;
 
 //This is One Device
@@ -107,6 +114,19 @@ public class EntityDevice extends Entity {
     public EntityDevice(int id, String name, String image) {
         super(id, name, Type.DEVICE);
         mImage = image;
+    }
+
+    public static Bitmap getDefaultIcon(Context context) {
+
+        File imgFile = new File(FileManager.IconStorageName + File.separator + defaultDeviceIcon);
+        if(imgFile.isFile()) {
+            if(imgFile.exists()) {
+                return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+            }
+        }
+
+        // Replace this icon with something else
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
     }
 
     public static EntityDevice Receive(JSONObject o) {

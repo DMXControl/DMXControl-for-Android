@@ -184,6 +184,12 @@ public class ExecutorPageView {
             }
         });
         name_label.setText(ReceivedData.get().SelectedExecutorPage.getName());
+        ReceivedData.get().SelectedExecutorPage.setNameChangedListener(new Entity.NameChangedListener() {
+            @Override
+            public void onNameChanged(String name) {
+                name_label.setText(ReceivedData.get().SelectedExecutorPage.getName());
+            }
+        });
         if(executors == null) {
             executors = new ArrayList<ExecutorView>();
             for(int i = 0; i < ReceivedData.get().Executors.size(); i++) {

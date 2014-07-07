@@ -73,10 +73,10 @@ public class ExecutorView extends LinearLayout {
         textView.setText(mExecutor.getName());
         textView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(Context);
+            public boolean onLongClick(final View v) {
+                final AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
                 alert.setTitle("Edit Executor");
-                final View view = View.inflate(Context, R.layout.executor_setting_dialog, null);
+                final View view = View.inflate(v.getContext(), R.layout.executor_setting_dialog, null);
                 final EditText input = (EditText) view.findViewById(R.id.editName);
                 input.setText(textView.getText());
                 final RadioGroup dropdown = (RadioGroup) view.findViewById(R.id.radioButtonGroup);
@@ -112,7 +112,7 @@ public class ExecutorView extends LinearLayout {
                             mExecutor.setFaderMode(2, false);
                         }
                         textView.setText(mExecutor.getName());
-                        Toast.makeText(Context, str, Toast.LENGTH_LONG).show();
+                        Toast.makeText(alert.getContext(), str, Toast.LENGTH_LONG).show();
                     }
                 });
                 AlertDialog alertDialog = alert.create();
