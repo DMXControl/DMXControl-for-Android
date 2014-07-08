@@ -8,8 +8,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 
-import de.dmxcontrol.device.EntityGroup;
-
 /**
  * Created by Qasi on 15.06.2014.
  */
@@ -68,7 +66,7 @@ public class ExecutorCollection implements Collection<EntityExecutor> {
     public void compareGuidListWithInternalGuids() {
         for(int i = 0; i < guids.length; i++) {
             if(!contains(guids[i])) {
-                EntityGroup.SendRequest(EntityExecutor.Request_GUID + guids[i]);
+                EntityExecutor.SendRequest(EntityExecutor.Request_GUID + guids[i]);
             }
         }
     }

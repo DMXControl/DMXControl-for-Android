@@ -40,6 +40,9 @@ public class LiveActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         try {
+            if(ReceivedData.get().SelectedExecutorPage == null && ReceivedData.get().ExecutorPages.size() > 0) {
+                ReceivedData.get().SelectedExecutorPage = ReceivedData.get().ExecutorPages.get(0);
+            }
             if(ReceivedData.get().executorPageView == null) {
                 ReceivedData.get().executorPageView = new ExecutorPageView(1, "", context);
             }

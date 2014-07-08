@@ -40,6 +40,7 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.compatibility.CompatibilityWrapper8;
@@ -232,10 +233,10 @@ public class CrossControl extends BaseValueWidget {
 
     private void drawFollowMarks(Canvas canvas, int xPosition, int yPosition) {
 
-        int xDrivenPosition = (int) (mXFollowValue * getWidth());
-        int yDrivenPosition = (int) ((1 - mYFollowValue) * getHeight());
+        float xDrivenPosition = (mXFollowValue * getWidth());
+        float yDrivenPosition = ((1 - mYFollowValue) * getHeight());
 
-        int fractions = 10;
+        int fractions = 15;
         int numPoints = 4;
         float[] points = new float[fractions * numPoints];
 
@@ -317,8 +318,8 @@ public class CrossControl extends BaseValueWidget {
 
     @Override
     public void pointerPosition(float x, float y) {
-        float percentXValue = x / getWidth();
-        float percentYValue = 1 - (y / getHeight());
+        final float percentXValue = x / getWidth();
+        final float percentYValue = 1 - (y / getHeight());
 
         if(percentXValue < 0 || percentYValue > 1) {
             return;
@@ -337,6 +338,19 @@ public class CrossControl extends BaseValueWidget {
         else {
             pointerSensorPosition(percentXValue, percentYValue);
         }
+    }
+
+    private boolean mFingerIsDown = false;
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            mFingerIsDown = true;
+        }
+        else if(event.getAction() == MotionEvent.ACTION_UP) {
+            mFingerIsDown = false;
+        }
+        return super.onTouchEvent(event);
     }
 
     private void pointerPlainPosition(float x, float y) {

@@ -167,7 +167,10 @@ public class FaderVerticalControl extends BaseValueWidget {
 
     public void pointerPosition(float x, float y) {
         float percentValue = 1 - ((y - (markerSizeY / 2)) / (getHeight() - markerSizeY));
-
+        percentValue = Math.round(percentValue * 1000f) / 1000f;
+        if(percentValue < 0.01) {
+            percentValue = 0;
+        }
         if(percentValue < 0 || percentValue > 1) {
             return;
         }
