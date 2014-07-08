@@ -29,6 +29,8 @@ package de.dmxcontrol.model;
 
 import android.view.View;
 
+import org.json.JSONException;
+
 import de.dmxcontrol.widget.IValueListener;
 
 public class StrobeModel extends BaseModel implements IValueListener {
@@ -48,6 +50,12 @@ public class StrobeModel extends BaseModel implements IValueListener {
     @Override
     public void onValueChanged(View v, float x, float y) {
         strobe[0] = x * MAX_VALUE;
+        try {
+            SendData("Strobe", "double", x);
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+        }
         notifyListener();
     }
 

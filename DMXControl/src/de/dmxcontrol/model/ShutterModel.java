@@ -27,6 +27,8 @@
 
 package de.dmxcontrol.model;
 
+import org.json.JSONException;
+
 public class ShutterModel extends BaseModel {
     public final static int SHUTTER_OPEN = 1;
     public final static int SHUTTER_CLOSE = 0;
@@ -44,6 +46,12 @@ public class ShutterModel extends BaseModel {
 
     public void setValue(int value) {
         shutter[0] = value;
+        try {
+            SendData("Shutter", "boolean", value != 0);
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+        }
         notifyListener();
     }
 

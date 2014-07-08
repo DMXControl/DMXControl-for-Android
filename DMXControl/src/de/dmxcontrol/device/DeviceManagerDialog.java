@@ -64,7 +64,9 @@ public class DeviceManagerDialog extends FrameLayout {
 
     public String GetDeviceMetadata() throws JSONException {
         JSONObject o = new JSONObject();
+        String out = "";
         if(deviceMetadata != null) {
+            o.put("Type", "CreateDevice");
             o.put("DeviceMeta", deviceMetadata.getXmlFile());
             o.put("Count", editCount.getText());
             o.put("Name", editName.getText());
@@ -73,9 +75,9 @@ public class DeviceManagerDialog extends FrameLayout {
             o.put("GroupName", editGroup.getText());
             o.put("AutoGroup", btnAutogenerateGroup.isChecked());
             o.put("Repeat", editRepeat.getText());
-            return o.toString();
+            out = o.toString();
         }
-        return "";
+        return out;
     }
 
     public DeviceManagerDialog(final Context context) {

@@ -27,11 +27,18 @@
 
 package de.dmxcontrol.model;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.WeakHashMap;
 
+import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.device.EntitySelection;
+import de.dmxcontrol.network.ReceivedData;
+import de.dmxcontrol.network.ServiceFrontend;
 
 public abstract class BaseModel {
     public interface OnModelListener {
@@ -81,5 +88,30 @@ public abstract class BaseModel {
             OnModelListener listener = iter.next();
             listener.onModelChanged(this);
         }
+    }
+
+    protected void SendData(String propertyType, Object valueType, Object value) throws JSONException {
+
+        JSONArray array = new JSONArray();
+        for(int i = 0; i < ReceivedData.get().Devices.size(); i++) {
+            if(getEntitySelection().contains(EntityManager.Type.DEVICE, ReceivedData.get().Devices.get(i).getId())) {
+                array.put(ReceivedData.get().Devices.get(i).guid);
+            }
+        }
+        for(int i = 0; i < ReceivedData.get().Groups.size(); i++) {
+            if(getEntitySelection().contains(EntityManager.Type.GROUP, ReceivedData.get().Groups.get(i).getId())) {
+                array.put(ReceivedData.get().Groups.get(i).guid);
+            }
+        }
+
+
+        JSONObject o = new JSONObject();
+        o.put("Type", "PropertyValue");
+        o.put("GUIDs", array);
+        o.put("PropertyType", propertyType);
+        o.put("ValueType", valueType);
+        o.put("Value", value);
+
+        ServiceFrontend.get().sendMessage(o.toString().getBytes());
     }
 }

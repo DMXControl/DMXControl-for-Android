@@ -27,10 +27,11 @@
 
 package de.dmxcontrol.model;
 
-import org.openintents.widget.OnColorChangedListener;
-
 import android.graphics.Color;
 import android.view.View;
+
+import org.json.JSONException;
+import org.openintents.widget.OnColorChangedListener;
 
 public class ColorModel extends BaseModel implements OnColorChangedListener {
     private Integer[] colors = new Integer[3];
@@ -53,6 +54,12 @@ public class ColorModel extends BaseModel implements OnColorChangedListener {
     @Override
     public void onColorChanged(View view, int newColor) {
         setColors(newColor);
+        try {
+            SendData("Color", "Int", newColor);
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+        }
         notifyListener();
     }
 

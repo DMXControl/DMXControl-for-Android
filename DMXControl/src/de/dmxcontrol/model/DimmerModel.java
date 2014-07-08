@@ -29,7 +29,8 @@ package de.dmxcontrol.model;
 
 import android.view.View;
 
-import de.dmxcontrol.device.EntityManager;
+import org.json.JSONException;
+
 import de.dmxcontrol.widget.IValueListener;
 
 public class DimmerModel extends BaseModel implements IValueListener {
@@ -49,6 +50,12 @@ public class DimmerModel extends BaseModel implements IValueListener {
     @Override
     public void onValueChanged(View v, float x, float y) {
         dimmer[0] = (int) (x * MAX_VALUE);
+        try {
+            SendData("Intensity", "double", x);
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+        }
         notifyListener();
     }
 

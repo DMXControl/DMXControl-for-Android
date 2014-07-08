@@ -73,11 +73,21 @@ public class MotionEventWrapper8 implements IMotionEventWrapper {
     }
 
     public float getX(int idx) {
-        return event.getX(idx);
+        try {
+            return event.getX(idx);
+        }
+        catch(Exception e) {
+            return 0;
+        }
     }
 
     public float getY(int idx) {
-        return event.getY(idx);
+        try {
+            return event.getY(idx);
+        }
+        catch(Exception e) {
+            return 0;
+        }
     }
 
     public float getX() {

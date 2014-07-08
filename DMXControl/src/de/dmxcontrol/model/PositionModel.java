@@ -29,6 +29,8 @@ package de.dmxcontrol.model;
 
 import android.view.View;
 
+import org.json.JSONException;
+
 import de.dmxcontrol.widget.IValueListener;
 
 public class PositionModel extends BaseModel implements IValueListener {
@@ -52,6 +54,12 @@ public class PositionModel extends BaseModel implements IValueListener {
     public void onValueChanged(View v, float x, float y) {
         position[0] = (x * TRANS_VALUE - MAX_VALUE);
         position[1] = (y * TRANS_VALUE - MAX_VALUE);
+        try {
+            SendData("Position", "float;float", position[0] + ";" + (-position[1]));
+        }
+        catch(JSONException e) {
+            e.printStackTrace();
+        }
         notifyListener();
     }
 
