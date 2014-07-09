@@ -170,6 +170,7 @@ public class TCPReader implements Runnable {
                 catch(Exception e) {
                     //e.printStackTrace(); //For Debug
                 }
+                System.gc();
             }
         }
         catch(Exception e) {

@@ -118,14 +118,16 @@ public abstract class Entity implements IPropertyContainer {
     }
 
     public Bitmap getImage(Context context) {
-
-        File imgFile = new File(IconStorageName + File.separator + mImage);
-        if(imgFile.isFile()) {
-            if(imgFile.exists()) {
-                return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        try {
+            File imgFile = new File(IconStorageName + File.separator + mImage);
+            if(imgFile.isFile()) {
+                if(imgFile.exists()) {
+                    return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                }
             }
         }
-
+        catch(Exception e) {
+        }
         // Replace this icon with something else
         return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
     }

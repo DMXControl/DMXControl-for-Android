@@ -32,25 +32,23 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.device.EntityManager.Type;
+import de.dmxcontrol.file.ImageWithKey;
+import de.dmxcontrol.file.ImageWithKeyCollection;
 import de.dmxcontrol.network.ReceivedData;
 
 //import android.view.MotionEvent;
 
 public class DeviceAdapter extends BaseAdapter {
     private EntityManager mEntityManager;
+    private ImageWithKeyCollection images = new ImageWithKeyCollection();
     private Context ctx;
     private int mEntitySelection;
     public int SelectionColor;
@@ -134,7 +132,11 @@ public class DeviceAdapter extends BaseAdapter {
                 return view;
             }
             imageView.setVisibility(View.VISIBLE);
-            imageView.setImageBitmap(ent.getImage(ctx));
+            if(!images.contains(ent.getImageName())) {
+                images.add(new ImageWithKey(ent.getImage(ctx), ent.getImageName()));
+            }
+            imageView.setImageBitmap(images.get(ent.getImageName()).getBitmap());
+            editText.setText(ent.getName());
             editText.setText(ent.getName());
             /*final TextView finalEditText = editText;
             ent.setNameChangedListener(new Entity.NameChangedListener() {
