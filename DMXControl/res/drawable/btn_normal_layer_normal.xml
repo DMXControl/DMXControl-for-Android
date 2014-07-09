@@ -15,20 +15,20 @@
                 android:angle="90"
                 android:type="linear"
                 android:startColor="@color/light_black"
-                android:endColor="@color/dark_grey"></gradient>
+                android:endColor="@color/dark_grey"/>
         </shape>
     </item>
     <item
         android:top="2dp"
         android:bottom="2dp"
-        android:left="0dp"
-        android:right="0dp">
+        android:left="-2dp"
+        android:right="-2dp">
 
         <shape android:shape="rectangle">
             <padding
                 android:left="5dp"
                 android:right="5dp" />
-            <corners android:radius="3dp" />
+            <corners android:radius="2dp"/>
             <stroke
                 android:width="3dp"
                 android:color="@color/btn_background_highlight" />
