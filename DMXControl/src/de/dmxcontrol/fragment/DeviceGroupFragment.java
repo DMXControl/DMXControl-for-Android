@@ -56,9 +56,10 @@ import de.dmxcontrol.device.GroupParameterDialog;
 
 public class DeviceGroupFragment extends BasePanelFragment implements
         OnEntitySelectionListener, OnItemClickListener {
-    private final static String TAG = "gridviewsfragment";
+    public final static String TAG = "gridviewsfragment";
     private GridView mGroupGrid, mDeviceGrid;
     private EntitySelection mEntitySelection;
+    private LinearLayout deviceLayout;
 
     private DeviceAdapter mDeviceAdapter;
     private GroupAdapter mGroupAdapter;
@@ -82,66 +83,67 @@ public class DeviceGroupFragment extends BasePanelFragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
-        LinearLayout deviceLayout = (LinearLayout) inflater.inflate(
+        deviceLayout = (LinearLayout) inflater.inflate(
                 R.layout.devicegroup_fragment, container, false);
+        if(mGroupGrid == null) {
+            mGroupGrid = (GridView) deviceLayout.findViewById(R.id.group_grid);
+            mGroupAdapter = new GroupAdapter(EntityManager.get(), EntityManager.CENTRAL_ENTITY_SELECTION, getActivity());
+            mGroupGrid.setAdapter(mGroupAdapter);
+            mGroupGrid.setOnItemClickListener(this);
+            mGroupGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                    EntityGroup group = (EntityGroup) adapterView.getItemAtPosition(position);
 
-        mGroupGrid = (GridView) deviceLayout.findViewById(R.id.group_grid);
-        mGroupAdapter = new GroupAdapter(EntityManager.get(), EntityManager.CENTRAL_ENTITY_SELECTION, getActivity());
-        mGroupGrid.setAdapter(mGroupAdapter);
-        mGroupGrid.setOnItemClickListener(this);
-        mGroupGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                EntityGroup group = (EntityGroup) adapterView.getItemAtPosition(position);
-
-                if(group != null) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(adapterView.getContext());
-                    alert.setTitle("Parameter");
-                    alert.setIcon(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(group.getImage(adapterView.getContext()), 120, 120, false)));
-                    alert.setView(new GroupParameterDialog(adapterView.getContext(), group));
-                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                        }
-                    });
-                    AlertDialog alertDialog = alert.create();
-                    alertDialog.show();
-                    return true;
+                    if(group != null) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(adapterView.getContext());
+                        alert.setTitle("Parameter");
+                        alert.setIcon(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(group.getImage(adapterView.getContext()), 120, 120, false)));
+                        alert.setView(new GroupParameterDialog(adapterView.getContext(), group));
+                        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        });
+                        AlertDialog alertDialog = alert.create();
+                        alertDialog.show();
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
 
-        mDeviceGrid = (GridView) deviceLayout.findViewById(R.id.device_grid);
-        mDeviceAdapter = new DeviceAdapter(EntityManager.get(), EntityManager.CENTRAL_ENTITY_SELECTION, getActivity());
-        mDeviceGrid.setAdapter(mDeviceAdapter);
-        mDeviceGrid.setOnItemClickListener(this);
+        if(mDeviceGrid == null) {
+            mDeviceGrid = (GridView) deviceLayout.findViewById(R.id.device_grid);
+            mDeviceAdapter = new DeviceAdapter(EntityManager.get(), EntityManager.CENTRAL_ENTITY_SELECTION, getActivity());
+            mDeviceGrid.setAdapter(mDeviceAdapter);
+            mDeviceGrid.setOnItemClickListener(this);
 
-        mDeviceGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-                EntityDevice device = (EntityDevice) adapterView.getItemAtPosition(position);
+            mDeviceGrid.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
+                    EntityDevice device = (EntityDevice) adapterView.getItemAtPosition(position);
 
-                if(device != null) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(adapterView.getContext());
-                    alert.setTitle("Parameter");
-                    alert.setIcon(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(device.getImage(adapterView.getContext()), 120, 120, false)));
-                    alert.setView(new DeviceParameterDialog(adapterView.getContext(), device));
-                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                        }
-                    });
-                    AlertDialog alertDialog = alert.create();
-                    alertDialog.show();
-                    return true;
+                    if(device != null) {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(adapterView.getContext());
+                        alert.setTitle("Parameter");
+                        alert.setIcon(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(device.getImage(adapterView.getContext()), 120, 120, false)));
+                        alert.setView(new DeviceParameterDialog(adapterView.getContext(), device));
+                        alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                            }
+                        });
+                        AlertDialog alertDialog = alert.create();
+                        alertDialog.show();
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
-
+            });
+        }
         if(!Prefs.get().getDisableAnimations()) {
             addFadeInAnimation(deviceLayout);
         }
-
         return deviceLayout;
     }
 

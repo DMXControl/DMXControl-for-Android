@@ -50,7 +50,7 @@ import de.dmxcontrol.device.EntitySelection.OnEntitySelectionListener;
 
 public class PanelSelectorFragment extends Fragment implements OnClickListener,
         OnLongClickListener, OnEntitySelectionListener {
-    private final static String TAG = "panelselectorfragment";
+    public final static String TAG = "panelselectorfragment";
     private Button mBDevice;
     private EntitySelection mEntitySelection;
     private EditText mEditDevice;

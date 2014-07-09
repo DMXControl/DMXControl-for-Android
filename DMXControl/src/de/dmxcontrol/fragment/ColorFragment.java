@@ -27,8 +27,6 @@
 
 package de.dmxcontrol.fragment;
 
-import org.openintents.widget.ColorCircle;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,6 +35,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import org.openintents.widget.ColorCircle;
+
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.EntityManager;
@@ -44,7 +44,7 @@ import de.dmxcontrol.model.ColorModel;
 import de.dmxcontrol.model.ModelManager.Type;
 
 public class ColorFragment extends BasePanelFragment {
-    private final static String TAG = "colorfragment";
+    public final static String TAG = "colorfragment";
     private LinearLayout colorLayout;
 
     // startup process initiated

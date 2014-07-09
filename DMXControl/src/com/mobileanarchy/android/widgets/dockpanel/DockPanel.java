@@ -2,10 +2,7 @@ package com.mobileanarchy.android.widgets.dockpanel;
 
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -13,9 +10,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
@@ -26,11 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import java.io.File;
-
-import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.file.FileManager;
 
 public class DockPanel extends LinearLayout {
 
@@ -104,9 +95,9 @@ public class DockPanel extends LinearLayout {
         // create the handle container
         FrameLayout handleContainer = new FrameLayout(getContext());
         handleContainer.addView(toggleButton);
-        if(!ViewConfiguration.get(getContext()).hasPermanentMenuKey()) {
+        // if(!ViewConfiguration.get(getContext()).hasPermanentMenuKey()) {
             handleContainer.addView(menuButton);
-        }
+        //}
         handleContainer.addView(imageView);
 
         // create and populate the panel's container, and inflate it

@@ -85,6 +85,12 @@ public class ControlActivity extends FragmentActivity implements
     private static int SCREEN_MODE;
     private int oldState = -1;
 
+    private FragmentManager fManager = getSupportFragmentManager();
+    private DeviceGroupFragment deviceGroupFragment = new DeviceGroupFragment();
+    private IntensityFragment intensityFragment = new IntensityFragment();
+    private ColorFragment colorFragment = new ColorFragment();
+    private PanTiltFragment panTiltFragment = new PanTiltFragment();
+
     private boolean isInForeground;
 
     @Override
@@ -175,8 +181,7 @@ public class ControlActivity extends FragmentActivity implements
 
         @Override
         public void onDockOpenListener(ViewGroup viewGroup) {
-            PanelSelectorFragment fragment = (PanelSelectorFragment) ControlActivity.this
-                    .getSupportFragmentManager().findFragmentById(R.id.panel_fragment);
+            PanelSelectorFragment fragment = (PanelSelectorFragment) fManager.findFragmentById(R.id.panel_fragment);
             if(fragment == null) {
                 return;
             }
@@ -206,25 +211,25 @@ public class ControlActivity extends FragmentActivity implements
 
         Fragment newFragment;
 
+        FragmentTransaction transaction = fManager.beginTransaction();
+
         switch(state) {
             case ActionSelectorFragment.STATE_DEVICE_PANEL:
-                newFragment = new DeviceGroupFragment();
+                newFragment = deviceGroupFragment;
                 break;
             case ActionSelectorFragment.STATE_INTENSITY_PANEL:
-                newFragment = new IntensityFragment();
+                newFragment = intensityFragment;
                 break;
             case ActionSelectorFragment.STATE_COLOR_PANEL:
-                newFragment = new ColorFragment();
+                newFragment = colorFragment;
                 break;
             case ActionSelectorFragment.STATE_PANTILT_PANEL:
-                newFragment = new PanTiltFragment();
+                newFragment = panTiltFragment;
                 break;
             default:
                 return; // dont do anything without a new fragment
         }
 
-        FragmentManager fManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fManager.beginTransaction();
 
         transaction.replace(R.id.action_screen, newFragment);
         // transaction.addToBackStack(null);
@@ -236,7 +241,7 @@ public class ControlActivity extends FragmentActivity implements
 
     @Override
     public void onPanelResumed() {
-        FragmentManager fManager = getSupportFragmentManager();
+        // FragmentManager fManager = getSupportFragmentManager();
         ActionSelectorFragment asf = (ActionSelectorFragment) fManager.findFragmentById(R.id.action_fragment);
         if(asf != null) {
             asf.updateStateSelected();
@@ -363,7 +368,7 @@ public class ControlActivity extends FragmentActivity implements
     }
 
     public void showErrorDialog(String msg) {
-        FragmentManager fm = getSupportFragmentManager();
+        //FragmentManager fm = getSupportFragmentManager();
         ErrorDialogFragment errorDialog = ErrorDialogFragment.newInstance(msg);
 
         if(errorDialog == null) {
@@ -374,7 +379,7 @@ public class ControlActivity extends FragmentActivity implements
             return;
         }
 
-        errorDialog.show(fm, ErrorDialogFragment.TAG);
+        errorDialog.show(fManager, ErrorDialogFragment.TAG);
     }
 
     public void showNetworkErrorDialog(String msg) {

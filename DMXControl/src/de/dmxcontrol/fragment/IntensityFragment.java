@@ -48,7 +48,7 @@ import de.dmxcontrol.model.StrobeModel;
 import de.dmxcontrol.widget.FaderVerticalControl;
 
 public class IntensityFragment extends BasePanelFragment {
-    private final static String TAG = "intensityfragment";
+    public final static String TAG = "intensityfragment";
     private ShutterModel mShutterModel;
 
     // startup process initiated

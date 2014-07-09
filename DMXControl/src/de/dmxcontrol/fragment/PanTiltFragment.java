@@ -50,7 +50,7 @@ import de.dmxcontrol.widget.RelativeLayoutWithMultitouch;
 
 public class PanTiltFragment extends BasePanelFragment implements
         OnClickListener {
-    private final static String TAG = "pantiltfragment";
+    public final static String TAG = "pantiltfragment";
 
     private RelativeLayoutWithMultitouch softpultLayout;
     private CrossControl cc;
