@@ -64,9 +64,12 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
             bColorAction,
             bIntensityAction,
             bPanTiltAction,
+            bGoboAction,
             bOpticAction,
+            bPrismAction,
             bRawAction,
-            bEffectAction;
+            bEffectAction,
+            bPresetAction;
 
     private final static String EXTRA_PANEL_STATE = "de.dmxcontrol.PANEL_STATE";
     public final static int STATE_DEVICE_PANEL = 0;
@@ -75,8 +78,10 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
     public final static int STATE_PANTILT_PANEL = 3;
     public final static int STATE_GOBO_PANEL = 4;
     public final static int STATE_OPTIC_PANEL = 5;
-    public final static int STATE_RAW_PANEL = 6;
+    public final static int STATE_PRISM_PANEL = 5;
+    public final static int STATE_RAW_PANEL = 7;
     public final static int STATE_EFFECT_PANEL = 20;
+    public final static int STATE_PRESET_PANEL = 30;
     public int mState = STATE_DEVICE_PANEL;
 
     // startup process initiated
@@ -152,23 +157,35 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
                 .findViewById(R.id.button_pantilt_action);
         bPanTiltAction.setOnClickListener(this);
 
+        bGoboAction = (Button) actionButtons
+                .findViewById(R.id.button_gobo_action);
+        bGoboAction.setOnClickListener(this);
+
         bOpticAction = (Button) actionButtons
                 .findViewById(R.id.button_optic_action);
         bOpticAction.setOnClickListener(this);
-        bOpticAction.setVisibility(View.INVISIBLE);
-        actionButtons.removeView(bOpticAction);
+
+        bPrismAction = (Button) actionButtons
+                .findViewById(R.id.button_prism_action);
+        bPrismAction.setOnClickListener(this);
+        //bOpticAction.setVisibility(View.INVISIBLE);
+        //actionButtons.removeView(bOpticAction);
 
         bRawAction = (Button) actionButtons
                 .findViewById(R.id.button_raw_action);
         bRawAction.setOnClickListener(this);
-        bRawAction.setVisibility(View.INVISIBLE);
-        actionButtons.removeView(bRawAction);
+        //bRawAction.setVisibility(View.INVISIBLE);
+        //actionButtons.removeView(bRawAction);
 
         bEffectAction = (Button) actionButtons
                 .findViewById(R.id.button_effect_action);
         bEffectAction.setOnClickListener(this);
-        bEffectAction.setVisibility(View.INVISIBLE);
-        actionButtons.removeView(bEffectAction);
+        //bEffectAction.setVisibility(View.INVISIBLE);
+        //actionButtons.removeView(bEffectAction);
+
+        bPresetAction = (Button) actionButtons
+                .findViewById(R.id.button_preset_action);
+        bPresetAction.setOnClickListener(this);
 
         updateStateSelected();
         return actionButtons;
@@ -242,15 +259,24 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
             case R.id.button_pantilt_action:
                 mState = STATE_PANTILT_PANEL;
                 break;
+            case R.id.button_gobo_action:
+                mState = STATE_GOBO_PANEL;
+                return;
             case R.id.button_optic_action:
                 mState = STATE_OPTIC_PANEL;
-                break;
+                return;
+            case R.id.button_prism_action:
+                mState = STATE_PRISM_PANEL;
+                return;
             case R.id.button_raw_action:
                 mState = STATE_RAW_PANEL;
-                break;
+                return;
             case R.id.button_effect_action:
                 mState = STATE_EFFECT_PANEL;
-                break;
+                return;
+            case R.id.button_preset_action:
+                mState = STATE_PRESET_PANEL;
+                return;
             default:
                 return;
         }
