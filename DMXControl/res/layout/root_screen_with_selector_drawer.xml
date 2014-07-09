@@ -42,6 +42,6 @@
         ma:contentLayoutId="@layout/content_drawer"
         ma:dockPosition="top"
         ma:handleToggleButtonDrawableResourceId="@drawable/top_dock_handle"
-        ma:handleMenuButtonDrawableResourceId="@drawable/icon"/>
+        ma:handleMenuButtonDrawableResourceId="@drawable/btn_menu_selector"/>
 
 </FrameLayout>

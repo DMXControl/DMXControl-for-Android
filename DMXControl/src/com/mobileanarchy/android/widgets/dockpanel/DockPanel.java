@@ -11,11 +11,13 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -38,7 +40,7 @@ public class DockPanel extends LinearLayout {
     private Boolean animationRunning;
     private FrameLayout contentPlaceHolder;
     private ImageButton toggleButton;
-    private ImageButton menuButton;
+    private Button menuButton;
     private int animationDuration;
     private Context ctx;
 
@@ -95,9 +97,9 @@ public class DockPanel extends LinearLayout {
         // create the handle container
         FrameLayout handleContainer = new FrameLayout(getContext());
         handleContainer.addView(toggleButton);
-        // if(!ViewConfiguration.get(getContext()).hasPermanentMenuKey()) {
+        if(!ViewConfiguration.get(getContext()).hasPermanentMenuKey()) {
             handleContainer.addView(menuButton);
-        //}
+        }
         handleContainer.addView(imageView);
 
         // create and populate the panel's container, and inflate it
@@ -227,14 +229,14 @@ public class DockPanel extends LinearLayout {
     }
 
     private void createHandleMenuButton() {
-        menuButton = new ImageButton(getContext());
+        menuButton = new Button(getContext());
         menuButton.setPadding(0, 0, 0, 0);
         menuButton.setLayoutParams(new FrameLayout.LayoutParams(
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
                 Gravity.BOTTOM));
         menuButton.setBackgroundColor(Color.TRANSPARENT);
-        menuButton.setImageResource(handleMenuButtonDrawableId);
+        menuButton.setBackgroundResource(handleMenuButtonDrawableId);
         menuButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
