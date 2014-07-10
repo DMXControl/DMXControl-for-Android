@@ -37,9 +37,11 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -72,18 +74,26 @@ import de.dmxcontrol.network.ServiceFrontend;
 import de.dmxcontrol.network.ServiceFrontend.OnServiceListener;
 
 public class ControlActivity extends FragmentActivity implements
-        OnUpdateActionView, OnPanelResumedListener {
+        OnUpdateActionView,
+        GestureDetector.OnGestureListener,
+        OnPanelResumedListener {
     public final static String TAG = "controlactivity";
+    private static final float SWIPE_MIN_VELOCITY = 300;
+    private static final float SWIPE_MIN_DISTANCE = 150;
 
     private MessageListener mMessageListener = new MessageListener();
     private UpdatePanel mUpdatePanel;
     private AboutDialogs ad;
 
     private final static int DIALOG_SPLASH = 101;
-    private final static int DIALOG_SPLASH_DELAY = 1500;
+    private final static int DIALOG_SPLASH_DELAY = 2000;
     private static boolean DISABLE_SPLASH = false;
     private static int SCREEN_MODE;
     private int oldState = -1;
+
+    private FragmentTransaction transaction;
+
+    private GestureDetector gestureDetector;
 
     private FragmentManager fManager = getSupportFragmentManager();
     private DeviceGroupFragment deviceGroupFragment = new DeviceGroupFragment();
@@ -97,7 +107,10 @@ public class ControlActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+
+
         setContentView(R.layout.root_screen_with_selector_drawer);
+        gestureDetector = new GestureDetector(this, this);
 
         if(((DMXControlApplication) getApplication()).getJustStarted() && !DISABLE_SPLASH) {
             showDialog(DIALOG_SPLASH);
@@ -148,10 +161,76 @@ public class ControlActivity extends FragmentActivity implements
         super.onDestroy();
     }
 
+    @Override
+    public boolean onDown(MotionEvent e) {
+        return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent e) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        gestureDetector.onTouchEvent(event);
+        return super.dispatchTouchEvent(event);
+    }
+
+    @Override
+    public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+        //Get Position
+        if(e1 == null || e2 == null) {
+            return false;
+        }
+        float ev1X = e1.getX();
+        float ev2X = e2.getX();
+
+        //Get distance of X (e1) to X (e2)
+        final float xdistance = Math.abs(ev1X - ev2X);
+        //Get velocity of cursor
+        final float xvelocity = Math.abs(velocityX);
+
+        if((xvelocity > SWIPE_MIN_VELOCITY) && (xdistance > SWIPE_MIN_DISTANCE)) {
+            if(ev1X > ev2X)//Switch Left
+            {
+                //Change Stata, if you add a new Fragment
+                if(oldState < ActionSelectorFragment.STATE_PANTILT_PANEL) {
+                    Log.d("Slide", "SWING_LEFT_EVENT");
+                    onUpdateActionView(true, oldState + 1);
+                }
+            }
+            else//Switch Right
+            {
+                if(oldState > ActionSelectorFragment.STATE_DEVICE_PANEL) {
+                    Log.d("Slide", "SWING_RIGHT_EVENT");
+                    onUpdateActionView(true, oldState - 1);
+                }
+            }
+        }
+
+        return false;
+    }
+
 	/*
      *
 	 * Base Elements of the Activity
-	 * 
+	 *
 	 * Panel SelectorButtons UpdateDeviceGroupText ActionButtons
 	 */
 
@@ -203,16 +282,37 @@ public class ControlActivity extends FragmentActivity implements
 
     @Override
     public void onUpdateActionView(int state) {
+        onUpdateActionView(false, state);
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureDetector.onTouchEvent(event);
+    }
+
+    public void onUpdateActionView(boolean animation, int state) {
         Log.d(TAG, "onUpdateActionView state = " + state);
-
-        if(state == oldState) {
-            return;
-        }
-
         Fragment newFragment;
 
-        FragmentTransaction transaction = fManager.beginTransaction();
+        transaction = fManager.beginTransaction();
+        if(animation) {
+            ((ActionSelectorFragment) fManager.findFragmentById(R.id.action_fragment)).updateStateSelected(state);
+        }
 
+        if(Math.abs(oldState - state) == 1 && animation) {
+            if(oldState < state) {
+                transaction.setCustomAnimations(R.anim.anim_slide_in_left, R.anim.anim_slide_out_left);
+            }
+            else if(oldState > state) {
+                transaction.setCustomAnimations(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
+            }
+        }
+        if(state == oldState) {
+            //return;
+        }
+        else {
+            oldState = state;
+        }
         switch(state) {
             case ActionSelectorFragment.STATE_DEVICE_PANEL:
                 newFragment = deviceGroupFragment;
@@ -226,17 +326,30 @@ public class ControlActivity extends FragmentActivity implements
             case ActionSelectorFragment.STATE_PANTILT_PANEL:
                 newFragment = panTiltFragment;
                 break;
+            case ActionSelectorFragment.STATE_GOBO_PANEL:
+                newFragment = panTiltFragment;
+                break;
+            case ActionSelectorFragment.STATE_OPTIC_PANEL:
+                newFragment = panTiltFragment;
+                break;
+            case ActionSelectorFragment.STATE_PRISM_PANEL:
+                newFragment = panTiltFragment;
+                break;
+            case ActionSelectorFragment.STATE_RAW_PANEL:
+                newFragment = panTiltFragment;
+                break;
+            case ActionSelectorFragment.STATE_EFFECT_PANEL:
+                newFragment = panTiltFragment;
+                break;
+            case ActionSelectorFragment.STATE_PRESET_PANEL:
+                newFragment = panTiltFragment;
+                break;
             default:
                 return; // dont do anything without a new fragment
         }
-
-
         transaction.replace(R.id.action_screen, newFragment);
-        // transaction.addToBackStack(null);
+        transaction.addToBackStack(null);
         transaction.commit();
-
-        oldState = state;
-
     }
 
     @Override
@@ -339,7 +452,7 @@ public class ControlActivity extends FragmentActivity implements
         animation = new ScaleAnimation(0.0f, 1.0f, 0.0f, 1.0f,
                 Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
                 0.5f);
-        animation.setDuration(500);
+        animation.setDuration(1000);
         animation.setInterpolator(AnimationUtils.loadInterpolator(this, android.R.anim.accelerate_decelerate_interpolator));
         set.addAnimation(animation);
 

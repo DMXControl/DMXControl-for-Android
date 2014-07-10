@@ -35,6 +35,7 @@ import android.view.View;
 public class ColorCircle extends View {
 
     private float center_radius;
+    private float outer_Radius;
     private final static float CENTER_RADIUS_SCALE = 0.4f;
 
     private Paint mPaint;
@@ -96,7 +97,7 @@ public class ColorCircle extends View {
         float outer_radius = Math.min(getWidth(), getHeight()) / 2;
         float touch_feedback_ring = center_radius + 2 * mCenterPaint.getStrokeWidth();
         float r = (outer_radius + touch_feedback_ring) / 2;
-
+        outer_Radius = r;
         canvas.translate(getWidth() / 2, getHeight() / 2);
 
         mPaint.setStrokeWidth(outer_radius - touch_feedback_ring);
@@ -189,6 +190,8 @@ public class ColorCircle extends View {
         float x = event.getX() - getWidth() / 2;
         float y = event.getY() - getHeight() / 2;
         boolean inCenter = PointF.length(x, y) <= center_radius;
+        boolean inOuter = PointF.length(x, y) <= outer_Radius;
+        boolean isOnColorCircle = inOuter && !inCenter;
 
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
@@ -220,7 +223,6 @@ public class ColorCircle extends View {
                     }
                     invalidate();
                 }
-                break;
             case MotionEvent.ACTION_UP:
                 if(mTrackingCenter) {
                     if(inCenter) {

@@ -27,10 +27,12 @@
 
 package de.dmxcontrol.fragment;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,7 +45,9 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 
 import org.json.JSONException;
 
@@ -57,6 +61,8 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
     private final static String TAG = "actionfragment";
 
     private Button crrActionButton;
+    private ViewGroup scrollView;
+    private LinearLayout buttonsView;
     private OnUpdateActionView updateActionViewListener;
     private CompatibilityWrapper8 compat8;
     private Button
@@ -78,10 +84,10 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
     public final static int STATE_PANTILT_PANEL = 3;
     public final static int STATE_GOBO_PANEL = 4;
     public final static int STATE_OPTIC_PANEL = 5;
-    public final static int STATE_PRISM_PANEL = 5;
+    public final static int STATE_PRISM_PANEL = 6;
     public final static int STATE_RAW_PANEL = 7;
-    public final static int STATE_EFFECT_PANEL = 20;
-    public final static int STATE_PRESET_PANEL = 30;
+    public final static int STATE_EFFECT_PANEL = 8;
+    public final static int STATE_PRESET_PANEL = 9;
     public int mState = STATE_DEVICE_PANEL;
 
     // startup process initiated
@@ -108,8 +114,10 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
 
         LinearLayout actionButtons = (LinearLayout) inflater.inflate(
                 R.layout.action_selector_fragment, container, false);
+
         ViewGroup vg = (ViewGroup) actionButtons
                 .findViewById(R.id.action_selector_scroll);
+        scrollView = vg;
         if(!Prefs.get().getDisableAnimations()) {
             addBounceInAnimation(vg);
         }
@@ -291,10 +299,21 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
     }
 
     public void updateStateSelected() {
+        updateStateSelected(Integer.MIN_VALUE);
+    }
 
+    public void updateStateSelected(final int state) {
+
+
+        if(state != Integer.MIN_VALUE) {
+            mState = state;
+        }
         if(crrActionButton != null) {
             crrActionButton.setSelected(false);
         }
+        final boolean goUp = state > mState;
+
+        final View oldActionButton = crrActionButton;
 
         switch(mState) {
             case STATE_DEVICE_PANEL:
@@ -309,22 +328,60 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
             case STATE_PANTILT_PANEL:
                 crrActionButton = bPanTiltAction;
                 break;
+            case STATE_GOBO_PANEL:
+                crrActionButton = bGoboAction;
+                break;
             case STATE_OPTIC_PANEL:
-                crrActionButton = bPanTiltAction;
+                crrActionButton = bOpticAction;
+                break;
+            case STATE_PRISM_PANEL:
+                crrActionButton = bPrismAction;
                 break;
             case STATE_RAW_PANEL:
-                crrActionButton = bPanTiltAction;
+                crrActionButton = bRawAction;
                 break;
             case STATE_EFFECT_PANEL:
-                crrActionButton = bPanTiltAction;
+                crrActionButton = bEffectAction;
+                break;
+            case STATE_PRESET_PANEL:
+                crrActionButton = bPresetAction;
                 break;
             default:
                 crrActionButton = bDeviceAction;
         }
 
         crrActionButton.setSelected(true);
-    }
+        if(state != Integer.MIN_VALUE) {
 
+            LinearLayout linearLayout = ((LinearLayout) scrollView.findViewById(R.id.action_selector_group));
+            int chilrenNum = linearLayout.getChildCount();
+            if(scrollView.getClass() == HorizontalScrollView.class) {
+                final HorizontalScrollView scroll = ((HorizontalScrollView) scrollView);
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        final float destination = ((crrActionButton.getLeft() - (scrollView.getWidth() / 2))) + (crrActionButton.getWidth() / 2);
+                        ObjectAnimator animator = ObjectAnimator.ofInt(scroll, "scrollX", (int) destination);
+                        animator.setDuration(600);
+                        animator.start();
+                    }
+                });
+            }
+            else {
+                final ScrollView scroll = ((ScrollView) scrollView);
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        final float destination = ((crrActionButton.getBottom() - (scrollView.getHeight() / 2))) - (crrActionButton.getHeight() / 2);
+                        ObjectAnimator animator = ObjectAnimator.ofInt(scroll, "scrollY", (int) destination);
+                        animator.setDuration(600);
+                        animator.start();
+                    }
+                });
+            }
+
+        }
+    }
     private void addBounceInAnimation(ViewGroup target) {
         AnimationSet set = new AnimationSet(true);
         Animation animation;
