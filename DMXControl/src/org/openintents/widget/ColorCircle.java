@@ -27,6 +27,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import de.dmxcontrol.android.R;
+
 /**
  * ColorCircle.
  *
@@ -202,6 +204,7 @@ public class ColorCircle extends View {
                     break;
                 }
             case MotionEvent.ACTION_MOVE:
+                if(event.getEventTime() - event.getDownTime() > this.getResources().getInteger(R.integer.touch_gesture_delay))
                 if(mTrackingCenter) {
                     if(mHighlightCenter != inCenter) {
                         mHighlightCenter = inCenter;

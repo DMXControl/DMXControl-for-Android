@@ -118,7 +118,7 @@ public abstract class BaseValueWidget extends View {
             int idx = mew.findPointerIndex(pid);
             final float x = mew.getX(idx);
             final float y = mew.getY(idx);
-            pointerPosition(x, y);
+            //pointerPosition(x, y);
 
             // Save the ID of this pointer
             mActivePointerId = pid;

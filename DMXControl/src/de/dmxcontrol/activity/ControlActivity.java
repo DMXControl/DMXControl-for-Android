@@ -78,8 +78,8 @@ public class ControlActivity extends FragmentActivity implements
         GestureDetector.OnGestureListener,
         OnPanelResumedListener {
     public final static String TAG = "controlactivity";
-    private static final float SWIPE_MIN_VELOCITY = 300;
-    private static final float SWIPE_MIN_DISTANCE = 150;
+    private float SWIPE_MIN_VELOCITY;
+    private float SWIPE_MIN_DISTANCE;
 
     private MessageListener mMessageListener = new MessageListener();
     private UpdatePanel mUpdatePanel;
@@ -107,7 +107,8 @@ public class ControlActivity extends FragmentActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-
+        SWIPE_MIN_VELOCITY = this.getResources().getInteger(R.integer.swipe_min_velocity);
+        SWIPE_MIN_DISTANCE = this.getResources().getInteger(R.integer.swipe_min_distance);
 
         setContentView(R.layout.root_screen_with_selector_drawer);
         gestureDetector = new GestureDetector(this, this);
@@ -163,7 +164,7 @@ public class ControlActivity extends FragmentActivity implements
 
     @Override
     public boolean onDown(MotionEvent e) {
-        return true;
+        return false;
     }
 
     @Override
@@ -188,8 +189,31 @@ public class ControlActivity extends FragmentActivity implements
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        gestureDetector.onTouchEvent(event);
-        return super.dispatchTouchEvent(event);
+        boolean res;
+        if(!isPointInsideView(event.getX(), event.getY(), fManager.findFragmentById(R.id.action_fragment).getView())) {
+            res = gestureDetector.onTouchEvent(event);
+            if(event.getAction() == MotionEvent.ACTION_MOVE) {
+                //return res;
+            }
+        }
+        if(!(event.getAction() == MotionEvent.ACTION_MOVE) || event.getEventTime() - event.getDownTime() > this.getResources().getInteger(R.integer.touch_gesture_delay)) {
+            return super.dispatchTouchEvent(event);
+        }
+        return false;
+    }
+
+    private boolean isPointInsideView(float x, float y, View view) {
+        int location[] = new int[2];
+        view.getLocationOnScreen(location);
+        int viewX = location[0];
+        int viewY = location[1];
+        if((x > viewX && x < (viewX + view.getWidth())) &&
+                (y > viewY && y < (viewY + view.getHeight()))) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     @Override
