@@ -17,6 +17,7 @@
         android:horizontalSpacing="5dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
+        android:fadeScrollbars="false"
         android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
         android:smoothScrollbar="true"></GridView>
 
@@ -31,6 +32,7 @@
         android:horizontalSpacing="5dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
+        android:fadeScrollbars="false"
         android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
         android:smoothScrollbar="true"></GridView>
 </LinearLayout>

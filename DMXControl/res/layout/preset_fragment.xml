@@ -10,8 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/preset_list"
+        android:fadeScrollbars="false"
         android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
         android:layout_gravity="center_horizontal"
         android:smoothScrollbar="true"
-        android:drawSelectorOnTop="false"/>
+        android:drawSelectorOnTop="false"
+        android:choiceMode="singleChoice"/>
 </LinearLayout>

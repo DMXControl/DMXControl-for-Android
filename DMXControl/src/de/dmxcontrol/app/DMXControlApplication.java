@@ -81,6 +81,10 @@ public class DMXControlApplication extends Application {
             Thread.setDefaultUncaughtExceptionHandler(new ExceptionReport(
                     StoragePath, null));
         }
+
+        long maxMemory = Runtime.getRuntime().maxMemory();
+        Log.v(TAG, "maxMemory:" + Long.toString(maxMemory));
+
         try {
             super.onCreate();
 

@@ -4,6 +4,8 @@
 
     <color name="btn_background_normal">#FF000000</color>
     <color name="btn_background_highlight">#FFFF9F2F</color>
+    <color name="btn_background_highlight_light">#55FF9F2F</color>
+    <color name="btn_background_highlight_ultralight">#22FF9F2F</color>
 
     <!-- DarkColorScheme -->
     <color name="light_grey">#FFB0B0B0</color>

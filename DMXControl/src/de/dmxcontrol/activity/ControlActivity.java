@@ -27,7 +27,9 @@
 
 package de.dmxcontrol.activity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.PorterDuff;
@@ -353,6 +355,37 @@ public class ControlActivity extends FragmentActivity implements
         return gestureDetector.onTouchEvent(event);
     }
 
+    @Override
+    public void onBackPressed() {
+        if(oldState != ActionSelectorFragment.STATE_DEVICE_PANEL) {
+            onUpdateActionView(true, ActionSelectorFragment.STATE_DEVICE_PANEL);
+        }
+        else {
+            AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle(R.string.about_title)
+                    .setIcon(R.drawable.androidmann_neu)
+                    .setTitle("Close?")
+                    .setMessage("Do you wan't to close the App")
+                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            close();
+                        }
+                    })
+                    .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).create();
+            alertDialog.show();
+        }
+    }
+
+    private void close() {
+        super.onBackPressed();
+    }
+
+
     public void onUpdateActionView(boolean animation, int state) {
         Log.d(TAG, "onUpdateActionView state = " + state);
         Fragment newFragment;
@@ -411,7 +444,6 @@ public class ControlActivity extends FragmentActivity implements
                 return; // dont do anything without a new fragment
         }
         transaction.replace(R.id.action_screen, newFragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 

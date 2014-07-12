@@ -303,18 +303,14 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
     }
 
     public void updateStateSelected(final int state) {
-
-
+        boolean jump = false;
         if(state != Integer.MIN_VALUE) {
+            jump = Math.abs(mState - state) > 1;
             mState = state;
         }
         if(crrActionButton != null) {
             crrActionButton.setSelected(false);
         }
-        final boolean goUp = state > mState;
-
-        final View oldActionButton = crrActionButton;
-
         switch(mState) {
             case STATE_DEVICE_PANEL:
                 crrActionButton = bDeviceAction;
@@ -351,10 +347,9 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
         }
 
         crrActionButton.setSelected(true);
-        if(state != Integer.MIN_VALUE) {
 
-            LinearLayout linearLayout = ((LinearLayout) scrollView.findViewById(R.id.action_selector_group));
-            int chilrenNum = linearLayout.getChildCount();
+        final boolean fJump = jump;
+        if(state != Integer.MIN_VALUE) {
             if(scrollView.getClass() == HorizontalScrollView.class) {
                 final HorizontalScrollView scroll = ((HorizontalScrollView) scrollView);
                 new Handler().post(new Runnable() {
@@ -362,7 +357,12 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
                     public void run() {
                         final float destination = ((crrActionButton.getLeft() - (scrollView.getWidth() / 2))) + (crrActionButton.getWidth() / 2);
                         ObjectAnimator animator = ObjectAnimator.ofInt(scroll, "scrollX", (int) destination);
-                        animator.setDuration(600);
+                        if(!fJump) {
+                            animator.setDuration(600);
+                        }
+                        else {
+                            animator.setDuration(1200);
+                        }
                         animator.start();
                     }
                 });
@@ -374,7 +374,12 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
                     public void run() {
                         final float destination = ((crrActionButton.getBottom() - (scrollView.getHeight() / 2))) - (crrActionButton.getHeight() / 2) + (getStatusBarHeight() / 2);
                         ObjectAnimator animator = ObjectAnimator.ofInt(scroll, "scrollY", (int) destination);
-                        animator.setDuration(600);
+                        if(!fJump) {
+                            animator.setDuration(600);
+                        }
+                        else {
+                            animator.setDuration(1200);
+                        }
                         animator.start();
                     }
                 });

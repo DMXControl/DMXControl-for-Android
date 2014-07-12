@@ -34,7 +34,7 @@ public class TCPReader implements Runnable {
     }
 
     //must public because memoryleaks!!!
-    private char[] buffer = new char[1024 * 1024];
+    private char[] buffer = new char[1024 * 128];
     private BufferedReader bufferedReader;
     private String message = "";
 
@@ -51,8 +51,6 @@ public class TCPReader implements Runnable {
                         new InputStreamReader(
                                 socket.getInputStream())
                 );
-        buffer = null;
-        buffer = new char[1024 * 1024];
         int count = bufferedReader.read(buffer, 0, buffer.length);
         bufferedReader = null;
         message = new String(buffer, 0, count);
