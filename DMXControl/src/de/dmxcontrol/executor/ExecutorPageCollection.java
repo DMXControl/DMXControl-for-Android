@@ -25,13 +25,21 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
         for(int i = 0; i < a.length(); i++) {
             guids[i] = a.getString(i);
         }
+        a = null;
+        if(a == null) {
+            ;
+        }
 
         removeDeletedDevices();
 
         compareGuidListWithInternalGuids();
 
-        sort();
+        if(needSort) {
+            sort();
+        }
     }
+
+    private boolean needSort = true;
 
     public void sort() {
         EntityExecutorPage temp;
@@ -43,6 +51,10 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
                     list.set(j + 1, temp);
                 }
             }
+        }
+        temp = null;
+        if(temp == null) {
+            needSort = false;
         }
     }
 
@@ -61,6 +73,8 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
 
                 // Remove device from ArrayList
                 list.remove(i);
+
+                needSort = true;
             }
         }
     }
@@ -78,6 +92,7 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
             return false;
         }
         if(!contains(object)) {
+            needSort = true;
             return list.add(object);
         }
         else {

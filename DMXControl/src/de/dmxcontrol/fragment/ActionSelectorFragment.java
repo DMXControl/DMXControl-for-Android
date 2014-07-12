@@ -269,22 +269,22 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
                 break;
             case R.id.button_gobo_action:
                 mState = STATE_GOBO_PANEL;
-                return;
+                break;
             case R.id.button_optic_action:
                 mState = STATE_OPTIC_PANEL;
-                return;
+                break;
             case R.id.button_prism_action:
                 mState = STATE_PRISM_PANEL;
-                return;
+                break;
             case R.id.button_raw_action:
                 mState = STATE_RAW_PANEL;
-                return;
+                break;
             case R.id.button_effect_action:
                 mState = STATE_EFFECT_PANEL;
-                return;
+                break;
             case R.id.button_preset_action:
                 mState = STATE_PRESET_PANEL;
-                return;
+                break;
             default:
                 return;
         }
@@ -367,12 +367,12 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
                     }
                 });
             }
-            else {
+            else if(scrollView.getClass() == ScrollView.class) {
                 final ScrollView scroll = ((ScrollView) scrollView);
                 new Handler().post(new Runnable() {
                     @Override
                     public void run() {
-                        final float destination = ((crrActionButton.getBottom() - (scrollView.getHeight() / 2))) - (crrActionButton.getHeight() / 2);
+                        final float destination = ((crrActionButton.getBottom() - (scrollView.getHeight() / 2))) - (crrActionButton.getHeight() / 2) + (getStatusBarHeight() / 2);
                         ObjectAnimator animator = ObjectAnimator.ofInt(scroll, "scrollY", (int) destination);
                         animator.setDuration(600);
                         animator.start();
@@ -382,6 +382,16 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
 
         }
     }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if(resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
     private void addBounceInAnimation(ViewGroup target) {
         AnimationSet set = new AnimationSet(true);
         Animation animation;

@@ -107,6 +107,10 @@ public class EntityExecutorPage extends Entity {
             Log.e("UDP Listener: ", e.getMessage());
             DMXControlApplication.SaveLog();
         }
+        o = null;
+        if(o == null) {
+            ;
+        }
         return entity;
     }
 
@@ -123,6 +127,10 @@ public class EntityExecutorPage extends Entity {
             o.put("Number", this.getId());
 
             ServiceFrontend.get().sendMessage(o.toString().getBytes());
+            o = null;
+            if(o == null) {
+                ;
+            }
             return;
         }
         catch(Exception e) {

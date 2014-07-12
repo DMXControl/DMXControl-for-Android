@@ -30,6 +30,8 @@ package de.dmxcontrol.activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -50,6 +52,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
+import android.widget.EdgeEffect;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
@@ -63,12 +66,18 @@ import de.dmxcontrol.fragment.ActionSelectorFragment;
 import de.dmxcontrol.fragment.ActionSelectorFragment.OnUpdateActionView;
 import de.dmxcontrol.fragment.ColorFragment;
 import de.dmxcontrol.fragment.DeviceGroupFragment;
+import de.dmxcontrol.fragment.EffectFragment;
 import de.dmxcontrol.fragment.ErrorDialogFragment;
+import de.dmxcontrol.fragment.GoboFragment;
 import de.dmxcontrol.fragment.IntensityFragment;
 import de.dmxcontrol.fragment.NetworkErrorDialogFragment;
 import de.dmxcontrol.fragment.OnPanelResumedListener;
+import de.dmxcontrol.fragment.OpticFragment;
 import de.dmxcontrol.fragment.PanTiltFragment;
 import de.dmxcontrol.fragment.PanelSelectorFragment;
+import de.dmxcontrol.fragment.PresetFragment;
+import de.dmxcontrol.fragment.PrismFragment;
+import de.dmxcontrol.fragment.RawFragment;
 import de.dmxcontrol.network.IMessageListener;
 import de.dmxcontrol.network.ServiceFrontend;
 import de.dmxcontrol.network.ServiceFrontend.OnServiceListener;
@@ -94,12 +103,19 @@ public class ControlActivity extends FragmentActivity implements
     private FragmentTransaction transaction;
 
     private GestureDetector gestureDetector;
+    private EdgeEffect edgeEffect;
 
     private FragmentManager fManager = getSupportFragmentManager();
     private DeviceGroupFragment deviceGroupFragment = new DeviceGroupFragment();
     private IntensityFragment intensityFragment = new IntensityFragment();
     private ColorFragment colorFragment = new ColorFragment();
     private PanTiltFragment panTiltFragment = new PanTiltFragment();
+    private GoboFragment goboFragment = new GoboFragment();
+    private OpticFragment opticFragment = new OpticFragment();
+    private PrismFragment prismFragment = new PrismFragment();
+    private RawFragment rawFragment = new RawFragment();
+    private EffectFragment effectFragment = new EffectFragment();
+    private PresetFragment presetFragment = new PresetFragment();
 
     private boolean isInForeground;
 
@@ -109,9 +125,28 @@ public class ControlActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         SWIPE_MIN_VELOCITY = this.getResources().getInteger(R.integer.swipe_min_velocity);
         SWIPE_MIN_DISTANCE = this.getResources().getInteger(R.integer.swipe_min_distance);
+        //Change the EdgeEffectCollor to our HighlightColor
+        int glowDrawableId = this.getResources().getIdentifier("overscroll_glow", "drawable", "android");
+        Drawable androidGlow = this.getResources().getDrawable(glowDrawableId);
+        androidGlow.setColorFilter(this.getResources().getColor(R.color.btn_background_highlight), PorterDuff.Mode.SRC_IN);
+
+        int edgeDrawableId = this.getResources().getIdentifier("overscroll_edge", "drawable", "android");
+        Drawable androidEdge = this.getResources().getDrawable(edgeDrawableId);
+        androidEdge.setColorFilter(this.getResources().getColor(R.color.btn_background_highlight), PorterDuff.Mode.SRC_IN);
+
+        int scrollBarHDrawableId = this.getResources().getIdentifier("scrollbar_handle_horizontal", "drawable", "android");
+        Drawable androidscrollBarH = this.getResources().getDrawable(scrollBarHDrawableId);
+        androidscrollBarH.setColorFilter(this.getResources().getColor(R.color.btn_background_highlight), PorterDuff.Mode.SRC_IN);
+
+        int scrollBarVDrawableId = this.getResources().getIdentifier("scrollbar_handle_vertical", "drawable", "android");
+        Drawable androidscrollBarV = this.getResources().getDrawable(scrollBarVDrawableId);
+        androidscrollBarV.setColorFilter(this.getResources().getColor(R.color.btn_background_highlight), PorterDuff.Mode.SRC_IN);
+
 
         setContentView(R.layout.root_screen_with_selector_drawer);
         gestureDetector = new GestureDetector(this, this);
+
+        edgeEffect = new EdgeEffect(this);
 
         if(((DMXControlApplication) getApplication()).getJustStarted() && !DISABLE_SPLASH) {
             showDialog(DIALOG_SPLASH);
@@ -189,17 +224,21 @@ public class ControlActivity extends FragmentActivity implements
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
-        boolean res;
         if(!isPointInsideView(event.getX(), event.getY(), fManager.findFragmentById(R.id.action_fragment).getView())) {
-            res = gestureDetector.onTouchEvent(event);
-            if(event.getAction() == MotionEvent.ACTION_MOVE) {
-                //return res;
+            gestureDetector.onTouchEvent(event);
+            switch(oldState) {
+                case ActionSelectorFragment.STATE_INTENSITY_PANEL:
+                case ActionSelectorFragment.STATE_COLOR_PANEL:
+                case ActionSelectorFragment.STATE_PANTILT_PANEL:
+                    if(!(event.getAction() == MotionEvent.ACTION_MOVE) || event.getEventTime() - event.getDownTime() > this.getResources().getInteger(R.integer.touch_gesture_delay)) {
+                        return super.dispatchTouchEvent(event);
+                    }
+                    return false;
+                default:
+                    return super.dispatchTouchEvent(event);
             }
         }
-        if(!(event.getAction() == MotionEvent.ACTION_MOVE) || event.getEventTime() - event.getDownTime() > this.getResources().getInteger(R.integer.touch_gesture_delay)) {
-            return super.dispatchTouchEvent(event);
-        }
-        return false;
+        return super.dispatchTouchEvent(event);
     }
 
     private boolean isPointInsideView(float x, float y, View view) {
@@ -234,7 +273,7 @@ public class ControlActivity extends FragmentActivity implements
             if(ev1X > ev2X)//Switch Left
             {
                 //Change Stata, if you add a new Fragment
-                if(oldState < ActionSelectorFragment.STATE_PANTILT_PANEL) {
+                if(oldState < ActionSelectorFragment.STATE_PRESET_PANEL) {
                     Log.d("Slide", "SWING_LEFT_EVENT");
                     onUpdateActionView(true, oldState + 1);
                 }
@@ -351,22 +390,22 @@ public class ControlActivity extends FragmentActivity implements
                 newFragment = panTiltFragment;
                 break;
             case ActionSelectorFragment.STATE_GOBO_PANEL:
-                newFragment = panTiltFragment;
+                newFragment = goboFragment;
                 break;
             case ActionSelectorFragment.STATE_OPTIC_PANEL:
-                newFragment = panTiltFragment;
+                newFragment = opticFragment;
                 break;
             case ActionSelectorFragment.STATE_PRISM_PANEL:
-                newFragment = panTiltFragment;
+                newFragment = prismFragment;
                 break;
             case ActionSelectorFragment.STATE_RAW_PANEL:
-                newFragment = panTiltFragment;
+                newFragment = rawFragment;
                 break;
             case ActionSelectorFragment.STATE_EFFECT_PANEL:
-                newFragment = panTiltFragment;
+                newFragment = effectFragment;
                 break;
             case ActionSelectorFragment.STATE_PRESET_PANEL:
-                newFragment = panTiltFragment;
+                newFragment = presetFragment;
                 break;
             default:
                 return; // dont do anything without a new fragment

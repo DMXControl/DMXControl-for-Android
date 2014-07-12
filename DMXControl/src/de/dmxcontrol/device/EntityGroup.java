@@ -58,6 +58,10 @@ public class EntityGroup extends Entity {
             o.put("Number", this.getId());
 
             ServiceFrontend.get().sendMessage(o.toString().getBytes());
+            o = null;
+            if(o == null) {
+                ;
+            }
             return;
         }
         catch(Exception e) {
@@ -103,6 +107,10 @@ public class EntityGroup extends Entity {
         catch(Exception e) {
             Log.e("UDP Listener", e.getMessage());
             DMXControlApplication.SaveLog();
+        }
+        o = null;
+        if(o == null) {
+            ;
         }
         return entity;
     }

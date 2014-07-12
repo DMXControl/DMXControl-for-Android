@@ -33,6 +33,10 @@ public class TCPReader implements Runnable {
         return mSender.getSocket();
     }
 
+    //must public because memoryleaks!!!
+    private char[] buffer = new char[1024 * 1024];
+    private BufferedReader bufferedReader;
+    private String message = "";
 
     private TCPSender mSender;
 
@@ -42,22 +46,30 @@ public class TCPReader implements Runnable {
     }
 
     private String readMessage(java.net.Socket socket) throws IOException {
-        BufferedReader bufferedReader =
+        bufferedReader =
                 new BufferedReader(
                         new InputStreamReader(
                                 socket.getInputStream())
                 );
-
-        char[] buffer = new char[1024 * 1024];
+        buffer = null;
+        buffer = new char[1024 * 1024];
         int count = bufferedReader.read(buffer, 0, buffer.length);
-        String message = new String(buffer, 0, count);
-        message = message.substring(0, message.lastIndexOf("}") + 1);
-        return message;
+        bufferedReader = null;
+        message = new String(buffer, 0, count);
+        return message.substring(0, message.lastIndexOf("}") + 1);
     }
 
     public void run() {
         bKeepRunning = true;
         String message = "";
+        JSONObject o;
+        String type;
+        String[] split;
+
+        // 0x007d is } 0x007b is { -> so we split at }{ pattern
+        String splitter = new String(new byte[]{0x007d, 0x007b});
+
+        boolean guidList;
         try {
             Socket s = null;
 
@@ -68,16 +80,8 @@ public class TCPReader implements Runnable {
 
                         Thread.sleep(1000);
                     }
-
-                    s.setSoTimeout(6000);
-
+                    s.setSoTimeout(10000);
                     message = readMessage(s);
-
-                    // 0x007d is } 0x007b is { -> so we split at }{ pattern
-                    String splitter = new String(new byte[]{0x007d, 0x007b});
-
-                    String[] split;
-
                     if(message.contains(splitter)) {
 
                         split = message.split(Pattern.quote(splitter));
@@ -107,10 +111,10 @@ public class TCPReader implements Runnable {
                     for(String received : split) {
                         if(received.length() > 3 && received.contains("Type")) {
                             try {
-                                JSONObject o = new JSONObject(received);
+                                o = new JSONObject(received);
 
-                                String type = o.getString("Type");
-                                boolean guidList = type.contains("GUIDList");
+                                type = o.getString("Type");
+                                guidList = type.contains("GUIDList");
                                 if(type.equals("AvailabelDevices")) {
                                     ReceivedData.get().AvailableDevices.FillByJSON(o);
                                 }
@@ -131,7 +135,12 @@ public class TCPReader implements Runnable {
                                     }
                                 }
                                 else if(type.contains("Preset")) {
-                                    ReceivedData.get().Presets.add(EntityPreset.Receive(o));
+                                    if(guidList) {
+                                        ReceivedData.get().Presets.setGUIDsList(o.getJSONArray("GUIDs"));
+                                    }
+                                    else {
+                                        ReceivedData.get().Presets.add(EntityPreset.Receive(o));
+                                    }
                                 }
                                 else if(type.contains("ExecutorPage")) {
                                     if(guidList) {
@@ -163,21 +172,29 @@ public class TCPReader implements Runnable {
                             }
                         }
                     }
+                    message = null;
+                    split = null;
+                    type = null;
+                    o = null;
+                    if(message == null && split == null && type == null && o == null) {
+                        //All is cleared
+                    }
                 }
                 catch(SocketTimeoutException e) {
                     Log.i("TCPReader", "TimeOut");
+                    System.gc();
                 }
                 catch(Exception e) {
+                    System.gc();
                     //e.printStackTrace(); //For Debug
                 }
-                System.gc();
             }
         }
         catch(Exception e) {
             e.printStackTrace();
         }
         finally {
-
+            System.gc();
         }
     }
 

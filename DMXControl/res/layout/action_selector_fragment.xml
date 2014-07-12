@@ -14,7 +14,8 @@
     <HorizontalScrollView
         android:id="@+id/action_selector_scroll"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbarThumbHorizontal="@drawable/scrollbar_horizontal_style">
 
         <LinearLayout
             android:id="@+id/action_selector_group"

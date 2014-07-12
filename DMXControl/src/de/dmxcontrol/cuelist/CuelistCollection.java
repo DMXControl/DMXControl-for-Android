@@ -25,14 +25,21 @@ public class CuelistCollection implements Collection<EntityCuelist> {
         for(int i = 0; i < a.length(); i++) {
             guids[i] = a.getString(i);
         }
+        a = null;
+        if(a == null) {
+            ;
+        }
 
         removeDeletedDevices();
 
         compareGuidListWithInternalGuids();
 
-        sort();
+        if(needSort) {
+            sort();
+        }
     }
 
+    private boolean needSort = true;
     public void sort() {
         EntityCuelist temp;
         for(int i = 1; i < list.size(); i++) {
@@ -43,6 +50,10 @@ public class CuelistCollection implements Collection<EntityCuelist> {
                     list.set(j + 1, temp);
                 }
             }
+        }
+        temp = null;
+        if(temp == null) {
+            needSort = false;
         }
     }
 
@@ -61,6 +72,8 @@ public class CuelistCollection implements Collection<EntityCuelist> {
 
                 // Remove device from ArrayList
                 list.remove(i);
+
+                needSort = true;
             }
         }
     }
@@ -78,6 +91,7 @@ public class CuelistCollection implements Collection<EntityCuelist> {
             return false;
         }
         if(!contains(object)) {
+            needSort = true;
             return list.add(object);
         }
         else {

@@ -23,13 +23,21 @@ public class GroupCollection implements Collection<EntityGroup> {
         for(int i = 0; i < a.length(); i++) {
             guids[i] = a.getString(i);
         }
+        a = null;
+        if(a == null) {
+            ;
+        }
 
         removeDeletedDevices();
 
         compareGuidListWithInternalGuids();
 
-        sort();
+        if(needSort) {
+            sort();
+        }
     }
+
+    private boolean needSort = true;
 
     public void sort() {
         EntityGroup temp;
@@ -41,6 +49,10 @@ public class GroupCollection implements Collection<EntityGroup> {
                     list.set(j + 1, temp);
                 }
             }
+        }
+        temp = null;
+        if(temp == null) {
+            needSort = false;
         }
     }
 
@@ -59,6 +71,8 @@ public class GroupCollection implements Collection<EntityGroup> {
 
                 // Remove device from ArrayList
                 list.remove(i);
+
+                needSort = true;
             }
         }
     }
@@ -76,6 +90,7 @@ public class GroupCollection implements Collection<EntityGroup> {
             return false;
         }
         if(!contains(object)) {
+            needSort = true;
             return list.add(object);
         }
         else {

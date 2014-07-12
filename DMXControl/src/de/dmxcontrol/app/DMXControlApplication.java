@@ -39,7 +39,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
-import java.util.Timer;
 
 import de.dmxcontrol.cuelist.EntityCuelist;
 import de.dmxcontrol.device.Entity;
@@ -57,6 +56,13 @@ public class DMXControlApplication extends Application {
     private final static String IconStorageName = StoragePath + File.separator + "Icons";
     private Prefs prefs;
     private boolean mJustStarted;
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        Log.w(TAG, "Low Memory");
+        Runtime.getRuntime().gc();
+    }
 
     public DMXControlApplication() {
         mJustStarted = true;

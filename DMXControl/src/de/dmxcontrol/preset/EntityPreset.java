@@ -39,10 +39,26 @@ import de.dmxcontrol.network.ServiceFrontend;
 public class EntityPreset extends Entity {
     public final static String defaultExecuterPageIcon = "device_new";
     public final static String NetworkID = "Preset";
+    private String[] propertyValueTypes;
 
     @Override
     public String getNetworkID() {
         return NetworkID;
+    }
+
+    public String getPropertyValueTypesAsString() {
+        String out = "";
+        for(int i = 0; i < propertyValueTypes.length; i++) {
+            out += propertyValueTypes[i];
+            if(i != propertyValueTypes.length - 1) {
+                out += ", ";
+            }
+        }
+        return out;
+    }
+
+    public static void SendRequest(String request) {
+        SendRequest(EntityPreset.class, request);
     }
 
     public EntityPreset() {
@@ -70,11 +86,16 @@ public class EntityPreset extends Entity {
             if(o.getString("Type").equals(NetworkID)) {
                 entity = new EntityPreset(o.getInt("Number"), o.getString("Name"));
                 entity.guid = o.getString("GUID");
+                entity.propertyValueTypes = new String[]{""};
             }
         }
         catch(Exception e) {
             Log.e("UDP Listener: ", e.getMessage());
             DMXControlApplication.SaveLog();
+        }
+        o = null;
+        if(o == null) {
+            ;
         }
         return entity;
     }
@@ -88,6 +109,10 @@ public class EntityPreset extends Entity {
             o.put("Number", this.getId());
 
             ServiceFrontend.get().sendMessage(o.toString().getBytes());
+            o = null;
+            if(o == null) {
+                ;
+            }
             return;
         }
         catch(Exception e) {

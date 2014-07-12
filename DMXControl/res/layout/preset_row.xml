@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <Space
+        android:layout_width="1mm"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:id="@+id/space"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Preset Name"
+        android:id="@+id/preset_row_name"
+        android:textColor="@color/white_smoke"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/space"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="PropertyValueTypes"
+        android:id="@+id/preset_row_property_value_types"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/white_smoke"
+        android:layout_alignBaseline="@+id/preset_row_name"
+        android:layout_alignBottom="@+id/preset_row_name"
+        android:layout_centerHorizontal="true"/>
+</RelativeLayout>

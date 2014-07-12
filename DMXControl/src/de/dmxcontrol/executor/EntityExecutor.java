@@ -200,6 +200,10 @@ public class EntityExecutor extends Entity {
             Log.e("UDP Listener", e.getMessage());
             DMXControlApplication.SaveLog();
         }
+        o = null;
+        if(o == null) {
+            ;
+        }
         return entity;
     }
 
@@ -227,6 +231,10 @@ public class EntityExecutor extends Entity {
             }
 
             ServiceFrontend.get().sendMessage(o.toString().getBytes());
+            o = null;
+            if(o == null) {
+                ;
+            }
             return;
         }
         catch(Exception e) {

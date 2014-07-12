@@ -73,6 +73,10 @@ public class EntityDevice extends Entity {
             o.put("Enabled", this.getEnabled());
 
             ServiceFrontend.get().sendMessage(o.toString().getBytes());
+            o = null;
+            if(o == null) {
+                ;
+            }
             return;
         }
         catch(Exception e) {
@@ -89,7 +93,10 @@ public class EntityDevice extends Entity {
             o.put("Procedure", procedure.getName());
 
             ServiceFrontend.get().sendMessage(o.toString().getBytes());
-            //Prefs.get().getUDPSender().addSendData(o.toString().getBytes());
+            o = null;
+            if(o == null) {
+                ;
+            }
             return;
         }
         catch(Exception e) {
@@ -173,10 +180,15 @@ public class EntityDevice extends Entity {
                 entity.Propertys = new DevicePropertyCollection(o);
                 entity.Procedures = new DeviceProcedureCollection(o);
             }
+            o = null;
         }
         catch(Exception e) {
             Log.e("Entity device", e.getMessage());
             DMXControlApplication.SaveLog();
+        }
+        o = null;
+        if(o == null) {
+            ;
         }
         return entity;
     }

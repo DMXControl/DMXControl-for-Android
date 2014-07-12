@@ -14,7 +14,8 @@
     <ScrollView
         android:id="@+id/action_selector_scroll"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent">
+        android:layout_height="fill_parent"
+        android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style">
 
         <LinearLayout
             android:id="@+id/action_selector_group"

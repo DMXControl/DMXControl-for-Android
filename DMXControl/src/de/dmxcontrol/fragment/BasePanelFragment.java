@@ -44,6 +44,7 @@ public class BasePanelFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        System.gc();
         if(activity instanceof OnPanelResumedListener) {
             resumedListener = (OnPanelResumedListener) activity;
         }

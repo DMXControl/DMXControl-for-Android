@@ -172,6 +172,12 @@ public abstract class Entity implements IPropertyContainer {
             o.put("Request", request);
 
             ServiceFrontend.get().sendMessage(o.toString().getBytes());
+            type = null;
+            o = null;
+            request = null;
+            if(type == null && o == null && request == null) {
+                ;
+            }
         }
         catch(Exception e) {
             Log.e("SendAllRequest: ", e.getMessage());

@@ -76,6 +76,10 @@ public class EntityCuelist extends Entity {
             Log.e("UDP Listener: ", e.getMessage());
             DMXControlApplication.SaveLog();
         }
+        o = null;
+        if(o == null) {
+            ;
+        }
         return entity;
     }
 
@@ -91,6 +95,10 @@ public class EntityCuelist extends Entity {
             o.put("Name", this.getName());
 
             ServiceFrontend.get().sendMessage(o.toString().getBytes());
+            o = null;
+            if(o == null) {
+                ;
+            }
             return;
         }
         catch(Exception e) {

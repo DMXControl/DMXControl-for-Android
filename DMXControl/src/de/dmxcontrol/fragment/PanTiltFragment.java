@@ -272,7 +272,9 @@ public class PanTiltFragment extends BasePanelFragment implements
 
                 break;
             case R.id.reset:
-                cc.reset();
+                if(cc != null) {
+                    cc.reset();
+                }
                 break;
             default:
                 ;

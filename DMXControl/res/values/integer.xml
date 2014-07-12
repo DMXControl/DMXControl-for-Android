@@ -2,5 +2,5 @@
 <resources>
     <integer name="touch_gesture_delay">200</integer>
     <integer name="swipe_min_velocity">200</integer>
-    <integer name="swipe_min_distance">100</integer>
+    <integer name="swipe_min_distance">300</integer>
 </resources>
