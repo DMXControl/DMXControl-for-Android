@@ -27,6 +27,7 @@
 
 package de.dmxcontrol.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -37,6 +38,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import de.dmxcontrol.android.R;
+import de.dmxcontrol.device.DeviceCollection;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.device.EntityManager.Type;
@@ -50,14 +52,32 @@ public class DeviceAdapter extends BaseAdapter {
     private EntityManager mEntityManager;
     private ImageWithKeyCollection images = new ImageWithKeyCollection();
     private Context ctx;
+    private ViewGroup parent;
     private int mEntitySelection;
     public int SelectionColor;
 
-    public DeviceAdapter(EntityManager em, int entitySelection, Context ctx) {
+    public DeviceAdapter(EntityManager em, int entitySelection, final Context ctx) {
         mEntityManager = em;
         this.ctx = ctx;
         mEntitySelection = entitySelection;
         SelectionColor = this.ctx.getResources().getColor(R.color.btn_background_highlight);
+        ReceivedData.get().Devices.setChangedListener(new DeviceCollection.ChangedListener() {
+            @Override
+            public void onChanged() {
+                ((Activity) ctx).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        ReceivedData.get().Devices.removeChangedListeners();
+        super.finalize();
     }
 
     public void setDeviceContext(Context ctx) {
@@ -83,6 +103,7 @@ public class DeviceAdapter extends BaseAdapter {
     public View getView(int index, View convertView, ViewGroup parent) {
         ImageView imageView = null;
         TextView editText = null;
+        this.parent = parent;
 
         View view = null;
         try {
@@ -136,7 +157,6 @@ public class DeviceAdapter extends BaseAdapter {
                 images.add(new ImageWithKey(ent.getImage(ctx), ent.getImageName()));
             }
             imageView.setImageBitmap(images.get(ent.getImageName()).getBitmap());
-            editText.setText(ent.getName());
             editText.setText(ent.getName());
             /*final TextView finalEditText = editText;
             ent.setNameChangedListener(new Entity.NameChangedListener() {

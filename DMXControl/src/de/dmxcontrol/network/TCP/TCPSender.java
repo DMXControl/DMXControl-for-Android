@@ -17,6 +17,7 @@ import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;
 import de.dmxcontrol.executor.EntityExecutor;
 import de.dmxcontrol.executor.EntityExecutorPage;
+import de.dmxcontrol.preset.EntityPreset;
 
 /**
  * Created by Qasi on 01.07.2014.
@@ -126,23 +127,26 @@ public class TCPSender implements Runnable {
                 if(count == 0) {
                     EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All_GUIDs);
                 }
-                else if(count == 40) {
+                else if(count == 8) {
                     EntityGroup.SendRequest(EntityGroup.class, Entity.Request_All_GUIDs);
                 }
-                else if(count == 80) {
+                else if(count == 16) {
                     EntityExecutor.SendRequest(EntityExecutor.class, Entity.Request_All_GUIDs);
                 }
-                else if(count == 120) {
+                else if(count == 24) {
                     EntityExecutorPage.SendRequest(EntityExecutorPage.class, Entity.Request_All_GUIDs);
                 }
-                else if(count == 160) {
+                else if(count == 32) {
                     EntityCuelist.SendRequest(EntityCuelist.class, Entity.Request_All_GUIDs);
                 }
+                else if(count == 40) {
+                    EntityCuelist.SendRequest(EntityPreset.class, Entity.Request_All_GUIDs);
+                }
 
-                if(count > 160) {
+                count++;
+                if(count > 40) {
                     count = 0;
                 }
-                count++;
 
                 sendDataOut();
 

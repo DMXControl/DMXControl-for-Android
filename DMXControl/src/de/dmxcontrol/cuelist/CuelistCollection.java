@@ -40,6 +40,7 @@ public class CuelistCollection implements Collection<EntityCuelist> {
     }
 
     private boolean needSort = true;
+
     public void sort() {
         EntityCuelist temp;
         for(int i = 1; i < list.size(); i++) {
@@ -125,6 +126,15 @@ public class CuelistCollection implements Collection<EntityCuelist> {
     public boolean contains(Object object) {
         for(int i = 0; i < size(); i++) {
             if(((EntityCuelist) object).guid.equals(list.get(i).guid)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean contains(String guid) {
+        for(int i = 0; i < size(); i++) {
+            if(guid.equals(list.get(i).guid)) {
                 return true;
             }
         }

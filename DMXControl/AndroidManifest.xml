@@ -9,6 +9,7 @@
         android:name="de.dmxcontrol.app.DMXControlApplication"
         android:icon="@drawable/androidmann_neu"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:theme="@android:style/Theme.Black.NoTitleBar">
         <activity
             android:name="de.dmxcontrol.activity.ControlActivity"

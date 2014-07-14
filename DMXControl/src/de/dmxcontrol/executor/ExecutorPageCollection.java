@@ -133,6 +133,15 @@ public class ExecutorPageCollection implements Collection<EntityExecutorPage> {
         return false;
     }
 
+    public boolean contains(String guid) {
+        for(int i = 0; i < size(); i++) {
+            if(guid.equals(list.get(i).guid)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public boolean containsAll(Collection<?> collection) {
         return false;

@@ -27,6 +27,7 @@
 
 package de.dmxcontrol.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -40,6 +41,7 @@ import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.device.EntityManager.Type;
+import de.dmxcontrol.device.GroupCollection;
 import de.dmxcontrol.file.ImageWithKey;
 import de.dmxcontrol.file.ImageWithKeyCollection;
 import de.dmxcontrol.network.ReceivedData;
@@ -48,14 +50,32 @@ public class GroupAdapter extends BaseAdapter {
     private EntityManager mEntityManager;
     private ImageWithKeyCollection images = new ImageWithKeyCollection();
     private Context ctx;
+    private ViewGroup parent;
     private int mEntitySelection;
     public int SelectionColor;
 
-    public GroupAdapter(EntityManager em, int entitySelection, Context ctx) {
+    public GroupAdapter(EntityManager em, int entitySelection, final Context ctx) {
         mEntityManager = em;
         mEntitySelection = entitySelection;
         this.ctx = ctx;
         SelectionColor = this.ctx.getResources().getColor(R.color.btn_background_highlight);
+        ReceivedData.get().Groups.setChangedListener(new GroupCollection.ChangedListener() {
+            @Override
+            public void onChanged() {
+                ((Activity) ctx).runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        notifyDataSetChanged();
+                    }
+                });
+            }
+        });
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        ReceivedData.get().Groups.removeChangedListeners();
+        super.finalize();
     }
 
     public void setDeviceGroupContext(Context ctx) {
@@ -74,13 +94,14 @@ public class GroupAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int index) {
-        return 0;
+        return ReceivedData.get().Groups.get(index).getId();
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ImageView imageView = null;
         TextView editText = null;
+        this.parent = parent;
 
         View view = null;
         try {

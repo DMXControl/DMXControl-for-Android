@@ -12,6 +12,25 @@ import java.util.Iterator;
  * Created by Qasi on 15.06.2014.
  */
 public class GroupCollection implements Collection<EntityGroup> {
+    private ArrayList<ChangedListener> ChangedListeners = new ArrayList<ChangedListener>();
+
+    public void setChangedListener(ChangedListener listener) {
+        this.ChangedListeners.add(listener);
+    }
+
+    public void removeChangedListeners() {
+        this.ChangedListeners.clear();
+    }
+
+    public interface ChangedListener {
+        void onChanged();
+    }
+
+    private void runChangeListener() {
+        for(ChangedListener listener : ChangedListeners) {
+            listener.onChanged();
+        }
+    }
 
     private String[] guids;
 
@@ -28,18 +47,22 @@ public class GroupCollection implements Collection<EntityGroup> {
             ;
         }
 
-        removeDeletedDevices();
+        boolean changed = removeDeletedDevices();
 
         compareGuidListWithInternalGuids();
 
         if(needSort) {
-            sort();
+            changed = changed == true ? true : sort();
+        }
+        if(changed) {
+            runChangeListener();
         }
     }
 
     private boolean needSort = true;
 
-    public void sort() {
+    public boolean sort() {
+        boolean changed = false;
         EntityGroup temp;
         for(int i = 1; i < list.size(); i++) {
             for(int j = 0; j < list.size() - i; j++) {
@@ -47,6 +70,7 @@ public class GroupCollection implements Collection<EntityGroup> {
                     temp = list.get(j);
                     list.set(j, list.get(j + 1));
                     list.set(j + 1, temp);
+                    changed = true;
                 }
             }
         }
@@ -54,9 +78,11 @@ public class GroupCollection implements Collection<EntityGroup> {
         if(temp == null) {
             needSort = false;
         }
+        return changed;
     }
 
-    public void removeDeletedDevices() {
+    public boolean removeDeletedDevices() {
+        boolean changed = false;
         for(int i = 0; i < size(); i++) {
             if(!Arrays.asList(guids).contains(list.get(i).guid)) {
 
@@ -72,9 +98,11 @@ public class GroupCollection implements Collection<EntityGroup> {
                 // Remove device from ArrayList
                 list.remove(i);
 
+                changed = true;
                 needSort = true;
             }
         }
+        return changed;
     }
 
     public void compareGuidListWithInternalGuids() {
@@ -91,7 +119,10 @@ public class GroupCollection implements Collection<EntityGroup> {
         }
         if(!contains(object)) {
             needSort = true;
-            return list.add(object);
+
+            boolean result = list.add(object);
+            runChangeListener();
+            return result;
         }
         else {
             EntityGroup obj = list.get(indexOf(object));
@@ -119,6 +150,15 @@ public class GroupCollection implements Collection<EntityGroup> {
     public boolean contains(Object object) {
         for(int i = 0; i < size(); i++) {
             if(((EntityGroup) object).guid.equals(list.get(i).guid)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean contains(String guid) {
+        for(int i = 0; i < size(); i++) {
+            if(guid.equals(list.get(i).guid)) {
                 return true;
             }
         }

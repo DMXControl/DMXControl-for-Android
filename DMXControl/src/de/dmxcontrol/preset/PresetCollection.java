@@ -13,6 +13,26 @@ import java.util.Iterator;
  */
 public class PresetCollection implements Collection<EntityPreset> {
 
+    private ArrayList<ChangedListener> ChangedListeners = new ArrayList<ChangedListener>();
+
+    public void setChangedListener(ChangedListener listener) {
+        this.ChangedListeners.add(listener);
+    }
+
+    public void removeChangedListeners() {
+        this.ChangedListeners.clear();
+    }
+
+    public interface ChangedListener {
+        void onChanged();
+    }
+
+    private void runChangeListener() {
+        for(ChangedListener listener : ChangedListeners) {
+            listener.onChanged();
+        }
+    }
+
     private String[] guids;
 
     private ArrayList<EntityPreset> list = new ArrayList<EntityPreset>();
@@ -28,25 +48,30 @@ public class PresetCollection implements Collection<EntityPreset> {
             ;
         }
 
-        removeDeletedDevices();
+        boolean changed = removeDeletedDevices();
 
         compareGuidListWithInternalGuids();
 
         if(needSort) {
-            sort();
+            changed = changed == true ? true : sort();
+        }
+        if(changed) {
+            runChangeListener();
         }
     }
 
     private boolean needSort = true;
 
-    public void sort() {
+    public boolean sort() {
         EntityPreset temp;
+        boolean changed = false;
         for(int i = 1; i < list.size(); i++) {
             for(int j = 0; j < list.size() - i; j++) {
                 if(list.get(j).getId() > list.get(j + 1).getId()) {
                     temp = list.get(j);
                     list.set(j, list.get(j + 1));
                     list.set(j + 1, temp);
+                    changed = true;
                 }
             }
         }
@@ -54,9 +79,11 @@ public class PresetCollection implements Collection<EntityPreset> {
         if(temp == null) {
             needSort = false;
         }
+        return changed;
     }
 
-    public void removeDeletedDevices() {
+    public boolean removeDeletedDevices() {
+        boolean changed = false;
         for(int i = 0; i < size(); i++) {
             if(!Arrays.asList(guids).contains(list.get(i).guid)) {
 
@@ -72,9 +99,11 @@ public class PresetCollection implements Collection<EntityPreset> {
                 // Remove device from ArrayList
                 list.remove(i);
 
+                changed = true;
                 needSort = true;
             }
         }
+        return changed;
     }
 
     public void compareGuidListWithInternalGuids() {
@@ -91,7 +120,10 @@ public class PresetCollection implements Collection<EntityPreset> {
         }
         if(!contains(object)) {
             needSort = true;
-            return list.add(object);
+
+            boolean result = list.add(object);
+            runChangeListener();
+            return result;
         }
         else {
             try {
@@ -124,6 +156,15 @@ public class PresetCollection implements Collection<EntityPreset> {
     public boolean contains(Object object) {
         for(int i = 0; i < size(); i++) {
             if(((EntityPreset) object).guid.equals(list.get(i).guid)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean contains(String guid) {
+        for(int i = 0; i < size(); i++) {
+            if(guid.equals(list.get(i).guid)) {
                 return true;
             }
         }

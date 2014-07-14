@@ -122,7 +122,11 @@ public abstract class Entity implements IPropertyContainer {
             File imgFile = new File(IconStorageName + File.separator + mImage);
             if(imgFile.isFile()) {
                 if(imgFile.exists()) {
-                    return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                    Bitmap bmp = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+                    if(bmp.getHeight() > 128 || bmp.getWidth() > 128) {
+                        bmp = Bitmap.createScaledBitmap(bmp, 128, 128, false);
+                    }
+                    return bmp;
                 }
             }
         }
