@@ -131,6 +131,7 @@ public class PresetCollection implements Collection<EntityPreset> {
                 obj.setId(object.getId());
                 obj.setName(object.getName(), true);
                 obj.setImage(object.getImageName());
+                obj.setPropertyValueTypes(object.getPropertyValueTypes());
             }
             catch(Exception e) {
                 e.toString();

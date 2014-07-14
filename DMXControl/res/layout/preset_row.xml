@@ -29,7 +29,7 @@
         android:id="@+id/preset_row_property_value_types"
         android:layout_gravity="center_vertical"
         android:textColor="@color/white_smoke"
-        android:layout_alignBaseline="@+id/preset_row_name"
         android:layout_alignBottom="@+id/preset_row_name"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignParentRight="true"/>
+
 </RelativeLayout>

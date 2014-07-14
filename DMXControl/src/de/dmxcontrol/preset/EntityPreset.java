@@ -29,6 +29,8 @@ package de.dmxcontrol.preset;
 
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import de.dmxcontrol.app.DMXControlApplication;
@@ -86,7 +88,15 @@ public class EntityPreset extends Entity {
             if(o.getString("Type").equals(NetworkID)) {
                 entity = new EntityPreset(o.getInt("Number"), o.getString("Name"));
                 entity.guid = o.getString("GUID");
-                entity.propertyValueTypes = new String[]{""};
+                JSONArray a = o.getJSONArray("PropertyTypes");
+                entity.propertyValueTypes = new String[a.length()];
+                for(int i = 0; i < entity.propertyValueTypes.length; i++) {
+                    entity.propertyValueTypes[i] = a.getString(i);
+                }
+                a = null;
+                if(a == null) {
+                    ;
+                }
             }
         }
         catch(Exception e) {
@@ -121,4 +131,25 @@ public class EntityPreset extends Entity {
         }
     }
 
+    public String[] getPropertyValueTypes() {
+        return propertyValueTypes;
+    }
+
+    public void setPropertyValueTypes(String[] propertyValueTypes) {
+        this.propertyValueTypes = propertyValueTypes;
+    }
+
+    public void Execute() throws JSONException {
+        JSONObject o = new JSONObject();
+        o.put("Type", NetworkID);
+        o.put("GUID", this.guid);
+        o.put("Execute", true);
+
+        ServiceFrontend.get().sendMessage(o.toString().getBytes());
+        o = null;
+        if(o == null) {
+            ;
+        }
+        return;
+    }
 }
