@@ -199,8 +199,7 @@ public class DeviceGroupFragment extends BasePanelFragment implements
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View v, int position,
-                            long id) {
+    public void onItemClick(AdapterView<?> adapterView, View v, int position,long id) {
 
         switch(adapterView.getId()) {
             case R.id.group_grid:
@@ -209,8 +208,7 @@ public class DeviceGroupFragment extends BasePanelFragment implements
                 mEntitySelection.toogleEntity(group);
                 break;
             case R.id.device_grid:
-                EntityDevice device = (EntityDevice) adapterView
-                        .getItemAtPosition(position);
+                EntityDevice device = (EntityDevice) adapterView.getItemAtPosition(position);
                 mEntitySelection.toogleEntity(device);
                 break;
             default:

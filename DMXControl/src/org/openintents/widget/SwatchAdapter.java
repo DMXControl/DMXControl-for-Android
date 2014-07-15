@@ -49,8 +49,7 @@ public class SwatchAdapter extends BaseAdapter {
 
         int color = color_list.get(position);
 
-        SwatchView icon = (SwatchView) convertView
-                .findViewById(android.R.id.icon);
+        SwatchView icon = (SwatchView) convertView.findViewById(android.R.id.icon);
         icon.setColor(color);
         icon.setGrow(true);
 

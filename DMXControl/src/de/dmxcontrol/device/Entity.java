@@ -133,7 +133,7 @@ public abstract class Entity implements IPropertyContainer {
         catch(Exception e) {
         }
         // Replace this icon with something else
-        return BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
+        return BitmapFactory.decodeResource(context.getResources(), R.drawable.device_new);
     }
 
     public String getImageName() {

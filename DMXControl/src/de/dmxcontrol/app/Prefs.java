@@ -123,7 +123,7 @@ public class Prefs {
         }
         mDeviceName = deviceName;
 
-        ServiceFrontend.setName(mDeviceName);
+        ServiceFrontend.setDeviceName(mDeviceName);
 
         String serverAddress = prefs.getString("pref_connect_address", "");
 
@@ -151,10 +151,16 @@ public class Prefs {
         mOffline = offline;
 
         int screenMode = Integer.valueOf(prefs.getString("pref_screen_mode", "0"));
+        if(mScreenMode != screenMode){
+            viewConfigChanged = true;
+        }
         mScreenMode = screenMode;
         ControlActivity.setScreenMode(mScreenMode);
 
         boolean disableSplash = prefs.getBoolean("pref_disable_splash", false);
+        if(mDisableSplash != disableSplash){
+            viewConfigChanged = true;
+        }
         mDisableSplash = disableSplash;
         ControlActivity.setDisableSplash(mDisableSplash);
 
@@ -216,7 +222,15 @@ public class Prefs {
     }
 
     public void setServerAddress(String serverAddress) {
-        this.mServerAddress = serverAddress;
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
+
+        mServerAddress = prefs.getString("pref_connect_address", "");
+
+        if(serverAddress != mServerAddress) {
+            prefs.edit().putString("pref_connect_address", serverAddress);
+        }
+
+        mServerAddress = serverAddress;
     }
 
     public int getServerPort() {

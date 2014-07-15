@@ -40,6 +40,7 @@ import android.widget.TextView;
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.DeviceCollection;
 import de.dmxcontrol.device.Entity;
+import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.device.EntityManager.Type;
 import de.dmxcontrol.file.ImageWithKey;
@@ -96,7 +97,12 @@ public class DeviceAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return ReceivedData.get().Devices.get(i).getId();
+        EntityDevice ent = ReceivedData.get().Devices.get(i);
+        if(ent != null){
+            return ent.getId();
+        }
+        // return -1 if object has gone so item
+        return -1;
     }
 
     @Override

@@ -175,7 +175,7 @@ public class DeviceCollection implements Collection<EntityDevice> {
     }
 
     public EntityDevice get(int location) {
-        if(location >= list.size()) {
+        if(location >= list.size() && location < 0) {
             return null;
         }
         return list.get(location);
