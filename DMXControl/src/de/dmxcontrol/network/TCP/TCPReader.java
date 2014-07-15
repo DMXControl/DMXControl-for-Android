@@ -33,7 +33,7 @@ public class TCPReader implements Runnable {
         return mSender.getSocket();
     }
 
-    //must public because memoryleaks!!!
+    // must public because of memory leaks!!! ???
     private char[] buffer = new char[1024 * 128];
     private BufferedReader bufferedReader;
     private String message = "";
