@@ -12,7 +12,6 @@
     </string-array>
     <string-array name="about_main_items">
         <item>@string/about_credits</item>
-        <item>@string/about_changelog</item>
         <item>@string/about_feedback</item>
         <item>@string/about_rating_market</item>
     </string-array>

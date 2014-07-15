@@ -17,8 +17,8 @@
             android:layout_margin="6dp">
 
             <ImageView
-                android:layout_width="10mm"
-                android:layout_height="10mm"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:id="@+id/imageView"
                 android:background="@drawable/logo"
                 android:layout_gravity="center_horizontal"/>
@@ -57,35 +57,33 @@
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/about_licence_text_zero"
-                android:text="@string/licence_text_zero"
+                android:id="@+id/about_licence_text_general"
+                android:text="@string/licence_text_general"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/about_licence_text_one"
-                android:text="@string/licence_text_one"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/about_licence_text_openIntents"
+                android:text="@string/licence_text_OpenIntents"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:id="@+id/about_licence_text_two"
-                android:text="@string/licence_text_two"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
             <TextView
-                android:id="@+id/about_licence_text_three"
-                android:text="@string/licence_text_three"
+                android:id="@+id/about_licence_text_MobileAnarchy"
+                android:text="@string/licence_text_Mobile_Anarchy"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
-            <TextView
-                android:id="@+id/about_licence_text_four"
-                android:text="@string/licence_text_four"
-                android:autoLink="web"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
         </LinearLayout>
+
     </LinearLayout>
+
 </ScrollView>

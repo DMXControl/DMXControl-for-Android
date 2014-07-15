@@ -32,19 +32,15 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.LayoutInflater;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.ScrollView;
 
 import de.dmxcontrol.android.R;
-import de.dmxcontrol.changelog.Changelog;
 
 public class AboutDialogs {
     private Activity activity;
 
     public final static int ABOUT_DIALOG_MAIN = 0x11;
     public final static int ABOUT_DIALOG_CREDITS = 0x12;
-    public final static int ABOUT_DIALOG_CHANGELOG = 0x13;
 
     public AboutDialogs(Activity activity) {
         this.activity = activity;
@@ -56,8 +52,6 @@ public class AboutDialogs {
                 return mainAboutDialog();
             case ABOUT_DIALOG_CREDITS:
                 return creditsDialog();
-            case ABOUT_DIALOG_CHANGELOG:
-                return changelogDialog(null);
             default:
                 return null;
         }
@@ -71,49 +65,13 @@ public class AboutDialogs {
                 .setItems(R.array.about_main_items, mOnClickListener)
                 .setNeutralButton(R.string.about_dismiss,
                         new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int whichButton) {
-
-								/* User clicked Something so do some stuff */
+                            public void onClick(DialogInterface dialog, int whichButton) {
+								/* User clicked something so do some stuff */
                             }
                         }
                 ).create();
         return ad;
     }
-
-    private DialogInterface.OnClickListener mOnClickListener = new DialogInterface.OnClickListener() {
-        public void onClick(DialogInterface dialog, int which) {
-            switch(which) {
-                // Credits
-                case 0:
-                    activity.showDialog(ABOUT_DIALOG_CREDITS);
-                    break;
-                // Changelog
-                case 1:
-                    activity.showDialog(ABOUT_DIALOG_CHANGELOG);
-                    break;
-                // Feedback
-                case 2:
-                    Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_SUBJECT,
-                            "DMXControl Android App Feedback");
-                    sendIntent.putExtra(Intent.EXTRA_EMAIL,
-                            new String[]{"info@dmxcontrol.de"});
-                    sendIntent.setType("message/rfc822");
-                    activity.startActivity(Intent.createChooser(sendIntent,
-                            "Feedback via:"));
-                    break;
-                // Rating/Market
-                // case 3:
-                // Intent intent = new Intent(Intent.ACTION_VIEW);
-                // intent.setData(Uri
-                // .parse("market://search?q=pname:de.studiorutton.gerengdic"));
-                // activity.startActivity(intent);
-                // break;
-                default:
-            }
-        }
-    };
 
     public AlertDialog creditsDialog() {
         AlertDialog.Builder adb = new AlertDialog.Builder(activity)
@@ -136,40 +94,30 @@ public class AboutDialogs {
         return ad;
     }
 
-    public AlertDialog changelogDialog(DialogInterface.OnClickListener listener) {
-        if(listener == null) {
-            listener = new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    /* User clicked Something so do some stuff */
-                }
-            };
+    private DialogInterface.OnClickListener mOnClickListener = new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int which) {
+            switch(which) {
+                // Credits
+                case 0:
+                    activity.showDialog(ABOUT_DIALOG_CREDITS);
+                    break;
+                // Feedback
+                case 1:
+                    Intent sendIntent = new Intent(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_SUBJECT, "DMXControl Android App Feedback");
+                    sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@dmxcontrol.de"});
+                    sendIntent.setType("message/rfc822");
+                    activity.startActivity(Intent.createChooser(sendIntent, "Feedback via:"));
+                    break;
+                // Rating/Market
+                // case 3:
+                // Intent intent = new Intent(Intent.ACTION_VIEW);
+                // intent.setData(Uri.parse("market://search?q=pname:de.studiorutton.gerengdic"));
+                // activity.startActivity(intent);
+                // break;
+                default:
+            }
         }
+    };
 
-        AlertDialog.Builder adb = new AlertDialog.Builder(activity)
-                .setTitle(R.string.about_title_changelog)
-                .setIcon(R.drawable.androidmann_neu)
-                .setNeutralButton(R.string.about_dismiss, listener);
-
-        // FrameLayout fl = (FrameLayout) ad.findViewById(android.R.id.custom);
-        // fl.addView(myView, new LayoutParams(MATCH_PARENT, WRAP_CONTENT));
-
-        Changelog cl = new Changelog(activity.getApplicationContext());
-
-        try {
-            cl.populateItems(activity);
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        LinearLayout ll = (LinearLayout) LayoutInflater.from(activity).inflate(R.layout.changelog_list, null);
-        adb.setView(ll);
-
-        ListView lv = (ListView) ll.findViewById(R.id.changelog_list);
-        lv.setAdapter(cl.getChangelogListAdapter());
-        lv.setClickable(false);
-
-        AlertDialog ad = adb.create();
-        return ad;
-    }
 }
