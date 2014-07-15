@@ -113,7 +113,7 @@ public class TCPReader implements Runnable {
 
                                 type = o.getString("Type");
                                 guidList = type.contains("GUIDList");
-                                if(type.equals("AvailabelDevices")) {
+                                if(type.equals("AvailableDevices")) {
                                     ReceivedData.get().AvailableDevices.FillByJSON(o);
                                 }
                                 else if(type.contains("DeviceGroup")) {

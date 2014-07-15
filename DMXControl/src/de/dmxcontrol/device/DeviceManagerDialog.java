@@ -86,7 +86,7 @@ public class DeviceManagerDialog extends FrameLayout {
         System.gc(); //Clear Memory while this Dialog needs a lot of them ;)
         try {
             JSONObject o = new JSONObject();
-            o.put("Type", "AvailabelDevices");
+            o.put("Type", "AvailableDevices");
             o.put("Request", Entity.Request_All);
 
             ServiceFrontend.get().sendMessage(o.toString().getBytes());
