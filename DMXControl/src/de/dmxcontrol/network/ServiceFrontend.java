@@ -35,11 +35,8 @@ import android.os.IBinder;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.WeakHashMap;
 
-public class ServiceFrontend implements IMessageListener {
+public class ServiceFrontend {
 
     private final static String TAG = "network - Frontend";
 
@@ -51,45 +48,38 @@ public class ServiceFrontend implements IMessageListener {
     // name for register and unregister process
     private static String mDeviceName = "";
 
-    private IMessageListener mListener;
-    private Map<OnServiceListener, Boolean> mListeners;
 
-    private ArrayList<ConmnectedListener> ConmnectedListeners = new ArrayList<ConmnectedListener>();
+    private IMessageListener mNetworkListener;
 
-    public void setConmnectedListener(ConmnectedListener listener) {
-        this.ConmnectedListeners.add(listener);
+    public void setNetworkListener(IMessageListener listener) {
+        mNetworkListener = listener;
     }
 
-    public void removeConmnectedListeners() {
-        this.ConmnectedListeners.clear();
+
+    public interface OnServiceListener {
+        public void onServiceConnected();
+        public void onServiceDisconnected();
     }
 
-    public interface ConmnectedListener {
-        void onConnected();
+    private ArrayList<OnServiceListener> mServiceListeners = new ArrayList<OnServiceListener>();
+
+    public void addServiceListener(OnServiceListener listener) {
+        this.mServiceListeners.add(listener);
     }
 
-    private ServiceConnection connection = new ServiceConnection() {
+    public void removeServiceListener(OnServiceListener listener) {
+        this.mServiceListeners.remove(listener);
+    }
 
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            mService = ((NetworkService.LocalBinder) service).getService();
-            connect();
-            Log.d(TAG, "ServiceConnection: mService = " + mService);
+    public void clearServiceListeners(OnServiceListener listener) {
+        mServiceListeners.clear();
+    }
 
-        }
 
-        public void onServiceDisconnected(ComponentName name) {
-            Log.d(TAG, "ServiceConnection: nas is disconnected");
-            mService = null;
-        }
-    };
-
-    public static void setName(String name) {
+    public static void setDeviceName(String name) {
         mDeviceName = name;
     }
 
-    public interface OnServiceListener {
-        public void onServiceChanged(ServiceFrontend dm);
-    }
 
     public static void initOnce(Context context) {
         if(INSTANCE == null) {
@@ -99,13 +89,13 @@ public class ServiceFrontend implements IMessageListener {
 
     private ServiceFrontend(Context context) {
         mContext = context;
-        mListeners = new WeakHashMap<OnServiceListener, Boolean>();
         bindService();
     }
 
     public static ServiceFrontend get() {
         return INSTANCE;
     }
+
 
     public void bindService() {
         Intent intent = new Intent(mContext, NetworkService.class);
@@ -127,33 +117,58 @@ public class ServiceFrontend implements IMessageListener {
         }
     }
 
-    public void setListener(IMessageListener listener) {
-        mListener = listener;
-    }
+    private ServiceConnection connection = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            mService = ((NetworkService.LocalBinder) service).getService();
+            connect();
+            Log.d(TAG, "ServiceConnection: mService = " + mService);
+
+        }
+
+        public void onServiceDisconnected(ComponentName name) {
+            Log.d(TAG, "ServiceConnection: nas is disconnected");
+            mService = null;
+        }
+    };
 
     public void connect() {
         if(mService == null) {
             return;
         }
+
+        // Set self as listener before connecting so we get all errors of network connection.
+        mService.setSenderListener(mNetworkListener);
+
         // Start network service
         mService.connect();
-        mService.setSenderListener(mListener);
+
         try {
             Thread.sleep(0); //Change if needed
         }
         catch(InterruptedException e) {
             e.printStackTrace();
         }
-        for(ConmnectedListener listener : ConmnectedListeners) {
-            listener.onConnected();
-        }
         //register();
+
+        if(isConnected()) {
+            // We connected so let's notify our service listeners
+            for(OnServiceListener listener : mServiceListeners) {
+                listener.onServiceConnected();
+            }
+        }
+        else {
+            // error while trying to connect so notify our service listeners
+            for(OnServiceListener listener : mServiceListeners) {
+                listener.onServiceDisconnected();
+            }
+        }
     }
 
     public void disconnect(boolean silent) {
         if(!silent) {
-            //unregister();
 
+            //unregister();
             try {
                 // we need time to unregister
                 Thread.sleep(0); //Change if needed
@@ -166,6 +181,12 @@ public class ServiceFrontend implements IMessageListener {
         if(mService != null) {
             mService.disconnect();
         }
+
+        // We disconnected so notify our service listeners
+        for(OnServiceListener listener : mServiceListeners) {
+            listener.onServiceDisconnected();
+        }
+
     }
 
     public boolean isConnected() {
@@ -181,8 +202,9 @@ public class ServiceFrontend implements IMessageListener {
         }
     }
 
+    {
     /*
-    maybe use such a a thing later
+    maybe use such a thing later
     private void register() {
         OSCMessage msg = new OSCMessage(DMXCONTROL_OSC_ROOT + OSC_DELIMITER + OSC_REGISTER, new Object[]{DEVICENAME});
         if(mService != null) {
@@ -197,36 +219,5 @@ public class ServiceFrontend implements IMessageListener {
         }
     }
     */
-
-    @Override
-    public void notifyNetworkError(String msg) {
-        notifyListener();
-    }
-
-    @Override
-    public void notifyError(String msg) {
-        notifyListener();
-    }
-
-    @Override
-    public void notifyInterrupted() {
-        notifyListener();
-    }
-
-
-    public void addListener(OnServiceListener listener) {
-        mListeners.put(listener, true);
-    }
-
-    public void removeListener(OnServiceListener listener) {
-        mListeners.remove(listener);
-    }
-
-    public void notifyListener() {
-        Iterator<OnServiceListener> iter = mListeners.keySet().iterator();
-        while(iter.hasNext()) {
-            OnServiceListener listener = iter.next();
-            listener.onServiceChanged(this);
-        }
     }
 }

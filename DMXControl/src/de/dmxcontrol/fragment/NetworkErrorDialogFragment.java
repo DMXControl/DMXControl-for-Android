@@ -42,12 +42,11 @@ import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.network.ServiceFrontend;
 
-public class NetworkErrorDialogFragment extends DialogFragment implements
-        OnClickListener {
+public class NetworkErrorDialogFragment extends DialogFragment implements OnClickListener {
     public final static String TAG = "networkerorrdialog";
     private final static String ARGUMENT_MESSAGE = "de.dmxcontrol.ARGUMENT_MESSAGE";
 
-    static boolean isShowing;
+    static boolean isShowing = false;
 
     private CloseListener mListener;
     private CheckBox mCheckBox;
@@ -83,17 +82,17 @@ public class NetworkErrorDialogFragment extends DialogFragment implements
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LinearLayout ll = (LinearLayout) LayoutInflater.from(getActivity())
-                .inflate(R.layout.dialog_network_error, null);
+        LinearLayout ll = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.dialog_network_error, null);
         mCheckBox = (CheckBox) ll.findViewById(R.id.offline_mode_enable);
         mCheckBox.setChecked(true);
 
+        String msg = getArguments().getString(ARGUMENT_MESSAGE);
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(
-                getResources().getString(R.string.error_network_occurred))
+        builder.setTitle(getResources().getString(R.string.error_network_occurred))
+                .setMessage(msg)
                 .setCancelable(false)
-                .setPositiveButton(
-                        getResources().getString(R.string.button_okay), this);
+                .setPositiveButton(getResources().getString(R.string.button_okay), this);
 
         builder.setView(ll);
         return builder.create();
@@ -101,15 +100,19 @@ public class NetworkErrorDialogFragment extends DialogFragment implements
 
     @Override
     public void onClick(DialogInterface dialog, int which) {
+
+        // We need to dismiss dialog before trying to reconnect, so it can popup again.
+        isShowing = false;
+        dialog.dismiss();
+
         if(mCheckBox.isChecked()) {
+
             Prefs.get().setOffline(true);
         }
         else {
+            // If user unchecked -> try to connect again
             ServiceFrontend.get().connect();
         }
-
-        isShowing = false;
-        dialog.dismiss();
 
         if(mListener != null) {
             mListener.onCloseDialog(TAG);

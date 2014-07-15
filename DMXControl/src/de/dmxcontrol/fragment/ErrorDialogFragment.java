@@ -42,7 +42,7 @@ public class ErrorDialogFragment extends DialogFragment implements
     public final static String TAG = "erorrdialog";
     private final static String ARGUMENT_MESSAGE = "de.dmxcontrol.ARGUMENT_MESSAGE";
 
-    static boolean isShowing;
+    static boolean isShowing = false;
 
     private CloseListener mListener;
 
@@ -83,11 +83,9 @@ public class ErrorDialogFragment extends DialogFragment implements
         builder.setTitle(getResources().getString(R.string.error_occurred))
                 .setMessage(msg)
                 .setCancelable(false)
-                .setPositiveButton(
-                        getResources().getString(R.string.button_okay),
+                .setPositiveButton(getResources().getString(R.string.button_okay),
                         new android.content.DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
+                            public void onClick(DialogInterface dialog, int which) {
                             }
                         }
                 );

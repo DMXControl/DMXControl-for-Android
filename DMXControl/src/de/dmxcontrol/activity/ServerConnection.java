@@ -179,9 +179,12 @@ public class ServerConnection extends Activity {
                     else {
                         ip = value.getIPs();
                     }
-                    PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit().putString("pref_connect_address", ip).commit();
-                    Toast.makeText(getApplicationContext(), "You'r now Connected", Toast.LENGTH_SHORT).show();
-                    Prefs.get().StartNetwork();
+                    // Set found ip in prefs
+                    Prefs.get().setServerAddress(ip);
+                    Toast.makeText(getApplicationContext(), "You are now Connected", Toast.LENGTH_SHORT).show();
+
+                    // We don't need to start here anymore. Just starting Kernel detection
+                    //Prefs.get().StartNetwork();
                 }
             });
             // 3. Get the two text view from the rowView
@@ -192,7 +195,7 @@ public class ServerConnection extends Activity {
             labelView.setText(value.getName());
             valueView.setText(value.getIPs());
 
-            // 5. retrn rowView
+            // 5. return rowView
             return rowView;
         }
     }

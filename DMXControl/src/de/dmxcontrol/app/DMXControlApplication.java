@@ -95,9 +95,10 @@ public class DMXControlApplication extends Application {
 
             // Init network Service
             ServiceFrontend.initOnce(this);
-            ServiceFrontend.get().setConmnectedListener(new ServiceFrontend.ConmnectedListener() {
+
+            ServiceFrontend.get().addServiceListener(new ServiceFrontend.OnServiceListener() {
                 @Override
-                public void onConnected() {
+                public void onServiceConnected() {
                     // Send "All" request to server. One for each Entity
                     EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All);
                     EntityDevice.SendRequest(EntityDevice.class, Entity.Request_All_GUIDs);
@@ -106,6 +107,11 @@ public class DMXControlApplication extends Application {
                     EntityExecutorPage.SendRequest(EntityExecutorPage.class, Entity.Request_All);
                     EntityCuelist.SendRequest(EntityCuelist.class, Entity.Request_All);
                     EntityPreset.SendRequest(EntityPreset.class, Entity.Request_All);
+                }
+
+                @Override
+                public void onServiceDisconnected() {
+                    // Do nothing at disconnect
                 }
             });
 

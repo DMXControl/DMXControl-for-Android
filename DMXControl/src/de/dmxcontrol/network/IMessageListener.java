@@ -27,6 +27,9 @@
 
 package de.dmxcontrol.network;
 
-public interface IMessageListener extends INetworkSenderListener {
+public interface IMessageListener {
 
+    public void notifyNetworkError(String msg);
+
+    public void notifyError(String msg);
 }

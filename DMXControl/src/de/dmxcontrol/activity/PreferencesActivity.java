@@ -54,16 +54,7 @@ public class PreferencesActivity extends PreferenceActivity {
         Prefs prefs = Prefs.get();
         prefs.setPreferences(this.getApplicationContext());
 
-        boolean networkChanged = prefs.connectConfigChanged();
-
-        ServiceFrontend cs = ServiceFrontend.get();
-
-        if(networkChanged && prefs.getOffline()) {
-            cs.disconnect(true);
-        }
-        else if(networkChanged && !prefs.getOffline()) {
-            cs.connect();
-        }
+        // Do disconnect or connect in controlActivity's OnResume() so errors can be shown
     }
 
     @Override

@@ -127,7 +127,7 @@ public class ControlActivity extends FragmentActivity implements
         super.onCreate(savedInstanceState);
         SWIPE_MIN_VELOCITY = this.getResources().getInteger(R.integer.swipe_min_velocity);
         SWIPE_MIN_DISTANCE = this.getResources().getInteger(R.integer.swipe_min_distance);
-        //Change the EdgeEffectCollor to our HighlightColor
+        //Change the EdgeEffectColor to our HighlightColor
         int glowDrawableId = this.getResources().getIdentifier("overscroll_glow", "drawable", "android");
         Drawable androidGlow = this.getResources().getDrawable(glowDrawableId);
         androidGlow.setColorFilter(this.getResources().getColor(R.color.btn_background_highlight), PorterDuff.Mode.SRC_IN);
@@ -172,7 +172,7 @@ public class ControlActivity extends FragmentActivity implements
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
 
-        ServiceFrontend.get().setListener(mMessageListener);
+        ServiceFrontend.get().setNetworkListener(mMessageListener);
         mUpdatePanel = new UpdatePanel();
 
     }
@@ -181,6 +181,27 @@ public class ControlActivity extends FragmentActivity implements
     protected void onResume() {
         super.onResume();
         isInForeground = true;
+
+        // Update connection icon here
+
+        // Check if we have to connect or reconnect network service
+        Prefs prefs = Prefs.get();
+
+        boolean networkChanged = prefs.connectConfigChanged();
+
+        ServiceFrontend cs = ServiceFrontend.get();
+
+        if(networkChanged && prefs.getOffline()) {
+            cs.disconnect(true);
+        }
+        else if(networkChanged && !prefs.getOffline()) {
+            cs.connect();
+        }
+
+        /*
+        if(mUpdatePanel != null) {
+            mUpdatePanel.onServiceChanged(cs);
+        }*/
     }
 
     @Override
@@ -317,10 +338,20 @@ public class ControlActivity extends FragmentActivity implements
                     startActivity(liveActivity);
                 }
             });
-            ServiceFrontend s = ServiceFrontend.get();
-            s.addListener(this);
-            onServiceChanged(s);
 
+            // get service
+            ServiceFrontend s = ServiceFrontend.get();
+
+            // Init icons.
+            if(s.isConnected()) {
+                onServiceConnected();
+            }
+            else {
+                onServiceDisconnected();
+            }
+
+            // Add listener to service so we get updates in future
+            s.addServiceListener(this);
         }
 
         @Override
@@ -335,13 +366,25 @@ public class ControlActivity extends FragmentActivity implements
         }
 
         @Override
-        public void onServiceChanged(ServiceFrontend cs) {
-            if(cs.isConnected()) {
-                mConnectionImage.setImageResource(R.drawable.device_connected);
-            }
-            else {
-                mConnectionImage.setImageResource(R.drawable.device_not_connected);
-            }
+        public void onServiceConnected() {
+            ControlActivity.this.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    mConnectionImage.setImageResource(R.drawable.device_connected);
+                }
+            });
+        }
+
+        @Override
+        public void onServiceDisconnected() {
+            ControlActivity.this.runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    mConnectionImage.setImageResource(R.drawable.device_not_connected);
+                }
+            });
         }
     }
 
@@ -364,14 +407,14 @@ public class ControlActivity extends FragmentActivity implements
             AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle(R.string.about_title)
                     .setIcon(R.drawable.androidmann_neu)
                     .setTitle("Close?")
-                    .setMessage("Do you wan't to close the App")
+                    .setMessage("Do you won't to close the App")
                     .setPositiveButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             close();
                         }
                     })
-                    .setNegativeButton("Cancle", new DialogInterface.OnClickListener() {
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
@@ -575,8 +618,9 @@ public class ControlActivity extends FragmentActivity implements
 
     }
 
+
     public void showErrorDialog(String msg) {
-        //FragmentManager fm = getSupportFragmentManager();
+        FragmentManager fm = getSupportFragmentManager();
         ErrorDialogFragment errorDialog = ErrorDialogFragment.newInstance(msg);
 
         if(errorDialog == null) {
@@ -587,7 +631,7 @@ public class ControlActivity extends FragmentActivity implements
             return;
         }
 
-        errorDialog.show(fManager, ErrorDialogFragment.TAG);
+        errorDialog.show(fm, ErrorDialogFragment.TAG);
     }
 
     public void showNetworkErrorDialog(String msg) {
@@ -629,11 +673,5 @@ public class ControlActivity extends FragmentActivity implements
             });
 
         }
-
-        @Override
-        public void notifyInterrupted() {
-
-        }
-
     }
 }

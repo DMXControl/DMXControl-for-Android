@@ -58,22 +58,7 @@ public class NetworkService extends Service {
 
     private boolean mNetworkServiceIsConnected = false;
 
-
-    private INetworkSenderListener mDefaultSenderListener = new INetworkSenderListener() {
-        public void notifyNetworkError(String msg) {
-            Log.d(TAG, "SenderListener:notifyNetworkError: " + msg);
-        }
-
-        public void notifyError(String msg) {
-            Log.d(TAG, "SenderListener:notifyError: " + msg);
-        }
-
-        public void notifyInterrupted() {
-            Log.d(TAG, "SenderListener:notifyError: Interrupted.");
-        }
-    };
-
-    private INetworkSenderListener mServiceListener = mDefaultSenderListener;
+    private IMessageListener mServiceListener;
 
     public class LocalBinder extends Binder {
         public NetworkService getService() {
@@ -94,13 +79,7 @@ public class NetworkService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        disconnect();
-    }
-
-    // do we need this???
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_NOT_STICKY;
+         disconnect();
     }
 
 
@@ -211,7 +190,7 @@ public class NetworkService extends Service {
     }
 
 
-    public void setSenderListener(INetworkSenderListener listener) {
+    public void setSenderListener(IMessageListener listener) {
         mServiceListener = listener;
     }
 
