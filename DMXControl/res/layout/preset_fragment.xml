@@ -1,19 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:id="@+id/preset_fragment"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:gravity="center"
               android:orientation="vertical">
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/preset_list"
-        android:fadeScrollbars="false"
-        android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
-        android:layout_gravity="center_horizontal"
-        android:smoothScrollbar="true"
-        android:drawSelectorOnTop="false"
-        android:choiceMode="singleChoice"/>
-</LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="0dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp">
+
+        <RelativeLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/button_height_med"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/relativeLayout">
+
+            <Button
+                android:layout_width="@dimen/button_width_med"
+                android:layout_height="@dimen/button_height_med"
+                style="@android:style/TextAppearance.Medium"
+                android:background="@drawable/btn_numbers_selector"
+                android:text="Add"
+                android:id="@+id/preset_add"
+                android:layout_gravity="left"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"/>
+
+            <Button
+                android:layout_width="@dimen/button_width_large"
+                android:layout_height="@dimen/button_height_med"
+                style="@android:style/TextAppearance.Medium"
+                android:background="@drawable/btn_numbers_selector"
+                android:text="Apply"
+                android:id="@+id/preset_apply"
+                android:layout_gravity="right"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"/>
+
+            <Spinner
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:spinnerMode="dropdown"/>
+
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/preset_list"
+            android:fadeScrollbars="false"
+            android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
+            android:layout_gravity="center_horizontal|top"
+            android:smoothScrollbar="true"
+            android:drawSelectorOnTop="false"
+            android:choiceMode="singleChoice"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"/>
+
+    </LinearLayout>
+</RelativeLayout>
