@@ -79,6 +79,7 @@ import de.dmxcontrol.fragment.PanTiltFragment;
 import de.dmxcontrol.fragment.PanelSelectorFragment;
 import de.dmxcontrol.fragment.PresetFragment;
 import de.dmxcontrol.fragment.PrismFragment;
+import de.dmxcontrol.fragment.ProgrammerFragment;
 import de.dmxcontrol.fragment.RawFragment;
 import de.dmxcontrol.network.IMessageListener;
 import de.dmxcontrol.network.ServiceFrontend;
@@ -118,6 +119,7 @@ public class ControlActivity extends FragmentActivity implements
     private RawFragment rawFragment = new RawFragment();
     private EffectFragment effectFragment = new EffectFragment();
     private PresetFragment presetFragment = new PresetFragment();
+    private ProgrammerFragment programmerFragment = new ProgrammerFragment();
 
     private boolean isInForeground;
 
@@ -296,7 +298,7 @@ public class ControlActivity extends FragmentActivity implements
             if(ev1X > ev2X)//Switch Left
             {
                 //Change Stata, if you add a new Fragment
-                if(oldState < ActionSelectorFragment.STATE_PRESET_PANEL) {
+                if(oldState < ActionSelectorFragment.STATE_PROGRAMMER_PANEL) {
                     Log.d("Slide", "SWING_LEFT_EVENT");
                     onUpdateActionView(true, oldState + 1);
                 }
@@ -482,6 +484,9 @@ public class ControlActivity extends FragmentActivity implements
                 break;
             case ActionSelectorFragment.STATE_PRESET_PANEL:
                 newFragment = presetFragment;
+                break;
+            case ActionSelectorFragment.STATE_PROGRAMMER_PANEL:
+                newFragment = programmerFragment;
                 break;
             default:
                 return; // dont do anything without a new fragment

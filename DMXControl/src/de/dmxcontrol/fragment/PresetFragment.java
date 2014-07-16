@@ -45,6 +45,38 @@ public class PresetFragment extends BasePanelFragment implements AbsListView.OnS
         Log.d(TAG, "onCreateView");
         view = inflater.inflate(R.layout.preset_fragment, container, false);
         presetList = (ListView) view.findViewById(R.id.preset_list);
+        view.findViewById(R.id.preset_add).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(view.getContext());
+                alert.setTitle("Add Preset");
+                alert.setMessage("Enter Name");
+                final EditText input = new EditText(view.getContext());
+                input.setText("New Preset");
+                alert.setView(input);
+                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        try {
+                            String str = input.getEditableText().toString();
+                            EntityPreset.Add(str);
+                            Toast.makeText(view.getContext(), "Add Preset: " + str, Toast.LENGTH_LONG).show();
+                        }
+                        catch(JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                AlertDialog alertDialog = alert.create();
+                alertDialog.show();
+
+            }
+        });
         presetList.setAdapter(new PresetAdapter());
         presetList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override

@@ -25,7 +25,7 @@
  * 
  */
 
-package de.dmxcontrol.preset;
+package de.dmxcontrol.programmer;
 
 import android.util.Log;
 
@@ -37,52 +37,54 @@ import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.network.ServiceFrontend;
 
-public class EntityPreset extends Entity {
-    public final static String NetworkID = "Preset";
+public class EntityProgrammer extends Entity {
+    public final static String NetworkID = "Programmer";
     private String[] propertyValueTypes;
+
+    private static EntityProgrammer INSTANCE = null;
+
+    public static EntityProgrammer get() {
+        if(INSTANCE == null) {
+            INSTANCE = new EntityProgrammer();
+        }
+        return INSTANCE;
+    }
 
     @Override
     public String getNetworkID() {
         return NetworkID;
     }
 
-    public String getPropertyValueTypesAsString() {
-        String out = "";
-        for(int i = 0; i < propertyValueTypes.length; i++) {
-            out += propertyValueTypes[i];
-            if(i != propertyValueTypes.length - 1) {
-                out += ", ";
-            }
-        }
-        return out;
+    public int getGroupCount() {
+        return 0;
+    }
+
+    public int getDeviceCount(int group) {
+        return 0;
+    }
+
+    public Object getGroup(int group) {
+        return null;
+    }
+
+    public Object getDevice(int group, int device) {
+        return null;
     }
 
     public static void SendRequest(String request) {
-        SendRequest(EntityPreset.class, request);
+        SendRequest(EntityProgrammer.class, request);
     }
 
-    public EntityPreset() {
-    }
-
-    public EntityPreset(int id) {
-        super(id, NetworkID + ": " + id, null);
-    }
-
-    public EntityPreset(int id, String name) {
-        super(id, name, null);
-    }
-
-    public EntityPreset(int id, String name, String image) {
-        super(id, name, null);
-        mImage = image;
+    private EntityProgrammer() {
     }
 
 
-    public static EntityPreset Receive(JSONObject o) {
-        EntityPreset entity = null;
+    public static EntityProgrammer Receive(JSONObject o) {
+        EntityProgrammer entity = get();
         try {
             if(o.getString("Type").equals(NetworkID)) {
-                entity = new EntityPreset(o.getInt("Number"), o.getString("Name"));
+                entity.setId(o.getInt("Number"));
+                entity.setName(o.getString("Name"), true);
                 entity.guid = o.getString("GUID");
                 JSONArray a = o.getJSONArray("PropertyTypes");
                 entity.propertyValueTypes = new String[a.length()];
@@ -109,10 +111,6 @@ public class EntityPreset extends Entity {
     public void Send() {
         try {
             JSONObject o = new JSONObject();
-            o.put("Type", NetworkID);
-            o.put("GUID", this.guid);
-            o.put("Name", this.getName());
-            o.put("Number", this.getId());
 
             ServiceFrontend.get().sendMessage(o.toString().getBytes());
             o = null;
@@ -135,11 +133,10 @@ public class EntityPreset extends Entity {
         this.propertyValueTypes = propertyValueTypes;
     }
 
-    public void Execute() throws JSONException {
+    public static void Clear() throws JSONException {
         JSONObject o = new JSONObject();
         o.put("Type", NetworkID);
-        o.put("GUID", this.guid);
-        o.put("Execute", true);
+        o.put("Clear", true);
 
         ServiceFrontend.get().sendMessage(o.toString().getBytes());
         o = null;
@@ -149,11 +146,10 @@ public class EntityPreset extends Entity {
         return;
     }
 
-    public static void Add(String name) throws JSONException {
+    public static void Undo() throws JSONException {
         JSONObject o = new JSONObject();
         o.put("Type", NetworkID);
-        o.put("Name", name);
-        o.put("Add", true);
+        o.put("Undo", true);
 
         ServiceFrontend.get().sendMessage(o.toString().getBytes());
         o = null;

@@ -9,6 +9,7 @@ import de.dmxcontrol.executor.ExecutorCollection;
 import de.dmxcontrol.executor.ExecutorPageCollection;
 import de.dmxcontrol.executor.ExecutorPageView;
 import de.dmxcontrol.preset.PresetCollection;
+import de.dmxcontrol.programmer.EntityProgrammer;
 
 /**
  * Created by Qasi on 15.06.2014.
@@ -30,6 +31,7 @@ public class ReceivedData {
     public final PresetCollection Presets = new PresetCollection();
     public final CuelistCollection Cuelists = new CuelistCollection();
     public final DeviceMetadataCollection AvailableDevices = new DeviceMetadataCollection();
+    public final EntityProgrammer Programmer = EntityProgrammer.get();
 
     public EntityExecutorPage SelectedExecutorPage;
     public ExecutorPageView executorPageView;

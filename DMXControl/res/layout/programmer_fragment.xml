@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:id="@+id/preset_fragment"
+                android:id="@+id/prism_fragment"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:gravity="center"
@@ -23,12 +23,12 @@
             android:id="@+id/relativeLayout">
 
             <Button
-                android:layout_width="@dimen/button_width_med"
+                android:layout_width="@dimen/button_width_large"
                 android:layout_height="@dimen/button_height_med"
                 style="@android:style/TextAppearance.Medium"
                 android:background="@drawable/btn_numbers_selector"
-                android:text="Add"
-                android:id="@+id/preset_add"
+                android:text="Clear"
+                android:id="@+id/programmer_clear"
                 android:layout_gravity="left"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"/>
@@ -38,26 +38,18 @@
                 android:layout_height="@dimen/button_height_med"
                 style="@android:style/TextAppearance.Medium"
                 android:background="@drawable/btn_numbers_selector"
-                android:text="Apply"
-                android:id="@+id/preset_apply"
+                android:text="Undo Clear"
+                android:id="@+id/programmer_undoclear"
                 android:layout_gravity="right"
                 android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"/>
+                android:layout_toRightOf="@+id/programmer_clear"/>
 
         </RelativeLayout>
 
-        <ListView
-            android:layout_width="match_parent"
+        <ExpandableListView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/preset_list"
-            android:fadeScrollbars="false"
-            android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
-            android:layout_gravity="center_horizontal|top"
-            android:smoothScrollbar="true"
-            android:drawSelectorOnTop="false"
-            android:choiceMode="singleChoice"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"/>
+            android:id="@+id/programmer_list"/>
 
     </LinearLayout>
 </RelativeLayout>

@@ -75,7 +75,8 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
             bPrismAction,
             bRawAction,
             bEffectAction,
-            bPresetAction;
+            bPresetAction,
+            bProgrammerAction;
 
     private final static String EXTRA_PANEL_STATE = "de.dmxcontrol.PANEL_STATE";
     public final static int STATE_DEVICE_PANEL = 0;
@@ -88,6 +89,7 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
     public final static int STATE_RAW_PANEL = 7;
     public final static int STATE_EFFECT_PANEL = 8;
     public final static int STATE_PRESET_PANEL = 9;
+    public final static int STATE_PROGRAMMER_PANEL = 10;
     public int mState = STATE_DEVICE_PANEL;
 
     // startup process initiated
@@ -195,6 +197,10 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
                 .findViewById(R.id.button_preset_action);
         bPresetAction.setOnClickListener(this);
 
+        bProgrammerAction = (Button) actionButtons
+                .findViewById(R.id.button_programmer_action);
+        bProgrammerAction.setOnClickListener(this);
+
         updateStateSelected();
         return actionButtons;
     }
@@ -285,6 +291,9 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
             case R.id.button_preset_action:
                 mState = STATE_PRESET_PANEL;
                 break;
+            case R.id.button_programmer_action:
+                mState = STATE_PROGRAMMER_PANEL;
+                break;
             default:
                 return;
         }
@@ -341,6 +350,9 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
                 break;
             case STATE_PRESET_PANEL:
                 crrActionButton = bPresetAction;
+                break;
+            case STATE_PROGRAMMER_PANEL:
+                crrActionButton = bProgrammerAction;
                 break;
             default:
                 crrActionButton = bDeviceAction;

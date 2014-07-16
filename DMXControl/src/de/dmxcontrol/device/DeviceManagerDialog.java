@@ -9,28 +9,22 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AbsListView;
-import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.FrameLayout;
 import android.widget.GridLayout;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
+import de.dmxcontrol.adapter.DeviceManagerAdapter;
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.network.ReceivedData;
 import de.dmxcontrol.network.ServiceFrontend;
 
 /**
@@ -160,7 +154,7 @@ public class DeviceManagerDialog extends FrameLayout {
                             public void run() {
                                 AlertDialog.Builder alert = new AlertDialog.Builder(ctx);
                                 alert.setTitle("Select");
-                                final ExpandableListAdapter adapter = new ExpandableListAdapter(ctx);
+                                final DeviceManagerAdapter adapter = new DeviceManagerAdapter(ctx);
                                 alert.setIcon(new BitmapDrawable(getResources(), Bitmap.createScaledBitmap(EntityDevice.getDefaultIcon(ctx), 120, 120, false)));
                                 View view = View.inflate(context, R.layout.device_manager_selector, null);
 
@@ -231,80 +225,4 @@ public class DeviceManagerDialog extends FrameLayout {
     }
 
 
-    public class ExpandableListAdapter extends BaseExpandableListAdapter {
-        private Context ctx;
-
-        public ExpandableListAdapter(Context ctx) {
-            this.ctx = ctx;
-        }
-
-        @Override
-        public int getGroupCount() {
-            return ((ArrayList<DeviceMetadataCollection.VendorCollection>) ReceivedData.get().AvailableDevices.getVendors()).size();
-        }
-
-        @Override
-        public int getChildrenCount(int groupPosition) {
-            return ((ArrayList<DeviceMetadataCollection.VendorCollection>) ReceivedData.get().AvailableDevices.getVendors()).get(groupPosition).getCount();
-        }
-
-        @Override
-        public Object getGroup(int groupPosition) {
-            return ((ArrayList<DeviceMetadataCollection.VendorCollection>) ReceivedData.get().AvailableDevices.getVendors()).get(groupPosition);
-        }
-
-        @Override
-        public Object getChild(int groupPosition, int childPosition) {
-            return ((ArrayList<DeviceMetadataCollection.VendorCollection>) ReceivedData.get().AvailableDevices.getVendors()).get(groupPosition).getDeviceMetadata(childPosition);
-        }
-
-        @Override
-        public long getGroupId(int groupPosition) {
-            return 0;
-        }
-
-        @Override
-        public long getChildId(int groupPosition, int childPosition) {
-            return 0;
-        }
-
-        @Override
-        public boolean hasStableIds() {
-            return false;
-        }
-
-        @Override
-        public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View rowView = inflater.inflate(R.layout.device_manager_group, parent, false);
-            if(getGroupCount() > groupPosition) {
-                ((TextView) rowView.findViewById(R.id.deviceManager_GroupView_Name)).setText(((DeviceMetadataCollection.VendorCollection) getGroup(groupPosition)).getVendor());
-                ((TextView) rowView.findViewById(R.id.deviceManager_GroupView_count)).setText(((DeviceMetadataCollection.VendorCollection) getGroup(groupPosition)).getCount() + "");
-            }
-            inflater = null;
-            return rowView;
-        }
-
-        @Override
-        public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-            LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View rowView = inflater.inflate(R.layout.device_manager_device, parent, false);
-            if(getGroupCount() > groupPosition) {
-                try {
-                    ((TextView) rowView.findViewById(R.id.deviceManager_DeviceView_Name)).setText(((DeviceMetadata) getChild(groupPosition, childPosition)).getModell());
-                    ((TextView) rowView.findViewById(R.id.deviceManager_DeviceView_)).setText(((DeviceMetadata) getChild(groupPosition, childPosition)).getDescription());
-                }
-                catch(Exception e) {
-                    e.toString();
-                }
-            }
-            inflater = null;
-            return rowView;
-        }
-
-        @Override
-        public boolean isChildSelectable(int groupPosition, int childPosition) {
-            return true;
-        }
-    }
 }
