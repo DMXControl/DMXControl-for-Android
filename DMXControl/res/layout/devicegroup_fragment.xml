@@ -6,33 +6,61 @@
               android:orientation="vertical"
               android:weightSum="2">
 
-    <GridView
-        android:id="@+id/device_grid"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:columnWidth="60dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="5dp"
-        android:horizontalSpacing="5dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:fadeScrollbars="false"
-        android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
-        android:smoothScrollbar="true"></GridView>
+        android:layout_weight="1">
 
-    <GridView
-        android:id="@+id/group_grid"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Devices: "
+            android:layout_weight="1"/>
+
+        <GridView
+            android:id="@+id/device_grid"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:columnWidth="60dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="5dp"
+            android:horizontalSpacing="1dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            android:fadeScrollbars="false"
+            android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
+            android:smoothScrollbar="true"></GridView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_weight="1"
-        android:columnWidth="60dp"
-        android:numColumns="auto_fit"
-        android:verticalSpacing="5dp"
-        android:horizontalSpacing="5dp"
-        android:stretchMode="columnWidth"
-        android:gravity="center"
-        android:fadeScrollbars="false"
-        android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
-        android:smoothScrollbar="true"></GridView>
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Groups: "
+            android:layout_weight="1"/>
+
+        <GridView
+            android:id="@+id/group_grid"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:columnWidth="60dp"
+            android:numColumns="auto_fit"
+            android:verticalSpacing="5dp"
+            android:horizontalSpacing="1dp"
+            android:stretchMode="columnWidth"
+            android:gravity="center"
+            android:fadeScrollbars="false"
+            android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
+            android:smoothScrollbar="true"></GridView>
+    </LinearLayout>
 </LinearLayout>
