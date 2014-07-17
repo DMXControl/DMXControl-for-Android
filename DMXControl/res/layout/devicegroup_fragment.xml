@@ -14,25 +14,36 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Devices: "
-            android:layout_weight="1"/>
+            android:layout_marginTop="2dp"/>
 
-        <GridView
-            android:id="@+id/device_grid"
+        <FrameLayout
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:columnWidth="60dp"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="5dp"
-            android:horizontalSpacing="1dp"
-            android:stretchMode="columnWidth"
-            android:gravity="center"
-            android:fadeScrollbars="false"
-            android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
-            android:smoothScrollbar="true"></GridView>
+            android:background="@drawable/border_normal">
+
+            <GridView
+                android:id="@+id/device_grid"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:columnWidth="60dp"
+                android:numColumns="auto_fit"
+                android:verticalSpacing="5dp"
+                android:horizontalSpacing="1dp"
+                android:stretchMode="columnWidth"
+                android:gravity="center"
+                android:fadeScrollbars="false"
+                android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
+                android:smoothScrollbar="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="-5dp"
+                android:layout_marginRight="-1dp"/>
+        </FrameLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -43,24 +54,43 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Groups: "
-            android:layout_weight="1"/>
+            />
 
-        <GridView
-            android:id="@+id/group_grid"
+        <FrameLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:columnWidth="60dp"
-            android:numColumns="auto_fit"
-            android:verticalSpacing="5dp"
-            android:horizontalSpacing="1dp"
-            android:stretchMode="columnWidth"
-            android:gravity="center"
-            android:fadeScrollbars="false"
-            android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
-            android:smoothScrollbar="true"></GridView>
+            android:background="@drawable/border_normal"
+            android:id="@+id/frameLayout"
+            >
+
+            <GridView
+                android:id="@+id/group_grid"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:columnWidth="60dp"
+                android:numColumns="auto_fit"
+                android:verticalSpacing="5dp"
+                android:horizontalSpacing="1dp"
+                android:stretchMode="columnWidth"
+                android:gravity="center"
+                android:fadeScrollbars="false"
+                android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
+                android:smoothScrollbar="true"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="-5dp"
+                android:layout_marginRight="-1dp"/>
+        </FrameLayout>
+
+        <Space
+            android:layout_width="20px"
+            android:layout_height="7dp"
+            />
+
     </LinearLayout>
 </LinearLayout>

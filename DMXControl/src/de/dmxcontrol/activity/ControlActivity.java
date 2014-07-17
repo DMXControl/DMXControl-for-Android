@@ -449,7 +449,7 @@ public class ControlActivity extends FragmentActivity implements
             }
         }
         if(state == oldState) {
-            //return;
+            return;
         }
         else {
             oldState = state;
