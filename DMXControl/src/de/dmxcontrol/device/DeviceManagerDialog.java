@@ -141,7 +141,7 @@ public class DeviceManagerDialog extends FrameLayout {
                 pDialog.setMessage("Please wait...");
 
                 new Thread(new Runnable() {
-                    private Handler mHandler = new Handler(Looper.myLooper());
+                    private Handler mHandler = new Handler(Looper.getMainLooper());
 
                     @Override
                     public void run() {

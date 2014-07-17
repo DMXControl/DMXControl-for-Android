@@ -46,18 +46,30 @@
 
         </RelativeLayout>
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/preset_list"
-            android:fadeScrollbars="false"
-            android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
-            android:layout_gravity="center_horizontal|top"
-            android:smoothScrollbar="true"
-            android:drawSelectorOnTop="false"
-            android:choiceMode="singleChoice"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"/>
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/border_normal">
+
+            <ListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/preset_list"
+                android:fadeScrollbars="false"
+                android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
+                android:layout_gravity="center_horizontal|top"
+                android:smoothScrollbar="true"
+                android:drawSelectorOnTop="false"
+                android:choiceMode="singleChoice"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:scrollingCache="false"
+                android:layout_marginLeft="-5dp"
+                android:layout_marginRight="-1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+        </FrameLayout>
 
     </LinearLayout>
 </RelativeLayout>

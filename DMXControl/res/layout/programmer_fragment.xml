@@ -44,12 +44,34 @@
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/programmer_clear"/>
 
+            <Spinner
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/programmer_spinner"
+                android:layout_alignParentTop="true"
+                android:layout_toRightOf="@+id/programmer_undoclear"
+                android:background="@drawable/btn_numbers_selector"
+                android:spinnerMode="dropdown"/>
+
         </RelativeLayout>
 
-        <ExpandableListView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/programmer_list"/>
+        <FrameLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1"
+            android:background="@drawable/border_normal">
+
+            <ExpandableListView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/programmer_list"
+                android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
+                android:scrollingCache="false"
+                android:layout_marginLeft="-5dp"
+                android:layout_marginRight="-1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"/>
+        </FrameLayout>
 
     </LinearLayout>
 </RelativeLayout>

@@ -19,6 +19,7 @@ import de.dmxcontrol.executor.EntityExecutor;
 import de.dmxcontrol.executor.EntityExecutorPage;
 import de.dmxcontrol.network.ReceivedData;
 import de.dmxcontrol.preset.EntityPreset;
+import de.dmxcontrol.programmer.EntityProgrammer;
 
 /**
  * Created by Qasi on 12.06.2014.
@@ -162,6 +163,19 @@ public class TCPReader implements Runnable {
                                     }
                                     else {
                                         ReceivedData.get().Cuelists.add(EntityCuelist.Receive(o));
+                                    }
+                                }
+                                else if(type.contains("Programmer")) {
+                                    if(guidList) {
+                                        ReceivedData.get().Programmers.setGUIDsList(o.getJSONArray("GUIDs"));
+                                    }
+                                    else {
+                                        if(type.contains("State")) {
+                                            ReceivedData.get().Programmers.get(o.getString("GUID")).LoadStates(o);
+                                        }
+                                        else {
+                                            ReceivedData.get().Programmers.add(EntityProgrammer.Receive(o));
+                                        }
                                     }
                                 }
                             }

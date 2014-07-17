@@ -100,7 +100,7 @@ public abstract class Entity implements IPropertyContainer {
     }
 
     public void setName(String name, boolean fromReader) {
-        boolean isEqual = mName.equals(name);
+        boolean isEqual = (mName + "").equals(name + "");
         mName = name;
 
         if(!isEqual && fromReader) {

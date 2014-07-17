@@ -2,6 +2,24 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="#00000000"
+                style="@android:style/TextAppearance.Medium">
+
+    <Space
+        android:layout_width="5mm"
+        android:layout_height="0mm"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:id="@+id/space"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Medium Text"
+        android:id="@+id/programmer_row_group_name"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/space"/>
 
 </RelativeLayout>

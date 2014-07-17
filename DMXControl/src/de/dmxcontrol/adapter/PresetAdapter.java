@@ -1,7 +1,9 @@
 package de.dmxcontrol.adapter;
 
-import android.app.Activity;
 import android.content.Context;
+import android.database.DataSetObserver;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +26,24 @@ public class PresetAdapter extends BaseAdapter {
         ReceivedData.get().Presets.setChangedListener(new PresetCollection.ChangedListener() {
             @Override
             public void onChanged() {
-                ((Activity) parent.getContext()).runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        notifyDataSetChanged();
-                    }
-                });
+                try {
+                    new Thread(new Runnable() {
+                        private Handler mHandler = new Handler(Looper.getMainLooper());
+
+                        @Override
+                        public void run() {
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    notifyDataSetChanged();
+                                }
+                            });
+                        }
+                    }).start();
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -60,9 +74,20 @@ public class PresetAdapter extends BaseAdapter {
         this.parent = parent;
         LayoutInflater inflater = (LayoutInflater) parent.getContext()
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.preset_row, parent, false);
+        View rowView = null;
+        if(convertView == null) {
+            rowView = inflater.inflate(R.layout.preset_row, parent, false);
+        }
+        else {
+            rowView = convertView;
+        }
         ((TextView) rowView.findViewById(R.id.preset_row_name)).setText(((EntityPreset) getItem(position)).getName());
         ((TextView) rowView.findViewById(R.id.preset_row_property_value_types)).setText(((EntityPreset) getItem(position)).getPropertyValueTypesAsString());
         return rowView;
+    }
+
+    @Override
+    public void registerDataSetObserver(DataSetObserver observer) {
+        super.registerDataSetObserver(observer);
     }
 }

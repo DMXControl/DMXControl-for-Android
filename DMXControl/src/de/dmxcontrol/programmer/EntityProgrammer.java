@@ -29,9 +29,10 @@ package de.dmxcontrol.programmer;
 
 import android.util.Log;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.Entity;
@@ -39,15 +40,25 @@ import de.dmxcontrol.network.ServiceFrontend;
 
 public class EntityProgrammer extends Entity {
     public final static String NetworkID = "Programmer";
-    private String[] propertyValueTypes;
+    private ArrayList<State> states = new ArrayList<State>();
+    private ArrayList<ChangedListener> ChangedListeners = new ArrayList<ChangedListener>();
 
-    private static EntityProgrammer INSTANCE = null;
+    public void setChangedListener(ChangedListener listener) {
+        this.ChangedListeners.add(listener);
+    }
 
-    public static EntityProgrammer get() {
-        if(INSTANCE == null) {
-            INSTANCE = new EntityProgrammer();
+    public void removeChangedListeners() {
+        this.ChangedListeners.clear();
+    }
+
+    public interface ChangedListener {
+        void onChanged();
+    }
+
+    private void runChangeListener() {
+        for(ChangedListener listener : ChangedListeners) {
+            listener.onChanged();
         }
-        return INSTANCE;
     }
 
     @Override
@@ -56,7 +67,7 @@ public class EntityProgrammer extends Entity {
     }
 
     public int getGroupCount() {
-        return 0;
+        return this.getStatesSize();
     }
 
     public int getDeviceCount(int group) {
@@ -64,7 +75,7 @@ public class EntityProgrammer extends Entity {
     }
 
     public Object getGroup(int group) {
-        return null;
+        return states.get(group);
     }
 
     public Object getDevice(int group, int device) {
@@ -75,26 +86,18 @@ public class EntityProgrammer extends Entity {
         SendRequest(EntityProgrammer.class, request);
     }
 
-    private EntityProgrammer() {
+    public EntityProgrammer() {
     }
 
-
     public static EntityProgrammer Receive(JSONObject o) {
-        EntityProgrammer entity = get();
+        EntityProgrammer entity = new EntityProgrammer();
         try {
             if(o.getString("Type").equals(NetworkID)) {
-                entity.setId(o.getInt("Number"));
-                entity.setName(o.getString("Name"), true);
+                int number = o.getInt("Number");
+                String name = o.getString("Name");
+                entity.setId(number);
+                entity.setName(name.replace(NetworkID + ": ", ""), true);
                 entity.guid = o.getString("GUID");
-                JSONArray a = o.getJSONArray("PropertyTypes");
-                entity.propertyValueTypes = new String[a.length()];
-                for(int i = 0; i < entity.propertyValueTypes.length; i++) {
-                    entity.propertyValueTypes[i] = a.getString(i);
-                }
-                a = null;
-                if(a == null) {
-                    ;
-                }
             }
         }
         catch(Exception e) {
@@ -103,7 +106,7 @@ public class EntityProgrammer extends Entity {
         }
         o = null;
         if(o == null) {
-            ;
+            entity.runChangeListener();
         }
         return entity;
     }
@@ -125,30 +128,33 @@ public class EntityProgrammer extends Entity {
         }
     }
 
-    public String[] getPropertyValueTypes() {
-        return propertyValueTypes;
+    public Object[] getStates() {
+        return states.toArray();
     }
 
-    public void setPropertyValueTypes(String[] propertyValueTypes) {
-        this.propertyValueTypes = propertyValueTypes;
+    public int getStatesSize() {
+        return states.size();
     }
 
-    public static void Clear() throws JSONException {
+    public static void Clear(EntityProgrammer programmer) throws JSONException {
         JSONObject o = new JSONObject();
         o.put("Type", NetworkID);
+        o.put("GUID", programmer.guid);
         o.put("Clear", true);
 
         ServiceFrontend.get().sendMessage(o.toString().getBytes());
         o = null;
         if(o == null) {
-            ;
+            programmer.states.clear();
+            programmer.runChangeListener();
         }
         return;
     }
 
-    public static void Undo() throws JSONException {
+    public static void Undo(EntityProgrammer programmer) throws JSONException {
         JSONObject o = new JSONObject();
         o.put("Type", NetworkID);
+        o.put("GUID", programmer.guid);
         o.put("Undo", true);
 
         ServiceFrontend.get().sendMessage(o.toString().getBytes());
@@ -157,5 +163,105 @@ public class EntityProgrammer extends Entity {
             ;
         }
         return;
+    }
+
+    public static void ClearSelection(EntityProgrammer programmer) throws JSONException {
+        JSONObject o = new JSONObject();
+        o.put("Type", NetworkID);
+        o.put("GUID", programmer.guid);
+        o.put("ClearSelection", true);
+
+        ServiceFrontend.get().sendMessage(o.toString().getBytes());
+        o = null;
+        if(o == null) {
+            ;
+        }
+        return;
+    }
+
+    public void LoadStates(JSONObject o) throws JSONException {
+        if(states == null) {
+            states = new ArrayList<State>();
+        }
+        for(State state : states) {
+            if(state.Compare(o)) {
+                this.runChangeListener();
+                return;
+            }
+        }
+        states.add(new State(o));
+        o = null;
+        if(o == null) {
+            this.runChangeListener();
+        }
+    }
+
+    public class State {
+        private int id;
+        private String name, value, valueName, valueSource;
+
+        public State() {
+        }
+
+        public State(JSONObject o) throws JSONException {
+            this.id = o.getInt("Number");
+            this.name = o.getString("Name");
+            this.valueName = o.getString("ValueName");
+            this.valueSource = o.getString("ValueSource");
+            this.Update(o);
+
+            o = null;
+            if(o == null) {
+                ;
+            }
+        }
+
+        public void Update(JSONObject o) throws JSONException {
+            this.value = o.getString("Value");
+
+            o = null;
+            if(o == null) {
+                ;
+            }
+        }
+
+        public boolean Compare(JSONObject o) throws JSONException {
+            if(this.id != o.getInt("Number")) {
+                return false;
+            }
+
+            this.name = o.getString("Name");
+            this.valueName = o.getString("ValueName");
+            this.valueSource = o.getString("ValueSource");
+
+            this.Update(o);
+
+            o = null;
+            if(o == null) {
+                ;
+            }
+
+            return true;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getValue() {
+            return value;
+        }
+
+        public String getValueName() {
+            return valueName;
+        }
+
+        public String getValueSource() {
+            return valueSource;
+        }
     }
 }

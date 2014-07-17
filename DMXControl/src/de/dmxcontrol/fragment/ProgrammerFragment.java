@@ -9,12 +9,15 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
+import android.widget.Spinner;
 
 import org.json.JSONException;
 
 import de.dmxcontrol.adapter.ProgrammerAdapter;
+import de.dmxcontrol.adapter.ProgrammerSpinnerAdapter;
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.network.ReceivedData;
+import de.dmxcontrol.programmer.EntityProgrammer;
 
 /**
  * Created by Qasi on 11.07.2014.
@@ -45,7 +48,7 @@ public class ProgrammerFragment extends BasePanelFragment implements AbsListView
             @Override
             public void onClick(View v) {
                 try {
-                    ReceivedData.get().Programmer.Clear();
+                    EntityProgrammer.Clear(ReceivedData.get().SelectedProgrammer);
                 }
                 catch(JSONException e) {
                     e.printStackTrace();
@@ -56,7 +59,7 @@ public class ProgrammerFragment extends BasePanelFragment implements AbsListView
             @Override
             public void onClick(View v) {
                 try {
-                    ReceivedData.get().Programmer.Undo();
+                    EntityProgrammer.Undo(ReceivedData.get().SelectedProgrammer);
                 }
                 catch(JSONException e) {
                     e.printStackTrace();
@@ -77,6 +80,7 @@ public class ProgrammerFragment extends BasePanelFragment implements AbsListView
 
             }
         });
+        ((Spinner) view.findViewById(R.id.programmer_spinner)).setAdapter(new ProgrammerSpinnerAdapter(view.getContext()));
         programmertList.setOnScrollListener(this);
         return view;
     }
