@@ -59,7 +59,6 @@ public class TCPSender implements Runnable {
                     e.printStackTrace();
 
                 }
-                sendData.set(i, null);
                 sendData.remove(i);
             }
         }

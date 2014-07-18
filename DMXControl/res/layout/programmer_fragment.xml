@@ -50,7 +50,7 @@
                 android:id="@+id/programmer_spinner"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/programmer_undoclear"
-                android:background="@drawable/btn_numbers_selector"
+                style="@style/spinner_style"
                 android:spinnerMode="dropdown"/>
 
         </RelativeLayout>
@@ -67,10 +67,11 @@
                 android:id="@+id/programmer_list"
                 android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
                 android:scrollingCache="false"
-                android:layout_marginLeft="-5dp"
                 android:layout_marginRight="-1dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"/>
+                android:layout_marginBottom="5dp"
+                android:paddingLeft="5dp"
+                android:layout_marginLeft="-5dp"/>
         </FrameLayout>
 
     </LinearLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="spinner_style" parent="@android:Widget.Holo.Spinner">
+        <item name="android:background">@drawable/btn_numbers_selector</item>
+        <item name="android:divider">@null</item>
+        <item name="android:textColor">@color/white_smoke</item>
+        <item name="android:textColorHighlight">@color/btn_background_highlight</item>
+        <item name="android:clickable">true</item>
+        <item name="android:spinnerMode">dropdown</item>
+        <item name="android:popupBackground">@drawable/btn_numbers_selector</item>
+        <item name="android:dropDownVerticalOffset">-10dip</item>
+    </style>
+
+    <style name="DMXControl.Theme" parent="android:Theme.Black.NoTitleBar">
+    </style>
+</resources>

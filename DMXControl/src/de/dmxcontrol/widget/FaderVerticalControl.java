@@ -64,11 +64,6 @@ public class FaderVerticalControl extends BaseValueWidget {
 
     public FaderVerticalControl(Context context) {
         super(context);
-        int height = context.getResources().getDisplayMetrics().heightPixels;
-        if(height < context.getResources().getDisplayMetrics().widthPixels) {
-            height = context.getResources().getDisplayMetrics().widthPixels;
-        }
-        markerSizeY = height / 24;
         init();
     }
 
@@ -84,7 +79,11 @@ public class FaderVerticalControl extends BaseValueWidget {
     }
 
     private void init() {
-
+        int height = getContext().getResources().getDisplayMetrics().heightPixels;
+        if(height < getContext().getResources().getDisplayMetrics().widthPixels) {
+            height = getContext().getResources().getDisplayMetrics().widthPixels;
+        }
+        markerSizeY = height / 24;
         int highlightColor = getResources().getColor(
                 R.color.btn_background_highlight);
 
