@@ -40,7 +40,9 @@ public class ProgrammerAdapter extends BaseExpandableListAdapter implements Enti
                 }
             }
         }
-        ReceivedData.get().SelectedProgrammer.setChangedListener(this);
+        if(ReceivedData.get().SelectedProgrammer != null) {
+            ReceivedData.get().SelectedProgrammer.setChangedListener(this);
+        }
         this.ctx = ctx;
     }
 
@@ -94,7 +96,7 @@ public class ProgrammerAdapter extends BaseExpandableListAdapter implements Enti
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = null;
+        View rowView;
 
         if(convertView == null) {
             rowView = inflater.inflate(R.layout.programmer_row_group, parent, false);
@@ -107,13 +109,16 @@ public class ProgrammerAdapter extends BaseExpandableListAdapter implements Enti
             ((TextView) rowView.findViewById(R.id.programmer_row_group_name)).setText(((EntityProgrammer.State) getGroup(groupPosition)).getName());
         }
         inflater = null;
+        if(inflater == null) {
+            ;
+        }
         return rowView;
     }
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = null;
+        View rowView;
 
         if(convertView == null) {
             rowView = inflater.inflate(R.layout.programmer_row_device, parent, false);
@@ -122,13 +127,12 @@ public class ProgrammerAdapter extends BaseExpandableListAdapter implements Enti
             rowView = convertView;
         }
         if(getGroupCount() > groupPosition) {
-            try {
-            }
-            catch(Exception e) {
-                e.toString();
-            }
+            ;
         }
         inflater = null;
+        if(inflater == null) {
+            ;
+        }
         return rowView;
     }
 
