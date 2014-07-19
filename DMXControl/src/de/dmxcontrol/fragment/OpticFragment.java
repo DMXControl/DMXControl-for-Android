@@ -71,24 +71,28 @@ public class OpticFragment extends BasePanelFragment {
                 @Override
                 public void onValueChanged(float value) {
                     ((FaderVerticalControl) view.findViewById(R.id.optic_zoom_fader)).setValue(value, value);
+                    zoomModel.onValueChanged(faderFocus, value, value);
                 }
             });
             optic.setFocusChangedListener(new OpticControl.ValueChangedListener() {
                 @Override
                 public void onValueChanged(float value) {
                     ((FaderVerticalControl) view.findViewById(R.id.optic_focus_fader)).setValue(value, value);
+                    focusModel.onValueChanged(faderIris, value, value);
                 }
             });
             optic.setIrisChangedListener(new OpticControl.ValueChangedListener() {
                 @Override
                 public void onValueChanged(float value) {
                     ((FaderVerticalControl) view.findViewById(R.id.optic_iris_fader)).setValue(value, value);
+                    irisModel.onValueChanged(faderFrost, value, value);
                 }
             });
             optic.setFrostChangedListener(new OpticControl.ValueChangedListener() {
                 @Override
                 public void onValueChanged(float value) {
                     ((FaderVerticalControl) view.findViewById(R.id.optic_frost_fader)).setValue(value, value);
+                    frostModel.onValueChanged(faderZoom, value, value);
                 }
             });
             switch(optic.getGestureMode()) {
