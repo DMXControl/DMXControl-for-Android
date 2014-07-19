@@ -15,6 +15,10 @@
     <string name="panel_intensity_intensity_lumos">Lumos</string>
     <string name="panel_intensity_intensity">Intensity</string>
     <string name="panel_intensity_intensity_nox">Nox</string>
+    <string name="panel_optic_zoom">Zoom</string>
+    <string name="panel_optic_focus">Focus</string>
+    <string name="panel_optic_iris">Iris</string>
+    <string name="panel_optic_frost">Frost</string>
     <string name="pref_category_connect">Connection</string>
     <string name="pref_connect_title">Connection</string>
     <string name="pref_connect_summary">Set the Connection to DMXControl</string>

@@ -47,6 +47,11 @@ public class ColorModel extends BaseModel implements OnColorChangedListener {
         colors[2] = 0;
     }
 
+    @Override
+    public void onValueChanged(View v, float x, float y) {
+
+    }
+
     public Object[] getOSCAttributes() {
         return colors;
     }

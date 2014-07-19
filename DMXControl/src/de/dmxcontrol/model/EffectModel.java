@@ -27,12 +27,19 @@
 
 package de.dmxcontrol.model;
 
+import android.view.View;
+
 import de.dmxcontrol.model.ModelManager.Type;
 
 public class EffectModel extends BaseModel {
 
     public EffectModel(ModelManager manager) {
         super(manager, Type.Effect, "effect");
+    }
+
+    @Override
+    public void onValueChanged(View v, float x, float y) {
+
     }
 
     @Override

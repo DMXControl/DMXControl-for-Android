@@ -27,6 +27,8 @@
 
 package de.dmxcontrol.model;
 
+import android.view.View;
+
 import org.json.JSONException;
 
 public class ShutterModel extends BaseModel {
@@ -57,6 +59,11 @@ public class ShutterModel extends BaseModel {
 
     public int getValue() {
         return shutter[0];
+    }
+
+    @Override
+    public void onValueChanged(View v, float x, float y) {
+
     }
 
     @Override

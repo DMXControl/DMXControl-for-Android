@@ -27,6 +27,8 @@
 
 package de.dmxcontrol.model;
 
+import android.view.View;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -63,6 +65,8 @@ public abstract class BaseModel {
     public EntitySelection getEntitySelection() {
         return mManager.getEntitySelection();
     }
+
+    public abstract void onValueChanged(View v, float x, float y);
 
     public abstract Object[] getOSCAttributes();
 

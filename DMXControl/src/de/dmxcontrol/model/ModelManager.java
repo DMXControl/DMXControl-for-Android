@@ -27,10 +27,10 @@
 
 package de.dmxcontrol.model;
 
+import android.util.Log;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import android.util.Log;
 
 import de.dmxcontrol.device.EntitySelection;
 import de.dmxcontrol.model.BaseModel.OnModelListener;
@@ -38,7 +38,18 @@ import de.dmxcontrol.model.BaseModel.OnModelListener;
 public class ModelManager {
     private final static String TAG = "modelmanager";
 
-    public enum Type {Color, Position, Dimmer, Strobe, Shutter, Effect}
+    public enum Type {
+        Color,
+        Position,
+        Dimmer,
+        Strobe,
+        Shutter,
+        Zoom,
+        Focus,
+        Iris,
+        Frost,
+        Effect
+    }
 
     private Map<Type, BaseModel> mModels = new HashMap<Type, BaseModel>();
     private static Map<Type, Class<? extends BaseModel>> mTypeLookup = new HashMap<Type, Class<? extends BaseModel>>();
@@ -96,6 +107,10 @@ public class ModelManager {
         mTypeLookup.put(Type.Dimmer, DimmerModel.class);
         mTypeLookup.put(Type.Strobe, StrobeModel.class);
         mTypeLookup.put(Type.Shutter, ShutterModel.class);
+        mTypeLookup.put(Type.Zoom, ZoomModel.class);
+        mTypeLookup.put(Type.Focus, FocusModel.class);
+        mTypeLookup.put(Type.Iris, IrisModel.class);
+        mTypeLookup.put(Type.Frost, FrostModel.class);
         mTypeLookup.put(Type.Effect, EffectModel.class);
     }
 

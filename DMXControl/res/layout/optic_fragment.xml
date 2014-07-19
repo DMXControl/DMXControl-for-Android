@@ -4,12 +4,138 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:gravity="center"
-              android:orientation="vertical">
+              android:orientation="horizontal">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Empty"
-        android:id="@+id/textView"/>
+        android:layout_height="fill_parent"
+        android:layout_marginRight="6dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/optic_zoom_fader_text">
+
+            <de.dmxcontrol.widget.FaderVerticalControl
+                android:id="@+id/optic_zoom_fader"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_height="fill_parent"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/optic_zoom_fader_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/TextAppearance.Small"
+            android:text="@string/panel_optic_zoom"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:singleLine="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="6dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/optic_focus_fader_text">
+
+            <de.dmxcontrol.widget.FaderVerticalControl
+                android:id="@+id/optic_focus_fader"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_height="fill_parent"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/optic_focus_fader_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/TextAppearance.Small"
+            android:text="@string/panel_optic_focus"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:singleLine="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="6dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/optic_iris_fader_text">
+
+            <de.dmxcontrol.widget.FaderVerticalControl
+                android:id="@+id/optic_iris_fader"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_height="fill_parent"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/optic_iris_fader_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/TextAppearance.Small"
+            android:text="@string/panel_optic_iris"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:singleLine="true"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_marginRight="6dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="horizontal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_above="@+id/optic_frost_fader_text">
+
+            <de.dmxcontrol.widget.FaderVerticalControl
+                android:id="@+id/optic_frost_fader"
+                android:layout_width="fill_parent"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_height="fill_parent"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/optic_frost_fader_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/TextAppearance.Small"
+            android:text="@string/panel_optic_frost"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:singleLine="true"/>
+    </RelativeLayout>
+
 </LinearLayout>

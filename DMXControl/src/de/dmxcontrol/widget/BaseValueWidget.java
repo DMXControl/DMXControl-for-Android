@@ -35,7 +35,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
-public abstract class BaseValueWidget extends View {
+import de.dmxcontrol.android.R;
+
+public abstract class BaseValueWidget extends View implements View.OnClickListener, View.OnTouchListener {
     private final static String TAG = "widget";
 
     private IMotionEventWrapper mew;
@@ -66,7 +68,8 @@ public abstract class BaseValueWidget extends View {
     }
 
     private void init() {
-
+        this.setOnClickListener(this);
+        this.setOnTouchListener(this);
     }
 
     public void setValueListener(IValueListener listener) {
@@ -101,9 +104,13 @@ public abstract class BaseValueWidget extends View {
 
     public abstract void pointerCancelled();
 
+    private float mX = 0, mY = 0;
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mew = MotionEventWrapper.get(event);
+
+        this.mX = event.getX();
+        this.mY = event.getY();
 
         if(mew == null) {
             Log.e(TAG, "MotionEventWrapper not available. Can't do anything.");
@@ -172,5 +179,23 @@ public abstract class BaseValueWidget extends View {
         bundle.putFloat(KEY_VALUE_Y, getValueY());
 
         return bundle;
+    }
+
+    @Override
+    public void onClick(View v) {
+        pointerPosition(this.mX, this.mY);
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        this.mX = event.getX();
+        this.mY = event.getY();
+        if(event.getAction() == MotionEvent.ACTION_UP) {
+            if(event.getEventTime() - event.getDownTime() < getContext().getResources().getInteger(R.integer.swipe_min_distance)) {
+                this.performClick();
+            }
+        }
+
+        return false;
     }
 }
