@@ -672,13 +672,13 @@ public class OpticControl extends View implements View.OnTouchListener {
         if(this.animatorZoom != null) {
             this.animatorZoom.cancel();
         }
-        if(this.animatorZoom != null) {
+        if(this.animatorFocus != null) {
             this.animatorFocus.cancel();
         }
-        if(this.animatorZoom != null) {
+        if(this.animatorIris != null) {
             this.animatorIris.cancel();
         }
-        if(this.animatorZoom != null) {
+        if(this.animatorFrost != null) {
             this.animatorFrost.cancel();
         }
     }
