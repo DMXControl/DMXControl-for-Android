@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
     <de.dmxcontrol.widget.ExecuterPageSliderView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/horizontalScrollView"
-        android:layout_gravity="center" >
+        android:layout_gravity="center">
 
         <de.dmxcontrol.widget.ExecuterPageMultitouchLayout
             android:orientation="horizontal"
@@ -27,7 +27,7 @@
         android:id="@+id/executorPageName"
         android:layout_gravity="center_horizontal|bottom"
         android:singleLine="true"
-        android:text="No Excutorpage found!" />
+        android:text="@string/executorpage_empty"/>
 
     <Button
         android:layout_width="43dp"
@@ -37,7 +37,7 @@
         android:layout_gravity="left|bottom"
         android:background="#00000000"
         android:textColor="@color/white_smoke"
-        android:singleLine="true" />
+        android:singleLine="true"/>
 
     <Button
         android:layout_width="43dp"
@@ -48,6 +48,6 @@
         android:background="#00000000"
         android:textColor="@color/white_smoke"
         android:singleLine="false"
-        android:clickable="false" />
+        android:clickable="false"/>
 
 </FrameLayout>

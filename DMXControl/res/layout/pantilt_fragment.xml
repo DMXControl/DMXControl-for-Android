@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <de.dmxcontrol.widget.RelativeLayoutWithMultitouch xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/pantilt_fragment"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+                                                   android:id="@+id/pantilt_fragment"
+                                                   android:layout_width="fill_parent"
+                                                   android:layout_height="fill_parent">
 
     <LinearLayout
         android:id="@+id/cross_mode"
@@ -16,25 +16,25 @@
             android:id="@+id/mode_plain"
             android:layout_width="@dimen/button_width_large"
             android:layout_height="@dimen/button_height_small"
-            android:text="@string/position_mode_plain"
+            android:text="@string/position_fragment_mode_plain"
             android:background="@drawable/btn_numbers_selector"
-            style="@android:style/TextAppearance.Small" />
+            style="@android:style/TextAppearance.Small"/>
 
         <Button
             android:id="@+id/mode_follow"
             android:layout_width="@dimen/button_width_large"
             android:layout_height="@dimen/button_height_small"
-            android:text="@string/position_mode_follow"
+            android:text="@string/position_fragment_mode_follow"
             android:background="@drawable/btn_numbers_selector"
-            style="@android:style/TextAppearance.Small" />
+            style="@android:style/TextAppearance.Small"/>
 
         <Button
             android:id="@+id/mode_sensor"
             android:layout_width="@dimen/button_width_large"
             android:layout_height="@dimen/button_height_small"
-            android:text="@string/position_mode_sensor"
+            android:text="@string/position_fragment_mode_sensor"
             android:background="@drawable/btn_numbers_selector"
-            style="@android:style/TextAppearance.Small" />
+            style="@android:style/TextAppearance.Small"/>
     </LinearLayout>
 
     <de.dmxcontrol.widget.FaderVerticalControl
@@ -65,27 +65,27 @@
 
         <Button
             android:id="@+id/lockxdirection"
-            android:text="@string/position_lock_x"
+            android:text="@string/position_fragment_lock_x"
             android:layout_width="@dimen/button_width_large"
             android:layout_height="@dimen/button_height_small"
             style="@android:style/TextAppearance.Small"
-            android:background="@drawable/btn_numbers_selector" />
+            android:background="@drawable/btn_numbers_selector"/>
 
         <Button
             android:id="@+id/lockydirection"
-            android:text="@string/position_lock_y"
+            android:text="@string/position_fragment_lock_y"
             android:layout_width="@dimen/button_width_large"
             android:layout_height="@dimen/button_height_small"
             style="@android:style/TextAppearance.Small"
-            android:background="@drawable/btn_numbers_selector" />
+            android:background="@drawable/btn_numbers_selector"/>
 
         <Button
             android:id="@+id/reset"
-            android:text="@string/position_reset"
+            android:text="@string/position_fragment_reset"
             android:layout_width="@dimen/button_width_large"
             android:layout_height="@dimen/button_height_small"
             android:background="@drawable/btn_numbers_selector"
-            style="@android:style/TextAppearance.Small" />
+            style="@android:style/TextAppearance.Small"/>
     </LinearLayout>
 
 </de.dmxcontrol.widget.RelativeLayoutWithMultitouch>

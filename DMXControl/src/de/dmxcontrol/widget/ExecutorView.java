@@ -75,7 +75,7 @@ public class ExecutorView extends LinearLayout {
             @Override
             public boolean onLongClick(final View v) {
                 final AlertDialog.Builder alert = new AlertDialog.Builder(v.getContext());
-                alert.setTitle("Edit Executor");
+                alert.setTitle(getContext().getResources().getString(R.string.executor_settings_title));
                 final View view = View.inflate(v.getContext(), R.layout.executor_setting_dialog, null);
                 final EditText input = (EditText) view.findViewById(R.id.editName);
                 input.setText(textView.getText());
@@ -97,7 +97,7 @@ public class ExecutorView extends LinearLayout {
                 final ToggleButton toggle_btn = (ToggleButton) view.findViewById(R.id.toggleButton_flash);
                 toggle_btn.setChecked(mExecutor.getToggle());
                 alert.setView(view);
-                alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                alert.setPositiveButton(getContext().getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String str = input.getEditableText().toString();
                         mExecutor.setName(str, false);
@@ -181,7 +181,7 @@ public class ExecutorView extends LinearLayout {
         flashbtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         flashbtn.setTextSize(18);
         flashbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
-        flashbtn.setText("\u26A1");
+        flashbtn.setText(getContext().getResources().getString(R.string.char_flash));
         flashbtn.setTag(flashbtn.getText() + " " + mExecutor.getName());
         flashbtn.setLayoutParams(new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT,
@@ -207,7 +207,7 @@ public class ExecutorView extends LinearLayout {
         breakbtn.setBackgroundResource(R.drawable.btn_normal_selector);
         breakbtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         breakbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
-        breakbtn.setText("\uf0bb / \uf0bc");
+        breakbtn.setText(getContext().getResources().getString(R.string.char_breakback));
         breakbtn.setLayoutParams(new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT,
                 height / 16));
@@ -224,7 +224,7 @@ public class ExecutorView extends LinearLayout {
         gobtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         gobtn.setTextSize(18);
         gobtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
-        gobtn.setText("\uf0bf");
+        gobtn.setText(getContext().getResources().getString(R.string.char_go));
         gobtn.setLayoutParams(new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT,
                 height / 8));
@@ -240,7 +240,7 @@ public class ExecutorView extends LinearLayout {
         stopbtn.setBackgroundResource(R.drawable.btn_normal_selector);
         stopbtn.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         stopbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
-        stopbtn.setText("\uf053");
+        stopbtn.setText(getContext().getResources().getString(R.string.char_stop));
         stopbtn.setTag(stopbtn.getText() + " " + mExecutor.getName());
         stopbtn.setLayoutParams(new LinearLayout.LayoutParams(
                 LayoutParams.FILL_PARENT,

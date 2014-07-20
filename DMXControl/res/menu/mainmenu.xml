@@ -3,21 +3,21 @@
     <item
         android:title="@string/menu_set_preferences"
         android:id="@+id/preferences"
-        android:icon="@android:drawable/ic_menu_preferences" />
+        android:icon="@android:drawable/ic_menu_preferences"/>
     <item
-        android:title="@string/about"
+        android:title="@string/menu_set_about"
         android:id="@+id/about"
-        android:icon="@android:drawable/ic_menu_info_details" />
+        android:icon="@android:drawable/ic_menu_info_details"/>
     <item
-        android:title="@string/help"
+        android:title="@string/menu_set_help"
         android:id="@+id/help"
-        android:icon="@android:drawable/ic_menu_help" />
+        android:icon="@android:drawable/ic_menu_help"/>
     <item
         android:title="@string/menu_set_connection"
         android:id="@+id/connection"
-        android:icon="@android:drawable/ic_menu_add" />
+        android:icon="@android:drawable/ic_menu_add"/>
     <item
-        android:title="@string/menu_live"
+        android:title="@string/menu_set_live"
         android:id="@+id/live"
-        android:icon="@android:drawable/ic_menu_slideshow" />
+        android:icon="@android:drawable/ic_menu_slideshow"/>
 </menu>

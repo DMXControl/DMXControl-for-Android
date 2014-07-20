@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/intensity_fragment"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="horizontal"
-    android:gravity="center">
+              android:id="@+id/intensity_fragment"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="horizontal"
+              android:gravity="center">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -32,45 +32,45 @@
                     style="@android:style/TextAppearance.Small"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:text="100%"
+                    android:text="@string/intensity_fragment_dimmer_100"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_normal_selector" />
+                    android:background="@drawable/btn_normal_selector"/>
 
                 <Button
                     android:id="@+id/button_dimmer_seventy"
                     style="@android:style/TextAppearance.Small"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:text="70%"
+                    android:text="@string/intensity_fragment_dimmer_70"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_normal_selector" />
+                    android:background="@drawable/btn_normal_selector"/>
 
                 <Button
                     android:id="@+id/button_dimmer_fifty"
                     style="@android:style/TextAppearance.Small"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:text="50%"
+                    android:text="@string/intensity_fragment_dimmer_50"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_normal_selector" />
+                    android:background="@drawable/btn_normal_selector"/>
 
                 <Button
                     android:id="@+id/button_dimmer_thirty"
                     style="@android:style/TextAppearance.Small"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:text="30%"
+                    android:text="@string/intensity_fragment_dimmer_30"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_normal_selector" />
+                    android:background="@drawable/btn_normal_selector"/>
 
                 <Button
                     android:id="@+id/button_dimmer_zero"
                     style="@android:style/TextAppearance.Small"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent"
-                    android:text="0%"
+                    android:text="@string/intensity_fragment_dimmer_0"
                     android:layout_weight="1"
-                    android:background="@drawable/btn_normal_selector" />
+                    android:background="@drawable/btn_normal_selector"/>
             </LinearLayout>
 
             <de.dmxcontrol.widget.FaderVerticalControl
@@ -78,7 +78,7 @@
                 android:layout_width="50dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:layout_height="fill_parent" />
+                android:layout_height="fill_parent"/>
         </LinearLayout>
 
         <TextView
@@ -86,9 +86,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@android:style/TextAppearance.Small"
-            android:text="@string/panel_intensity_dimmer"
+            android:text="@string/intensity_fragment_dimmer"
             android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true" />
+            android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -110,7 +110,7 @@
                 android:layout_width="50dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:layout_height="fill_parent" />
+                android:layout_height="fill_parent"/>
         </LinearLayout>
 
         <TextView
@@ -118,9 +118,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@android:style/TextAppearance.Small"
-            android:text="@string/panel_intensity_strobe"
+            android:text="@string/intensity_fragment_strobe"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -143,18 +143,18 @@
                 style="@android:style/TextAppearance.Small"
                 android:layout_width="@dimen/button_width_norm"
                 android:layout_height="fill_parent"
-                android:text="@string/panel_intensity_shutter_open"
+                android:text="@string/intensity_fragment_shutter_open"
                 android:layout_weight="1"
-                android:background="@drawable/btn_normal_selector" />
+                android:background="@drawable/btn_normal_selector"/>
 
             <Button
                 android:id="@+id/button_shutter_close"
                 style="@android:style/TextAppearance.Small"
                 android:layout_width="@dimen/button_width_norm"
                 android:layout_height="fill_parent"
-                android:text="@string/panel_intensity_shutter_close"
+                android:text="@string/intensity_fragment_shutter_close"
                 android:layout_weight="2"
-                android:background="@drawable/btn_normal_selector" />
+                android:background="@drawable/btn_normal_selector"/>
         </LinearLayout>
 
         <TextView
@@ -162,9 +162,9 @@
             android:layout_width="wrap_content"
             style="@android:style/TextAppearance.Small"
             android:layout_height="wrap_content"
-            android:text="@string/panel_intensity_shutter"
+            android:text="@string/intensity_fragment_shutter"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -186,18 +186,18 @@
                 style="@android:style/TextAppearance.Small"
                 android:layout_width="@dimen/button_width_norm"
                 android:layout_height="fill_parent"
-                android:text="@string/panel_intensity_intensity_lumos"
+                android:text="@string/intensity_fragment_intensity_lumos"
                 android:layout_weight="1"
-                android:background="@drawable/btn_normal_selector" />
+                android:background="@drawable/btn_normal_selector"/>
 
             <Button
                 android:id="@+id/button_intensity_nox"
                 style="@android:style/TextAppearance.Small"
                 android:layout_width="@dimen/button_width_norm"
                 android:layout_height="fill_parent"
-                android:text="@string/panel_intensity_intensity_nox"
+                android:text="@string/intensity_fragment_intensity_nox"
                 android:layout_weight="2"
-                android:background="@drawable/btn_normal_selector" />
+                android:background="@drawable/btn_normal_selector"/>
         </LinearLayout>
 
         <TextView
@@ -205,8 +205,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@android:style/TextAppearance.Small"
-            android:text="@string/panel_intensity_intensity"
+            android:text="@string/intensity_fragment_intensity"
             android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"/>
     </RelativeLayout>
 </LinearLayout>

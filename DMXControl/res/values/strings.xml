@@ -1,24 +1,51 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?>
 <resources>
     <string name="app_name">DMXControl3 Mobil</string>
+
     <string name="selector_device_short">Device</string>
     <string name="selector_group_short">Group</string>
+
     <string name="connection_title">Connection To DMXC Server</string>
     <string name="connection_port_server_title">Port</string>
     <string name="connection_host_title">Host</string>
     <string name="connection_name_title">Name</string>
-    <string name="panel_intensity_dimmer">Dimmer</string>
-    <string name="panel_intensity_strobe">Strobe</string>
-    <string name="panel_intensity_shutter_open">Open</string>
-    <string name="panel_intensity_shutter_close">Close</string>
-    <string name="panel_intensity_shutter">Shutter</string>
-    <string name="panel_intensity_intensity_lumos">Lumos</string>
-    <string name="panel_intensity_intensity">Intensity</string>
-    <string name="panel_intensity_intensity_nox">Nox</string>
-    <string name="panel_optic_zoom">Zoom</string>
-    <string name="panel_optic_focus">Focus</string>
-    <string name="panel_optic_iris">Iris</string>
-    <string name="panel_optic_frost">Frost</string>
+
+    <string name="devicegroup_fragment_devices">Devices:</string>
+    <string name="devicegroup_fragment_groups">Groups:</string>
+
+    <string name="intensity_fragment_dimmer">Dimmer</string>
+    <string name="intensity_fragment_dimmer_0">o%</string>
+    <string name="intensity_fragment_dimmer_30">30%</string>
+    <string name="intensity_fragment_dimmer_50">50%</string>
+    <string name="intensity_fragment_dimmer_70">70%</string>
+    <string name="intensity_fragment_dimmer_100">100%</string>
+    <string name="intensity_fragment_strobe">Strobe</string>
+    <string name="intensity_fragment_shutter_open">Open</string>
+    <string name="intensity_fragment_shutter_close">Close</string>
+    <string name="intensity_fragment_shutter">Shutter</string>
+    <string name="intensity_fragment_intensity_lumos">Lumos</string>
+    <string name="intensity_fragment_intensity_nox">Nox</string>
+    <string name="intensity_fragment_intensity">Intensity</string>
+
+    <string name="position_fragment_mode_follow">Follow</string>
+    <string name="position_fragment_mode_plain">Plain</string>
+    <string name="position_fragment_mode_sensor">Sensor</string>
+    <string name="position_fragment_lock_y">Lock Y</string>
+    <string name="position_fragment_lock_x">Lock X</string>
+    <string name="position_fragment_reset">Reset</string>
+
+    <string name="optic_fragment_zoom">Zoom</string>
+    <string name="optic_fragment_focus">Focus</string>
+    <string name="optic_fragment_iris">Iris</string>
+    <string name="optic_fragment_frost">Frost</string>
+
+    <string name="preset_fragment_add">Add</string>
+    <string name="preset_fragment_apply">Apply</string>
+
+    <string name="programmer_fragment_clear">Clear</string>
+    <string name="programmer_fragment_undo_clear">Undo Clear</string>
+
+    <string name="pref_set_preferences">Preferences</string>
     <string name="pref_category_connect">Connection</string>
     <string name="pref_connect_title">Connection</string>
     <string name="pref_connect_summary">Set the Connection to DMXControl</string>
@@ -31,31 +58,32 @@
     <string name="pref_connect_device_name_summary">The name of this phone to register at the DMXControl Server.</string>
     <string name="pref_connect_serveraddress_dialog_title">Type the IP-Address or the host name of the DMXControl Server</string>
     <string name="pref_connect_serveraddress_summary">The IP-Address of the DMXControl Server.</string>
-    <string name="menu_set_preferences">Preferences</string>
-    <string name="menu_set_connection">Connection</string>
-    <string name="pref_set_preferences">Preferences</string>
-    <string name="button_okay">Okay</string>
-    <string name="error_occurred">Message</string>
     <string name="pref_connect_offline_summary">Enable/Disable the network connection. Can be disabled because of a network error.</string>
     <string name="pref_connect_offline_title">Offline</string>
-    <string name="error_network_occurred">Network Error</string>
-    <string name="dialog_network_offline_mode_text">Enable offline mode</string>
-    <string name="error_network_occurred_long">A network error occurred. The app can\'t communicate *at all*. Please enable your network connection or stay offline. Offline mode can be disabled in preferences.</string>
     <string name="pref_disable_splash_summary">Disable the splash screen on startup.</string>
     <string name="pref_disable_splash_title">Splash Screen</string>
     <string name="pref_category_visual">Visuals</string>
+    <string name="pref_screen_mode">Screen Mode</string>
+    <string name="pref_screen_mode_summary">Allows to set the preferred screen orientation.</string>
+    <string name="pref_disable_animations">Animations</string>
+    <string name="pref_disable_animations_summary">Disable all animations.</string>
+
+    <string name="menu_set_preferences">Preferences</string>
+    <string name="menu_set_about">About</string>
+    <string name="menu_set_help">Help</string>
+    <string name="menu_set_connection">Connection</string>
+    <string name="menu_set_live">Live</string>
+
+    <string name="button_okay">Okay</string>
+    <string name="error_occurred">Message</string>
+    <string name="error_network_occurred">Network Error</string>
+    <string name="error_network_occurred_long">A network error occurred. The app can\'t communicate *at all*. Please enable your network connection or stay offline. Offline mode can be disabled in preferences.</string>
+    <string name="dialog_network_offline_mode_text">Enable offline mode</string>
+
     <string name="screen_mode_portrait">Portrait</string>
     <string name="screen_mode_landscape">Landscape</string>
     <string name="screen_mode_automatic">Automatic</string>
-    <string name="pref_screen_mode">Screen Mode</string>
-    <string name="pref_screen_mode_summary">Allows to set the preferred screen orientation.</string>
-    <string name="position_mode_follow">Follow</string>
-    <string name="position_mode_plain">Plain</string>
-    <string name="position_mode_sensor">Sensor</string>
-    <string name="position_lock_y">Lock Y</string>
-    <string name="position_lock_x">Lock X</string>
-    <string name="position_reset">Reset</string>
-    <string name="about">About</string>
+
     <string name="about_title">DMXControl</string>
     <string name="about_copyright">Copyright 2014 - DMXControl-Project e.V. </string>
     <string name="about_text_three"> </string>
@@ -64,24 +92,64 @@
     <string name="about_feedback">Feedback</string>
     <string name="about_rating_market">In the market</string>
     <string name="about_dismiss">Dismiss</string>
+
     <string name="licence_text_OpenIntents">This app uses the OpenIntents Color Picker, which is licensed under the Apache License, Version 2.0.</string>
     <string name="licence_text_Mobile_Anarchy">This app also uses the DockPanel from Mobile Anarchy, licensed under the BSD-3-Clause.</string>
     <string name="licence_text_general">This App is licensed under the GPL V3.\nThe source code is available at\nhttps://github.com/DMXControl/.</string>
-    <string name="help">Help</string>
-    <string name="pref_disable_animations">Animations</string>
-    <string name="pref_disable_animations_summary">Disable all animations.</string>
-    <string name="FoundServer_server_title">Found</string>
-    <string name="executorText">executorText</string>
-    <string name="executorFlash">FLASH</string>
-    <string name="executorGo">GO</string>
-    <string name="executorFader">Fader</string>
-    <string name="executorBreak">Break/Back</string>
-    <string name="menu_live">Live</string>
+
     <string name="crash_toast_text">Crash</string>
-    <string name="crash_dialog_title">DMAControl3 Mobil has crashed</string>
-    <string name="crash_dialog_text">An unexpected error occurred forcing the
-    application to stop. Please help us fix this by sending us error data,
-    all you have to do is click OK.</string>
+    <string name="crash_dialog_title">DMXControl3 Mobil has crashed</string>
+    <string name="crash_dialog_text">An unexpected error occurred forcing the application to stop. Please help us fix this by sending us error data, all you have to do is click OK.</string>
     <string name="crash_dialog_comment_prompt">You might add your comments about the problem below:</string>
     <string name="crash_dialog_ok_toast">Thank you !</string>
+
+    <string name="device_manager_title">DeviceManager</string>
+    <string name="device_manager_device">Device:</string>
+    <string name="device_manager_count">Count:</string>
+    <string name="device_manager_name">Name:</string>
+    <string name="device_manager_dmx_settings">DMX Settings</string>
+    <string name="device_manager_start_address">Start Address:</string>
+    <string name="device_manager_space">Space:</string>
+    <string name="device_manager_group_settings">Group Settings</string>
+    <string name="device_manager_autogenerate_group">Autogenerate Group:</string>
+    <string name="device_manager_group_name">Group Name:</string>
+    <string name="device_manager_repeat_settings">Repeat Settings</string>
+    <string name="device_manager_repeat">Repeat:</string>
+    <string name="device_manager_select">SELECT</string>
+
+    <string name="device_parameter_name">Name:</string>
+    <string name="device_parameter_channel">Channel:</string>
+    <string name="device_parameter_channelcount">Channelcount:</string>
+    <string name="device_parameter_image">Image:</string>
+    <string name="device_parameter_enabled">Enabled:</string>
+    <string name="device_parameter_model">Model:</string>
+    <string name="device_parameter_vendor">Vendor:</string>
+    <string name="device_parameter_author">Author:</string>
+    <string name="device_parameter_index">Index:</string>
+
+    <string name="executorpage_empty">No Excutorpage found!</string>
+
+    <string name="executor_settings_title">Edit Executor</string>
+    <string name="executor_settings_name">Name:</string>
+    <string name="executor_settings_fader_mode">Fader mode:</string>
+    <string name="executor_settings_toggle_flash_button">Toggle Flashbuton:</string>
+    <string name="executor_settings_fader_mode_intensity">Intensity</string>
+    <string name="executor_settings_fader_mode_timing">Timing</string>
+    <string name="executor_settings_fader_mode_effect_speed">Effect Speed</string>
+
+    <string name="on">On</string>
+    <string name="off">Off</string>
+    <string name="empty">Empty</string>
+    <string name="ok">OK</string>
+
+    <!--Please don't change-->
+    <string name="char_flash">\u26A1</string>
+    <string name="char_stop">\uf053</string>
+    <string name="char_go">\uf0bf</string>
+    <string name="char_goto">\uf078</string>
+    <string name="char_back">\uf0bc</string>
+    <string name="char_break">\uf0bb</string>
+    <string name="char_breakback">\uf0bb/\uf0bc</string>
+    <string name="char_load">\uf051</string>
+    <!--Thank you-->
 </resources>
