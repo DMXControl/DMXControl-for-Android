@@ -195,6 +195,9 @@ public abstract class BaseValueWidget extends View implements View.OnClickListen
                 this.performClick();
             }
         }
+        else {
+            pointerPosition(event.getX(), event.getY());
+        }
 
         return false;
     }
