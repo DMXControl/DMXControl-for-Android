@@ -57,6 +57,9 @@ public class ProgrammerSpinnerAdapter implements SpinnerAdapter {
 
     @Override
     public long getItemId(int position) {
+        if(getItem(position) == null) {
+            return 0;
+        }
         return ((EntityProgrammer) getItem(position)).getId();
     }
 

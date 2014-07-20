@@ -32,6 +32,10 @@ import android.content.Intent;
 import android.os.Environment;
 import android.util.Log;
 
+import org.acra.ACRA;
+import org.acra.ReportingInteractionMode;
+import org.acra.annotation.ReportsCrashes;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -40,6 +44,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
 
+import de.dmxcontrol.android.R;
 import de.dmxcontrol.cuelist.EntityCuelist;
 import de.dmxcontrol.device.Entity;
 import de.dmxcontrol.device.EntityDevice;
@@ -49,6 +54,19 @@ import de.dmxcontrol.executor.EntityExecutorPage;
 import de.dmxcontrol.file.FileManager;
 import de.dmxcontrol.network.ServiceFrontend;
 import de.dmxcontrol.preset.EntityPreset;
+
+
+@ReportsCrashes(formKey = "",
+        mailTo = "patrick.grote@dmxcontrol.de",
+        mode = ReportingInteractionMode.DIALOG,
+        resNotifIcon = R.drawable.androidmann_neu,
+        deleteOldUnsentReportsOnApplicationStart = true,
+        resToastText = R.string.crash_toast_text,
+        resDialogText = R.string.crash_dialog_text,
+        resDialogIcon = android.R.drawable.ic_dialog_info,
+        resDialogTitle = R.string.crash_dialog_title,
+        resDialogCommentPrompt = R.string.crash_dialog_comment_prompt,
+        resDialogOkToast = R.string.crash_dialog_ok_toast)
 
 public class DMXControlApplication extends Application {
     private final static String TAG = "dmxcontrol";
@@ -87,6 +105,8 @@ public class DMXControlApplication extends Application {
 
         try {
             super.onCreate();
+
+            ACRA.init(this);
 
             // Init Preferences and start new udp networking
             prefs = Prefs.get();

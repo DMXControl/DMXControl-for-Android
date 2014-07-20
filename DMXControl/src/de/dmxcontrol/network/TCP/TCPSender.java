@@ -170,12 +170,13 @@ public class TCPSender implements Runnable {
         finally {
             // Clear data
             sendData.clear();
-
-            try {
-                client.close();
-            }
-            catch(IOException e) {
-                e.printStackTrace();
+            if(client != null) {
+                try {
+                    client.close();
+                }
+                catch(IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -183,7 +184,9 @@ public class TCPSender implements Runnable {
     public void kill() {
         bKeepRunning = false;
         try {
-            client.close();
+            if(client != null) {
+                client.close();
+            }
         }
         catch(IOException e) {
             e.printStackTrace();

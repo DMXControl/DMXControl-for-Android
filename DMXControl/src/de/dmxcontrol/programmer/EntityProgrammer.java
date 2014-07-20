@@ -137,6 +137,7 @@ public class EntityProgrammer extends Entity {
     }
 
     public static void Clear(EntityProgrammer programmer) throws JSONException {
+        // if(programmer==null){return;}
         JSONObject o = new JSONObject();
         o.put("Type", NetworkID);
         o.put("GUID", programmer.guid);
@@ -152,6 +153,9 @@ public class EntityProgrammer extends Entity {
     }
 
     public static void Undo(EntityProgrammer programmer) throws JSONException {
+        if(programmer == null) {
+            return;
+        }
         JSONObject o = new JSONObject();
         o.put("Type", NetworkID);
         o.put("GUID", programmer.guid);
@@ -166,6 +170,9 @@ public class EntityProgrammer extends Entity {
     }
 
     public static void ClearSelection(EntityProgrammer programmer) throws JSONException {
+        if(programmer == null) {
+            return;
+        }
         JSONObject o = new JSONObject();
         o.put("Type", NetworkID);
         o.put("GUID", programmer.guid);
