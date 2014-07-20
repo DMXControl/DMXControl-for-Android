@@ -27,13 +27,13 @@
 
 package de.dmxcontrol.network;
 
-import java.io.IOException;
-
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
+
+import java.io.IOException;
 
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.network.TCP.TCPReader;
@@ -79,7 +79,7 @@ public class NetworkService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-         disconnect();
+        disconnect();
     }
 
 

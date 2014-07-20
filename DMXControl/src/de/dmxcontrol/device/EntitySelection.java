@@ -27,6 +27,8 @@
 
 package de.dmxcontrol.device;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,8 +39,6 @@ import java.util.Scanner;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.regex.Pattern;
-
-import android.util.Log;
 
 import de.dmxcontrol.device.EntityManager.Type;
 import de.dmxcontrol.model.BaseModel;

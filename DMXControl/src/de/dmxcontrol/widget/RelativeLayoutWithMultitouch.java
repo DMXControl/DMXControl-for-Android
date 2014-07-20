@@ -27,14 +27,14 @@
 
 package de.dmxcontrol.widget;
 
-import java.util.HashMap;
-
 import android.content.Context;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.RelativeLayout;
+
+import java.util.HashMap;
 
 public class RelativeLayoutWithMultitouch extends RelativeLayout {
     private final static String TAG = "widget";

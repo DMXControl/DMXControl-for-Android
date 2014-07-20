@@ -27,11 +27,11 @@
 
 package de.dmxcontrol.device;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-
-import android.util.Log;
 
 class Ranges {
     private final static String TAG = "device";

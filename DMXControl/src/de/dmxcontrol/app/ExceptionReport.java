@@ -5,8 +5,6 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.Thread;
-import java.security.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 

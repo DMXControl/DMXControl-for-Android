@@ -1,18 +1,5 @@
 package de.dmxcontrol.network.UDP;
 
-import android.util.Log;
-
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.ArrayList;
-
-import de.dmxcontrol.app.DMXControlApplication;
-import de.dmxcontrol.device.Entity;
-import de.dmxcontrol.device.EntityDevice;
-
 /**
  * Created by Qasi on 12.06.2014.
  */

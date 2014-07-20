@@ -27,10 +27,10 @@
 
 package de.dmxcontrol.widget;
 
-import java.util.Date;
-
 import android.util.Log;
 import android.view.View;
+
+import java.util.Date;
 
 public class OutputListener implements IValueListener {
     private final static String TAG = "widget";

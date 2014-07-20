@@ -35,7 +35,6 @@ import java.util.List;
 
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.Prefs;
-import de.dmxcontrol.network.ServiceFrontend;
 
 public class PreferencesActivity extends PreferenceActivity {
     private final static String TAG = "dmxcontrol";
