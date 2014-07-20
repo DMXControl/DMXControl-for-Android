@@ -95,6 +95,37 @@ public class OpticFragment extends BasePanelFragment {
                     frostModel.onValueChanged(faderZoom, value, value);
                 }
             });
+            optic.setGestureModeChangedListener(new OpticControl.ValueChangedListener() {
+                @Override
+                public void onValueChanged(float value) {
+                    switch(optic.getGestureMode()) {
+                        case (OpticControl.GESTURE_MODE_ZOOM):
+                            textZoom.setPaintFlags(textZoom.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                            textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            break;
+                        case (OpticControl.GESTURE_MODE_FOCUS):
+                            textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            textFocus.setPaintFlags(textFocus.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                            textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            break;
+                        case (OpticControl.GESTURE_MODE_IRIS):
+                            textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            textIris.setPaintFlags(textIris.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                            textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            break;
+                        case (OpticControl.GESTURE_MODE_FROST):
+                            textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                            textFrost.setPaintFlags(textFrost.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                            break;
+                    }
+                }
+            });
             switch(optic.getGestureMode()) {
                 case (OpticControl.GESTURE_MODE_ZOOM):
                     textZoom.setPaintFlags(textZoom.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
@@ -112,40 +143,24 @@ public class OpticFragment extends BasePanelFragment {
             textZoom.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    textZoom.setPaintFlags(textZoom.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                    textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                    textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                    textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
                     optic.setGestureMode(OpticControl.GESTURE_MODE_ZOOM);
                 }
             });
             textFocus.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                    textFocus.setPaintFlags(textFocus.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                    textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                    textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
                     optic.setGestureMode(OpticControl.GESTURE_MODE_FOCUS);
                 }
             });
             textIris.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                    textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                    textIris.setPaintFlags(textIris.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                    textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
                     optic.setGestureMode(OpticControl.GESTURE_MODE_IRIS);
                 }
             });
             textFrost.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                    textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                    textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                    textFrost.setPaintFlags(textFrost.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
                     optic.setGestureMode(OpticControl.GESTURE_MODE_FROST);
                 }
             });
@@ -220,9 +235,6 @@ public class OpticFragment extends BasePanelFragment {
         super.onResume();
     }
 
-    // startup process done
-
-    // teardown process initiated
     @Override
     public void onPause() {
         super.onPause();

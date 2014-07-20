@@ -31,6 +31,8 @@ public class DockPanel extends LinearLayout {
     // Private members
     // =========================================
 
+    private float measuratedWidth, measuratedHeight;
+
     private static final String TAG = "DockPanel";
     private DockPosition position;
     private int contentLayoutId;
@@ -146,7 +148,6 @@ public class DockPanel extends LinearLayout {
     private void setDefaultValues(AttributeSet attrs) {
         // set default values
         isOpen = true;
-        animationRunning = false;
         animationDuration = 500;
         setPosition(DockPosition.RIGHT);
 
@@ -177,6 +178,8 @@ public class DockPanel extends LinearLayout {
                 setPosition(DockPosition.LEFT);
             }
         }
+
+        animationRunning = false;
     }
 
     @Override
@@ -194,6 +197,13 @@ public class DockPanel extends LinearLayout {
             close();
         }
         setAnimationDuration(animationDurationSaved);
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        this.measuratedWidth = widthMeasureSpec;
+        this.measuratedHeight = heightMeasureSpec;
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
@@ -232,8 +242,8 @@ public class DockPanel extends LinearLayout {
         menuButton = new Button(getContext());
         menuButton.setPadding(0, 0, 0, 0);
         menuButton.setLayoutParams(new FrameLayout.LayoutParams(
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                0,
+                0,
                 Gravity.BOTTOM));
         menuButton.setBackgroundColor(Color.TRANSPARENT);
         menuButton.setBackgroundResource(handleMenuButtonDrawableId);
@@ -248,11 +258,30 @@ public class DockPanel extends LinearLayout {
 
     private void createImageView() {
         imageView = new ImageView(getContext());
+        imageView.setAdjustViewBounds(true);
         imageView.setLayoutParams(new FrameLayout.LayoutParams(
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
+                0,
+                0,
                 Gravity.RIGHT));
+        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         imageView.setTag(IMAGEVIEW_TAG);
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+        if(imageView.getWidth() == 0 && imageView.getHeight() == 0) {
+            imageView.setLayoutParams(new FrameLayout.LayoutParams(
+                    Math.min(r, b),
+                    Math.min(r, b),
+                    Gravity.RIGHT));
+        }
+        if(menuButton.getWidth() == 0 && menuButton.getHeight() == 0) {
+            menuButton.setLayoutParams(new FrameLayout.LayoutParams(
+                    Math.min(r, b),
+                    Math.min(r, b),
+                    Gravity.BOTTOM));
+        }
     }
 
     private void setPosition(DockPosition position) {
@@ -310,14 +339,12 @@ public class DockPanel extends LinearLayout {
     }
 
     public void close() {
-        if(!animationRunning) {
-            Log.d(TAG, "Closing...");
+        Log.d(TAG, "Closing...");
 
-            Animation animation = createHideAnimation();
-            this.setAnimation(animation);
-            animation.start();
-            isOpen = false;
-        }
+        Animation animation = createHideAnimation();
+        this.setAnimation(animation);
+        animation.start();
+        isOpen = false;
     }
 
     public void toggle() {
@@ -377,6 +404,7 @@ public class DockPanel extends LinearLayout {
 
     private Animation createShowAnimation() {
         Animation animation = null;
+        animationRunning = false;
         switch(position) {
             case TOP:
                 animation = new TranslateAnimation(0, 0, -contentPlaceHolder
@@ -418,6 +446,7 @@ public class DockPanel extends LinearLayout {
                 }
                 Log.d(TAG, "\"Show\" Animation ended");
             }
+
         });
         return animation;
     }

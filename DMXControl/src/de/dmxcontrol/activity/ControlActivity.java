@@ -250,7 +250,13 @@ public class ControlActivity extends FragmentActivity implements
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         if(!isPointInsideView(event.getX(), event.getY(), fManager.findFragmentById(R.id.action_fragment).getView())) {
-            gestureDetector.onTouchEvent(event);
+            if(event.getPointerCount() == 2 && oldState == ActionSelectorFragment.STATE_OPTIC_PANEL) {
+                return super.dispatchTouchEvent(event);
+            }
+            else {
+
+                gestureDetector.onTouchEvent(event);
+            }
             switch(oldState) {
                 case ActionSelectorFragment.STATE_INTENSITY_PANEL:
                 case ActionSelectorFragment.STATE_COLOR_PANEL:
@@ -397,7 +403,12 @@ public class ControlActivity extends FragmentActivity implements
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return gestureDetector.onTouchEvent(event);
+        if(event.getPointerCount() == 2 && oldState == ActionSelectorFragment.STATE_OPTIC_PANEL) {
+            return false;
+        }
+        else {
+            return gestureDetector.onTouchEvent(event);
+        }
     }
 
     @Override

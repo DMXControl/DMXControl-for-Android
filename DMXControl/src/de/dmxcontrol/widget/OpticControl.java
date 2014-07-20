@@ -12,6 +12,8 @@ import android.graphics.Path;
 import android.graphics.RadialGradient;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
@@ -26,6 +28,12 @@ import de.dmxcontrol.android.R;
  * Created by Qasi on 18.07.2014.
  */
 public class OpticControl extends View implements View.OnTouchListener {
+    public final static String KEY_ZOOM_VALUE = "key_zoom_value";
+    public final static String KEY_FOCUS_VALUE = "key_focus_value";
+    public final static String KEY_IRIS_VALUE = "key_iris_value";
+    public final static String KEY_FROST_VALUE = "key_frost_value";
+    public final static String KEY_OPTIC_GESTURE = "key_optic_value";
+
     private float mRadiusLens1, radius1, radius2, radius3, radius4, radius5;
     private float size1, size2, size3, size4;
     private int mGestureMode = GESTURE_MODE_ZOOM;
@@ -38,6 +46,19 @@ public class OpticControl extends View implements View.OnTouchListener {
 
     public void setGestureMode(int mode) {
         this.mGestureMode = mode;
+        runGestureModeChangedListener(mode);
+    }
+
+    private ArrayList<ValueChangedListener> GestureModeChangedListeners = new ArrayList<ValueChangedListener>();
+
+    public void setGestureModeChangedListener(ValueChangedListener listener) {
+        this.GestureModeChangedListeners.add(listener);
+    }
+
+    private void runGestureModeChangedListener(float value) {
+        for(ValueChangedListener listener : GestureModeChangedListeners) {
+            listener.onValueChanged(value);
+        }
     }
 
     private ArrayList<ValueChangedListener> ZoomChangedListeners = new ArrayList<ValueChangedListener>();
@@ -522,7 +543,7 @@ public class OpticControl extends View implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        return detectorZoom.onTouchEvent(event);
+        return this.detectorZoom.onTouchEvent(event);
     }
 
     private class ZoomListener extends ScaleGestureDetector.SimpleOnScaleGestureListener {
@@ -608,6 +629,57 @@ public class OpticControl extends View implements View.OnTouchListener {
                 default:
                     break;
             }
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        Bundle bundle = (Bundle) state;
+        super.onRestoreInstanceState(bundle.getParcelable("superState"));
+        if(bundle == null) {
+            return;
+        }
+        this.mZoom = bundle.getFloat(KEY_ZOOM_VALUE);
+        this.mFocus = bundle.getFloat(KEY_FOCUS_VALUE);
+        this.mIris = bundle.getFloat(KEY_IRIS_VALUE);
+        this.mFrost = bundle.getFloat(KEY_FROST_VALUE);
+        this.setGestureMode(bundle.getInt(KEY_OPTIC_GESTURE));
+
+        this.mCountDownZoom = this.mZoom;
+        this.mCountDownFocus = this.mFocus;
+        this.mCountDownIris = this.mIris;
+        this.mCountDownFrost = this.mFrost;
+        invalidate();
+    }
+
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        stopAllThings();
+
+        Parcelable superState = super.onSaveInstanceState();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("superState", superState);
+        bundle.putFloat(KEY_ZOOM_VALUE, this.mZoom);
+        bundle.putFloat(KEY_FOCUS_VALUE, this.mFocus);
+        bundle.putFloat(KEY_IRIS_VALUE, this.mIris);
+        bundle.putFloat(KEY_FROST_VALUE, this.mFrost);
+        bundle.putInt(KEY_OPTIC_GESTURE, this.mGestureMode);
+
+        return bundle;
+    }
+
+    private void stopAllThings() {
+        if(this.animatorZoom != null) {
+            this.animatorZoom.cancel();
+        }
+        if(this.animatorZoom != null) {
+            this.animatorFocus.cancel();
+        }
+        if(this.animatorZoom != null) {
+            this.animatorIris.cancel();
+        }
+        if(this.animatorZoom != null) {
+            this.animatorFrost.cancel();
         }
     }
 }

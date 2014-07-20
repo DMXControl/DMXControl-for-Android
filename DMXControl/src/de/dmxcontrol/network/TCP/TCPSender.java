@@ -38,6 +38,9 @@ public class TCPSender implements Runnable {
     }
 
     private void writeMessage(java.net.Socket socket, String message) throws IOException {
+        if(socket == null) {
+            return;
+        }
         OutputStreamWriter printWriter = new OutputStreamWriter(socket.getOutputStream());
         printWriter.write(message);
         printWriter.flush();
@@ -119,7 +122,12 @@ public class TCPSender implements Runnable {
                         Thread.sleep(1000);
                     }
                     catch(IOException e) {
-                        e.printStackTrace();
+                        if(e.getMessage().contains("(Connection timed out)")) {
+                            //No EXCEPTION!!!
+                        }
+                        else {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
