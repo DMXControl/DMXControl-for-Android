@@ -117,7 +117,7 @@ public class OpticControl extends View implements View.OnTouchListener {
     private static final float MIN_INTERNAL_ZOOM = 0.6f;
     private ScaleGestureDetector detectorZoom;
     private ValueAnimator animatorZoom;
-    private float mZoom = 0f;
+    private float mZoom = 1f;
     private float mCountDownZoom = mZoom;
 
     public float getZoom() {
@@ -139,11 +139,17 @@ public class OpticControl extends View implements View.OnTouchListener {
         animatorZoom.start();
     }
 
-    private void setZoomDirect(float zoom) {
+    private void setZoomDirect(float zoom, boolean runListener) {
         this.mZoom = zoom;
         this.mCountDownZoom = this.mZoom;
-        runZoomChangedListener(this.mZoom);
+        if(runListener) {
+            runZoomChangedListener(this.mZoom);
+        }
         invalidate();
+    }
+
+    public void setZoomDirect(float zoom) {
+        setZoomDirect(zoom, false);
     }
 
     public static final int GESTURE_MODE_FOCUS = 1;
@@ -171,11 +177,17 @@ public class OpticControl extends View implements View.OnTouchListener {
         animatorFocus.start();
     }
 
-    private void setFocusDirect(float focus) {
+    private void setFocusDirect(float focus, boolean runListener) {
         this.mFocus = focus;
         this.mCountDownFocus = this.mFocus;
-        runFocusChangedListener(this.mFocus);
+        if(runListener) {
+            runFocusChangedListener(this.mFocus);
+        }
         invalidate();
+    }
+
+    public void setFocusDirect(float focus) {
+        setFocusDirect(focus, false);
     }
 
     public static final int GESTURE_MODE_IRIS = 2;
@@ -204,11 +216,17 @@ public class OpticControl extends View implements View.OnTouchListener {
         animatorIris.start();
     }
 
-    private void setIrisDirect(float iris) {
+    private void setIrisDirect(float iris, boolean runListener) {
         this.mIris = iris;
         this.mCountDownIris = this.mIris;
-        runIrisChangedListener(this.mIris);
+        if(runListener) {
+            runIrisChangedListener(this.mIris);
+        }
         invalidate();
+    }
+
+    public void setIrisDirect(float iris) {
+        setIrisDirect(iris, false);
     }
 
     public static final int GESTURE_MODE_FROST = 3;
@@ -236,11 +254,17 @@ public class OpticControl extends View implements View.OnTouchListener {
         animatorFrost.start();
     }
 
-    private void setFrostDirect(float frost) {
+    private void setFrostDirect(float frost, boolean runListener) {
         this.mFrost = frost;
         this.mCountDownFrost = this.mFrost;
-        runFrostChangedListener(this.mFrost);
+        if(runListener) {
+            runFrostChangedListener(this.mFrost);
+        }
         invalidate();
+    }
+
+    public void setFrostDirect(float frost) {
+        setFrostDirect(frost, false);
     }
 
     private Bitmap
@@ -560,7 +584,7 @@ public class OpticControl extends View implements View.OnTouchListener {
                         scaleFactor = 0.01f * detector.getScaleFactor();
                     }
                     scaleFactor = Math.max(0, Math.min(scaleFactor, 1));
-                    setZoomDirect(scaleFactor);
+                    setZoomDirect(scaleFactor, true);
                     return true;
                 case GESTURE_MODE_FOCUS:
                     scaleFactor = getFocus();
@@ -571,7 +595,7 @@ public class OpticControl extends View implements View.OnTouchListener {
                         scaleFactor = 0.01f * detector.getScaleFactor();
                     }
                     scaleFactor = Math.max(0, Math.min(scaleFactor, 1));
-                    setFocusDirect(scaleFactor);
+                    setFocusDirect(scaleFactor, true);
                     return true;
                 case GESTURE_MODE_IRIS:
                     scaleFactor = getIris();
@@ -582,7 +606,7 @@ public class OpticControl extends View implements View.OnTouchListener {
                         scaleFactor = 0.01f * detector.getScaleFactor();
                     }
                     scaleFactor = Math.max(0, Math.min(scaleFactor, 1));
-                    setIrisDirect(scaleFactor);
+                    setIrisDirect(scaleFactor, true);
                     return true;
                 case GESTURE_MODE_FROST:
                     scaleFactor = getFrost();
@@ -593,37 +617,35 @@ public class OpticControl extends View implements View.OnTouchListener {
                         scaleFactor += 0.01;
                     }
                     scaleFactor = Math.max(0, Math.min(scaleFactor, 1));
-                    setFrostDirect(scaleFactor);
+                    setFrostDirect(scaleFactor, true);
                     return true;
                 default:
                     return false;
             }
-
         }
 
         @Override
         public void onScaleEnd(ScaleGestureDetector detector) {
             super.onScaleEnd(detector);
-            float scaleFactor;
             switch(mGestureMode) {
                 case GESTURE_MODE_ZOOM:
                     if(getZoom() <= 0.01) {
-                        setZoomDirect(0);
+                        setZoomDirect(0, true);
                     }
                     break;
                 case GESTURE_MODE_FOCUS:
                     if(getFocus() <= 0.01) {
-                        setFocusDirect(0);
+                        setFocusDirect(0, true);
                     }
                     break;
                 case GESTURE_MODE_IRIS:
                     if(getIris() <= 0.01) {
-                        setIrisDirect(0);
+                        setIrisDirect(0, true);
                     }
                     break;
                 case GESTURE_MODE_FROST:
                     if(getFrost() <= 0.01) {
-                        setFrostDirect(0);
+                        setFrostDirect(0, true);
                     }
                     break;
                 default:

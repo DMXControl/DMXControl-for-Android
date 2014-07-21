@@ -1,6 +1,7 @@
 package de.dmxcontrol.fragment;
 
 import android.app.Activity;
+import android.content.pm.PackageManager;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,8 @@ public class OpticFragment extends BasePanelFragment {
     private IrisModel irisModel;
     private FrostModel frostModel;
 
+    private boolean mMultiToch;
+
     private View view;
     private OpticControl optic;
     private FaderVerticalControl faderZoom;
@@ -44,6 +47,7 @@ public class OpticFragment extends BasePanelFragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        this.mMultiToch = activity.getPackageManager().hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH);
     }
 
     @Override
@@ -70,8 +74,8 @@ public class OpticFragment extends BasePanelFragment {
             optic.setZoomChangedListener(new OpticControl.ValueChangedListener() {
                 @Override
                 public void onValueChanged(float value) {
-                    ((FaderVerticalControl) view.findViewById(R.id.optic_zoom_fader)).setValue(value, value);
-                    zoomModel.onValueChanged(faderFocus, value, value);
+                    ((FaderVerticalControl) view.findViewById(R.id.optic_zoom_fader)).setValue(1 - value, 1 - value);
+                    zoomModel.onValueChanged(faderFocus, 1 - value, 1 - value);
                 }
             });
             optic.setFocusChangedListener(new OpticControl.ValueChangedListener() {
@@ -84,8 +88,8 @@ public class OpticFragment extends BasePanelFragment {
             optic.setIrisChangedListener(new OpticControl.ValueChangedListener() {
                 @Override
                 public void onValueChanged(float value) {
-                    ((FaderVerticalControl) view.findViewById(R.id.optic_iris_fader)).setValue(value, value);
-                    irisModel.onValueChanged(faderFrost, value, value);
+                    ((FaderVerticalControl) view.findViewById(R.id.optic_iris_fader)).setValue(1 - value, 1 - value);
+                    irisModel.onValueChanged(faderFrost, 1 - value, 1 - value);
                 }
             });
             optic.setFrostChangedListener(new OpticControl.ValueChangedListener() {
@@ -95,92 +99,104 @@ public class OpticFragment extends BasePanelFragment {
                     frostModel.onValueChanged(faderZoom, value, value);
                 }
             });
-            optic.setGestureModeChangedListener(new OpticControl.ValueChangedListener() {
-                @Override
-                public void onValueChanged(float value) {
-                    switch(optic.getGestureMode()) {
-                        case (OpticControl.GESTURE_MODE_ZOOM):
-                            textZoom.setPaintFlags(textZoom.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                            textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            break;
-                        case (OpticControl.GESTURE_MODE_FOCUS):
-                            textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            textFocus.setPaintFlags(textFocus.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                            textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            break;
-                        case (OpticControl.GESTURE_MODE_IRIS):
-                            textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            textIris.setPaintFlags(textIris.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                            textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            break;
-                        case (OpticControl.GESTURE_MODE_FROST):
-                            textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
-                            textFrost.setPaintFlags(textFrost.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                            break;
+            if(this.mMultiToch) {
+                optic.setGestureModeChangedListener(new OpticControl.ValueChangedListener() {
+                    @Override
+                    public void onValueChanged(float value) {
+                        switch(optic.getGestureMode()) {
+                            case (OpticControl.GESTURE_MODE_ZOOM):
+                                textZoom.setPaintFlags(textZoom.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                                textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                break;
+                            case (OpticControl.GESTURE_MODE_FOCUS):
+                                textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                textFocus.setPaintFlags(textFocus.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                                textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                break;
+                            case (OpticControl.GESTURE_MODE_IRIS):
+                                textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                textIris.setPaintFlags(textIris.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                                textFrost.setPaintFlags(textFrost.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                break;
+                            case (OpticControl.GESTURE_MODE_FROST):
+                                textZoom.setPaintFlags(textZoom.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                textFocus.setPaintFlags(textFocus.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                textIris.setPaintFlags(textIris.getPaintFlags() & (~Paint.UNDERLINE_TEXT_FLAG));
+                                textFrost.setPaintFlags(textFrost.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                                break;
+                        }
                     }
+                });
+                switch(optic.getGestureMode()) {
+                    case (OpticControl.GESTURE_MODE_ZOOM):
+                        textZoom.setPaintFlags(textZoom.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                        break;
+                    case (OpticControl.GESTURE_MODE_FOCUS):
+                        textFocus.setPaintFlags(textFocus.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                        break;
+                    case (OpticControl.GESTURE_MODE_IRIS):
+                        textIris.setPaintFlags(textIris.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                        break;
+                    case (OpticControl.GESTURE_MODE_FROST):
+                        textFrost.setPaintFlags(textFrost.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
+                        break;
                 }
-            });
-            switch(optic.getGestureMode()) {
-                case (OpticControl.GESTURE_MODE_ZOOM):
-                    textZoom.setPaintFlags(textZoom.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                    break;
-                case (OpticControl.GESTURE_MODE_FOCUS):
-                    textFocus.setPaintFlags(textFocus.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                    break;
-                case (OpticControl.GESTURE_MODE_IRIS):
-                    textIris.setPaintFlags(textIris.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                    break;
-                case (OpticControl.GESTURE_MODE_FROST):
-                    textFrost.setPaintFlags(textFrost.getPaintFlags() | Paint.UNDERLINE_TEXT_FLAG);
-                    break;
+                textZoom.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        optic.setGestureMode(OpticControl.GESTURE_MODE_ZOOM);
+                    }
+                });
+                textFocus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        optic.setGestureMode(OpticControl.GESTURE_MODE_FOCUS);
+                    }
+                });
+                textIris.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        optic.setGestureMode(OpticControl.GESTURE_MODE_IRIS);
+                    }
+                });
+                textFrost.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        optic.setGestureMode(OpticControl.GESTURE_MODE_FROST);
+                    }
+                });
             }
-            textZoom.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    optic.setGestureMode(OpticControl.GESTURE_MODE_ZOOM);
-                }
-            });
-            textFocus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    optic.setGestureMode(OpticControl.GESTURE_MODE_FOCUS);
-                }
-            });
-            textIris.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    optic.setGestureMode(OpticControl.GESTURE_MODE_IRIS);
-                }
-            });
-            textFrost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    optic.setGestureMode(OpticControl.GESTURE_MODE_FROST);
-                }
-            });
         }
         faderZoom = ((FaderVerticalControl) view.findViewById(R.id.optic_zoom_fader));
         faderZoom.setValueChangedListener(new FaderVerticalControl.ValueChangedListener() {
             @Override
-            public void onValueChanged(float value) {
+            public void onValueChanged(float value, boolean isMoving) {
                 if(optic != null) {
-                    optic.setZoom(value);
+                    if(!isMoving) {
+                        optic.setZoom(1 - value);
+                    }
+                    else {
+                        optic.setZoomDirect(1 - value);
+                    }
                 }
-                zoomModel.onValueChanged(faderFocus, value, value);
+                zoomModel.onValueChanged(faderFocus, 1 - value, 1 - value);
             }
         });
         faderFocus = ((FaderVerticalControl) view.findViewById(R.id.optic_focus_fader));
         faderFocus.setValueChangedListener(new FaderVerticalControl.ValueChangedListener() {
             @Override
-            public void onValueChanged(float value) {
+            public void onValueChanged(float value, boolean isMoving) {
                 if(optic != null) {
-                    optic.setFocus(value);
+                    if(!isMoving) {
+                        optic.setFocus(value);
+                    }
+                    else {
+                        optic.setFocusDirect(value);
+                    }
                 }
                 focusModel.onValueChanged(faderIris, value, value);
             }
@@ -188,19 +204,29 @@ public class OpticFragment extends BasePanelFragment {
         faderIris = ((FaderVerticalControl) view.findViewById(R.id.optic_iris_fader));
         faderIris.setValueChangedListener(new FaderVerticalControl.ValueChangedListener() {
             @Override
-            public void onValueChanged(float value) {
+            public void onValueChanged(float value, boolean isMoving) {
                 if(optic != null) {
-                    optic.setIris(value);
+                    if(!isMoving) {
+                        optic.setIris(1 - value);
+                    }
+                    else {
+                        optic.setIrisDirect(1 - value);
+                    }
                 }
-                irisModel.onValueChanged(faderFrost, value, value);
+                irisModel.onValueChanged(faderFrost, 1 - value, 1 - value);
             }
         });
         faderFrost = ((FaderVerticalControl) view.findViewById(R.id.optic_frost_fader));
         faderFrost.setValueChangedListener(new FaderVerticalControl.ValueChangedListener() {
             @Override
-            public void onValueChanged(float value) {
+            public void onValueChanged(float value, boolean isMoving) {
                 if(optic != null) {
-                    optic.setFrost(value);
+                    if(!isMoving) {
+                        optic.setFrost(value);
+                    }
+                    else {
+                        optic.setFrostDirect(value);
+                    }
                 }
                 frostModel.onValueChanged(faderZoom, value, value);
             }

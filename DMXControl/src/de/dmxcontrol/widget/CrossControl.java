@@ -317,7 +317,7 @@ public class CrossControl extends BaseValueWidget {
     }
 
     @Override
-    public void pointerPosition(float x, float y) {
+    public void pointerPosition(float x, float y, boolean isMoving) {
         final float percentXValue = x / getWidth();
         final float percentYValue = 1 - (y / getHeight());
 

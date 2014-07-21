@@ -33,7 +33,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -45,6 +44,20 @@ public class FaderVerticalControl extends BaseValueWidget {
     private final static float ROUND_EDGE_X = 15f;
     private final static float ROUND_EDGE_Y = 15f;
 
+    private int mFaderNullPosition = NULL_BOTTOM;
+    public static final int NULL_BOTTOM = 0;
+    public static final int NULL_TOP = 1;
+    public static final int NULL_CENTER = 2;
+
+    public void setFaderNullPosition(int position) {
+        this.mFaderNullPosition = position;
+    }
+
+    public int getFaderNullPosition() {
+        return this.mFaderNullPosition;
+    }
+
+
     private ArrayList<ValueChangedListener> listeners = new ArrayList<ValueChangedListener>();
 
     public void setValueChangedListener(ValueChangedListener listener) {
@@ -52,7 +65,7 @@ public class FaderVerticalControl extends BaseValueWidget {
     }
 
     public interface ValueChangedListener {
-        void onValueChanged(float value);
+        void onValueChanged(float value, boolean isMoving);
     }
 
     private Paint mPaintBorder;
@@ -71,11 +84,13 @@ public class FaderVerticalControl extends BaseValueWidget {
                                 int defStyle) {
         super(context, attrs, defStyle);
         init();
+        setDefaultValues(attrs);
     }
 
     public FaderVerticalControl(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
+        setDefaultValues(attrs);
     }
 
     private void init() {
@@ -110,6 +125,14 @@ public class FaderVerticalControl extends BaseValueWidget {
         mPaintMarker.setStyle(Paint.Style.FILL_AND_STROKE);
     }
 
+    private void setDefaultValues(AttributeSet attrs) {
+        if(attrs != null) {
+            String namespace = "de.dmxcontrol.widget";
+            setFaderNullPosition(attrs.getAttributeIntValue(namespace,
+                    "faderNullPosition", NULL_BOTTOM));
+        }
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         // Log.d(TAG, "onDraw");
@@ -117,8 +140,22 @@ public class FaderVerticalControl extends BaseValueWidget {
         // + getTop() + " right = " + getRight() + " bottom = "
         // + getBottom());
 
-        float percentValue = 1 - getValueX();
+        switch(mFaderNullPosition) {
+            case NULL_BOTTOM:
+                drawFaderFromBottom(canvas);
+                break;
+            case NULL_CENTER:
+                drawFaderFromCenter(canvas);
+                break;
+            case NULL_TOP:
+                drawFaderFromTop(canvas);
+                break;
+        }
+        super.onDraw(canvas);
+    }
 
+    private void drawFaderFromBottom(Canvas canvas) {
+        float percentValue = 1 - getValueX();
         RectF rectInside = new RectF(0, 0, getWidth(), percentValue
                 * getHeight());
 
@@ -141,8 +178,58 @@ public class FaderVerticalControl extends BaseValueWidget {
         canvas.drawRoundRect(rectMarker, ROUND_EDGE_X, ROUND_EDGE_Y,
                 mPaintMarker);
         // Log.d(TAG, "id = " + getId() + " rectMarker = " + rectMarker);
+    }
 
-        super.onDraw(canvas);
+    private void drawFaderFromTop(Canvas canvas) {
+        float percentValue = 1 - getValueX();
+        RectF rectInside = new RectF(0, percentValue
+                * getHeight(), getWidth(), getBottom());
+
+        canvas.drawRoundRect(rectInside, ROUND_EDGE_X, ROUND_EDGE_Y,
+                mPaintInside);
+
+        RectF rectMarked = new RectF(0, getTop(), getWidth(),
+                percentValue * getHeight());
+        canvas.drawRoundRect(rectMarked, ROUND_EDGE_X, ROUND_EDGE_Y,
+                mPaintMarked);
+
+        RectF rectBorder = new RectF(0, 0, getWidth(), getHeight());
+        canvas.drawRoundRect(rectBorder, ROUND_EDGE_X, ROUND_EDGE_Y,
+                mPaintBorder);
+
+        // Log.d(TAG, "id = " + getId() + " rectMarked = " + rectMarked);
+        RectF rectMarker = new RectF(0, percentValue
+                * (getHeight() - markerSizeY), getWidth(), percentValue
+                * (getHeight() - markerSizeY) + markerSizeY);
+        canvas.drawRoundRect(rectMarker, ROUND_EDGE_X, ROUND_EDGE_Y,
+                mPaintMarker);
+        // Log.d(TAG, "id = " + getId() + " rectMarker = " + rectMarker);
+    }
+
+    private void drawFaderFromCenter(Canvas canvas) {
+        float percentValue = 1 - getValueX();
+        RectF rectInside = new RectF(0, 0, getWidth(), percentValue
+                * getHeight());
+
+        canvas.drawRoundRect(rectInside, ROUND_EDGE_X, ROUND_EDGE_Y,
+                mPaintInside);
+
+        RectF rectMarked = new RectF(0, getTop(), getWidth(),
+                percentValue * getHeight());
+        canvas.drawRoundRect(rectMarked, ROUND_EDGE_X, ROUND_EDGE_Y,
+                mPaintMarked);
+
+        RectF rectBorder = new RectF(0, 0, getWidth(), getHeight());
+        canvas.drawRoundRect(rectBorder, ROUND_EDGE_X, ROUND_EDGE_Y,
+                mPaintBorder);
+
+        // Log.d(TAG, "id = " + getId() + " rectMarked = " + rectMarked);
+        RectF rectMarker = new RectF(0, percentValue
+                * (getHeight() - markerSizeY), getWidth(), percentValue
+                * (getHeight() - markerSizeY) + markerSizeY);
+        canvas.drawRoundRect(rectMarker, ROUND_EDGE_X, ROUND_EDGE_Y,
+                mPaintMarker);
+        // Log.d(TAG, "id = " + getId() + " rectMarker = " + rectMarker);
     }
 
     @Override
@@ -164,8 +251,9 @@ public class FaderVerticalControl extends BaseValueWidget {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
-    public void pointerPosition(float x, float y) {
+    public void pointerPosition(float x, float y, boolean isMoving) {
         float percentValue = 1 - ((y - (markerSizeY / 2)) / (getHeight() - markerSizeY));
+        percentValue = Math.max(0, Math.min(percentValue, 1));
         percentValue = Math.round(percentValue * 1000f) / 1000f;
         if(percentValue < 0.01) {
             percentValue = 0;
@@ -176,9 +264,9 @@ public class FaderVerticalControl extends BaseValueWidget {
         setValue(percentValue, 0f);
         notifyListener();
         for(ValueChangedListener listener : listeners) {
-            listener.onValueChanged(percentValue);
+            listener.onValueChanged(percentValue, isMoving);
         }
-        Log.d(TAG, "pointerPosition: " + percentValue);
+        //Log.d(TAG, "pointerPosition: " + percentValue);
 
     }
 

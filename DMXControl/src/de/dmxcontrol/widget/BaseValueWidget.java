@@ -100,7 +100,7 @@ public abstract class BaseValueWidget extends View implements View.OnClickListen
         }
     }
 
-    public abstract void pointerPosition(float xPointer, float yPointer);
+    public abstract void pointerPosition(float xPointer, float yPointer, boolean isMoving);
 
     public abstract void pointerCancelled();
 
@@ -147,7 +147,7 @@ public abstract class BaseValueWidget extends View implements View.OnClickListen
             final float x = mew.getX(idx);
             final float y = mew.getY(idx);
 
-            pointerPosition(x, y);
+            //pointerPosition(x, y, event.getEventTime()-event.getDownTime()>100);
         }
         else if(actionMasked == MotionEvent.ACTION_UP || actionMasked == mew.getActionPointerUpCONST()) {
             // Log.d(TAG, "MotionEvent.ACTION_UP: id = " + getId());
@@ -183,7 +183,7 @@ public abstract class BaseValueWidget extends View implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        pointerPosition(this.mX, this.mY);
+        pointerPosition(this.mX, this.mY, false);
     }
 
     @Override
@@ -196,7 +196,7 @@ public abstract class BaseValueWidget extends View implements View.OnClickListen
             }
         }
         else {
-            pointerPosition(event.getX(), event.getY());
+            pointerPosition(event.getX(), event.getY(), event.getAction() == MotionEvent.ACTION_MOVE && event.getEventTime() - event.getDownTime() > 100);
         }
 
         return false;

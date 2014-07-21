@@ -158,7 +158,7 @@ public class ExecutorView extends LinearLayout {
         });
         fader.setValueChangedListener(new FaderVerticalControl.ValueChangedListener() {
             @Override
-            public void onValueChanged(float value) {
+            public void onValueChanged(float value, boolean isMoving) {
                 mExecutor.setValue(value, false);
             }
 
