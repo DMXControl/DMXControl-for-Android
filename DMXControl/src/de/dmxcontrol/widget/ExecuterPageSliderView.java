@@ -27,15 +27,6 @@ public class ExecuterPageSliderView extends HorizontalScrollView {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent ev) {
-        //int height = Context.getResources().getDisplayMetrics().heightPixels;
-        //if(ev.getY() < height - (height / 2) - (height / 4) - 10) {
-        //    return super.onTouchEvent(ev);
-        //}
-        return false;
-    }
-
-    @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         int height = Context.getResources().getDisplayMetrics().heightPixels;
         if(ev.getY() < height - (height / 2) - (height / 4) - 10) {
