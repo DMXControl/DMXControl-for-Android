@@ -12,3 +12,6 @@ Pre-Release
 The Current App is in the Pre-Alpha state, there is no garantie that the App works correct or supports your Android-Phone.
 
 [More infos about pre-release](DMXControl/Compiled%20Testversion)
+
+
+[![Build Status](https://travis-ci.org/DMXControl/DMXControl-for-Android.svg?branch=master)](https://travis-ci.org/DMXControl/DMXControl-for-Android)
