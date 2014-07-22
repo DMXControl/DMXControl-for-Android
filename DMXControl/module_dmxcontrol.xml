@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_dmxcontrol" default="compile.module.dmxcontrol">
+    <dirname property="module.dmxcontrol.basedir" file="${ant.file.module_dmxcontrol}"/>
+
+    <property name="module.jdk.home.dmxcontrol" value="${jdk.home.android_api_15_platform}"/>
+    <property name="module.jdk.bin.dmxcontrol" value="${jdk.bin.android_api_15_platform}"/>
+    <property name="module.jdk.classpath.dmxcontrol" value="jdk.classpath.android_api_15_platform"/>
+
+    <property name="compiler.args.dmxcontrol" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+
+    <property name="dmxcontrol.output.dir"
+              value="${module.dmxcontrol.basedir}/../out/production/DMXControl"/>
+    <property name="dmxcontrol.testoutput.dir"
+              value="${module.dmxcontrol.basedir}/../out/test/DMXControl"/>
+
+    <path id="dmxcontrol.module.bootclasspath">
+        <!-- Paths to be included in compilation bootclasspath -->
+    </path>
+
+    <path id="dmxcontrol.module.production.classpath">
+        <path refid="${module.jdk.classpath.dmxcontrol}"/>
+        <pathelement location="${basedir}/DMXControl/libs/android-support-v4.jar"/>
+        <path refid="library.acra-4.5.0.classpath"/>
+    </path>
+
+    <path id="dmxcontrol.runtime.production.module.classpath">
+        <pathelement location="${basedir}/DMXControl/libs/android-support-v4.jar"/>
+        <pathelement location="${dmxcontrol.output.dir}"/>
+        <path refid="library.acra-4.5.0.classpath"/>
+    </path>
+
+    <path id="dmxcontrol.module.classpath">
+        <path refid="${module.jdk.classpath.dmxcontrol}"/>
+        <pathelement location="${basedir}/DMXControl/libs/android-support-v4.jar"/>
+        <pathelement location="${dmxcontrol.output.dir}"/>
+        <path refid="library.acra-4.5.0.classpath"/>
+    </path>
+
+    <path id="dmxcontrol.runtime.module.classpath">
+        <pathelement location="${basedir}/DMXControl/libs/android-support-v4.jar"/>
+        <pathelement location="${dmxcontrol.testoutput.dir}"/>
+        <pathelement location="${dmxcontrol.output.dir}"/>
+        <path refid="library.acra-4.5.0.classpath"/>
+    </path>
+
+
+    <patternset id="excluded.from.module.dmxcontrol">
+        <patternset refid="ignored.files"/>
+    </patternset>
+
+    <patternset id="excluded.from.compilation.dmxcontrol">
+        <patternset refid="excluded.from.module.dmxcontrol"/>
+    </patternset>
+
+    <path id="dmxcontrol.module.sourcepath">
+        <dirset dir="${module.dmxcontrol.basedir}">
+            <include name="src"/>
+            <include name="gen"/>
+        </dirset>
+    </path>
+
+
+    <target name="compile.module.dmxcontrol"
+            depends="compile.module.dmxcontrol.production,compile.module.dmxcontrol.tests"
+            description="Compile module DMXControl"/>
+
+    <target name="compile.module.dmxcontrol.production" depends="register.custom.compilers"
+            description="Compile module DMXControl; production classes">
+        <mkdir dir="${dmxcontrol.output.dir}"/>
+        <javac2 destdir="${dmxcontrol.output.dir}" debug="${compiler.debug}"
+                nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}"
+                fork="true" executable="${module.jdk.bin.dmxcontrol}/javac">
+            <compilerarg line="${compiler.args.dmxcontrol}"/>
+            <bootclasspath refid="dmxcontrol.module.bootclasspath"/>
+            <classpath refid="dmxcontrol.module.production.classpath"/>
+            <src refid="dmxcontrol.module.sourcepath"/>
+            <patternset refid="excluded.from.compilation.dmxcontrol"/>
+        </javac2>
+
+        <copy todir="${dmxcontrol.output.dir}">
+            <fileset dir="${module.dmxcontrol.basedir}/src">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+            <fileset dir="${module.dmxcontrol.basedir}/gen">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.module.dmxcontrol.tests"
+            depends="register.custom.compilers,compile.module.dmxcontrol.production"
+            description="compile module DMXControl; test classes" unless="skip.tests"/>
+
+    <target name="clean.module.dmxcontrol" description="cleanup module">
+        <delete dir="${dmxcontrol.output.dir}"/>
+        <delete dir="${dmxcontrol.testoutput.dir}"/>
+    </target>
+</project>
