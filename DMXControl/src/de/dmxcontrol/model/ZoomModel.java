@@ -18,7 +18,7 @@ public class ZoomModel extends BaseModel {
     }
 
     private void init() {
-        zoom[0] = 0;
+        zoom[0] = (int) MAX_VALUE;
     }
 
     @Override

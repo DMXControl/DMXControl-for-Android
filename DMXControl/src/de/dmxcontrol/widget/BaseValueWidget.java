@@ -166,7 +166,9 @@ public abstract class BaseValueWidget extends View implements View.OnClickListen
     protected void onRestoreInstanceState(Parcelable state) {
         Bundle bundle = (Bundle) state;
         super.onRestoreInstanceState(bundle.getParcelable("superState"));
-        setValue(bundle.getFloat(KEY_VALUE_X), bundle.getFloat(KEY_VALUE_Y));
+        if(getValueX() == 0 && getValueY() == 0) {
+            setValue(bundle.getFloat(KEY_VALUE_X), bundle.getFloat(KEY_VALUE_Y));
+        }
 
     }
 

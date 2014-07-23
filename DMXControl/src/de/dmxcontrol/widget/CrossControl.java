@@ -318,25 +318,27 @@ public class CrossControl extends BaseValueWidget {
 
     @Override
     public void pointerPosition(float x, float y, boolean isMoving) {
-        final float percentXValue = x / getWidth();
-        final float percentYValue = 1 - (y / getHeight());
+        if(isMoving) {
+            final float percentXValue = x / getWidth();
+            final float percentYValue = 1 - (y / getHeight());
 
-        if(percentXValue < 0 || percentYValue > 1) {
-            return;
-        }
+            if(percentXValue < 0 || percentYValue > 1) {
+                return;
+            }
 
-        if(percentYValue < 0 || percentYValue > 1) {
-            return;
-        }
+            if(percentYValue < 0 || percentYValue > 1) {
+                return;
+            }
 
-        if(mMode == MODE_POINTER_PLAIN) {
-            pointerPlainPosition(percentXValue, percentYValue);
-        }
-        else if(mMode == MODE_POINTER_FOLLOW) {
-            pointerFollowPosition(percentXValue, percentYValue);
-        }
-        else {
-            pointerSensorPosition(percentXValue, percentYValue);
+            if(mMode == MODE_POINTER_PLAIN) {
+                pointerPlainPosition(percentXValue, percentYValue);
+            }
+            else if(mMode == MODE_POINTER_FOLLOW) {
+                pointerFollowPosition(percentXValue, percentYValue);
+            }
+            else {
+                pointerSensorPosition(percentXValue, percentYValue);
+            }
         }
     }
 

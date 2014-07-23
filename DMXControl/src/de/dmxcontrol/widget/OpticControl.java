@@ -23,6 +23,7 @@ import android.view.animation.LinearInterpolator;
 import java.util.ArrayList;
 
 import de.dmxcontrol.android.R;
+import de.dmxcontrol.file.FileManager;
 
 /**
  * Created by Qasi on 18.07.2014.
@@ -34,11 +35,19 @@ public class OpticControl extends View implements View.OnTouchListener {
     public final static String KEY_FROST_VALUE = "key_frost_value";
     public final static String KEY_OPTIC_GESTURE = "key_optic_value";
 
+    public final static String Lens1 = "optic_lens_1.png";
+    public final static String Lens2 = "optic_lens_2.png";
+    public final static String Lens3 = "optic_lens_3.png";
+    public final static String Frost = "optic_frost.png";
+    public final static String FocusWheel = "optic_focus_wheel.png";
+
+    private boolean isInitializing;
+
     private float mRadiusLens1, radius1, radius2, radius3, radius4, radius5;
     private float size1, size2, size3, size4;
+    private Shader mShaderFrame1, mShaderFrame2, mShaderFrame3, mShaderFrame4, mShaderFrame5, mShaderIris;
     private int mGestureMode = GESTURE_MODE_ZOOM;
     private Paint paint;
-    private Shader shader;
 
     public int getGestureMode() {
         return this.mGestureMode;
@@ -296,24 +305,46 @@ public class OpticControl extends View implements View.OnTouchListener {
     }
 
     private void init() {
-        this.mLens1 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.optic_lens_1);
-        this.mLens2 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.optic_lens_2);
-        this.mLens3 = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.optic_lens_3);
-        this.mFrostFilter = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.optic_frost);
-        this.mFocusWheel = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.optic_focus_wheel);
-        this.mFrameShaderColor0 = getContext().getResources().getColor(R.color.white_smoke);
-        this.mFrameShaderColor1 = getContext().getResources().getColor(R.color.light_grey);
-        this.mFrameShaderColor2 = getContext().getResources().getColor(R.color.black);
-        this.mFrameShaderColor3 = getContext().getResources().getColor(R.color.mid_grey);
-        this.mFrameShaderColor4 = getContext().getResources().getColor(R.color.light_black);
+        isInitializing = true;
+        final OpticControl o = this;
+        mLens1 = FileManager.get().getImage(Lens1);
+        mLens2 = FileManager.get().getImage(Lens2);
+        mLens3 = FileManager.get().getImage(Lens3);
+        mFrostFilter = FileManager.get().getImage(Frost);
+        mFocusWheel = FileManager.get().getImage(FocusWheel);
 
-        detectorZoom = new ScaleGestureDetector(getContext(), new ZoomListener());
-        this.setOnTouchListener(this);
+
+        if(mLens1 == null) {
+            mLens1 = BitmapFactory.decodeResource(getResources(), R.drawable.optic_lens_1);
+        }
+        if(mLens2 == null) {
+            mLens2 = BitmapFactory.decodeResource(getResources(), R.drawable.optic_lens_2);
+        }
+        if(mLens3 == null) {
+            mLens3 = BitmapFactory.decodeResource(getResources(), R.drawable.optic_lens_3);
+        }
+        if(mFrostFilter == null) {
+            mFrostFilter = BitmapFactory.decodeResource(getResources(), R.drawable.optic_frost);
+        }
+        if(mFocusWheel == null) {
+            mFocusWheel = BitmapFactory.decodeResource(getResources(), R.drawable.optic_focus_wheel);
+        }
+
+        mFrameShaderColor0 = o.getContext().getResources().getColor(R.color.white_smoke);
+        mFrameShaderColor1 = o.getContext().getResources().getColor(R.color.light_grey);
+        mFrameShaderColor2 = o.getContext().getResources().getColor(R.color.black);
+        mFrameShaderColor3 = o.getContext().getResources().getColor(R.color.mid_grey);
+        mFrameShaderColor4 = o.getContext().getResources().getColor(R.color.light_black);
+
+        detectorZoom = new ScaleGestureDetector(o.getContext(), new ZoomListener());
+        setOnTouchListener(o);
+
+        isInitializing = false;
     }
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(Math.min(widthMeasureSpec, heightMeasureSpec), Math.min(widthMeasureSpec, heightMeasureSpec));
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
     @Override
@@ -324,30 +355,78 @@ public class OpticControl extends View implements View.OnTouchListener {
         this.drawText(canvas);
     }
 
-    private int[] calculateValues() {
-        int height = getHeight();
-        if(height < getWidth()) {
-            height = getWidth();
+    private void calculateValues() {
+        boolean isFirst = radius1 == 0;
+
+        if(isFirst) {
+            int height = getHeight();
+            if(height < getWidth()) {
+                height = getWidth();
+            }
+            int width = getWidth();
+            if(width > getHeight()) {
+                width = getHeight();
+            }
+            size1 = height / 30;
+            size2 = (size1 / 3) + 1;
+            size3 = size1 + (size2 / 2);
+            size4 = size2 / 2;
+            radius1 = (width / 2) - size1;
+            radius2 = radius1 - size1 + size2;
+            radius3 = radius2 - size3 + size2;
+            radius4 = (radius3 - size3) + size2;
+            radius5 = radius4 - size4;
+            mRadiusLens1 = radius5;
+
+            mShaderFrame1 = new LinearGradient(
+                    0, 0, 0,
+                    getHeight() / 2,
+                    mFrameShaderColor1,
+                    mFrameShaderColor2,
+                    Shader.TileMode.CLAMP);
+
+            mShaderFrame2 = new RadialGradient(
+                    getWidth() - (getWidth() / 4.5f),
+                    getHeight() - (getHeight() / 4.5f),
+                    radius1,
+                    mFrameShaderColor1,
+                    mFrameShaderColor2,
+                    Shader.TileMode.CLAMP);
+
+            mShaderFrame3 = new LinearGradient(
+                    0, 0, 0,
+                    getHeight() / 2,
+                    mFrameShaderColor3,
+                    mFrameShaderColor4,
+                    Shader.TileMode.CLAMP);
+
+            mShaderFrame4 = new LinearGradient(
+                    0, 0, 0,
+                    getHeight() / 3,
+                    0xffffffff,
+                    0x44000000,
+                    Shader.TileMode.CLAMP);
+
+            mShaderFrame5 = new LinearGradient(
+                    0, 0, 0,
+                    getHeight() / 2,
+                    mFrameShaderColor2,
+                    mFrameShaderColor3,
+                    Shader.TileMode.MIRROR);
+
+            mShaderIris = new RadialGradient(
+                    getWidth() - (getWidth() / 4.5f),
+                    getHeight() - (getHeight() / 4.5f),
+                    radius1,
+                    mFrameShaderColor3,
+                    mFrameShaderColor4,
+                    Shader.TileMode.CLAMP);
         }
-        int width = getWidth();
-        if(width > getHeight()) {
-            width = getHeight();
-        }
-        size1 = height / 30;
-        size2 = (size1 / 3) + 1;
-        size3 = size1 + (size2 / 2);
-        size4 = size2 / 2;
-        radius1 = (width / 2) - size1;
-        radius2 = radius1 - size1 + size2;
-        radius3 = radius2 - size3 + size2;
-        radius4 = (radius3 - size3) + size2;
-        radius5 = radius4 - size4;
-        mRadiusLens1 = radius5;
-        return new int[]{width, height};
     }
 
     private void drawFrame(Canvas canvas) {
-
+        float centerWidth = getWidth() / 2;
+        float centerHeight = getHeight() / 2;
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setAlpha(255);
         paint.setAntiAlias(true);
@@ -356,72 +435,37 @@ public class OpticControl extends View implements View.OnTouchListener {
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStrokeCap(Paint.Cap.ROUND);
 
-        shader = new LinearGradient(
-                0, 0, 0,
-                getHeight() / 2,
-                mFrameShaderColor1,
-                mFrameShaderColor2,
-                Shader.TileMode.CLAMP);
-
         paint.setStrokeWidth(size1);
-        paint.setShader(shader);
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, radius1, paint);
-
-        shader = new RadialGradient(
-                getWidth() - (getWidth() / 4.5f),
-                getHeight() - (getHeight() / 4.5f),
-                radius1,
-                mFrameShaderColor1,
-                mFrameShaderColor2,
-                Shader.TileMode.CLAMP);
+        paint.setShader(mShaderFrame1);
+        canvas.drawCircle(centerWidth, centerHeight, radius1, paint);
 
         paint.setStrokeWidth(size3 + size2 + size4 + size4);
-        paint.setShader(shader);
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, radius3, paint);
-
-
-        shader = new LinearGradient(
-                0, 0, 0,
-                getHeight() / 2,
-                mFrameShaderColor3,
-                mFrameShaderColor4,
-                Shader.TileMode.CLAMP);
+        paint.setShader(mShaderFrame2);
+        canvas.drawCircle(centerWidth, centerHeight, radius3, paint);
 
         paint.setStrokeWidth(size2);
-        paint.setShader(shader);
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, radius2, paint);
-
-        shader = new LinearGradient(
-                0, 0, 0,
-                getHeight() / 3,
-                0xffffffff,
-                0x44000000,
-                Shader.TileMode.CLAMP);
+        paint.setShader(mShaderFrame3);
+        canvas.drawCircle(centerWidth, centerHeight, radius2, paint);
 
         paint.setStrokeWidth(size4);
-        paint.setShader(shader);
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, radius4, paint);
-
-        shader = new LinearGradient(
-                0, 0, 0,
-                getHeight() / 2,
-                mFrameShaderColor2,
-                mFrameShaderColor3,
-                Shader.TileMode.MIRROR);
+        paint.setShader(mShaderFrame4);
+        canvas.drawCircle(centerWidth, centerHeight, radius4, paint);
 
         paint.setStrokeWidth(size4);
-        paint.setShader(shader);
-        canvas.drawCircle(getWidth() / 2, getHeight() / 2, radius5, paint);
+        paint.setShader(mShaderFrame5);
+        canvas.drawCircle(centerWidth, centerHeight, radius5, paint);
     }
 
     private void drawLenses(Canvas canvas) {
+
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         //Draw Zoom
         float scale = 1 / (mLens3.getWidth() / (mRadiusLens1 * 2));
-        scale *= (((1f - MIN_INTERNAL_ZOOM) * this.mCountDownZoom) + MIN_INTERNAL_ZOOM);
+        scale *= (((1f - MIN_INTERNAL_ZOOM) * mCountDownZoom) + MIN_INTERNAL_ZOOM);
         float
                 x = (getWidth() / 2) - ((mLens3.getWidth() / 2) * scale),
                 y = (getHeight() / 2) - ((mLens3.getHeight() / 2) * scale);
+
 
         Matrix m = new Matrix();
         m.postScale(scale, scale);
@@ -432,7 +476,7 @@ public class OpticControl extends View implements View.OnTouchListener {
 
         //Draw Frost
         scale = 1 / (mFrostFilter.getWidth() / (mRadiusLens1 * 2));
-        float frost = (((1f - MIN_INTERNAL_FROST) * this.mCountDownFrost) + MIN_INTERNAL_FROST);
+        float frost = (((1f - MIN_INTERNAL_FROST) * mCountDownFrost) + MIN_INTERNAL_FROST);
 
         x = (getWidth() / 2) - ((mFrostFilter.getWidth() / 2) * scale);
         y = (getHeight() / 2) - ((mFrostFilter.getHeight() / 2) * scale);
@@ -446,7 +490,7 @@ public class OpticControl extends View implements View.OnTouchListener {
 
         //Draw Focus
         scale = 1 / (mLens2.getWidth() / (mRadiusLens1 * 2));
-        scale *= (((1f - MIN_INTERNAL_FOCUS) * this.mCountDownFocus) + MIN_INTERNAL_FOCUS);
+        scale *= (((1f - MIN_INTERNAL_FOCUS) * mCountDownFocus) + MIN_INTERNAL_FOCUS);
 
         x = (getWidth() / 2) - ((mLens2.getWidth() / 2) * scale);
         y = (getHeight() / 2) - ((mLens2.getHeight() / 2) * scale);
@@ -495,14 +539,7 @@ public class OpticControl extends View implements View.OnTouchListener {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         paint.setColor(getContext().getResources().getColor(R.color.white_smoke));
-        shader = new RadialGradient(
-                getWidth() - (getWidth() / 4.5f),
-                getHeight() - (getHeight() / 4.5f),
-                radius1,
-                mFrameShaderColor3,
-                mFrameShaderColor4,
-                Shader.TileMode.CLAMP);
-        paint.setShader(shader);
+        paint.setShader(mShaderIris);
         canvas.drawPath(path, paint);
     }
 

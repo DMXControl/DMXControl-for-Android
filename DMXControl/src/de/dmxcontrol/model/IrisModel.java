@@ -18,7 +18,7 @@ public class IrisModel extends BaseModel {
     }
 
     private void init() {
-        iris[0] = 0;
+        iris[0] = (int) MAX_VALUE;
     }
 
     @Override

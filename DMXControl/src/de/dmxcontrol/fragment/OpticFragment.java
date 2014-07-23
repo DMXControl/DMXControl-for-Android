@@ -57,8 +57,10 @@ public class OpticFragment extends BasePanelFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle bundle) {
+        super.onCreateView(inflater, container, bundle);
         Log.d(TAG, "onCreateView");
+
         view = inflater.inflate(R.layout.optic_fragment, container, false);
         try {
             optic = ((OpticControl) view.findViewById(R.id.optic));
@@ -66,11 +68,37 @@ public class OpticFragment extends BasePanelFragment {
         catch(Exception e) {
 
         }
+        faderZoom = ((FaderVerticalControl) view.findViewById(R.id.optic_zoom_fader));
+        faderFocus = ((FaderVerticalControl) view.findViewById(R.id.optic_focus_fader));
+        faderIris = ((FaderVerticalControl) view.findViewById(R.id.optic_iris_fader));
+        faderFrost = ((FaderVerticalControl) view.findViewById(R.id.optic_frost_fader));
+
         textZoom = ((TextView) view.findViewById(R.id.optic_zoom_fader_text));
         textFocus = ((TextView) view.findViewById(R.id.optic_focus_fader_text));
         textIris = ((TextView) view.findViewById(R.id.optic_iris_fader_text));
         textFrost = ((TextView) view.findViewById(R.id.optic_frost_fader_text));
+
+        EntityManager entityManager = EntityManager.get();
+
+        zoomModel = (ZoomModel) entityManager.getEntitySelection(
+                EntityManager.CENTRAL_ENTITY_SELECTION).getModel(ModelManager.Type.Zoom);
+        focusModel = (FocusModel) entityManager.getEntitySelection(
+                EntityManager.CENTRAL_ENTITY_SELECTION).getModel(ModelManager.Type.Focus);
+        irisModel = (IrisModel) entityManager.getEntitySelection(
+                EntityManager.CENTRAL_ENTITY_SELECTION).getModel(ModelManager.Type.Iris);
+        frostModel = (FrostModel) entityManager.getEntitySelection(
+                EntityManager.CENTRAL_ENTITY_SELECTION).getModel(ModelManager.Type.Frost);
+
+        this.faderZoom.setValue(1 - zoomModel.getWidgetValue(), 1 - zoomModel.getWidgetValue());
+        this.faderFocus.setValue(focusModel.getWidgetValue(), focusModel.getWidgetValue());
+        this.faderIris.setValue(1 - irisModel.getWidgetValue(), 1 - irisModel.getWidgetValue());
+        this.faderFrost.setValue(frostModel.getWidgetValue(), frostModel.getWidgetValue());
         if(optic != null) {
+            optic.setZoomDirect(zoomModel.getWidgetValue());
+            optic.setFocusDirect(focusModel.getWidgetValue());
+            optic.setIrisDirect(irisModel.getWidgetValue());
+            optic.setFrostDirect(frostModel.getWidgetValue());
+
             optic.setZoomChangedListener(new OpticControl.ValueChangedListener() {
                 @Override
                 public void onValueChanged(float value) {
@@ -171,7 +199,6 @@ public class OpticFragment extends BasePanelFragment {
                 });
             }
         }
-        faderZoom = ((FaderVerticalControl) view.findViewById(R.id.optic_zoom_fader));
         faderZoom.setValueChangedListener(new FaderVerticalControl.ValueChangedListener() {
             @Override
             public void onValueChanged(float value, boolean isMoving) {
@@ -186,7 +213,6 @@ public class OpticFragment extends BasePanelFragment {
                 zoomModel.onValueChanged(faderFocus, 1 - value, 1 - value);
             }
         });
-        faderFocus = ((FaderVerticalControl) view.findViewById(R.id.optic_focus_fader));
         faderFocus.setValueChangedListener(new FaderVerticalControl.ValueChangedListener() {
             @Override
             public void onValueChanged(float value, boolean isMoving) {
@@ -201,7 +227,6 @@ public class OpticFragment extends BasePanelFragment {
                 focusModel.onValueChanged(faderIris, value, value);
             }
         });
-        faderIris = ((FaderVerticalControl) view.findViewById(R.id.optic_iris_fader));
         faderIris.setValueChangedListener(new FaderVerticalControl.ValueChangedListener() {
             @Override
             public void onValueChanged(float value, boolean isMoving) {
@@ -216,7 +241,6 @@ public class OpticFragment extends BasePanelFragment {
                 irisModel.onValueChanged(faderFrost, 1 - value, 1 - value);
             }
         });
-        faderFrost = ((FaderVerticalControl) view.findViewById(R.id.optic_frost_fader));
         faderFrost.setValueChangedListener(new FaderVerticalControl.ValueChangedListener() {
             @Override
             public void onValueChanged(float value, boolean isMoving) {
@@ -232,23 +256,7 @@ public class OpticFragment extends BasePanelFragment {
             }
         });
 
-        EntityManager entityManager = EntityManager.get();
-
-        zoomModel = (ZoomModel) entityManager.getEntitySelection(
-                EntityManager.CENTRAL_ENTITY_SELECTION).getModel(ModelManager.Type.Zoom);
-        focusModel = (FocusModel) entityManager.getEntitySelection(
-                EntityManager.CENTRAL_ENTITY_SELECTION).getModel(ModelManager.Type.Focus);
-        irisModel = (IrisModel) entityManager.getEntitySelection(
-                EntityManager.CENTRAL_ENTITY_SELECTION).getModel(ModelManager.Type.Iris);
-        frostModel = (FrostModel) entityManager.getEntitySelection(
-                EntityManager.CENTRAL_ENTITY_SELECTION).getModel(ModelManager.Type.Frost);
-
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
     }
 
     @Override
@@ -288,6 +296,6 @@ public class OpticFragment extends BasePanelFragment {
     }
 
     public void clean() {
-
+        optic = null;
     }
 }

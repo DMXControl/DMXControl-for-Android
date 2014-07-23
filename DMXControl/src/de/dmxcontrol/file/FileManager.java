@@ -13,6 +13,7 @@ import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;
+import de.dmxcontrol.widget.OpticControl;
 
 /**
  * Created by Qasi on 15.06.2014.
@@ -23,7 +24,20 @@ public class FileManager {
 
     public final static String[] DefaultFiles = new String[]{
             EntityDevice.defaultDeviceIcon,
-            EntityGroup.defaultDeviceGroupIcon};
+            EntityGroup.defaultDeviceGroupIcon,
+            OpticControl.Lens1,
+            OpticControl.Lens2,
+            OpticControl.Lens3,
+            OpticControl.Frost,
+            OpticControl.FocusWheel
+    };
+
+
+    private ImageWithKeyCollection images = new ImageWithKeyCollection();
+
+    public Bitmap getImage(String key) {
+        return images.get(key).getBitmap();
+    }
 
     private static Context context;
     private static FileManager INSTANCE = null;
@@ -52,6 +66,7 @@ public class FileManager {
     private FileManager() {
         createDirectory();
         createDefaultIcons();
+        loadImages();
     }
 
     private static void createDirectory() {
@@ -85,6 +100,21 @@ public class FileManager {
                     else if(string.equals(EntityGroup.defaultDeviceGroupIcon)) {
                         bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.device_group_new);
                     }
+                    else if(string.equals(OpticControl.Lens1)) {
+                        bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.optic_lens_1);
+                    }
+                    else if(string.equals(OpticControl.Lens2)) {
+                        bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.optic_lens_2);
+                    }
+                    else if(string.equals(OpticControl.Lens3)) {
+                        bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.optic_lens_3);
+                    }
+                    else if(string.equals(OpticControl.Frost)) {
+                        bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.optic_frost);
+                    }
+                    else if(string.equals(OpticControl.FocusWheel)) {
+                        bmp = BitmapFactory.decodeResource(context.getResources(), R.drawable.optic_focus_wheel);
+                    }
 
                     try {
                         out = new FileOutputStream(IconStorageName + File.separator + string);
@@ -101,5 +131,17 @@ public class FileManager {
             Log.e("", DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
+    }
+
+    private void loadImages() {
+        images.add(new ImageWithKey(loadImage(OpticControl.Lens1), OpticControl.Lens1));
+        images.add(new ImageWithKey(loadImage(OpticControl.Lens2), OpticControl.Lens2));
+        images.add(new ImageWithKey(loadImage(OpticControl.Lens3), OpticControl.Lens3));
+        images.add(new ImageWithKey(loadImage(OpticControl.Frost), OpticControl.Frost));
+        images.add(new ImageWithKey(loadImage(OpticControl.FocusWheel), OpticControl.FocusWheel));
+    }
+
+    private Bitmap loadImage(String name) {
+        return BitmapFactory.decodeFile(new File(IconStorageName + File.separator + name).getAbsolutePath());
     }
 }
