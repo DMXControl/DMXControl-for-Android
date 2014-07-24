@@ -38,7 +38,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 
 import de.dmxcontrol.android.R;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.model.DimmerModel;
 import de.dmxcontrol.model.ModelManager;
@@ -130,10 +129,6 @@ public class IntensityFragment extends BasePanelFragment {
         Button buttonIntensityNox = (Button) intensityLayout
                 .findViewById(R.id.button_intensity_nox);
         buttonIntensityNox.setOnClickListener(oll);
-
-        if(!Prefs.get().getDisableAnimations()) {
-            addFadeInAnimation(intensityLayout);
-        }
 
         return intensityLayout;
     }

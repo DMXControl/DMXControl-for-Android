@@ -39,7 +39,6 @@ import android.widget.Button;
 
 import de.dmxcontrol.activity.ControlActivity;
 import de.dmxcontrol.android.R;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.model.ModelManager.Type;
 import de.dmxcontrol.model.PositionModel;
@@ -143,10 +142,6 @@ public class PanTiltFragment extends BasePanelFragment implements
 
         Button reset = (Button) softpultLayout.findViewById(R.id.reset);
         reset.setOnClickListener(this);
-
-        if(!Prefs.get().getDisableAnimations()) {
-            addFadeInAnimation(softpultLayout);
-        }
 
         return softpultLayout;
 

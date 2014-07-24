@@ -30,12 +30,6 @@ package de.dmxcontrol.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.LayoutAnimationController;
-import android.view.animation.ScaleAnimation;
 
 public class BasePanelFragment extends Fragment {
     private OnPanelResumedListener resumedListener;
@@ -62,23 +56,5 @@ public class BasePanelFragment extends Fragment {
         if(resumedListener != null) {
             resumedListener.onPanelResumed();
         }
-    }
-
-    protected static void addFadeInAnimation(ViewGroup vg) {
-        AnimationSet set = new AnimationSet(true);
-
-        Animation animation = new AlphaAnimation(0.0f, 1.0f);
-        animation.setDuration(750);
-        set.addAnimation(animation);
-
-        animation = new ScaleAnimation(2.0f, 1.0f, 2.0f, 1.0f,
-                Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF,
-                0.5f);
-        animation.setDuration(500);
-        set.addAnimation(animation);
-
-        LayoutAnimationController controller = new LayoutAnimationController(
-                set, 0.0f);
-        vg.setLayoutAnimation(controller);
     }
 }

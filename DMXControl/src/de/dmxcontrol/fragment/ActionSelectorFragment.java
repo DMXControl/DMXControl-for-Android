@@ -39,11 +39,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.AnimationUtils;
-import android.view.animation.LayoutAnimationController;
-import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
@@ -52,7 +47,6 @@ import android.widget.ScrollView;
 import org.json.JSONException;
 
 import de.dmxcontrol.android.R;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.compatibility.CompatibilityWrapper8;
 import de.dmxcontrol.device.DeviceManagerDialog;
 import de.dmxcontrol.network.ServiceFrontend;
@@ -62,7 +56,6 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
 
     private Button crrActionButton;
     private ViewGroup scrollView;
-    private LinearLayout buttonsView;
     private OnUpdateActionView updateActionViewListener;
     private CompatibilityWrapper8 compat8;
     private Button
@@ -120,9 +113,6 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
         ViewGroup vg = (ViewGroup) actionButtons
                 .findViewById(R.id.action_selector_scroll);
         scrollView = vg;
-        if(!Prefs.get().getDisableAnimations()) {
-            addBounceInAnimation(vg);
-        }
 
         bDeviceAction = (Button) actionButtons
                 .findViewById(R.id.button_device_action);
@@ -407,35 +397,6 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
             result = getResources().getDimensionPixelSize(resourceId);
         }
         return result;
-    }
-
-    private void addBounceInAnimation(ViewGroup target) {
-        AnimationSet set = new AnimationSet(true);
-        Animation animation;
-
-        if(compat8.isDisplayPortrait()) {
-            // Portrait
-            animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
-                    1.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
-                    Animation.RELATIVE_TO_PARENT, 0.0f,
-                    Animation.RELATIVE_TO_PARENT, 0.0f);
-
-        }
-        else {
-            // Landscape
-            animation = new TranslateAnimation(Animation.RELATIVE_TO_PARENT,
-                    0.0f, Animation.RELATIVE_TO_PARENT, 0.0f,
-                    Animation.RELATIVE_TO_PARENT, 1.0f,
-                    Animation.RELATIVE_TO_PARENT, 0.0f);
-        }
-
-        animation.setDuration(750);
-        animation.setInterpolator(AnimationUtils.loadInterpolator(
-                getActivity(), android.R.anim.decelerate_interpolator));
-        set.addAnimation(animation);
-        LayoutAnimationController controller = new LayoutAnimationController(
-                set, 0.0f);
-        target.setLayoutAnimation(controller);
     }
 
     public static interface OnUpdateActionView {

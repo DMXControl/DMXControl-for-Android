@@ -45,7 +45,6 @@ import android.widget.LinearLayout;
 import de.dmxcontrol.adapter.DeviceAdapter;
 import de.dmxcontrol.adapter.GroupAdapter;
 import de.dmxcontrol.android.R;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.DeviceParameterDialog;
 import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.device.EntityGroup;
@@ -141,9 +140,6 @@ public class DeviceGroupFragment extends BasePanelFragment implements
                 }
             });
         }
-        if(!Prefs.get().getDisableAnimations()) {
-            addFadeInAnimation(deviceLayout);
-        }
         return deviceLayout;
     }
 
@@ -199,7 +195,7 @@ public class DeviceGroupFragment extends BasePanelFragment implements
     }
 
     @Override
-    public void onItemClick(AdapterView<?> adapterView, View v, int position,long id) {
+    public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
 
         switch(adapterView.getId()) {
             case R.id.group_grid:

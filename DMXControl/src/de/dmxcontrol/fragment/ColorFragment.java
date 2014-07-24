@@ -38,7 +38,6 @@ import android.widget.LinearLayout;
 import org.openintents.widget.ColorCircle;
 
 import de.dmxcontrol.android.R;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.model.ColorModel;
 import de.dmxcontrol.model.ModelManager.Type;
@@ -71,10 +70,6 @@ public class ColorFragment extends BasePanelFragment {
                 .getModel(Type.Color);
         circle.setOnColorChangedListener(colorModel);
         circle.setColor(colorModel.getValue());
-
-        if(!Prefs.get().getDisableAnimations()) {
-            addFadeInAnimation(colorLayout);
-        }
 
         return colorLayout;
     }
