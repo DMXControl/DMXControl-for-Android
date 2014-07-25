@@ -28,7 +28,9 @@
 package de.dmxcontrol.compatibility;
 
 import android.content.Context;
-import android.content.res.Configuration;
+import android.view.Display;
+import android.view.Surface;
+import android.view.WindowManager;
 
 public class CompatibilityWrapper8 {
     protected Context ctx;
@@ -47,8 +49,34 @@ public class CompatibilityWrapper8 {
     }
 
     public boolean isDisplayPortrait() {
-        int o = ctx.getResources().getConfiguration().orientation;
-        if(o == Configuration.ORIENTATION_PORTRAIT || o == Configuration.ORIENTATION_SQUARE) {
+        Display display = ((WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+        int o = display.getRotation();
+        if(o == Surface.ROTATION_0) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean isDisplayLandscape() {
+        Display display = ((WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+        int o = display.getRotation();
+        if(o == Surface.ROTATION_90) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    public boolean isDisplayLandscapeOverhead() {
+        Display display = ((WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+        int o = display.getRotation();
+        if(o == Surface.ROTATION_270) {
             return true;
         }
         else {

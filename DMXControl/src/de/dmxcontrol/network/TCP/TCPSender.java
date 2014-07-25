@@ -48,21 +48,29 @@ public class TCPSender implements Runnable {
 
     private void sendDataOut() {
         try {
+            byte[] out;
             for(int i = 0; i < sendData.size(); i++) {
                 try {
-                    writeMessage(client, new String(sendData.get(i), 0, sendData.get(i).length));
+                    out = sendData.get(i);
+                    if(out != null) {
+                        if(out.length > 0) {
+                            writeMessage(client, new String(out, 0, out.length));
+                        }
+                    }
+                    sendData.remove(out);
                 }
                 catch(UnknownHostException e) {
-
+                    Log.w("TCPSender", "UnknownHostException:" + e.getMessage());
                     e.printStackTrace();
-
                 }
                 catch(IOException e) {
-
+                    Log.w("TCPSender", "IOException: " + e.getMessage());
                     e.printStackTrace();
-
                 }
-                sendData.remove(i);
+                catch(NullPointerException e) {
+                    Log.w("TCPSender", "NullPointerException: " + e.getMessage());
+                    e.printStackTrace();
+                }
             }
         }
         catch(Exception e) {
@@ -165,6 +173,7 @@ public class TCPSender implements Runnable {
             }
         }
         catch(InterruptedException e) {
+            Log.w("TCPSender", "InterruptedException" + e.getMessage());
             Log.d(TAG, e.getMessage());
         }
         finally {

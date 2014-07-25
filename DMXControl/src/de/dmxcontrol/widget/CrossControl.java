@@ -121,7 +121,7 @@ public class CrossControl extends BaseValueWidget {
         mPaintBorder.setStrokeWidth(5);
 
         mPaintCross = new Paint(Paint.ANTI_ALIAS_FLAG);
-        mPaintCross.setARGB(180, red, green, blue);
+        mPaintCross.setARGB(100, red, green, blue);
         mPaintCross.setStyle(Paint.Style.STROKE);
         mPaintCross.setStrokeWidth(dpToPx(1));
 
@@ -132,7 +132,6 @@ public class CrossControl extends BaseValueWidget {
 
         mPaintMarker = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintMarker.setARGB(255, red, green, blue);
-        // mPaintMarker.setARGB(180, 220, 20, 60);
         mPaintMarker.setStyle(Paint.Style.FILL_AND_STROKE);
         mPaintMarker.setStrokeWidth(dpToPx(1));
 
@@ -314,8 +313,8 @@ public class CrossControl extends BaseValueWidget {
     @Override
     public void pointerPosition(float x, float y, boolean isMoving) {
         if(isMoving) {
-            final float percentXValue = x / getWidth();
-            final float percentYValue = 1 - (y / getHeight());
+            final float percentXValue = Math.max(0, Math.min(x / getWidth(), 1));
+            final float percentYValue = Math.max(0, Math.min(1 - (y / getHeight()), 1));
 
             if(percentXValue < 0 || percentYValue > 1) {
                 return;
@@ -361,7 +360,6 @@ public class CrossControl extends BaseValueWidget {
         }
 
         notifyListener();
-        // Log.d(TAG, "pointerPlainPosition: x = " + x + " y = " + y);
     }
 
     private void pointerFollowPosition(float x, float y) {
@@ -385,8 +383,6 @@ public class CrossControl extends BaseValueWidget {
         if((y >= 0 && y <= 1) && !mEnableLockYDirection) {
             setValue(getValueX(), y);
         }
-
-        Log.d(TAG, "pointerPlainPosition: x = " + x + " y = " + y);
         notifyListener();
     }
 
@@ -530,7 +526,7 @@ public class CrossControl extends BaseValueWidget {
                 SensorManager.getRotationMatrix(R, I, accels, mags);
                 SensorManager.remapCoordinateSystem(R, SensorManager.AXIS_Y, SensorManager.AXIS_MINUS_X, outR);
                 SensorManager.getOrientation(outR, values);
-                int[] v = new int[3];
+                float[] v = new float[3];
 
                 v[0] = filter[0].average(values[0] * 100);
                 v[1] = filter[1].average(values[1] * 100);
@@ -538,18 +534,24 @@ public class CrossControl extends BaseValueWidget {
 
                 final float xFollowValue, yFollowValue;
                 if(compat8.isDisplayPortrait()) {
-                    xFollowValue = v[1];
-                    yFollowValue = v[2];
+                    xFollowValue = v[1] / 10;
+                    yFollowValue = v[2] / 10;
+                }
+                else if(compat8.isDisplayLandscape()) {
+                    xFollowValue = v[2] / 10;
+                    yFollowValue = -v[1] / 10;
+                }
+                else if(compat8.isDisplayLandscapeOverhead()) {
+                    xFollowValue = -v[2] / 10;
+                    yFollowValue = v[1] / 10;
                 }
                 else {
-                    xFollowValue = v[2];
-                    yFollowValue = -v[1];
+                    xFollowValue = v[2] / 10;
+                    yFollowValue = v[1] / 10;
                 }
 
-                final float newX = getValueX() + (Math.signum(xFollowValue) * POINTER_SENSOR_SPEED_FACTOR * mSpeed);
-                final float newY = getValueY() + (-1 * Math.signum(yFollowValue) * POINTER_SENSOR_SPEED_FACTOR * mSpeed);
-                // Log.d(TAG, " newX = " + newX + " newY = " + newY);
-
+                final float newX = getValueX() + (xFollowValue * POINTER_SENSOR_SPEED_FACTOR * mSpeed);
+                final float newY = getValueY() + (-1 * yFollowValue * POINTER_SENSOR_SPEED_FACTOR * mSpeed);
                 CrossControl.this.post(new Runnable() {
                     public void run() {
                         pointerSensorPosition(newX, newY);
