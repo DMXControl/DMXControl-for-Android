@@ -71,6 +71,7 @@ public class ExecutorView extends LinearLayout {
         textView.setTextColor(getResources().getColor(R.color.dark_white_smoke));
         textView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
         textView.setText(mExecutor.getName());
+        textView.setLongClickable(true);
         textView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(final View v) {
