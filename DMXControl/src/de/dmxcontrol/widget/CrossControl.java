@@ -48,17 +48,11 @@ import de.dmxcontrol.compatibility.CompatibilityWrapper8;
 public class CrossControl extends BaseValueWidget {
     private final static String TAG = "widget";
 
-    private final static float ROUND_EDGE_X = 15f;
-    private final static float ROUND_EDGE_Y = 15f;
+    private final static int MARKER_SIZE_X = 11;
+    private final static int MARKER_SIZE_Y = 11;
 
-    private final static int MARKER_SIZE_X = 25;
-    private final static int MARKER_SIZE_Y = 25;
-
-    private final static float MARKER_ROUND_EDGE_X = 10f;
-    private final static float MARKER_ROUND_EDGE_Y = 10f;
-
-    private final static int FOLLOW_MARKER_SIZE_X = 30;
-    private final static int FOLLOW_MARKER_SIZE_Y = 30;
+    private final static float FOLLOW_MARKER_SIZE_X = 13;
+    private final static float FOLLOW_MARKER_SIZE_Y = 13;
 
     private Paint mPaintBorder;
     private Paint mPaintInnerCross;
@@ -129,18 +123,18 @@ public class CrossControl extends BaseValueWidget {
         mPaintCross = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintCross.setARGB(180, red, green, blue);
         mPaintCross.setStyle(Paint.Style.STROKE);
-        mPaintCross.setStrokeWidth(3);
+        mPaintCross.setStrokeWidth(dpToPx(1));
 
         mPaintInnerCross = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintInnerCross.setARGB(255, red, green, blue);
         mPaintInnerCross.setStyle(Paint.Style.STROKE);
-        mPaintInnerCross.setStrokeWidth(2);
+        mPaintInnerCross.setStrokeWidth(dpToPx(1));
 
         mPaintMarker = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintMarker.setARGB(255, red, green, blue);
         // mPaintMarker.setARGB(180, 220, 20, 60);
         mPaintMarker.setStyle(Paint.Style.FILL_AND_STROKE);
-        mPaintMarker.setStrokeWidth(2);
+        mPaintMarker.setStrokeWidth(dpToPx(1));
 
         mPaintFollowMarker = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintFollowMarker.setARGB(255, 160, 160, 160);
@@ -149,7 +143,7 @@ public class CrossControl extends BaseValueWidget {
         mPaintFollowLine = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaintFollowLine.setARGB(255, 160, 160, 160);
         mPaintFollowLine.setStyle(Paint.Style.STROKE);
-        mPaintFollowLine.setStrokeWidth(2);
+        mPaintFollowLine.setStrokeWidth(dpToPx(1));
 
         mXFollowValue = getValueX();
         mYFollowValue = getValueY();
@@ -220,12 +214,13 @@ public class CrossControl extends BaseValueWidget {
         if(mMode == MODE_POINTER_FOLLOW) {
             driveFollowMode();
         }
+
+        super.onDraw(canvas);
     }
 
     private void drawBorder(Canvas canvas) {
 
         RectF rectBorder = new RectF(0, 0, getWidth(), getHeight());
-        canvas.drawRoundRect(rectBorder, ROUND_EDGE_X, ROUND_EDGE_Y, mPaintBorder);
 
         canvas.drawLine(0, getHeight() / 2, getWidth(), getHeight() / 2, mPaintInnerCross);
         canvas.drawLine(getWidth() / 2, 0, getWidth() / 2, getHeight(), mPaintInnerCross);
@@ -259,12 +254,12 @@ public class CrossControl extends BaseValueWidget {
         canvas.drawLines(points, mPaintFollowLine);
 
         RectF rectDrivenMarked = new RectF(xDrivenPosition
-                - FOLLOW_MARKER_SIZE_X / 2, yDrivenPosition
-                - FOLLOW_MARKER_SIZE_Y / 2, xDrivenPosition
-                + FOLLOW_MARKER_SIZE_X / 2, yDrivenPosition
-                + FOLLOW_MARKER_SIZE_Y / 2);
+                - dpToPx(FOLLOW_MARKER_SIZE_X) / 2, yDrivenPosition
+                - dpToPx(FOLLOW_MARKER_SIZE_Y) / 2, xDrivenPosition
+                + dpToPx(FOLLOW_MARKER_SIZE_X) / 2, yDrivenPosition
+                + dpToPx(FOLLOW_MARKER_SIZE_Y) / 2);
 
-        canvas.drawRoundRect(rectDrivenMarked, MARKER_ROUND_EDGE_X, MARKER_ROUND_EDGE_Y, mPaintFollowMarker);
+        canvas.drawRoundRect(rectDrivenMarked, dpToPx(ROUND_EDGE_X), dpToPx(ROUND_EDGE_X), mPaintFollowMarker);
     }
 
     private void drawMarker(Canvas canvas, int xPosition, int yPosition) {
@@ -272,11 +267,11 @@ public class CrossControl extends BaseValueWidget {
         canvas.drawLine(0, yPosition, getWidth(), yPosition, mPaintCross);
         canvas.drawLine(xPosition, 0, xPosition, getHeight(), mPaintCross);
 
-        RectF rectMarked = new RectF(xPosition - MARKER_SIZE_X / 2, yPosition
-                - MARKER_SIZE_Y / 2, xPosition + MARKER_SIZE_X / 2, yPosition
-                + MARKER_SIZE_Y / 2);
+        RectF rectMarked = new RectF(xPosition - dpToPx(MARKER_SIZE_X) / 2, yPosition
+                - dpToPx(MARKER_SIZE_Y) / 2, xPosition + dpToPx(MARKER_SIZE_X) / 2, yPosition
+                + dpToPx(MARKER_SIZE_Y) / 2);
 
-        canvas.drawRoundRect(rectMarked, MARKER_ROUND_EDGE_X, MARKER_ROUND_EDGE_Y, mPaintMarker);
+        canvas.drawRoundRect(rectMarked, dpToPx(ROUND_EDGE_X), dpToPx(ROUND_EDGE_X), mPaintMarker);
     }
 
     @Override

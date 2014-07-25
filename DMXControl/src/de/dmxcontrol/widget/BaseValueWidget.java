@@ -28,6 +28,7 @@
 package de.dmxcontrol.widget;
 
 import android.content.Context;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
@@ -39,6 +40,9 @@ import de.dmxcontrol.android.R;
 
 public abstract class BaseValueWidget extends View implements View.OnClickListener, View.OnTouchListener {
     private final static String TAG = "widget";
+
+    protected final static float ROUND_EDGE_X = 2f;
+    protected final static float ROUND_EDGE_Y = 2f;
 
     private IMotionEventWrapper mew;
     private static final int INVALID_POINTER_ID = -1;
@@ -105,6 +109,7 @@ public abstract class BaseValueWidget extends View implements View.OnClickListen
     public abstract void pointerCancelled();
 
     private float mX = 0, mY = 0;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         mew = MotionEventWrapper.get(event);
@@ -163,6 +168,13 @@ public abstract class BaseValueWidget extends View implements View.OnClickListen
     }
 
     @Override
+    protected void onDraw(Canvas canvas) {
+        if(getBackground() != null) {
+            getBackground().draw(canvas);
+        }
+    }
+
+    @Override
     protected void onRestoreInstanceState(Parcelable state) {
         Bundle bundle = (Bundle) state;
         super.onRestoreInstanceState(bundle.getParcelable("superState"));
@@ -202,5 +214,9 @@ public abstract class BaseValueWidget extends View implements View.OnClickListen
         }
 
         return false;
+    }
+
+    public float dpToPx(float dp) {
+        return (dp * getResources().getDisplayMetrics().density * 2);
     }
 }

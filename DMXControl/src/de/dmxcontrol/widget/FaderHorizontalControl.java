@@ -18,9 +18,6 @@ import de.dmxcontrol.android.R;
 public class FaderHorizontalControl extends BaseValueWidget {
     private final static String TAG = "widget";
 
-    private final static float ROUND_EDGE_X = 15f;
-    private final static float ROUND_EDGE_Y = 15f;
-
     private int mFaderNullPosition = NULL_RIGHT;
     public static final int NULL_LEFT = 0;
     public static final int NULL_RIGHT = 1;
@@ -113,11 +110,6 @@ public class FaderHorizontalControl extends BaseValueWidget {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        // Log.d(TAG, "onDraw");
-        // Log.d(TAG, "id = " + getId() + " left = " + getLeft() + " top = "
-        // + getTop() + " right = " + getRight() + " bottom = "
-        // + getBottom());
-
         switch(mFaderNullPosition) {
             case NULL_LEFT:
                 drawFaderFromLeft(canvas);
@@ -137,26 +129,26 @@ public class FaderHorizontalControl extends BaseValueWidget {
 
         RectF rectMarker = new RectF(
                 percentValue * (getWidth() - markerSizeX),
-                0,
+                dpToPx(1.5f) - 1,
                 percentValue * (getWidth() - markerSizeX) + markerSizeX,
-                getHeight());
+                (getHeight() - dpToPx(1.5f)) + 1);
 
         RectF rectInside = new RectF(rectMarker.left, rectMarker.top, getWidth(), getHeight());
 
-        canvas.drawRoundRect(rectInside, ROUND_EDGE_X, ROUND_EDGE_Y,
+        canvas.drawRoundRect(rectInside, dpToPx(ROUND_EDGE_X), dpToPx(ROUND_EDGE_Y),
                 mPaintInside);
 
         RectF rectMarked = new RectF(0, rectMarker.top, rectMarker.right,
                 getBottom());
-        canvas.drawRoundRect(rectMarked, ROUND_EDGE_X, ROUND_EDGE_Y,
+        canvas.drawRoundRect(rectMarked, dpToPx(ROUND_EDGE_X), dpToPx(ROUND_EDGE_Y),
                 mPaintMarked);
 
         RectF rectBorder = new RectF(0, 0, getWidth(), getHeight());
-        canvas.drawRoundRect(rectBorder, ROUND_EDGE_X, ROUND_EDGE_Y,
+        canvas.drawRoundRect(rectBorder, dpToPx(ROUND_EDGE_X), dpToPx(ROUND_EDGE_Y),
                 mPaintBorder);
 
         // Log.d(TAG, "id = " + getId() + " rectMarked = " + rectMarked);
-        canvas.drawRoundRect(rectMarker, ROUND_EDGE_X, ROUND_EDGE_Y,
+        canvas.drawRoundRect(rectMarker, dpToPx(ROUND_EDGE_X), dpToPx(ROUND_EDGE_Y),
                 mPaintMarker);
         // Log.d(TAG, "id = " + getId() + " rectMarker = " + rectMarker);
     }
@@ -166,25 +158,25 @@ public class FaderHorizontalControl extends BaseValueWidget {
 
         RectF rectMarker = new RectF(
                 percentValue * (getWidth() - markerSizeX),
-                0,
+                dpToPx(1.5f) - 1,
                 percentValue * (getWidth() - markerSizeX) + markerSizeX,
-                getHeight());
+                (getHeight() - dpToPx(1.5f)) + 1);
 
         RectF rectMarked = new RectF(rectMarker.left, rectMarker.top, getWidth(), getHeight());
 
-        canvas.drawRoundRect(rectMarked, ROUND_EDGE_X, ROUND_EDGE_Y,
+        canvas.drawRoundRect(rectMarked, dpToPx(ROUND_EDGE_X), ROUND_EDGE_Y,
                 mPaintMarked);
 
         RectF rectInside = new RectF(0, rectMarker.top, rectMarker.right,
                 getBottom());
-        canvas.drawRoundRect(rectInside, ROUND_EDGE_X, ROUND_EDGE_Y,
+        canvas.drawRoundRect(rectInside, dpToPx(ROUND_EDGE_X), dpToPx(ROUND_EDGE_Y),
                 mPaintInside);
 
         RectF rectBorder = new RectF(0, 0, getWidth(), getHeight());
-        canvas.drawRoundRect(rectBorder, ROUND_EDGE_X, ROUND_EDGE_Y,
+        canvas.drawRoundRect(rectBorder, dpToPx(ROUND_EDGE_X), dpToPx(ROUND_EDGE_Y),
                 mPaintBorder);
 
-        canvas.drawRoundRect(rectMarker, ROUND_EDGE_X, ROUND_EDGE_Y,
+        canvas.drawRoundRect(rectMarker, dpToPx(ROUND_EDGE_X), dpToPx(ROUND_EDGE_Y),
                 mPaintMarker);
     }
 
@@ -193,9 +185,9 @@ public class FaderHorizontalControl extends BaseValueWidget {
 
         RectF rectMarker = new RectF(
                 percentValue * (getWidth() - markerSizeX),
-                0,
+                dpToPx(1.5f) - 1,
                 percentValue * (getWidth() - markerSizeX) + markerSizeX,
-                getHeight());
+                (getHeight() - dpToPx(1.5f)) + 1);
 
         RectF rectMarked, rectInside, rectInside2;
         rectInside = new RectF(0, rectMarker.top, Math.min(rectMarker.centerX(), getWidth() / 2), getHeight());
@@ -215,11 +207,7 @@ public class FaderHorizontalControl extends BaseValueWidget {
         mPaintBorder.setARGB(255, 0, 0, 0);
         canvas.drawRect(rectBorder, mPaintBorder);
 
-        mPaintBorder.setColor(bordercolor);
-        canvas.drawRoundRect(rectBorder, ROUND_EDGE_X, ROUND_EDGE_Y,
-                mPaintBorder);
-
-        canvas.drawRoundRect(rectMarker, ROUND_EDGE_X, ROUND_EDGE_Y,
+        canvas.drawRoundRect(rectMarker, dpToPx(ROUND_EDGE_X), dpToPx(ROUND_EDGE_Y),
                 mPaintMarker);
     }
 
@@ -268,9 +256,5 @@ public class FaderHorizontalControl extends BaseValueWidget {
 
     public void pointerCancelled() {
 
-    }
-
-    public int dpToPx(int dp) {
-        return (int) (dp * getResources().getDisplayMetrics().density * 2);
     }
 }

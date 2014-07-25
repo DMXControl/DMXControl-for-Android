@@ -8,6 +8,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/horizontalScrollView"
+        android:scrollbarThumbHorizontal="@drawable/scrollbar_horizontal_style"
         android:layout_gravity="center">
 
         <de.dmxcontrol.widget.ExecuterPageMultitouchLayout
