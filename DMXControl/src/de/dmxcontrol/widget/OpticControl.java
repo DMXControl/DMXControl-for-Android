@@ -558,13 +558,14 @@ public class OpticControl extends View implements View.OnTouchListener {
 
     private void drawText(Canvas canvas) {
         Path mArc = new Path();
+        float radius = radius1;
         float range = (float) ((radius1 + size4) * 2 * Math.PI);
         float degreePerPixel = 360f / range;
         RectF oval = new RectF(
-                -(radius1 + 3) + (getWidth() / 2),
-                -(radius1 + 3) + (getHeight() / 2),
-                (radius1 + 3) + (getWidth() / 2),
-                (radius1 + 3) + (getHeight() / 2));
+                -(radius) + (getWidth() / 2),
+                -(radius) + (getHeight() / 2),
+                (radius) + (getWidth() / 2),
+                (radius) + (getHeight() / 2));
 
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
@@ -574,13 +575,13 @@ public class OpticControl extends View implements View.OnTouchListener {
         String text = getContext().getResources().getString(R.string.about_title);
         float width = paint.measureText(text, 0, text.length());
         mArc.addArc(oval, 180 - (degreePerPixel * width / 2), 200);
-        canvas.drawTextOnPath(text, mArc, 0, 20, paint);
+        canvas.drawTextOnPath(text, mArc, 0, (size2 / 2), paint);
 
         text = getContext().getResources().getString(R.string.about_version);
         mArc = new Path();
         width = paint.measureText(text, 0, text.length());
         mArc.addArc(oval, -(degreePerPixel * width / 2), 200);
-        canvas.drawTextOnPath(text, mArc, 0, 20, paint);
+        canvas.drawTextOnPath(text, mArc, 0, (size2 / 2), paint);
     }
 
     private boolean isPointInRectangle(
