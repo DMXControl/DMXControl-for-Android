@@ -34,6 +34,10 @@
     <string name="position_fragment_lock_x">Lock X</string>
     <string name="position_fragment_reset">Reset</string>
 
+    <string name="gobo_fragment_rotation">Rotation</string>
+    <string name="gobo_fragment_index">Index</string>
+    <string name="gobo_fragment_shake">Shake</string>
+
     <string name="optic_fragment_zoom">Zoom</string>
     <string name="optic_fragment_focus">Focus</string>
     <string name="optic_fragment_iris">Iris</string>

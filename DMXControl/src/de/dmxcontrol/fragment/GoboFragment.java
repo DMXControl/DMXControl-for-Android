@@ -6,8 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridView;
 
+import de.dmxcontrol.adapter.GoboAdapter;
 import de.dmxcontrol.android.R;
+import de.dmxcontrol.widget.FaderHorizontalControl;
 
 /**
  * Created by Qasi on 11.07.2014.
@@ -15,6 +18,8 @@ import de.dmxcontrol.android.R;
 public class GoboFragment extends BasePanelFragment {
     public final static String TAG = "goboFragment";
     private View view;
+    private FaderHorizontalControl faderRotation, faderIndex, faderShake;
+    private GridView gridView;
 
     // startup process initiated
     @Override
@@ -32,7 +37,15 @@ public class GoboFragment extends BasePanelFragment {
                              Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
         view = inflater.inflate(R.layout.gobo_fragment, container, false);
+        gridView = (GridView) view.findViewById(R.id.gobo_fragment_gridView);
+        gridView.setAdapter(new GoboAdapter(view.getContext()));
 
+        faderRotation = (FaderHorizontalControl) view.findViewById(R.id.gobo_rotation_fader);
+        faderIndex = (FaderHorizontalControl) view.findViewById(R.id.gobo_index_fader);
+        faderShake = (FaderHorizontalControl) view.findViewById(R.id.gobo_shake_fader);
+        faderRotation.setValue(0.5f, 0.5f);
+        faderIndex.setValue(0.5f, 0.5f);
+        faderShake.setValue(0.5f, 0.5f);
         return view;
     }
 

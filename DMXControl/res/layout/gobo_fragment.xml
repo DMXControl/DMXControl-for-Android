@@ -6,10 +6,139 @@
               android:gravity="center"
               android:orientation="vertical">
 
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_weight="1"
+        android:background="@drawable/border_normal">
+
+        <GridView
+            android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/empty"
-        android:id="@+id/textView"/>
+        android:id="@+id/gobo_fragment_gridView"
+        android:columnWidth="40pt"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="1dp"
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:fadeScrollbars="false"
+        android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style"
+        android:smoothScrollbar="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="-5dp"
+        android:layout_marginRight="-1dp"
+        android:layout_weight="1"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="30mm"
+        android:layout_gravity="bottom"
+        android:id="@+id/linearLayout">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp">
+
+            <LinearLayout
+                android:id="@+id/layout_rotation_main"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_above="@+id/gobo_rotation_text">
+
+                <de.dmxcontrol.widget.FaderHorizontalControl
+                    android:id="@+id/gobo_rotation_fader"
+                    android:layout_width="fill_parent"
+                    android:background="@drawable/border_normal_layer_transperent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/gobo_rotation_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/TextAppearance.Small"
+                android:text="@string/gobo_fragment_rotation"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp">
+
+            <LinearLayout
+                android:id="@+id/layout_index_main"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_above="@+id/gobo_index_text">
+
+                <de.dmxcontrol.widget.FaderHorizontalControl
+                    android:id="@+id/gobo_index_fader"
+                    android:layout_width="fill_parent"
+                    android:background="@drawable/border_normal_layer_transperent"
+                    android:layout_height="wrap_content"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/gobo_index_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/TextAppearance.Small"
+                android:text="@string/gobo_fragment_index"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="3dp"
+            android:layout_marginLeft="3dp">
+
+            <LinearLayout
+                android:id="@+id/layout_shake_main"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:layout_above="@+id/gobo_shake_text">
+
+                <de.dmxcontrol.widget.FaderHorizontalControl
+                    android:id="@+id/gobo_shake_fader"
+                    android:layout_width="fill_parent"
+                    android:background="@drawable/border_normal_layer_transperent"
+                    android:layout_height="wrap_content"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/gobo_shake_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/TextAppearance.Small"
+                android:text="@string/gobo_fragment_shake"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>
