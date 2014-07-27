@@ -21,6 +21,7 @@ import de.dmxcontrol.widget.OpticControl;
 public class FileManager {
     public final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
     public final static String IconStorageName = StoragePath + File.separator + "Icons";
+    public final static String GoboStorageName = StoragePath + File.separator + "Gobos";
 
     public final static String[] DefaultFiles = new String[]{
             EntityDevice.defaultDeviceIcon,
