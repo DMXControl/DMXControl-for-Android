@@ -83,7 +83,7 @@ public class ErrorDialogFragment extends DialogFragment implements
         builder.setTitle(getResources().getString(R.string.error_occurred))
                 .setMessage(msg)
                 .setCancelable(false)
-                .setPositiveButton(getResources().getString(R.string.button_okay),
+                .setPositiveButton(getResources().getString(android.R.string.ok),
                         new android.content.DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                             }

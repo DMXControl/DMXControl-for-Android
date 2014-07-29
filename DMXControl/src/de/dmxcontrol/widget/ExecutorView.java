@@ -98,7 +98,7 @@ public class ExecutorView extends LinearLayout {
                 final ToggleButton toggle_btn = (ToggleButton) view.findViewById(R.id.toggleButton_flash);
                 toggle_btn.setChecked(mExecutor.getToggle());
                 alert.setView(view);
-                alert.setPositiveButton(getContext().getResources().getString(R.string.ok), new DialogInterface.OnClickListener() {
+                alert.setPositiveButton(getContext().getResources().getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         String str = input.getEditableText().toString();
                         mExecutor.setName(str, false);

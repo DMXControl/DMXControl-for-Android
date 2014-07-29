@@ -78,7 +78,6 @@
     <string name="menu_set_connection">Connection</string>
     <string name="menu_set_live">Live</string>
 
-    <string name="button_okay">Okay</string>
     <string name="error_occurred">Message</string>
     <string name="error_network_occurred">Network Error</string>
     <string name="error_network_occurred_long">A network error occurred. The app can\'t communicate *at all*. Please enable your network connection or stay offline. Offline mode can be disabled in preferences.</string>
@@ -144,7 +143,6 @@
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="empty">Empty</string>
-    <string name="ok">OK</string>
 
     <!--Please don't change-->
     <string name="char_flash">\u26A1</string>

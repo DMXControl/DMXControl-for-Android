@@ -4,7 +4,7 @@
         <EditTextPreference
             android:title="@string/pref_connect_device_name_title"
             android:summary="@string/pref_connect_device_name_summary"
-            android:defaultValue="My Android Phone"
+            android:defaultValue=""
             android:key="pref_connect_device_name"
             android:dialogTitle="@string/pref_connect_device_name_dialog_title"/>
         <EditTextPreference

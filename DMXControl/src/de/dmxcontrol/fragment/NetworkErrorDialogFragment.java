@@ -92,7 +92,7 @@ public class NetworkErrorDialogFragment extends DialogFragment implements OnClic
         builder.setTitle(getResources().getString(R.string.error_network_occurred))
                 .setMessage(msg)
                 .setCancelable(false)
-                .setPositiveButton(getResources().getString(R.string.button_okay), this);
+                .setPositiveButton(getResources().getString(android.R.string.ok), this);
 
         builder.setView(ll);
         return builder.create();

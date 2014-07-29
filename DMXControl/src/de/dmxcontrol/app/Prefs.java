@@ -30,6 +30,7 @@ package de.dmxcontrol.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -116,7 +117,7 @@ public class Prefs {
         connectConfigChanged = false;
         versionChanged = false;
 
-        String deviceName = prefs.getString("pref_connect_device_name", "My Android Phone");
+        String deviceName = prefs.getString("pref_connect_device_name", Build.MODEL);
 
         if(!mDeviceName.equals(deviceName)) {
             connectConfigChanged = true;
@@ -151,14 +152,14 @@ public class Prefs {
         mOffline = offline;
 
         int screenMode = Integer.valueOf(prefs.getString("pref_screen_mode", "0"));
-        if(mScreenMode != screenMode){
+        if(mScreenMode != screenMode) {
             viewConfigChanged = true;
         }
         mScreenMode = screenMode;
         ControlActivity.setScreenMode(mScreenMode);
 
         boolean disableSplash = prefs.getBoolean("pref_disable_splash", false);
-        if(mDisableSplash != disableSplash){
+        if(mDisableSplash != disableSplash) {
             viewConfigChanged = true;
         }
         mDisableSplash = disableSplash;

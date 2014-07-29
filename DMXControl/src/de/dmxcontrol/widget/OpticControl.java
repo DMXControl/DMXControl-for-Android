@@ -18,6 +18,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 
 import java.util.ArrayList;
@@ -137,7 +138,7 @@ public class OpticControl extends View implements View.OnTouchListener {
         this.mZoom = zoom;
         animatorZoom = ValueAnimator.ofFloat(this.mCountDownZoom, this.mZoom);
         animatorZoom.setDuration((long) (200 * Math.abs(this.mCountDownZoom - this.mZoom)));
-        animatorZoom.setInterpolator(new LinearInterpolator());
+        animatorZoom.setInterpolator(new DecelerateInterpolator());
         animatorZoom.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
@@ -175,7 +176,7 @@ public class OpticControl extends View implements View.OnTouchListener {
         this.mFocus = focus;
         animatorFocus = ValueAnimator.ofFloat(this.mCountDownFocus, this.mFocus);
         animatorFocus.setDuration((long) (200 * Math.abs(this.mCountDownFocus - this.mFocus)));
-        animatorFocus.setInterpolator(new LinearInterpolator());
+        animatorFocus.setInterpolator(new DecelerateInterpolator());
         animatorFocus.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
             public void onAnimationUpdate(ValueAnimator animation) {
