@@ -11,6 +11,7 @@ import de.dmxcontrol.app.DMXControlApplication;
  * Created by Qasi on 12.06.2014.
  */
 public class KernelPingDeserializer {
+    public final static String AndroidAppPlugin = "AndroidApp-Plugin";
     public String GetDatagramType() {
         return datagramType;
     }
@@ -27,10 +28,20 @@ public class KernelPingDeserializer {
         return version;
     }
 
+    public String GetProject() {
+        return project;
+    }
+
+    public boolean GetCompatible() {
+        return compatible;
+    }
+
     private String datagramType = "";
     private String hostName = "";
     private String[] iPAdresses = new String[0];
     private String version = "";
+    private String project = "";
+    private boolean compatible = false;
 
     public static KernelPingDeserializer Get(String str) {
         KernelPingDeserializer out = new KernelPingDeserializer();
@@ -55,6 +66,9 @@ public class KernelPingDeserializer {
                 else if(strig.length > 4) {
                     String org = (String.valueOf((char) strig[1]) + String.valueOf((char) strig[2]) + String.valueOf((char) strig[3]) + String.valueOf((char) strig[4]));
 
+                    if(strArray[i].contains(AndroidAppPlugin)) {
+                        out.compatible = true;
+                    }
                     if(org.equals("org.")) {
                         strArray[i] = null;
                         removeCount++;
@@ -72,6 +86,7 @@ public class KernelPingDeserializer {
             out.version = strArrayOut[26];
             out.hostName = strArrayOut[19];
             out.iPAdresses = FindIPs(strArrayOut);
+            out.project = strArrayOut[27];
         }
         catch(Exception e) {
             Log.e("KernelPingDeserializer", e.getMessage());

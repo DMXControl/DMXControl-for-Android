@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/server_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="30sp"
+        android:textColor="@color/white_smoke"
+        android:paddingLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/server_ips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/server_name"
+        android:textSize="12sp"
+        android:textColor="@color/white_smoke"
+        android:paddingLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/server_version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/server_ips"
+        android:textSize="12sp"
+        android:textColor="@color/white_smoke"
+        android:paddingLeft="5dp"/>
+
+    <TextView
+        android:id="@+id/server_project"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/white_smoke"
+        android:paddingLeft="5dp"
+        android:layout_alignTop="@+id/server_version"
+        android:layout_alignParentRight="true"/>
+
+    <TextView
+        android:id="@+id/server_compatible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/white_smoke"
+        android:paddingLeft="5dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"/>
+
+</RelativeLayout>

@@ -6,9 +6,13 @@
     <string name="selector_group_short">Group</string>
 
     <string name="connection_title">Connection To DMXC Server</string>
-    <string name="connection_port_server_title">Port</string>
-    <string name="connection_host_title">Host</string>
-    <string name="connection_name_title">Name</string>
+    <string name="connection_host_ips">IPs</string>
+    <string name="connection_host_version">Version</string>
+    <string name="connection_host_project">Project</string>
+    <string name="connection_host_compatible_true"></string>
+    <string name="connection_host_compatible_false">Incompatible</string>
+    <string name="connection_toast_connected">You are now Connected</string>
+    <string name="connection_toast_please_wait">Please wait...</string>
 
     <string name="devicegroup_fragment_devices">Devices:</string>
     <string name="devicegroup_fragment_groups">Groups:</string>

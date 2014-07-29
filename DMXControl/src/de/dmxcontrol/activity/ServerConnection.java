@@ -39,10 +39,6 @@ public class ServerConnection extends Activity {
 
     }
 
-    //public AlertDialog onCreateDialog(int id) {
-    //return mainAboutDialog();
-    //}
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         context = this;
@@ -78,13 +74,11 @@ public class ServerConnection extends Activity {
 
         };
 
-// new timer
         Timer timer = new Timer();
 
-// schedule timer
         timer.schedule(myTimerTask, 500, 500);
 
-        Toast.makeText(getApplicationContext(), "Please wait...", Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_toast_please_wait), Toast.LENGTH_LONG).show();
     }
 
     private void Update() {
@@ -118,7 +112,12 @@ public class ServerConnection extends Activity {
                         ips += " , " + kernelPing.GetIPAdresses()[j];
                     }
                 }
-                items.add(new KernelPingItem(kernelPing.GetHostName(), ips));
+                items.add(new KernelPingItem(
+                        kernelPing.GetHostName(),
+                        ips,
+                        kernelPing.GetVersion(),
+                        kernelPing.GetProject(),
+                        kernelPing.GetCompatible()));
             }
         }
         return items;
@@ -131,11 +130,15 @@ public class ServerConnection extends Activity {
     };
 
     private class KernelPingItem {
-        private String name, ips;
+        private String name, ips, version, project;
+        private boolean compatible;
 
-        public KernelPingItem(String Name, String IPs) {
+        public KernelPingItem(String Name, String IPs, String Version, String Project, boolean Compatible) {
             this.name = Name;
             this.ips = IPs;
+            this.version = Version;
+            this.project = Project;
+            this.compatible = Compatible;
         }
 
         public String getName() {
@@ -145,6 +148,18 @@ public class ServerConnection extends Activity {
         public String getIPs() {
             return this.ips;
         }
+
+        public String getVersion() {
+            return this.version;
+        }
+
+        public String getProject() {
+            return this.project;
+        }
+
+        public boolean getCompatible() {
+            return this.compatible;
+        }
     }
 
     public class MyAdapter extends ArrayAdapter<KernelPingItem> {
@@ -153,7 +168,7 @@ public class ServerConnection extends Activity {
 
         public MyAdapter(Context context, ArrayList<KernelPingItem> itemsArrayList) {
 
-            super(context, R.layout.listview_row, itemsArrayList);
+            super(context, R.layout.connection_server_row, itemsArrayList);
 
             this.context = context;
             this.itemsArrayList = itemsArrayList;
@@ -168,7 +183,7 @@ public class ServerConnection extends Activity {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             // 2. Get rowView from inflater
-            View rowView = inflater.inflate(R.layout.listview_row, parent, false);
+            View rowView = inflater.inflate(R.layout.connection_server_row, parent, false);
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -181,20 +196,31 @@ public class ServerConnection extends Activity {
                     }
                     // Set found ip in prefs
                     Prefs.get().setServerAddress(ip);
-                    Toast.makeText(getApplicationContext(), "You are now Connected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_toast_connected), Toast.LENGTH_SHORT).show();
 
                     // We don't need to start here anymore. Just starting Kernel detection
                     //Prefs.get().StartNetwork();
                 }
             });
-            // 3. Get the two text view from the rowView
-            TextView labelView = (TextView) rowView.findViewById(R.id.label);
-            TextView valueView = (TextView) rowView.findViewById(R.id.value);
+            // 3. Get the 4 text view from the rowView
+            TextView nameView = (TextView) rowView.findViewById(R.id.server_name);
+            TextView ipsView = (TextView) rowView.findViewById(R.id.server_ips);
+            TextView versionView = (TextView) rowView.findViewById(R.id.server_version);
+            TextView projectView = (TextView) rowView.findViewById(R.id.server_project);
+            TextView compatibleView = (TextView) rowView.findViewById(R.id.server_compatible);
 
             // 4. Set the text for textView
-            labelView.setText(value.getName());
-            valueView.setText(value.getIPs());
-
+            nameView.setText(value.getName());
+            ipsView.setText(getResources().getString(R.string.connection_host_ips) + ": " + value.getIPs());
+            versionView.setText(getResources().getString(R.string.connection_host_version) + ": " + value.getVersion());
+            projectView.setText(getResources().getString(R.string.connection_host_project) + ": " + value.getProject());
+            if(value.getCompatible()) {
+                compatibleView.setText(getResources().getString(R.string.connection_host_compatible_true));
+            }
+            else {
+                compatibleView.setText(getResources().getString(R.string.connection_host_compatible_false));
+                rowView.setBackgroundDrawable(getResources().getDrawable(R.drawable.server_row_background_incompatible));
+            }
             // 5. return rowView
             return rowView;
         }
