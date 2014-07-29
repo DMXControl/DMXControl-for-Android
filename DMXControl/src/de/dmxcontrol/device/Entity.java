@@ -30,7 +30,6 @@ package de.dmxcontrol.device;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Environment;
 import android.util.Log;
 
 import org.json.JSONObject;
@@ -42,11 +41,11 @@ import java.util.HashMap;
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.EntityManager.Type;
+import de.dmxcontrol.file.FileManager;
 import de.dmxcontrol.network.ServiceFrontend;
 
 public abstract class Entity implements IPropertyContainer {
-    private final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
-    private final static String IconStorageName = StoragePath + File.separator + "Icons";
+    private final static String IconStorageName = FileManager.IconStorageName;
     public static String NetworkID = new String();
     public static String Request_All = "ALL";
     public static String Request_All_GUIDs = "GUIDList";

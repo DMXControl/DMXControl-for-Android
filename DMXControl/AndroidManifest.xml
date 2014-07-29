@@ -2,8 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="de.dmxcontrol.android"
           android:versionCode="1"
-          android:versionName="1.0"
-          android:installLocation="auto">
+          android:versionName="0.0.1"
+          android:installLocation="preferExternal">
 
     <application
         android:name="de.dmxcontrol.app.DMXControlApplication"
@@ -61,11 +61,35 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE"/>
+
+    <uses-permission android:name="android.permission.READ_LOGS"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <uses-permission android:name="android.permission.VIBRATE"/>
 
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.sensor.gyroscope"
+        android:required="false"/>
 
+    <uses-feature
+        android:name="android.hardware.touchscreen"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch.distinct"
+        android:required="false"/>
+    <uses-feature
+        android:name="android.hardware.touchscreen.multitouch.jazzhand"
+        android:required="false"/>
+
+    <uses-feature
+        android:name="android.hardware.wifi"
+        android:required="true"/>
 
 </manifest>

@@ -19,9 +19,12 @@ import de.dmxcontrol.widget.OpticControl;
  * Created by Qasi on 15.06.2014.
  */
 public class FileManager {
+    public final static String TAG = "FileManager";
     public final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
     public final static String IconStorageName = StoragePath + File.separator + "Icons";
+    public final static String TexturesStorageName = StoragePath + File.separator + "Textures";
     public final static String GoboStorageName = StoragePath + File.separator + "Gobos";
+    public final static String LogsStorageName = StoragePath + File.separator + "Logs";
 
     public final static String[] DefaultFiles = new String[]{
             EntityDevice.defaultDeviceIcon,
@@ -75,13 +78,31 @@ public class FileManager {
             File Directory = new File(StoragePath);
             if(!Directory.isDirectory()) {
                 Directory.mkdirs();
+                Log.i(TAG, "Create directory [" + StoragePath + "]");
+            }
+            Directory = new File(TexturesStorageName);
+            if(!Directory.isDirectory()) {
+                Directory.mkdirs();
+                Log.i(TAG, "Create directory [" + TexturesStorageName + "]");
             }
             Directory = new File(IconStorageName);
             if(!Directory.isDirectory()) {
                 Directory.mkdirs();
+                Log.i(TAG, "Create directory [" + IconStorageName + "]");
+            }
+            Directory = new File(GoboStorageName);
+            if(!Directory.isDirectory()) {
+                Directory.mkdirs();
+                Log.i(TAG, "Create directory [" + GoboStorageName + "]");
+            }
+            Directory = new File(LogsStorageName);
+            if(!Directory.isDirectory()) {
+                Directory.mkdirs();
+                Log.i(TAG, "Create directory [" + LogsStorageName + "]");
             }
         }
         catch(Exception e) {
+            Log.e(TAG, "Exception at create directory in [" + StoragePath + "]");
         }
     }
 
@@ -92,7 +113,7 @@ public class FileManager {
             }
             FileOutputStream out = null;
             for(String string : DefaultFiles) {
-                File file = new File(IconStorageName + File.separator + string);
+                File file = new File(TexturesStorageName + File.separator + string);
                 if(!file.exists()) {
                     Bitmap bmp = null;
                     if(string.equals(EntityDevice.defaultDeviceIcon)) {
@@ -118,10 +139,12 @@ public class FileManager {
                     }
 
                     try {
-                        out = new FileOutputStream(IconStorageName + File.separator + string);
+                        out = new FileOutputStream(TexturesStorageName + File.separator + string);
+                        Log.i(TAG, "Create Bitmap " + string);
                     }
                     catch(Exception e) {
-                        Log.e("", DMXControlApplication.stackTraceToString(e));
+                        Log.w(TAG, "Exception at create Bitmap [" + string + "]");
+                        Log.e(TAG, DMXControlApplication.stackTraceToString(e));
                         DMXControlApplication.SaveLog();
                     }
                     bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
@@ -129,7 +152,8 @@ public class FileManager {
             }
         }
         catch(Exception e) {
-            Log.e("", DMXControlApplication.stackTraceToString(e));
+            Log.w(TAG, "Exception at create Bitmaps createDefaultIcons()");
+            Log.e(TAG, DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
     }
@@ -143,6 +167,6 @@ public class FileManager {
     }
 
     private Bitmap loadImage(String name) {
-        return BitmapFactory.decodeFile(new File(IconStorageName + File.separator + name).getAbsolutePath());
+        return BitmapFactory.decodeFile(new File(TexturesStorageName + File.separator + name).getAbsolutePath());
     }
 }

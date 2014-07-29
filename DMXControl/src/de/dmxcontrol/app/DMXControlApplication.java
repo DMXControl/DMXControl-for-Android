@@ -29,7 +29,6 @@ package de.dmxcontrol.app;
 
 import android.app.Application;
 import android.content.Intent;
-import android.os.Environment;
 import android.util.Log;
 
 import org.acra.ACRA;
@@ -70,8 +69,7 @@ import de.dmxcontrol.preset.EntityPreset;
 
 public class DMXControlApplication extends Application {
     private final static String TAG = "dmxcontrol";
-    private final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
-    private final static String IconStorageName = StoragePath + File.separator + "Icons";
+    private final static String LogsStoragePath = FileManager.LogsStorageName;
     private Prefs prefs;
     private boolean mJustStarted;
 
@@ -97,7 +95,7 @@ public class DMXControlApplication extends Application {
     public void onCreate() {
         if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof ExceptionReport)) {
             Thread.setDefaultUncaughtExceptionHandler(new ExceptionReport(
-                    StoragePath, null));
+                    LogsStoragePath, null));
         }
 
         long maxMemory = Runtime.getRuntime().maxMemory();
@@ -181,7 +179,7 @@ public class DMXControlApplication extends Application {
             try {
 
                 Writer writer;
-                File outputFile = new File(StoragePath, "Log.txt");
+                File outputFile = new File(LogsStoragePath, "Log.txt");
                 writer = new BufferedWriter(new FileWriter(outputFile));
                 writer.write(log.toString());
                 writer.close();

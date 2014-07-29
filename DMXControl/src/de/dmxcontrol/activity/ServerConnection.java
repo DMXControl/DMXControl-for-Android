@@ -111,13 +111,15 @@ public class ServerConnection extends Activity {
         ArrayList<KernelPingDeserializer> kernelPinglist = Prefs.get().getKernelPing();
         for(int i = 0; i < kernelPinglist.size(); i++) {
             KernelPingDeserializer kernelPing = kernelPinglist.get(i);
-            String ips = kernelPing.GetIPAdresses()[0];
-            if(kernelPing.GetIPAdresses().length > 1) {
-                for(int j = 1; j < kernelPing.GetIPAdresses().length; j++) {
-                    ips += " , " + kernelPing.GetIPAdresses()[j];
+            if(kernelPing.GetIPAdresses().length > 0) {
+                String ips = kernelPing.GetIPAdresses()[0];
+                if(kernelPing.GetIPAdresses().length > 1) {
+                    for(int j = 1; j < kernelPing.GetIPAdresses().length; j++) {
+                        ips += " , " + kernelPing.GetIPAdresses()[j];
+                    }
                 }
+                items.add(new KernelPingItem(kernelPing.GetHostName(), ips));
             }
-            items.add(new KernelPingItem(kernelPing.GetHostName(), ips));
         }
         return items;
     }
