@@ -270,17 +270,23 @@ public class DockPanel extends LinearLayout {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         super.onLayout(changed, l, t, r, b);
+        boolean setSize = false;
         if(imageView.getWidth() == 0 && imageView.getHeight() == 0) {
             imageView.setLayoutParams(new FrameLayout.LayoutParams(
                     Math.min(r, b),
                     Math.min(r, b),
                     Gravity.RIGHT));
+            setSize = true;
         }
         if(menuButton.getWidth() == 0 && menuButton.getHeight() == 0) {
             menuButton.setLayoutParams(new FrameLayout.LayoutParams(
                     Math.min(r, b),
                     Math.min(r, b),
                     Gravity.BOTTOM));
+            setSize = true;
+        }
+        if(setSize) {
+            invalidate();
         }
     }
 
