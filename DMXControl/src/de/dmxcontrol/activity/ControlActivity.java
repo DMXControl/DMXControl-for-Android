@@ -428,7 +428,7 @@ public class ControlActivity extends FragmentActivity implements
                             Process.killProcess(Process.myPid());
                         }
                     })
-                    .setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 
