@@ -145,7 +145,7 @@
     <string name="executor_settings_fader_mode_effect_speed">Effect Speed</string>
 
     <string name="ask_close">Close?</string>
-    <string name="ask_close_app">Do you won\'t to close the App</string>
+    <string name="ask_close_app">Do you won\'t to close the App (Kill)?</string>
 
     <string name="close">Close</string>
     <string name="cancle">Cancle</string>
