@@ -36,6 +36,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Process;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -419,15 +420,15 @@ public class ControlActivity extends FragmentActivity implements
         else {
             AlertDialog alertDialog = new AlertDialog.Builder(this).setTitle(R.string.about_title)
                     .setIcon(R.drawable.androidmann_neu)
-                    .setTitle("Close?")
-                    .setMessage("Do you won't to close the App")
-                    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+                    .setTitle(getString(R.string.ask_close))
+                    .setMessage(getString(R.string.ask_close_app))
+                    .setPositiveButton(R.string.close, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            close();
+                            Process.killProcess(Process.myPid());
                         }
                     })
-                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    .setNegativeButton(R.string.cancle, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
 

@@ -144,6 +144,11 @@
     <string name="executor_settings_fader_mode_timing">Timing</string>
     <string name="executor_settings_fader_mode_effect_speed">Effect Speed</string>
 
+    <string name="ask_close">Close?</string>
+    <string name="ask_close_app">Do you won\'t to close the App</string>
+
+    <string name="close">Close</string>
+    <string name="cancle">Cancle</string>
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="empty">Empty</string>
@@ -156,6 +161,5 @@
     <string name="char_back">\uf0bc</string>
     <string name="char_break">\uf0bb</string>
     <string name="char_breakback">\uf0bb/\uf0bc</string>
-    <string name="char_load">\uf051</string>
     <!--Thank you-->
 </resources>
