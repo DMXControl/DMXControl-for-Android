@@ -9,6 +9,7 @@ public class DeviceProperty {
     public static String NetworkID = "DeviceProperty";
     private String guid;
     private String name;
+    private String xmlfilename;
     private Object value;
 
     public DeviceProperty(JSONObject o) throws Exception {
@@ -21,6 +22,9 @@ public class DeviceProperty {
         this.guid = o.getString("GUID");
         this.name = o.getString("Name");
         this.value = o.getString("Value");
+        if(o.has("XMLFile")) {
+            this.xmlfilename = o.getString("XMLFile");
+        }
     }
 
     public String getGUID() {
@@ -29,6 +33,10 @@ public class DeviceProperty {
 
     public String getName() {
         return this.name;
+    }
+
+    public String getXMLName() {
+        return this.xmlfilename + "";
     }
 
     public Object getValue() {

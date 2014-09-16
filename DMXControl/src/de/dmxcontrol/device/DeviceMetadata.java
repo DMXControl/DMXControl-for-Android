@@ -8,7 +8,7 @@ import org.json.JSONObject;
  */
 public class DeviceMetadata {
 
-    private String Vendor, Modell, Author, Type, XmlFile, Comment;
+    private String Vendor, Modell, Author, XmlFile, Comment;
     private int DMXAddressCount;
 
     public String getVendor() {
@@ -22,10 +22,6 @@ public class DeviceMetadata {
 
     public String getAuthor() {
         return this.Author;
-    }
-
-    public String getType() {
-        return this.Type;
     }
 
     public String getXmlFile() {
@@ -57,9 +53,12 @@ public class DeviceMetadata {
         this.Vendor = o.getString("Vendor");
         this.Modell = o.getString("Modell");
         this.Author = o.getString("Author");
-        this.Type = o.getString("Type");
         this.XmlFile = o.getString("XmlFile");
-        this.Comment = o.getString("Comment");
-        this.DMXAddressCount = o.getInt("DMXAddressCount");
+        if(o.has("Comment")) {
+            this.Comment = o.getString("Comment");
+        }
+        if(o.has("DMXAddressCount")) {
+            this.DMXAddressCount = o.getInt("DMXAddressCount");
+        }
     }
 }
