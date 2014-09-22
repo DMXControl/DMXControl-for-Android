@@ -22,6 +22,7 @@ public class FileManager {
     public final static String TAG = "FileManager";
     public final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
     public final static String ImageStorageName = StoragePath + File.separator + "Images";
+    public final static String IconStorageName = StoragePath + File.separator + "Icons";
     public final static String TexturesStorageName = StoragePath + File.separator + "Textures";
     public final static String GoboStorageName = StoragePath + File.separator + "Gobos";
     public final static String LogsStorageName = StoragePath + File.separator + "Logs";
@@ -70,7 +71,7 @@ public class FileManager {
     private FileManager() {
         createDirectory();
         createDefaultIcons();
-        loadImages();
+        loadTextures();
     }
 
     private static void createDirectory() {
@@ -89,6 +90,11 @@ public class FileManager {
             if(!Directory.isDirectory()) {
                 Directory.mkdirs();
                 Log.i(TAG, "Create directory [" + ImageStorageName + "]");
+            }
+            Directory = new File(IconStorageName);
+            if(!Directory.isDirectory()) {
+                Directory.mkdirs();
+                Log.i(TAG, "Create directory [" + IconStorageName + "]");
             }
             Directory = new File(GoboStorageName);
             if(!Directory.isDirectory()) {
@@ -158,15 +164,15 @@ public class FileManager {
         }
     }
 
-    private void loadImages() {
-        images.add(new ImageWithKey(loadImage(OpticControl.Lens1), OpticControl.Lens1));
-        images.add(new ImageWithKey(loadImage(OpticControl.Lens2), OpticControl.Lens2));
-        images.add(new ImageWithKey(loadImage(OpticControl.Lens3), OpticControl.Lens3));
-        images.add(new ImageWithKey(loadImage(OpticControl.Frost), OpticControl.Frost));
-        images.add(new ImageWithKey(loadImage(OpticControl.FocusWheel), OpticControl.FocusWheel));
+    private void loadTextures() {
+        images.add(new ImageWithKey(loadTexture(OpticControl.Lens1), OpticControl.Lens1));
+        images.add(new ImageWithKey(loadTexture(OpticControl.Lens2), OpticControl.Lens2));
+        images.add(new ImageWithKey(loadTexture(OpticControl.Lens3), OpticControl.Lens3));
+        images.add(new ImageWithKey(loadTexture(OpticControl.Frost), OpticControl.Frost));
+        images.add(new ImageWithKey(loadTexture(OpticControl.FocusWheel), OpticControl.FocusWheel));
     }
 
-    private Bitmap loadImage(String name) {
+    private Bitmap loadTexture(String name) {
         return BitmapFactory.decodeFile(new File(TexturesStorageName + File.separator + name).getAbsolutePath());
     }
 }
