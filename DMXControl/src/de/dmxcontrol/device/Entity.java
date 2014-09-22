@@ -45,7 +45,7 @@ import de.dmxcontrol.file.FileManager;
 import de.dmxcontrol.network.ServiceFrontend;
 
 public abstract class Entity implements IPropertyContainer {
-    private final static String IconStorageName = FileManager.ImageStorageName;
+    private final static String ImageStorageName = FileManager.ImageStorageName;
     public static String NetworkID = new String();
     public static String Request_All = "ALL";
     public static String Request_All_GUIDs = "GUIDList";
@@ -118,7 +118,7 @@ public abstract class Entity implements IPropertyContainer {
 
     public Bitmap getImage(Context context) {
         try {
-            File imgFile = new File(IconStorageName + File.separator + mImage);
+            File imgFile = new File(ImageStorageName + File.separator + mImage);
             if(imgFile.isFile()) {
                 if(imgFile.exists()) {
                     Bitmap bmp = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
