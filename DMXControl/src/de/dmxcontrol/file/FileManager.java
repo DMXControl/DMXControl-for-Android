@@ -21,7 +21,7 @@ import de.dmxcontrol.widget.OpticControl;
 public class FileManager {
     public final static String TAG = "FileManager";
     public final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
-    public final static String IconStorageName = StoragePath + File.separator + "Icons";
+    public final static String ImageStorageName = StoragePath + File.separator + "Images";
     public final static String TexturesStorageName = StoragePath + File.separator + "Textures";
     public final static String GoboStorageName = StoragePath + File.separator + "Gobos";
     public final static String LogsStorageName = StoragePath + File.separator + "Logs";
@@ -85,10 +85,10 @@ public class FileManager {
                 Directory.mkdirs();
                 Log.i(TAG, "Create directory [" + TexturesStorageName + "]");
             }
-            Directory = new File(IconStorageName);
+            Directory = new File(ImageStorageName);
             if(!Directory.isDirectory()) {
                 Directory.mkdirs();
-                Log.i(TAG, "Create directory [" + IconStorageName + "]");
+                Log.i(TAG, "Create directory [" + ImageStorageName + "]");
             }
             Directory = new File(GoboStorageName);
             if(!Directory.isDirectory()) {

@@ -45,7 +45,7 @@ import de.dmxcontrol.file.FileManager;
 import de.dmxcontrol.network.ServiceFrontend;
 
 public abstract class Entity implements IPropertyContainer {
-    private final static String IconStorageName = FileManager.IconStorageName;
+    private final static String IconStorageName = FileManager.ImageStorageName;
     public static String NetworkID = new String();
     public static String Request_All = "ALL";
     public static String Request_All_GUIDs = "GUIDList";

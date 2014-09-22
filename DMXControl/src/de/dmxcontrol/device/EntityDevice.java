@@ -125,7 +125,7 @@ public class EntityDevice extends Entity {
 
     public static Bitmap getDefaultIcon(Context context) {
 
-        File imgFile = new File(FileManager.IconStorageName + File.separator + defaultDeviceIcon);
+        File imgFile = new File(FileManager.ImageStorageName + File.separator + defaultDeviceIcon);
         if(imgFile.isFile()) {
             if(imgFile.exists()) {
                 return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
