@@ -40,6 +40,7 @@ public class ModelManager {
 
     public enum Type {
         Color,
+        Gobo,
         Position,
         Dimmer,
         Strobe,
@@ -103,6 +104,7 @@ public class ModelManager {
 
     static {
         mTypeLookup.put(Type.Color, ColorModel.class);
+        mTypeLookup.put(Type.Gobo, GoboModel.class);
         mTypeLookup.put(Type.Position, PositionModel.class);
         mTypeLookup.put(Type.Dimmer, DimmerModel.class);
         mTypeLookup.put(Type.Strobe, StrobeModel.class);

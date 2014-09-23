@@ -9,6 +9,5 @@
         android:layout_height="32pt"
         android:id="@+id/goboicon"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/icon"/>
+        android:layout_centerHorizontal="true"/>
 </RelativeLayout>

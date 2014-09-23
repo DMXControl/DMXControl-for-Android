@@ -6,18 +6,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import de.dmxcontrol.adapter.GoboAdapter;
 import de.dmxcontrol.android.R;
+import de.dmxcontrol.device.DeviceProperty;
+import de.dmxcontrol.device.EntityManager;
+import de.dmxcontrol.model.GoboModel;
+import de.dmxcontrol.model.ModelManager;
 import de.dmxcontrol.widget.FaderHorizontalControl;
 
 /**
  * Created by Qasi on 11.07.2014.
  */
-public class GoboFragment extends BasePanelFragment {
+public class GoboFragment extends BasePanelFragment implements AdapterView.OnItemClickListener {
     public final static String TAG = "goboFragment";
     private View view;
+
+    private GoboModel goboModel;
     private FaderHorizontalControl faderRotation, faderIndex, faderShake;
     private GridView gridView;
 
@@ -39,6 +46,7 @@ public class GoboFragment extends BasePanelFragment {
         view = inflater.inflate(R.layout.gobo_fragment, container, false);
         gridView = (GridView) view.findViewById(R.id.gobo_fragment_gridView);
         gridView.setAdapter(new GoboAdapter(view.getContext()));
+        gridView.setOnItemClickListener(this);
 
         faderRotation = (FaderHorizontalControl) view.findViewById(R.id.gobo_rotation_fader);
         faderIndex = (FaderHorizontalControl) view.findViewById(R.id.gobo_index_fader);
@@ -46,7 +54,17 @@ public class GoboFragment extends BasePanelFragment {
         faderRotation.setValue(0.5f, 0.5f);
         faderIndex.setValue(0.5f, 0.5f);
         faderShake.setValue(0.5f, 0.5f);
+
+        goboModel = (GoboModel) EntityManager.get().getEntitySelection(
+                EntityManager.CENTRAL_ENTITY_SELECTION).getModel(ModelManager.Type.Gobo);
+
         return view;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View v, int position, long id) {
+        Object item = adapterView.getItemAtPosition(position);
+        goboModel.setValue(((DeviceProperty.DevicePropertyValue) item).getIndex());
     }
 
     @Override

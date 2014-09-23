@@ -29,6 +29,7 @@ package de.dmxcontrol.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,12 +38,16 @@ import android.widget.ImageView;
 
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.DeviceCollection;
+import de.dmxcontrol.device.DeviceProperty;
+import de.dmxcontrol.device.EntityManager;
+import de.dmxcontrol.device.EntitySelection;
+import de.dmxcontrol.file.ImageWithKey;
 import de.dmxcontrol.file.ImageWithKeyCollection;
 import de.dmxcontrol.network.ReceivedData;
 
 //import android.view.MotionEvent;
 
-public class GoboAdapter extends BaseAdapter {
+public class GoboAdapter extends BaseAdapter implements View.OnClickListener {
     private ImageWithKeyCollection images = new ImageWithKeyCollection();
     private Context ctx;
     public int SelectionColor;
@@ -71,12 +76,29 @@ public class GoboAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 20;
+        if(this.items == null) {
+            getItems();
+
+            if(this.items == null) {
+                return 0;
+            }
+        }
+        return this.items.length;
+    }
+
+    private DeviceProperty.DevicePropertyValue[] items;
+
+    public Object getItems() {
+        EntitySelection mEntityelection = EntityManager.get().getEntitySelection(
+                EntityManager.CENTRAL_ENTITY_SELECTION);
+
+        this.items = ReceivedData.get().Devices.get(0).getGobos();
+        return this.items;
     }
 
     @Override
     public Object getItem(int index) {
-        return null;
+        return this.items[index];
     }
 
     @Override
@@ -101,12 +123,29 @@ public class GoboAdapter extends BaseAdapter {
                 view = rowView;
                 imageView = (ImageView) view.findViewById(R.id.goboicon);
                 imageView.setPadding(2, 2, 2, 2);
+                view.setOnClickListener(this);
             }
             else {
                 view = (View) convertView;
                 imageView = (ImageView) view.findViewById(R.id.goboicon);
             }
-            imageView.setImageResource(R.drawable.icon);
+
+            if(this.items == null) {
+                imageView.setVisibility(View.INVISIBLE);
+                return view;
+            }
+            imageView.setVisibility(View.VISIBLE);
+            if(!images.contains(this.items[index].getValue())) {
+                images.add(new ImageWithKey(this.items[index].getImage(ctx), this.items[index].getValue()));
+            }
+            imageView.setImageBitmap(images.get(this.items[index].getValue()).getBitmap());
+
+            if(ReceivedData.get().Devices.get(0).getSelectedValueIndices().contains(items[index].getIndex())) {
+                //imageView.setBackgroundColor(SelectionColor);
+            }
+            else {
+                imageView.setBackgroundColor(Color.TRANSPARENT);
+            }
         }
         catch(Exception e) {
             e.toString();
@@ -114,4 +153,7 @@ public class GoboAdapter extends BaseAdapter {
         return view;
     }
 
+    @Override
+    public void onClick(View v) {
+    }
 }

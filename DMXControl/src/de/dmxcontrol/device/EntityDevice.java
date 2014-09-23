@@ -226,6 +226,32 @@ public class EntityDevice extends Entity {
         return author;
     }
 
+    public DeviceProperty.DevicePropertyValue[] getGobos() {
+        try {
+            if(this.Propertys == null) {
+                return null;
+            }
+            for(int i = 0; i < this.Propertys.size(); i++) {
+                if(this.Propertys.get(i).isGobo()) {
+                    return this.Propertys.get(i).getValues();
+                }
+            }
+        }
+        catch(Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public String getSelectedValueIndices() {
+        for(int i = 0; i < this.Propertys.size(); i++) {
+            if(this.Propertys.get(i).isGobo()) {
+                return this.Propertys.get(i).getValueIndex();
+            }
+        }
+        return null;
+    }
+
     public void setEnabled(boolean enabled, boolean fromReader) {
         boolean isEqual = this.enabled == enabled;
         this.enabled = enabled;

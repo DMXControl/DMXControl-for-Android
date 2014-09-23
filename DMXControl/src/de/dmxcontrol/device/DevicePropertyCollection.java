@@ -42,7 +42,8 @@ public class DevicePropertyCollection implements Collection<DeviceProperty> {
         }
         else {
             DeviceProperty obj = list.get(indexOf(object));
-            obj.setValue(object.getValue());
+            obj.setValue(object.getValueIndex());
+            obj.setValues(object.getValues());
             return false;
         }
     }
