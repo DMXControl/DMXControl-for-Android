@@ -43,7 +43,7 @@ import de.dmxcontrol.file.FileManager;
 import de.dmxcontrol.network.ServiceFrontend;
 
 //This is One Device
-public class EntityDevice extends Entity {
+public class EntityDevice extends Entity implements Cloneable {
     public final static String defaultDeviceIcon = "device_new.png";
     public static String NetworkID = "Device";
     private int channel, channelCount, color;
@@ -264,4 +264,25 @@ public class EntityDevice extends Entity {
     public void setChannelCount(int channelCount) {
         this.channelCount = channelCount;
     }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    /**public EntityDevice clone(){
+     EntityDevice clone = new EntityDevice();
+     clone.setName(this.getName(),true);
+     clone.enabled = this.enabled;
+     clone.channel = this.channel;
+     clone.channelCount = this.channelCount;
+     clone.author = this.author;
+     clone.color = this.color;
+     clone.image = this.image;
+     clone.model = this.model;
+     clone.vendor = this.vendor;
+     clone.Propertys = this.Propertys.clone();
+     //clone.Procedures = this.Procedures.clone();
+     return clone;
+     }**/
 }

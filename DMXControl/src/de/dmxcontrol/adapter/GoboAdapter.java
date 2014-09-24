@@ -38,16 +38,15 @@ import android.widget.ImageView;
 
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.DeviceCollection;
+import de.dmxcontrol.device.DeviceGroupWrapper;
 import de.dmxcontrol.device.DeviceProperty;
-import de.dmxcontrol.device.EntityManager;
-import de.dmxcontrol.device.EntitySelection;
 import de.dmxcontrol.file.ImageWithKey;
 import de.dmxcontrol.file.ImageWithKeyCollection;
 import de.dmxcontrol.network.ReceivedData;
 
 //import android.view.MotionEvent;
 
-public class GoboAdapter extends BaseAdapter implements View.OnClickListener {
+public class GoboAdapter extends BaseAdapter {
     private ImageWithKeyCollection images = new ImageWithKeyCollection();
     private Context ctx;
     public int SelectionColor;
@@ -89,10 +88,7 @@ public class GoboAdapter extends BaseAdapter implements View.OnClickListener {
     private DeviceProperty.DevicePropertyValue[] items;
 
     public Object getItems() {
-        EntitySelection mEntityelection = EntityManager.get().getEntitySelection(
-                EntityManager.CENTRAL_ENTITY_SELECTION);
-
-        this.items = ReceivedData.get().Devices.get(0).getGobos();
+        this.items = DeviceGroupWrapper.get().getWrappedDeviceFromSelection().getGobos();
         return this.items;
     }
 
@@ -123,7 +119,6 @@ public class GoboAdapter extends BaseAdapter implements View.OnClickListener {
                 view = rowView;
                 imageView = (ImageView) view.findViewById(R.id.goboicon);
                 imageView.setPadding(2, 2, 2, 2);
-                view.setOnClickListener(this);
             }
             else {
                 view = (View) convertView;
@@ -140,7 +135,7 @@ public class GoboAdapter extends BaseAdapter implements View.OnClickListener {
             }
             imageView.setImageBitmap(images.get(this.items[index].getValue()).getBitmap());
 
-            if(ReceivedData.get().Devices.get(0).getSelectedValueIndices().contains(items[index].getIndex())) {
+            if(DeviceGroupWrapper.get().getLastWrappedDeviceFromSelection().getSelectedValueIndices().contains(items[index].getIndex())) {
                 //imageView.setBackgroundColor(SelectionColor);
             }
             else {
@@ -151,9 +146,5 @@ public class GoboAdapter extends BaseAdapter implements View.OnClickListener {
             e.toString();
         }
         return view;
-    }
-
-    @Override
-    public void onClick(View v) {
     }
 }

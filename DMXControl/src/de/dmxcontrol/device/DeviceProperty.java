@@ -19,29 +19,36 @@ import de.dmxcontrol.file.FileManager;
 /**
  * Created by Qasi on 29.06.2014.
  */
-public class DeviceProperty {
-    private boolean isGobo, isColor, isRawStep;
-    public static String NetworkID = "DeviceProperty";
+public class DeviceProperty implements Cloneable {
+    private boolean isGobo, isColor, isRawStep, isBeam, isPrism, isOptical;
     private String guid;
     private String name;
     private String valueIndex;
     private DevicePropertyValue[] values;
 
-    public DeviceProperty(JSONObject o) throws Exception {
-        if(!o.has("Type")) {
-            throw new Exception("Type not found!");
-        }
-        if(!o.get("Type").equals(NetworkID)) {
-            throw new Exception("Type isn't " + NetworkID);
-        }
-        this.guid = o.getString("GUID");
-        this.name = o.getString("Name");
+    private DeviceProperty() {
+    }
 
-        if(this.name.equals("GoboProperty")) {
+    public DeviceProperty(JSONObject o) throws Exception {
+        this.name = o.getString("Name");
+        if(o.has("GUID")) {
+            this.guid = o.getString("GUID");
+        }
+
+        if(this.name.equals("Gobo")) {
             isGobo = true;
         }
-        else if(this.name.equals("ColorProperty")) {
+        else if(this.name.contains("Color")) {
             isColor = true;
+        }
+        else if(this.name.contains("Dimmer") || this.name.contains("Shutter") || this.name.contains("Strobe")) {
+            isBeam = true;
+        }
+        else if(this.name.contains("Prism")) {
+            isPrism = true;
+        }
+        else if(this.name.contains("Zoom") || this.name.contains("Iris") || this.name.contains("Frost") || this.name.contains("Focus")) {
+            isOptical = true;
         }
         else {
             isRawStep = true;
@@ -54,25 +61,38 @@ public class DeviceProperty {
                 this.values[i] = new DevicePropertyValue(array.getJSONObject(i), this.name);
             }
         }
-
-        if(!o.isNull("Value")) {
-            setValue(o.getString("Value"));
+        if(o.has("Value")) {
+            if(!o.isNull("Value")) {
+                setValue(o.getString("Value"));
+            }
         }
     }
 
     public class DevicePropertyValue {
-        private boolean isGobo, isColor, isRawStep;
+        private boolean isGobo, isColor, isRawStep, isBeam, isPrism, isOptical;
         private String name, value;
         private String index;
 
         public DevicePropertyValue(JSONObject o, String type) throws JSONException {
-            if(type.equals("GoboProperty")) {
+            if(type.equals("Gobo")) {
                 isGobo = true;
                 this.value = o.getString("File");
             }
-            else if(type.equals("ColorProperty")) {
+            else if(type.contains("Color")) {
                 isColor = true;
                 this.value = o.getString("Color");
+            }
+            else if(type.contains("Dimmer") || type.contains("Shutter") || type.contains("Strobe")) {
+                isBeam = true;
+                this.value = o.getString("Value");
+            }
+            else if(type.contains("Prism")) {
+                isPrism = true;
+                this.value = o.getString("Value");
+            }
+            else if(type.contains("Zoom") || type.contains("Iris") || type.contains("Frost") || type.contains("Focus")) {
+                isOptical = true;
+                this.value = o.getString("Value");
             }
             else {
                 isRawStep = true;
@@ -87,6 +107,18 @@ public class DeviceProperty {
 
         public boolean isColor() {
             return this.isColor;
+        }
+
+        public boolean isOptical() {
+            return this.isOptical;
+        }
+
+        public boolean isBeam() {
+            return this.isBeam;
+        }
+
+        public boolean isPrism() {
+            return this.isPrism;
         }
 
         public boolean isRawStep() {
@@ -177,4 +209,41 @@ public class DeviceProperty {
     public boolean isRawStep() {
         return this.isRawStep;
     }
+
+    public boolean isOptical() {
+        return this.isOptical;
+    }
+
+    public boolean isBeam() {
+        return this.isBeam;
+    }
+
+    public boolean isPrism() {
+        return this.isPrism;
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+    /**public DeviceProperty clone(){
+     DeviceProperty clone = null;
+     try {
+     clone = new DeviceProperty();
+     clone.name=this.name;
+     clone.valueIndex=this.valueIndex;
+     clone.values=clone.values.clone();
+     clone.guid=this.guid;
+     clone.isBeam=this.isBeam;
+     clone.isColor=this.isColor;
+     clone.isGobo=this.isGobo;
+     clone.isOptical=this.isOptical;
+     clone.isPrism=this.isPrism;
+     clone.isRawStep=this.isRawStep;
+     }
+     catch(Exception e) {
+     e.printStackTrace();
+     }
+     return clone;
+     }**/
 }

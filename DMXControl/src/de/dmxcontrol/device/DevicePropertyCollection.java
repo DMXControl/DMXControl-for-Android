@@ -10,11 +10,14 @@ import java.util.Iterator;
 /**
  * Created by Qasi on 15.06.2014.
  */
-public class DevicePropertyCollection implements Collection<DeviceProperty> {
+public class DevicePropertyCollection implements Collection<DeviceProperty>, Cloneable {
 
     public static String NetworkID = "Propertys";
     private ArrayList<DeviceProperty> list = new ArrayList<DeviceProperty>();
 
+    private DevicePropertyCollection() {
+
+    }
     public DevicePropertyCollection(JSONObject o) throws Exception {
         if(!o.has("Type")) {
             throw new Exception("Type not found!");
@@ -63,9 +66,16 @@ public class DevicePropertyCollection implements Collection<DeviceProperty> {
 
     @Override
     public boolean contains(Object object) {
+        if(object == null) {
+            return false;
+        }
         for(int i = 0; i < size(); i++) {
-            if(((DeviceProperty) object).getGUID().equals(list.get(i).getGUID())) {
-                return true;
+            if(!(list.get(i) == null)) {
+                if(((DeviceProperty) object).getGUID() != null && list.get(i).getGUID() != null) {
+                    if(((DeviceProperty) object).getGUID().equals(list.get(i).getGUID())) {
+                        return true;
+                    }
+                }
             }
         }
         return false;
@@ -145,4 +155,17 @@ public class DevicePropertyCollection implements Collection<DeviceProperty> {
     public <T> T[] toArray(T[] array) {
         return list.toArray(array);
     }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+
+    /**public DevicePropertyCollection clone() throws CloneNotSupportedException {
+     DevicePropertyCollection clone= new DevicePropertyCollection();
+     for(int i = 0; i <this.size() ; i++) {
+     clone.add((DeviceProperty) this.get(i).clone());
+     }
+     return clone;
+     }**/
 }

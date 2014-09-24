@@ -11,12 +11,6 @@ public class DeviceProcedure {
     private String icon;
 
     public DeviceProcedure(JSONObject o) throws Exception {
-        if(!o.has("Type")) {
-            throw new Exception("Type not found!");
-        }
-        if(!o.get("Type").equals(NetworkID)) {
-            throw new Exception("Type isn't " + NetworkID);
-        }
         this.name = o.getString("Name");
         this.icon = o.getString("Icon");
     }
