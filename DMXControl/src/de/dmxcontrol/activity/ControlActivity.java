@@ -37,6 +37,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Process;
+import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -126,18 +129,49 @@ public class ControlActivity extends FragmentActivity implements
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         SWIPE_MIN_VELOCITY = this.getResources().getInteger(R.integer.swipe_min_velocity);
         SWIPE_MIN_DISTANCE = this.getResources().getInteger(R.integer.swipe_min_distance);
-        //Change the EdgeEffectColor to our HighlightColor
-        int glowDrawableId = this.getResources().getIdentifier("overscroll_glow", "drawable", "android");
-        Drawable androidGlow = this.getResources().getDrawable(glowDrawableId);
-        androidGlow.setColorFilter(this.getResources().getColor(R.color.btn_background_highlight), PorterDuff.Mode.SRC_IN);
 
-        int edgeDrawableId = this.getResources().getIdentifier("overscroll_edge", "drawable", "android");
-        Drawable androidEdge = this.getResources().getDrawable(edgeDrawableId);
-        androidEdge.setColorFilter(this.getResources().getColor(R.color.btn_background_highlight), PorterDuff.Mode.SRC_IN);
+        // Change the EdgeEffectColor to our HighlightColor
+
+        if (android.os.Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+
+            /*
+            EdgeEffect edgeEffectTop = new EdgeEffect(cxt);
+
+            edgeEffectTop.setColor(this.getResources().getColor(R.color.btn_background_highlight));
+            EdgeEffect edgeEffectBottom = new EdgeEffect(cxt);
+            edgeEffectBottom.setColor(this.getResources().getColor(R.color.btn_background_highlight));
+
+            try {
+                Field f1 = AbsListView.class.getDeclaredField("mEdgeGlowTop");
+                f1.setAccessible(true);
+                f1.set(list, edgeEffectTop);
+
+                Field f2 = AbsListView.class.getDeclaredField("mEdgeGlowBottom");
+                f2.setAccessible(true);
+                f2.set(list, edgeEffectBottom);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+            */
+
+        }
+        else {
+
+            int glowDrawableId = this.getResources().getIdentifier("overscroll_glow", "drawable", "android");
+            Drawable androidGlow = this.getResources().getDrawable(glowDrawableId);
+            androidGlow.setColorFilter(this.getResources().getColor(R.color.btn_background_highlight), PorterDuff.Mode.SRC_IN);
+
+            int edgeDrawableId = this.getResources().getIdentifier("overscroll_edge", "drawable", "android");
+            Drawable androidEdge = this.getResources().getDrawable(edgeDrawableId);
+            androidEdge.setColorFilter(this.getResources().getColor(R.color.btn_background_highlight), PorterDuff.Mode.SRC_IN);
+            
+        }
 
         int scrollBarHDrawableId = this.getResources().getIdentifier("scrollbar_handle_horizontal", "drawable", "android");
         Drawable androidscrollBarH = this.getResources().getDrawable(scrollBarHDrawableId);
@@ -200,11 +234,6 @@ public class ControlActivity extends FragmentActivity implements
         else if(networkChanged && !prefs.getOffline()) {
             cs.connect();
         }
-
-        /*
-        if(mUpdatePanel != null) {
-            mUpdatePanel.onServiceChanged(cs);
-        }*/
     }
 
     @Override
