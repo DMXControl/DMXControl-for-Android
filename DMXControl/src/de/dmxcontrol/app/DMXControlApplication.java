@@ -56,7 +56,7 @@ import de.dmxcontrol.preset.EntityPreset;
 
 
 @ReportsCrashes(formKey = "",
-        mailTo = "patrick.grote@dmxcontrol.de",
+        mailTo = "apps@dmxcontrol.de",
         mode = ReportingInteractionMode.DIALOG,
         resNotifIcon = R.drawable.androidmann_neu,
         deleteOldUnsentReportsOnApplicationStart = true,
