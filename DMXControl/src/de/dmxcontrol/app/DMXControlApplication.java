@@ -22,7 +22,6 @@
  *
  *      For further information, please contact info [(at)] dmxcontrol.de
  *
- * 
  */
 
 package de.dmxcontrol.app;
@@ -54,7 +53,6 @@ import de.dmxcontrol.file.FileManager;
 import de.dmxcontrol.network.ServiceFrontend;
 import de.dmxcontrol.preset.EntityPreset;
 
-
 @ReportsCrashes(formKey = "",
         mailTo = "apps@dmxcontrol.de",
         mode = ReportingInteractionMode.DIALOG,
@@ -68,6 +66,7 @@ import de.dmxcontrol.preset.EntityPreset;
         resDialogOkToast = R.string.crash_dialog_ok_toast)
 
 public class DMXControlApplication extends Application {
+
     private final static String TAG = "dmxcontrol";
     private final static String LogsStoragePath = FileManager.LogsStorageName;
     private Prefs prefs;
@@ -75,17 +74,22 @@ public class DMXControlApplication extends Application {
 
     @Override
     public void onLowMemory() {
+
         super.onLowMemory();
         Log.w(TAG, "Low Memory");
+
+        // Call garbage collector if we're running out of memory
         Runtime.getRuntime().gc();
     }
 
     public DMXControlApplication() {
+
         mJustStarted = true;
     }
 
     @Override
     public boolean stopService(Intent name) {
+
         Log.w("", "Stop Application");
         DMXControlApplication.SaveLog();
         return super.stopService(name);
@@ -93,17 +97,20 @@ public class DMXControlApplication extends Application {
 
     @Override
     public void onCreate() {
+
         if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof ExceptionReport)) {
             Thread.setDefaultUncaughtExceptionHandler(new ExceptionReport(
                     LogsStoragePath, null));
         }
 
+        // Log max amount of memory (bytes) the heap can expand to
         long maxMemory = Runtime.getRuntime().maxMemory();
         Log.v(TAG, "maxMemory:" + Long.toString(maxMemory));
 
         try {
             super.onCreate();
 
+            // Init bug report library (via E-Mail)
             ACRA.init(this);
 
             // Init Preferences and start new udp networking
@@ -114,7 +121,9 @@ public class DMXControlApplication extends Application {
             // Init network Service
             ServiceFrontend.initOnce(this);
 
+            // Add Listeners for Service
             ServiceFrontend.get().addServiceListener(new ServiceFrontend.OnServiceListener() {
+
                 @Override
                 public void onServiceConnected() {
                     // Send "All" request to server. One for each Entity
@@ -148,6 +157,7 @@ public class DMXControlApplication extends Application {
     }
 
     public boolean getJustStarted() {
+
         boolean result = mJustStarted;
         mJustStarted = false;
         return result;
@@ -155,11 +165,14 @@ public class DMXControlApplication extends Application {
 
     @Override
     public void onTerminate() {
+
+        super.onTerminate();
         Log.w("", "TERMINATE");
         DMXControlApplication.SaveLog();
     }
 
     public static void SaveLog() {
+
         try {
             Process process = Runtime.getRuntime().exec("logcat -d");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -173,6 +186,7 @@ public class DMXControlApplication extends Application {
                     log.append(System.getProperty("line.separator"));
                 }
                 catch(Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -189,16 +203,19 @@ public class DMXControlApplication extends Application {
             }
         }
         catch(IOException e) {
+            e.printStackTrace();
         }
     }
 
     public static String stackTraceToString(Throwable e) {
+
         StringBuilder sb = new StringBuilder();
 
         for(StackTraceElement element : e.getStackTrace()) {
             sb.append(element.toString());
             sb.append("\n");
         }
+
         return sb.toString();
     }
 

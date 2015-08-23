@@ -12,6 +12,7 @@ import java.util.Iterator;
  * Created by Qasi on 15.06.2014.
  */
 public class DeviceCollection implements Collection<EntityDevice> {
+
     private ArrayList<ChangedListener> ChangedListeners = new ArrayList<ChangedListener>();
 
     public void setChangedListener(ChangedListener listener) {

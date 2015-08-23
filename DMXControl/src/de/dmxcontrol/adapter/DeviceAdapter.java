@@ -147,7 +147,7 @@ public class DeviceAdapter extends BaseAdapter {
             }); */
             }
             else {
-                view = (View) convertView;
+                view = (View)convertView;
                 imageView = (ImageView) view.findViewById(R.id.deviceCell_icon);
                 editText = (TextView) view.findViewById(R.id.deviceCell_name);
             }
@@ -164,6 +164,7 @@ public class DeviceAdapter extends BaseAdapter {
             }
             imageView.setImageBitmap(images.get(ent.getImageName()).getBitmap());
             editText.setText(ent.getName());
+
             /*final TextView finalEditText = editText;
             ent.setNameChangedListener(new Entity.NameChangedListener() {
                 @Override

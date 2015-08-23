@@ -20,8 +20,8 @@ public interface OnColorChangedListener {
     /**
      * This method is called when the user clicks the center button.
      *
-     * @param colorcircle
-     * @param newColor
+     * @param view The color circle view which is clicked on
+     * @param newColor the new color which is set
      */
     void onColorPicked(View view, int newColor);
 }

@@ -44,6 +44,7 @@ import de.dmxcontrol.network.ServiceFrontend;
 
 //This is One Device
 public class EntityDevice extends Entity implements Cloneable {
+
     public final static String defaultDeviceIcon = "device_new.png";
     public static String NetworkID = "Device";
     private int channel, channelCount, color;
@@ -227,11 +228,15 @@ public class EntityDevice extends Entity implements Cloneable {
     }
 
     public DeviceProperty.DevicePropertyValue[] getGobos() {
+
         try {
+
             if(this.Propertys == null) {
                 return null;
             }
+
             for(int i = 0; i < this.Propertys.size(); i++) {
+
                 if(this.Propertys.get(i).isGobo()) {
                     return this.Propertys.get(i).getValues();
                 }
@@ -240,6 +245,7 @@ public class EntityDevice extends Entity implements Cloneable {
         catch(Exception e) {
             e.printStackTrace();
         }
+
         return null;
     }
 

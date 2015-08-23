@@ -44,8 +44,7 @@ public class OutputListener implements IValueListener {
         second = date.getSeconds();
         eventCount++;
         millisecondsTime = date.getTime() % 1000;
-        Log.d(TAG, "Time in s: " + second + ":" + millisecondsTime + " Value: "
-                + x);
+        Log.d(TAG, "Time in s: " + second + ":" + millisecondsTime + " Value: " + x);
 
         if(second - lastSecond == 1) {
             Log.d(TAG, "Eventcount = " + eventCount);

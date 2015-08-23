@@ -196,9 +196,10 @@ public class FaderVerticalControl extends BaseValueWidget {
             int sizeWidth = MeasureSpec.getSize(widthMeasureSpec);
             int sizeHeight = MeasureSpec.getSize(heightMeasureSpec);
 
+            // TODO: 23.08.15 What is this meant for?
             if(sizeHeight < sizeWidth && false) {
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(
-                        MeasureSpec.getMode(heightMeasureSpec), sizeHeight);
+                heightMeasureSpec = MeasureSpec.makeMeasureSpec(sizeHeight,
+                        MeasureSpec.getMode(heightMeasureSpec));
             }
         }
 
