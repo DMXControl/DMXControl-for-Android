@@ -80,7 +80,16 @@ public class DockPanel extends LinearLayout {
             Init(attrs);
         }
         catch(Exception e) {
-            Log.w("", e.getStackTrace().toString());
+
+            StringBuilder sb = new StringBuilder();
+
+            for(StackTraceElement element : e.getStackTrace()) {
+
+                sb.append(element.toString());
+                sb.append("\n");
+            }
+
+            Log.w("", sb.toString());
             DMXControlApplication.SaveLog();
         }
     }

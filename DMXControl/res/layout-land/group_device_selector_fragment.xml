@@ -199,7 +199,7 @@
                 android:orientation="horizontal"
                 android:layout_height="wrap_content"
                 android:layout_width="fill_parent"
-                android_weightSum="4">
+                android:weightSum="4">
 
                 <TextView
                     android:id="@+id/group_text"
