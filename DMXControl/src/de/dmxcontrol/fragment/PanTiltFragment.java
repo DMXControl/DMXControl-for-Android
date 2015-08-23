@@ -28,6 +28,7 @@
 package de.dmxcontrol.fragment;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -98,8 +99,16 @@ public class PanTiltFragment extends BasePanelFragment implements
                         setCrrSelected();
                         setEnableLock();
 
-                        softpultLayout.getViewTreeObserver()
-                                .removeGlobalOnLayoutListener(this);
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                            softpultLayout.getViewTreeObserver()
+                                    .removeOnGlobalLayoutListener(this);
+                        }
+                        else {
+
+                            //noinspection deprecation
+                            softpultLayout.getViewTreeObserver()
+                                    .removeGlobalOnLayoutListener(this);
+                        }
                     }
                 }
         );

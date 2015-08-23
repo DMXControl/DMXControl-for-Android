@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -136,15 +138,31 @@ public class ExecutorView extends LinearLayout {
                 }
             }
         });
+
         int margin = 10;
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(
-                LayoutParams.WRAP_CONTENT,
-                LayoutParams.WRAP_CONTENT));
+
+        LinearLayout.LayoutParams layoutParams;
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            // KitKat and above
+            layoutParams = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(
+                    LayoutParams.WRAP_CONTENT,
+                    LayoutParams.WRAP_CONTENT));
+
+        }
+        else {
+            layoutParams = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(
+                    LayoutParams.WRAP_CONTENT,
+                    LayoutParams.WRAP_CONTENT));
+        }
+
         layoutParams.leftMargin = margin;
         layoutParams.rightMargin = margin;
+
         fader = new FaderVerticalControl(Context);
         fader.setValue(mExecutor.getValue(), 0);
         fader.setBackgroundResource(R.drawable.border_normal_layer_transperent);
+
         mExecutor.setValueChangedListener(new EntityExecutor.ValueChangedListener() {
             @Override
             public void onValueChanged(float value) {
@@ -165,14 +183,26 @@ public class ExecutorView extends LinearLayout {
             }
 
         });
+
         fader.setLayoutParams(layoutParams);
 
 
         faderLayout = new FrameLayout(Context);
         faderLayout.addView(fader);
-        layoutParams = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(
-                LayoutParams.FILL_PARENT,
-                (height / 2) + (height / 16)));
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            // KitKat and above
+            layoutParams = new LinearLayout.LayoutParams(new LinearLayout.LayoutParams(
+                    LayoutParams.MATCH_PARENT,
+                    (height / 2) + (height / 16)));
+
+        }
+        else {
+            layoutParams = new LinearLayout.LayoutParams(new ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    (height / 2) + (height / 16)));
+        }
+
         layoutParams.leftMargin = margin;
         layoutParams.rightMargin = margin;
         faderLayout.setLayoutParams(layoutParams);
@@ -186,8 +216,7 @@ public class ExecutorView extends LinearLayout {
         flashbtn.setText(getContext().getResources().getString(R.string.char_flash));
         flashbtn.setTag(flashbtn.getText() + " " + mExecutor.getName());
         flashbtn.setLayoutParams(new LinearLayout.LayoutParams(
-                LayoutParams.FILL_PARENT,
-                height / 8));
+                LayoutParams.MATCH_PARENT, height / 8));
         flashbtn.setEnabled(false);
         flashbtn.setClickable(false);
         mExecutor.setFlashChangedListener(new EntityExecutor.FlashChangedListener() {
@@ -211,8 +240,7 @@ public class ExecutorView extends LinearLayout {
         breakbtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
         breakbtn.setText(getContext().getResources().getString(R.string.char_breakback));
         breakbtn.setLayoutParams(new LinearLayout.LayoutParams(
-                LayoutParams.FILL_PARENT,
-                height / 16));
+                LayoutParams.MATCH_PARENT, height / 16));
         breakbtn.setTag(breakbtn.getText() + " " + mExecutor.getName());
         breakbtn.setOnClickListener(new OnClickListener() {
             @Override
@@ -228,8 +256,7 @@ public class ExecutorView extends LinearLayout {
         gobtn.setTypeface(Typeface.createFromAsset(Context.getAssets(), "octicons.ttf"));
         gobtn.setText(getContext().getResources().getString(R.string.char_go));
         gobtn.setLayoutParams(new LinearLayout.LayoutParams(
-                LayoutParams.FILL_PARENT,
-                height / 8));
+                LayoutParams.MATCH_PARENT, height / 8));
         gobtn.setTag(gobtn.getText() + " " + mExecutor.getName());
         gobtn.setOnClickListener(new OnClickListener() {
             @Override
@@ -245,8 +272,7 @@ public class ExecutorView extends LinearLayout {
         stopbtn.setText(getContext().getResources().getString(R.string.char_stop));
         stopbtn.setTag(stopbtn.getText() + " " + mExecutor.getName());
         stopbtn.setLayoutParams(new LinearLayout.LayoutParams(
-                LayoutParams.FILL_PARENT,
-                height / 16));
+                LayoutParams.MATCH_PARENT, height / 16));
         stopbtn.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
