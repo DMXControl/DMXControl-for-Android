@@ -9,10 +9,6 @@
         android:id="@+id/about"
         android:icon="@android:drawable/ic_menu_info_details"/>
     <item
-        android:title="@string/menu_set_help"
-        android:id="@+id/help"
-        android:icon="@android:drawable/ic_menu_help"/>
-    <item
         android:title="@string/menu_set_connection"
         android:id="@+id/connection"
         android:icon="@android:drawable/ic_menu_add"/>
