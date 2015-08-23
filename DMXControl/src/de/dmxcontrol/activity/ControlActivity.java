@@ -37,8 +37,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Process;
-import android.os.Build;
-import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -93,6 +91,7 @@ public class ControlActivity extends FragmentActivity implements
         OnUpdateActionView,
         GestureDetector.OnGestureListener,
         OnPanelResumedListener {
+
     public final static String TAG = "controlactivity";
     private float SWIPE_MIN_VELOCITY;
     private float SWIPE_MIN_DISTANCE;
@@ -170,7 +169,7 @@ public class ControlActivity extends FragmentActivity implements
             int edgeDrawableId = this.getResources().getIdentifier("overscroll_edge", "drawable", "android");
             Drawable androidEdge = this.getResources().getDrawable(edgeDrawableId);
             androidEdge.setColorFilter(this.getResources().getColor(R.color.btn_background_highlight), PorterDuff.Mode.SRC_IN);
-            
+
         }
 
         int scrollBarHDrawableId = this.getResources().getIdentifier("scrollbar_handle_horizontal", "drawable", "android");
@@ -196,6 +195,7 @@ public class ControlActivity extends FragmentActivity implements
 
     @Override
     protected void onStart() {
+
         super.onStart();
 
         switch(SCREEN_MODE) {
@@ -216,10 +216,11 @@ public class ControlActivity extends FragmentActivity implements
 
     @Override
     protected void onResume() {
+
         super.onResume();
         isInForeground = true;
 
-        // Update connection icon here
+        // TODO: 23.08.15 Update connection icon here
 
         // Check if we have to connect or reconnect network service
         Prefs prefs = Prefs.get();
@@ -477,6 +478,7 @@ public class ControlActivity extends FragmentActivity implements
         Fragment newFragment;
 
         transaction = fManager.beginTransaction();
+
         if(animation) {
             ((ActionSelectorFragment) fManager.findFragmentById(R.id.action_fragment)).updateStateSelected(state);
         }
@@ -489,12 +491,14 @@ public class ControlActivity extends FragmentActivity implements
                 transaction.setCustomAnimations(R.anim.anim_slide_in_right, R.anim.anim_slide_out_right);
             }
         }
+
         if(state == oldState) {
             return;
         }
         else {
             oldState = state;
         }
+
         switch(state) {
             case ActionSelectorFragment.STATE_DEVICE_PANEL:
                 newFragment = deviceGroupFragment;
@@ -515,14 +519,14 @@ public class ControlActivity extends FragmentActivity implements
                 newFragment = opticFragment;
                 break;
             case ActionSelectorFragment.STATE_PRISM_PANEL:
-                newFragment = prismFragment;
-                break;
+                return;//newFragment = prismFragment;
+                //break;
             case ActionSelectorFragment.STATE_RAW_PANEL:
-                newFragment = rawFragment;
-                break;
+                return;//newFragment = rawFragment;
+                //break;
             case ActionSelectorFragment.STATE_EFFECT_PANEL:
-                newFragment = effectFragment;
-                break;
+                return;//newFragment = effectFragment;
+                //break;
             case ActionSelectorFragment.STATE_PRESET_PANEL:
                 newFragment = presetFragment;
                 break;
@@ -532,6 +536,7 @@ public class ControlActivity extends FragmentActivity implements
             default:
                 return; // dont do anything without a new fragment
         }
+
         transaction.replace(R.id.action_screen, newFragment);
         transaction.commit();
     }
@@ -578,7 +583,7 @@ public class ControlActivity extends FragmentActivity implements
                     startActivity(liveActivity);
                 }
                 catch(Exception e) {
-                    Log.e("Can't open ConnectionDialog", e.toString());
+                    Log.e("Can't open ConDialog", e.toString());
                     DMXControlApplication.SaveLog();
                 }
                 return true;
@@ -591,10 +596,6 @@ public class ControlActivity extends FragmentActivity implements
                     Log.e("Can't open Live", e.toString());
                     DMXControlApplication.SaveLog();
                 }
-                return true;
-            case R.id.help:
-                i = new Intent(getApplicationContext(), HelpActivity.class);
-                startActivity(i);
                 return true;
             case R.id.about:
                 showDialog(AboutDialogs.ABOUT_DIALOG_MAIN);
