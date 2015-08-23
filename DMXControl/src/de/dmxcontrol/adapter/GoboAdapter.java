@@ -30,6 +30,7 @@ package de.dmxcontrol.adapter;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,9 +38,11 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 
 import de.dmxcontrol.android.R;
+import de.dmxcontrol.app.DMXControlApplication;
 import de.dmxcontrol.device.DeviceCollection;
 import de.dmxcontrol.device.DeviceGroupWrapper;
 import de.dmxcontrol.device.DeviceProperty;
+import de.dmxcontrol.device.EntityDevice;
 import de.dmxcontrol.file.ImageWithKey;
 import de.dmxcontrol.file.ImageWithKeyCollection;
 import de.dmxcontrol.network.ReceivedData;
@@ -47,13 +50,17 @@ import de.dmxcontrol.network.ReceivedData;
 //import android.view.MotionEvent;
 
 public class GoboAdapter extends BaseAdapter {
+
     private ImageWithKeyCollection images = new ImageWithKeyCollection();
     private Context ctx;
     public int SelectionColor;
 
     public GoboAdapter(final Context ctx) {
+
         this.ctx = ctx;
+
         SelectionColor = this.ctx.getResources().getColor(R.color.btn_background_highlight);
+
         ReceivedData.get().Devices.setChangedListener(new DeviceCollection.ChangedListener() {
             @Override
             public void onChanged() {
@@ -75,20 +82,29 @@ public class GoboAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
+
         if(this.items == null) {
+
             getItems();
 
             if(this.items == null) {
                 return 0;
             }
         }
+
         return this.items.length;
     }
 
     private DeviceProperty.DevicePropertyValue[] items;
 
     public Object getItems() {
-        this.items = DeviceGroupWrapper.get().getWrappedDeviceFromSelection().getGobos();
+
+        EntityDevice selection = DeviceGroupWrapper.get().getLastWrappedDeviceFromSelection();
+
+        if(selection != null) {
+            this.items = selection.getGobos();
+        }
+
         return this.items;
     }
 
@@ -143,7 +159,7 @@ public class GoboAdapter extends BaseAdapter {
             }
         }
         catch(Exception e) {
-            e.toString();
+            Log.d("", DMXControlApplication.stackTraceToString(e));
         }
         return view;
     }
