@@ -105,7 +105,7 @@ public class AboutDialogs {
                 case 1:
                     Intent sendIntent = new Intent(Intent.ACTION_SEND);
                     sendIntent.putExtra(Intent.EXTRA_SUBJECT, "DMXControl Android App Feedback");
-                    sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"info@dmxcontrol.de"});
+                    sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"apps@dmxcontrol.de"});
                     sendIntent.setType("message/rfc822");
                     activity.startActivity(Intent.createChooser(sendIntent, "Feedback via:"));
                     break;

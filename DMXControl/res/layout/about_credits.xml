@@ -82,6 +82,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/about_licence_text_ACRA"
+                android:text="@string/licence_text_ACRA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
     </LinearLayout>
