@@ -1,9 +1,9 @@
 /*
- * ActionFragment.java
+ * ActionSelectorFragment.java
  *
  *  DMXControl for Android
  *
- *  Copyright (c) 2011 DMXControl-For-Android. All rights reserved.
+ *  Copyright (c) 2015 DMXControl-For-Android. All rights reserved.
  *
  *      This software is free software; you can redistribute it and/or
  *      modify it under the terms of the GNU General Public License
@@ -21,7 +21,6 @@
  *
  *
  *      For further information, please contact info [(at)] dmxcontrol.de
- *
  * 
  */
 
@@ -165,21 +164,21 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
                 .findViewById(R.id.button_optic_action);
         bOpticAction.setOnClickListener(this);
 
-        bPrismAction = (Button) actionButtons
-                .findViewById(R.id.button_prism_action);
-        bPrismAction.setOnClickListener(this);
+        //bPrismAction = (Button) actionButtons
+        //        .findViewById(R.id.button_prism_action);
+        //bPrismAction.setOnClickListener(this);
         //bOpticAction.setVisibility(View.INVISIBLE);
         //actionButtons.removeView(bOpticAction);
 
-        bRawAction = (Button) actionButtons
-                .findViewById(R.id.button_raw_action);
-        bRawAction.setOnClickListener(this);
+        //bRawAction = (Button) actionButtons
+        //        .findViewById(R.id.button_raw_action);
+        //bRawAction.setOnClickListener(this);
         //bRawAction.setVisibility(View.INVISIBLE);
         //actionButtons.removeView(bRawAction);
 
-        bEffectAction = (Button) actionButtons
-                .findViewById(R.id.button_effect_action);
-        bEffectAction.setOnClickListener(this);
+        //bEffectAction = (Button) actionButtons
+        //        .findViewById(R.id.button_effect_action);
+        //bEffectAction.setOnClickListener(this);
         //bEffectAction.setVisibility(View.INVISIBLE);
         //actionButtons.removeView(bEffectAction);
 
@@ -269,15 +268,15 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
             case R.id.button_optic_action:
                 mState = STATE_OPTIC_PANEL;
                 break;
-            case R.id.button_prism_action:
-                mState = STATE_PRISM_PANEL;
-                break;
-            case R.id.button_raw_action:
-                mState = STATE_RAW_PANEL;
-                break;
-            case R.id.button_effect_action:
-                mState = STATE_EFFECT_PANEL;
-                break;
+            //case R.id.button_prism_action:
+                //mState = STATE_PRISM_PANEL;
+                //break;
+            //case R.id.button_raw_action:
+                //mState = STATE_RAW_PANEL;
+                //break;
+            //case R.id.button_effect_action:
+                //mState = STATE_EFFECT_PANEL;
+                //break;
             case R.id.button_preset_action:
                 mState = STATE_PRESET_PANEL;
                 break;

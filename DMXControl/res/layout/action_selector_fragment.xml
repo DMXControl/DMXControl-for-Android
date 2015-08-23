@@ -9,7 +9,7 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="3dp"
-        android:background="@drawable/line_grey"></ImageView>
+        android:background="@drawable/line_grey"/>
 
     <HorizontalScrollView
         android:id="@+id/action_selector_scroll"
@@ -28,67 +28,67 @@
                 android:id="@+id/button_device_action"
                 android:layout_width="@dimen/button_width_med"
                 android:layout_height="@dimen/button_height_med"
-                android:background="@drawable/btn_device_selector"></Button>
+                android:background="@drawable/btn_device_selector"/>
 
             <Button
                 android:id="@+id/button_intensity_action"
                 android:layout_width="@dimen/button_width_med"
                 android:layout_height="@dimen/button_height_med"
-                android:background="@drawable/btn_intensity_selector"></Button>
+                android:background="@drawable/btn_intensity_selector"/>
 
             <Button
                 android:id="@+id/button_color_action"
                 android:layout_width="@dimen/button_width_med"
                 android:layout_height="@dimen/button_height_med"
-                android:background="@drawable/btn_color_selector"></Button>
+                android:background="@drawable/btn_color_selector"/>
 
             <Button
                 android:id="@+id/button_pantilt_action"
                 android:layout_width="@dimen/button_width_med"
                 android:layout_height="@dimen/button_height_med"
-                android:background="@drawable/btn_pantilt_selector"></Button>
+                android:background="@drawable/btn_pantilt_selector"/>
 
             <Button
                 android:id="@+id/button_gobo_action"
                 android:layout_width="@dimen/button_width_med"
                 android:layout_height="@dimen/button_height_med"
-                android:background="@drawable/btn_gobo_selector"></Button>
+                android:background="@drawable/btn_gobo_selector"/>
 
             <Button
                 android:id="@+id/button_optic_action"
                 android:layout_width="@dimen/button_width_med"
                 android:layout_height="@dimen/button_height_med"
-                android:background="@drawable/btn_optic_selector"></Button>
+                android:background="@drawable/btn_optic_selector"/>
 
-            <Button
+            <!--<Button
                 android:id="@+id/button_prism_action"
                 android:layout_width="@dimen/button_width_med"
                 android:layout_height="@dimen/button_height_med"
-                android:background="@drawable/btn_prism_selector"></Button>
-
-            <Button
+                android:background="@drawable/btn_prism_selector"/>
+            -->
+            <!--<Button
                 android:id="@+id/button_raw_action"
                 android:layout_width="@dimen/button_width_med"
                 android:layout_height="@dimen/button_height_med"
-                android:background="@drawable/btn_raw_selector"></Button>
-
-            <Button
+                android:background="@drawable/btn_raw_selector"/>
+            -->
+            <!--<Button
                 android:id="@+id/button_effect_action"
                 android:layout_width="@dimen/button_width_med"
                 android:layout_height="@dimen/button_height_med"
-                android:background="@drawable/btn_effects_selector"></Button>
-
+                android:background="@drawable/btn_effects_selector"/>
+-           -->
             <Button
                 android:id="@+id/button_preset_action"
                 android:layout_width="@dimen/button_width_med"
                 android:layout_height="@dimen/button_height_med"
-                android:background="@drawable/btn_presets_selector"></Button>
+                android:background="@drawable/btn_presets_selector"/>
 
             <Button
                 android:id="@+id/button_programmer_action"
                 android:layout_width="@dimen/button_width_med"
                 android:layout_height="@dimen/button_height_med"
-                android:background="@drawable/btn_programmer_selector"></Button>
+                android:background="@drawable/btn_programmer_selector"/>
         </LinearLayout>
     </HorizontalScrollView>
 
