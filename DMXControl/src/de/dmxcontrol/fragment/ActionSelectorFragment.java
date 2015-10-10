@@ -30,6 +30,7 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -46,7 +47,6 @@ import android.widget.ScrollView;
 import org.json.JSONException;
 
 import de.dmxcontrol.android.R;
-import de.dmxcontrol.compatibility.CompatibilityWrapper8;
 import de.dmxcontrol.device.DeviceManagerDialog;
 import de.dmxcontrol.network.ServiceFrontend;
 
@@ -56,7 +56,6 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
     private Button crrActionButton;
     private ViewGroup scrollView;
     private OnUpdateActionView updateActionViewListener;
-    private CompatibilityWrapper8 compat8;
     private Button
             bDeviceAction,
             bColorAction,
@@ -89,8 +88,6 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         updateActionViewListener = (OnUpdateActionView) activity;
-        compat8 = CompatibilityWrapper8.wrap(activity);
-
     }
 
     @Override
@@ -102,19 +99,24 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Log.d(TAG, "onCreateView");
 
-        LinearLayout actionButtons = (LinearLayout) inflater.inflate(
-                R.layout.action_selector_fragment, container, false);
+        LinearLayout actionButtons = (LinearLayout) inflater.inflate(R.layout.action_selector_fragment, container, false);
 
-        ViewGroup vg = (ViewGroup) actionButtons
-                .findViewById(R.id.action_selector_scroll);
+        ViewGroup vg;
+
+        int deviceOrientation = getResources().getConfiguration().orientation;
+
+        if(deviceOrientation == Configuration.ORIENTATION_PORTRAIT || deviceOrientation == Configuration.ORIENTATION_SQUARE) {
+            vg = (ViewGroup) actionButtons.findViewById(R.id.action_selector_scroll);
+        }
+        else {
+            vg = (ViewGroup) actionButtons.findViewById(R.id.action_selector_scroll_land);
+        }
         scrollView = vg;
 
-        bDeviceAction = (Button) actionButtons
-                .findViewById(R.id.button_device_action);
+        bDeviceAction = (Button) actionButtons.findViewById(R.id.button_device_action);
         bDeviceAction.setOnClickListener(this);
         bDeviceAction.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -144,50 +146,40 @@ public class ActionSelectorFragment extends Fragment implements OnClickListener 
             }
         });
 
-        bColorAction = (Button) actionButtons
-                .findViewById(R.id.button_color_action);
+        bColorAction = (Button) actionButtons.findViewById(R.id.button_color_action);
         bColorAction.setOnClickListener(this);
 
-        bIntensityAction = (Button) actionButtons
-                .findViewById(R.id.button_intensity_action);
+        bIntensityAction = (Button) actionButtons.findViewById(R.id.button_intensity_action);
         bIntensityAction.setOnClickListener(this);
 
-        bPanTiltAction = (Button) actionButtons
-                .findViewById(R.id.button_pantilt_action);
+        bPanTiltAction = (Button) actionButtons.findViewById(R.id.button_pantilt_action);
         bPanTiltAction.setOnClickListener(this);
 
-        bGoboAction = (Button) actionButtons
-                .findViewById(R.id.button_gobo_action);
+        bGoboAction = (Button) actionButtons.findViewById(R.id.button_gobo_action);
         bGoboAction.setOnClickListener(this);
 
-        bOpticAction = (Button) actionButtons
-                .findViewById(R.id.button_optic_action);
+        bOpticAction = (Button) actionButtons.findViewById(R.id.button_optic_action);
         bOpticAction.setOnClickListener(this);
 
-        //bPrismAction = (Button) actionButtons
-        //        .findViewById(R.id.button_prism_action);
+        //bPrismAction = (Button) actionButtons.findViewById(R.id.button_prism_action);
         //bPrismAction.setOnClickListener(this);
         //bOpticAction.setVisibility(View.INVISIBLE);
         //actionButtons.removeView(bOpticAction);
 
-        //bRawAction = (Button) actionButtons
-        //        .findViewById(R.id.button_raw_action);
+        //bRawAction = (Button) actionButtons.findViewById(R.id.button_raw_action);
         //bRawAction.setOnClickListener(this);
         //bRawAction.setVisibility(View.INVISIBLE);
         //actionButtons.removeView(bRawAction);
 
-        //bEffectAction = (Button) actionButtons
-        //        .findViewById(R.id.button_effect_action);
+        //bEffectAction = (Button) actionButtons.findViewById(R.id.button_effect_action);
         //bEffectAction.setOnClickListener(this);
         //bEffectAction.setVisibility(View.INVISIBLE);
         //actionButtons.removeView(bEffectAction);
 
-        bPresetAction = (Button) actionButtons
-                .findViewById(R.id.button_preset_action);
+        bPresetAction = (Button) actionButtons.findViewById(R.id.button_preset_action);
         bPresetAction.setOnClickListener(this);
 
-        bProgrammerAction = (Button) actionButtons
-                .findViewById(R.id.button_programmer_action);
+        bProgrammerAction = (Button) actionButtons.findViewById(R.id.button_programmer_action);
         bProgrammerAction.setOnClickListener(this);
 
         updateStateSelected();

@@ -12,7 +12,7 @@
         android:background="@drawable/line_grey"/>
 
     <ScrollView
-        android:id="@+id/action_selector_scroll"
+        android:id="@+id/action_selector_scroll_land"
         android:layout_width="wrap_content"
         android:layout_height="fill_parent"
         android:scrollbarThumbVertical="@drawable/scrollbar_vertical_style">
