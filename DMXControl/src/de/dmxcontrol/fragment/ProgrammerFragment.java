@@ -10,6 +10,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ExpandableListView;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 
 import org.json.JSONException;
 
@@ -39,11 +40,12 @@ public class ProgrammerFragment extends BasePanelFragment implements AbsListView
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         Log.d(TAG, "onCreateView");
         view = inflater.inflate(R.layout.programmer_fragment, container, false);
         programmertList = (ExpandableListView) view.findViewById(R.id.programmer_list);
+
         view.findViewById(R.id.programmer_clear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +57,7 @@ public class ProgrammerFragment extends BasePanelFragment implements AbsListView
                 }
             }
         });
+
         view.findViewById(R.id.programmer_undoclear).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,7 +69,9 @@ public class ProgrammerFragment extends BasePanelFragment implements AbsListView
                 }
             }
         });
+
         programmertList.setAdapter(new ProgrammerAdapter(getActivity().getBaseContext()));
+
         programmertList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(final AdapterView<?> parent, final View view, int position, long id) {
@@ -74,14 +79,23 @@ public class ProgrammerFragment extends BasePanelFragment implements AbsListView
                 return false;
             }
         });
+
         programmertList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
             }
         });
-        ((Spinner) view.findViewById(R.id.programmer_spinner)).setAdapter(new ProgrammerSpinnerAdapter(view.getContext()));
+
+        SpinnerAdapter tempAdapter = new ProgrammerSpinnerAdapter(view.getContext());
+        Spinner tempSpinner = (Spinner)view.findViewById(R.id.programmer_spinner);
+
+        if(tempSpinner != null && tempAdapter != null) {
+            tempSpinner.setAdapter(tempAdapter);
+        }
+
         programmertList.setOnScrollListener(this);
+
         return view;
     }
 
