@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="spinner_style" parent="android:Widget.Holo.Spinner">
         <item name="android:background">@drawable/btn_numbers_selector</item>
         <item name="android:divider">@null</item>
@@ -12,5 +13,6 @@
     </style>
 
     <style name="DMXControl.Theme" parent="android:Theme.Black.NoTitleBar">
+        <item name="android:colorEdgeEffect">@color/btn_background_highlight</item>
     </style>
 </resources>
