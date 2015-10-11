@@ -40,10 +40,12 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
+import android.view.Surface;
+import android.view.WindowManager;
 
 import de.dmxcontrol.android.R;
-import de.dmxcontrol.compatibility.CompatibilityWrapper8;
 
 public class CrossControl extends BaseValueWidget {
     private final static String TAG = "widget";
@@ -87,12 +89,12 @@ public class CrossControl extends BaseValueWidget {
     public final static int MODE_POINTER_FOLLOW = 1;
     public final static int MODE_POINTER_SENSOR = 2;
 
+    protected Context ctx;
     private int mMode;
-
-    private CompatibilityWrapper8 compat8;
 
     public CrossControl(Context context) {
         super(context);
+        this.ctx = context;
         init();
     }
 
@@ -108,7 +110,6 @@ public class CrossControl extends BaseValueWidget {
 
     private void init() {
 
-        compat8 = CompatibilityWrapper8.wrap(getContext());
         int highlightColor = getResources().getColor(R.color.btn_background_highlight);
 
         int red = Color.red(highlightColor);
@@ -532,16 +533,20 @@ public class CrossControl extends BaseValueWidget {
                 v[1] = filter[1].average(values[1] * 100);
                 v[2] = filter[2].average(values[2] * 100);
 
+                Display display = ((WindowManager)ctx.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
+
+                int deviceOrientation = display.getRotation();
+
                 final float xFollowValue, yFollowValue;
-                if(compat8.isDisplayPortrait()) {
+                if(deviceOrientation == Surface.ROTATION_0) {
                     xFollowValue = v[1] / 10;
                     yFollowValue = v[2] / 10;
                 }
-                else if(compat8.isDisplayLandscape()) {
+                else if(deviceOrientation == Surface.ROTATION_90) {
                     xFollowValue = v[2] / 10;
                     yFollowValue = -v[1] / 10;
                 }
-                else if(compat8.isDisplayLandscapeOverhead()) {
+                else if(deviceOrientation == Surface.ROTATION_270) {
                     xFollowValue = -v[2] / 10;
                     yFollowValue = v[1] / 10;
                 }

@@ -134,33 +134,8 @@ public class ControlActivity extends FragmentActivity implements
         SWIPE_MIN_VELOCITY = this.getResources().getInteger(R.integer.swipe_min_velocity);
         SWIPE_MIN_DISTANCE = this.getResources().getInteger(R.integer.swipe_min_distance);
 
-        // Change the EdgeEffectColor to our HighlightColor
-
-        if (android.os.Build.VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-
-            /*
-            EdgeEffect edgeEffectTop = new EdgeEffect(cxt);
-
-            edgeEffectTop.setColor(this.getResources().getColor(R.color.btn_background_highlight));
-            EdgeEffect edgeEffectBottom = new EdgeEffect(cxt);
-            edgeEffectBottom.setColor(this.getResources().getColor(R.color.btn_background_highlight));
-
-            try {
-                Field f1 = AbsListView.class.getDeclaredField("mEdgeGlowTop");
-                f1.setAccessible(true);
-                f1.set(list, edgeEffectTop);
-
-                Field f2 = AbsListView.class.getDeclaredField("mEdgeGlowBottom");
-                f2.setAccessible(true);
-                f2.set(list, edgeEffectBottom);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-            }
-            */
-
-        }
-        else {
+        // Change the EdgeEffectColor to our HighlightColor (since Lollipop via styles.xml in values-v21)
+        if (android.os.Build.VERSION.SDK_INT < VERSION_CODES.LOLLIPOP) {
 
             int glowDrawableId = this.getResources().getIdentifier("overscroll_glow", "drawable", "android");
             Drawable androidGlow = this.getResources().getDrawable(glowDrawableId);
@@ -207,6 +182,9 @@ public class ControlActivity extends FragmentActivity implements
                 break;
             case Prefs.SCREEN_MODE_LANDSCAPE:
                 setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                break;
+            default:
+                break;
         }
 
         ServiceFrontend.get().setNetworkListener(mMessageListener);
