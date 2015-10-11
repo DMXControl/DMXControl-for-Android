@@ -42,7 +42,7 @@
         android:layout_width="30dp"
         android:layout_height="fill_parent"
         android:layout_alignParentRight="true"
-        android:background="@drawable/border_normal_layer_transperent"
+        android:background="@drawable/border_normal_layer_transparent"
         android:layout_alignTop="@+id/crosscontrol"
         android:layout_alignBottom="@+id/crosscontrol"
         android:layout_marginLeft="10dp"></de.dmxcontrol.widget.FaderVerticalControl>
@@ -53,7 +53,7 @@
         android:layout_height="fill_parent"
         android:layout_below="@+id/cross_mode"
         android:layout_above="@+id/lock_layout"
-        android:background="@drawable/border_normal_layer_transperent"
+        android:background="@drawable/border_normal_layer_transparent"
         android:layout_toLeftOf="@+id/speedfader"></de.dmxcontrol.widget.CrossControl>
 
 

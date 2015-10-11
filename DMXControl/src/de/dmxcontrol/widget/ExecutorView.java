@@ -161,7 +161,7 @@ public class ExecutorView extends LinearLayout {
 
         fader = new FaderVerticalControl(Context);
         fader.setValue(mExecutor.getValue(), 0);
-        fader.setBackgroundResource(R.drawable.border_normal_layer_transperent);
+        fader.setBackgroundResource(R.drawable.border_normal_layer_transparent);
 
         mExecutor.setValueChangedListener(new EntityExecutor.ValueChangedListener() {
             @Override

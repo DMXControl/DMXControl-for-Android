@@ -41,14 +41,14 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_toLeftOf="@+id/speedfader"
-        android:background="@drawable/border_normal_layer_transperent"
+        android:background="@drawable/border_normal_layer_transparent"
         android:layout_toRightOf="@+id/cross_mode"></de.dmxcontrol.widget.CrossControl>
 
     <de.dmxcontrol.widget.FaderVerticalControl
         android:id="@+id/speedfader"
         android:layout_width="30dp"
         android:layout_height="fill_parent"
-        android:background="@drawable/border_normal_layer_transperent"
+        android:background="@drawable/border_normal_layer_transparent"
         android:layout_alignTop="@+id/crosscontrol"
         android:layout_alignBottom="@+id/crosscontrol"
         android:layout_toLeftOf="@+id/lock_layout"

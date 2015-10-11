@@ -47,7 +47,7 @@
                 <de.dmxcontrol.widget.FaderVerticalControl
                     android:id="@+id/optic_zoom_fader"
                     android:layout_width="fill_parent"
-                    android:background="@drawable/border_normal_layer_transperent"
+                    android:background="@drawable/border_normal_layer_transparent"
                     android:layout_height="fill_parent"/>
             </LinearLayout>
 
@@ -79,7 +79,7 @@
                 <de.dmxcontrol.widget.FaderVerticalControl
                     android:id="@+id/optic_focus_fader"
                     android:layout_width="fill_parent"
-                    android:background="@drawable/border_normal_layer_transperent"
+                    android:background="@drawable/border_normal_layer_transparent"
                     android:layout_height="fill_parent"/>
             </LinearLayout>
 
@@ -111,7 +111,7 @@
                 <de.dmxcontrol.widget.FaderVerticalControl
                     android:id="@+id/optic_iris_fader"
                     android:layout_width="fill_parent"
-                    android:background="@drawable/border_normal_layer_transperent"
+                    android:background="@drawable/border_normal_layer_transparent"
                     android:layout_height="fill_parent"/>
             </LinearLayout>
 
@@ -143,7 +143,7 @@
                 <de.dmxcontrol.widget.FaderVerticalControl
                     android:id="@+id/optic_frost_fader"
                     android:layout_width="fill_parent"
-                    android:background="@drawable/border_normal_layer_transperent"
+                    android:background="@drawable/border_normal_layer_transparent"
                     android:layout_height="fill_parent"/>
             </LinearLayout>
 

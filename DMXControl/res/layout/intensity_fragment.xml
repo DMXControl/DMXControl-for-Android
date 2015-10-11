@@ -78,7 +78,7 @@
                 android:layout_width="50dp"
                 android:layout_height="fill_parent"
                 style="@android:style/TextAppearance.Small"
-                android:background="@drawable/border_normal_layer_transperent"
+                android:background="@drawable/border_normal_layer_transparent"
                 android:layout_margin="2dp"/>
         </LinearLayout>
 
@@ -112,7 +112,7 @@
                 android:layout_width="50dp"
                 android:layout_height="fill_parent"
                 style="@android:style/TextAppearance.Small"
-                android:background="@drawable/border_normal_layer_transperent"
+                android:background="@drawable/border_normal_layer_transparent"
                 android:layout_margin="2dp"/>
         </LinearLayout>
 

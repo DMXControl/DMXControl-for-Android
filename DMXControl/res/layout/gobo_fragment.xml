@@ -59,7 +59,7 @@
                 <de.dmxcontrol.widget.FaderHorizontalControl
                     android:id="@+id/gobo_rotation_fader"
                     android:layout_width="fill_parent"
-                    android:background="@drawable/border_normal_layer_transperent"
+                    android:background="@drawable/border_normal_layer_transparent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
@@ -92,7 +92,7 @@
                 <de.dmxcontrol.widget.FaderHorizontalControl
                     android:id="@+id/gobo_index_fader"
                     android:layout_width="fill_parent"
-                    android:background="@drawable/border_normal_layer_transperent"
+                    android:background="@drawable/border_normal_layer_transparent"
                     android:layout_height="wrap_content"
                     />
             </LinearLayout>
@@ -126,7 +126,7 @@
                 <de.dmxcontrol.widget.FaderHorizontalControl
                     android:id="@+id/gobo_shake_fader"
                     android:layout_width="fill_parent"
-                    android:background="@drawable/border_normal_layer_transperent"
+                    android:background="@drawable/border_normal_layer_transparent"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 
