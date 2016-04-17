@@ -11,6 +11,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
+        <org.openintents.widget.ColorSlider
+            android:id="@+id/saturation"
+            android:layout_width="50sp"
+            android:layout_height="fill_parent"
+            android:layout_margin="5sp"/>
+
         <org.openintents.widget.ColorCircle
             android:id="@+id/color_circle"
             android:layout_width="fill_parent"
@@ -19,6 +25,13 @@
             android:layout_marginLeft="10dip"
             android:layout_marginRight="10dip"
             android:layout_weight="1" />
+
+        <org.openintents.widget.ColorSlider
+            android:id="@+id/value"
+            android:layout_width="50sp"
+            android:layout_height="fill_parent"
+            android:layout_margin="5sp" />
+
     </LinearLayout>
 
 </LinearLayout>
