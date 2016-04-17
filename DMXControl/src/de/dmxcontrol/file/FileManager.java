@@ -20,14 +20,17 @@ import de.dmxcontrol.widget.OpticControl;
  */
 public class FileManager {
     public final static String TAG = "FileManager";
-    public final static String StoragePath = Environment.getExternalStorageDirectory() + File.separator + "DMXControl";
-    public final static String ImageStorageName = StoragePath + File.separator + "Images";
-    public final static String IconStorageName = StoragePath + File.separator + "Icons";
-    public final static String TexturesStorageName = StoragePath + File.separator + "Textures";
-    public final static String GoboStorageName = StoragePath + File.separator + "Gobos";
-    public final static String LogsStorageName = StoragePath + File.separator + "Logs";
 
-    public final static String[] DefaultFiles = new String[]{
+    private final static String DMXCRootStorageName = "DMXControl";
+    private final static String ImageStorageName = File.separator + "Images";
+    private final static String IconStorageName = File.separator + "Icons";
+    private final static String TexturesStorageName = File.separator + "Textures";
+    private final static String GoboStorageName = File.separator + "Gobos";
+    private final static String LogsStorageName = File.separator + "Logs";
+
+    private static String StoragePath;
+
+    private final static String[] DefaultFiles = new String[]{
             EntityDevice.defaultDeviceIcon,
             EntityGroup.defaultDeviceGroupIcon,
             OpticControl.Lens1,
@@ -36,7 +39,6 @@ public class FileManager {
             OpticControl.Frost,
             OpticControl.FocusWheel
     };
-
 
     private ImageWithKeyCollection images = new ImageWithKeyCollection();
 
@@ -68,43 +70,105 @@ public class FileManager {
         return context;
     }
 
+
+    public String getImagePath() {
+        return StoragePath + ImageStorageName;
+    }
+
+    public String getIconPath() {
+        return StoragePath + IconStorageName;
+    }
+
+    public String getTexturePath() {
+        return StoragePath + TexturesStorageName;
+    }
+
+    public String getGoboPath() {
+        return StoragePath + GoboStorageName;
+    }
+
+    public String getLogPath() {
+        return StoragePath + LogsStorageName;
+    }
+
     private FileManager() {
+
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            StoragePath = Environment.getExternalStorageDirectory() + File.separator + DMXCRootStorageName;
+        }
+        else {
+            StoragePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + File.separator + DMXCRootStorageName;
+        }
+
         createDirectory();
         createDefaultIcons();
         loadTextures();
     }
 
-    private static void createDirectory() {
+    private void createDirectory() {
         try {
+
             File Directory = new File(StoragePath);
+
             if(!Directory.isDirectory()) {
-                Directory.mkdirs();
-                Log.i(TAG, "Create directory [" + StoragePath + "]");
+                if(Directory.mkdirs()) {
+                    Log.i(TAG, "Create directory [" + StoragePath + "]");
+                }
+                else {
+                    Log.e(TAG, "Directory [" + StoragePath + "] not created");
+                    DMXControlApplication.SaveLog();
+                    // TODO: 11.10.15 do something here -> inform user -> need this folder for textures
+                }
             }
-            Directory = new File(TexturesStorageName);
+
+            Directory = new File(getTexturePath());
             if(!Directory.isDirectory()) {
-                Directory.mkdirs();
-                Log.i(TAG, "Create directory [" + TexturesStorageName + "]");
+                if(Directory.mkdirs()) {
+                    Log.i(TAG, "Create directory [" + getTexturePath() + "]");
+                }
+                else {
+                    Log.i(TAG, "Directory [" + getTexturePath()  + "] not created");
+                }
             }
-            Directory = new File(ImageStorageName);
+
+            Directory = new File(getImagePath());
             if(!Directory.isDirectory()) {
-                Directory.mkdirs();
-                Log.i(TAG, "Create directory [" + ImageStorageName + "]");
+                if(Directory.mkdirs()) {
+                    Log.i(TAG, "Create directory [" + getImagePath() + "]");
+                }
+                else {
+                    Log.i(TAG, "Directory [" + getImagePath() + "] not created");
+                }
             }
-            Directory = new File(IconStorageName);
+
+            Directory = new File(getIconPath());
             if(!Directory.isDirectory()) {
-                Directory.mkdirs();
-                Log.i(TAG, "Create directory [" + IconStorageName + "]");
+                if(Directory.mkdirs()) {
+                    Log.i(TAG, "Create directory [" + getIconPath() + "]");
+                }
+                else {
+                    Log.i(TAG, "Directory [" + getIconPath() + "] not created");
+                }
             }
-            Directory = new File(GoboStorageName);
+
+            Directory = new File(getGoboPath());
             if(!Directory.isDirectory()) {
-                Directory.mkdirs();
-                Log.i(TAG, "Create directory [" + GoboStorageName + "]");
+                if(Directory.mkdirs()) {
+                    Log.i(TAG, "Create directory [" + getGoboPath() + "]");
+                }
+                else {
+                    Log.i(TAG, "Directory [" + getGoboPath()  + "] not created");
+                }
             }
-            Directory = new File(LogsStorageName);
+
+            Directory = new File(getLogPath());
             if(!Directory.isDirectory()) {
-                Directory.mkdirs();
-                Log.i(TAG, "Create directory [" + LogsStorageName + "]");
+                if(Directory.mkdirs()) {
+                    Log.i(TAG, "Create directory [" + getLogPath() + "]");
+                }
+                else {
+                    Log.i(TAG, "Directory [" + getLogPath()  + "] not created");
+                }
             }
         }
         catch(Exception e) {
@@ -112,14 +176,14 @@ public class FileManager {
         }
     }
 
-    private static void createDefaultIcons() {
+    private void createDefaultIcons() {
         try {
             if(context == null) {
                 return;
             }
             FileOutputStream out = null;
             for(String string : DefaultFiles) {
-                File file = new File(TexturesStorageName + File.separator + string);
+                File file = new File(getTexturePath() + File.separator + string);
                 if(!file.exists()) {
                     Bitmap bmp = null;
                     if(string.equals(EntityDevice.defaultDeviceIcon)) {
@@ -145,7 +209,7 @@ public class FileManager {
                     }
 
                     try {
-                        out = new FileOutputStream(TexturesStorageName + File.separator + string);
+                        out = new FileOutputStream(getTexturePath() + File.separator + string);
                         Log.i(TAG, "Create Bitmap " + string);
                     }
                     catch(Exception e) {
@@ -153,7 +217,10 @@ public class FileManager {
                         Log.e(TAG, DMXControlApplication.stackTraceToString(e));
                         DMXControlApplication.SaveLog();
                     }
-                    bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
+
+                    if(bmp != null) {
+                        bmp.compress(Bitmap.CompressFormat.PNG, 100, out);
+                    }
                 }
             }
         }
@@ -173,6 +240,6 @@ public class FileManager {
     }
 
     private Bitmap loadTexture(String name) {
-        return BitmapFactory.decodeFile(new File(TexturesStorageName + File.separator + name).getAbsolutePath());
+        return BitmapFactory.decodeFile(new File(getTexturePath() + File.separator + name).getAbsolutePath());
     }
 }

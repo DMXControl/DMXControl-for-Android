@@ -68,7 +68,6 @@ import de.dmxcontrol.preset.EntityPreset;
 public class DMXControlApplication extends Application {
 
     private final static String TAG = "dmxcontrol";
-    private final static String LogsStoragePath = FileManager.LogsStorageName;
     private Prefs prefs;
     private boolean mJustStarted;
 
@@ -89,7 +88,6 @@ public class DMXControlApplication extends Application {
 
     @Override
     public boolean stopService(Intent name) {
-
         Log.w("", "Stop Application");
         DMXControlApplication.SaveLog();
         return super.stopService(name);
@@ -98,9 +96,12 @@ public class DMXControlApplication extends Application {
     @Override
     public void onCreate() {
 
+        // Init FileManager
+        FileManager.get(this);
+
         if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof ExceptionReport)) {
             Thread.setDefaultUncaughtExceptionHandler(new ExceptionReport(
-                    LogsStoragePath, null));
+                    FileManager.get().getLogPath(), null));
         }
 
         // Log max amount of memory (bytes) the heap can expand to
@@ -141,9 +142,6 @@ public class DMXControlApplication extends Application {
                     // Do nothing at disconnect
                 }
             });
-
-            // Init FileManager
-            FileManager.get(this);
 
             // Start network Service if offline isn't set in prefs
             if(!prefs.getOffline()) {
@@ -193,7 +191,7 @@ public class DMXControlApplication extends Application {
             try {
 
                 Writer writer;
-                File outputFile = new File(LogsStoragePath, "Log.txt");
+                File outputFile = new File(FileManager.get().getLogPath(), "Log.txt");
                 writer = new BufferedWriter(new FileWriter(outputFile));
                 writer.write(log.toString());
                 writer.close();

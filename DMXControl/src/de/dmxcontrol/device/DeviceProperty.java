@@ -148,7 +148,7 @@ public class DeviceProperty implements Cloneable {
                     canvas.drawCircle(open.getWidth() / 2, open.getHeight() / 2, open.getWidth() / 2 * 0.95f, paint);
                     return open;
                 }
-                File imgFile = new File(FileManager.IconStorageName + File.separator + this.value);
+                File imgFile = new File(FileManager.get().getIconPath() + File.separator + this.value);
                 if(imgFile.isFile()) {
                     if(imgFile.exists()) {
                         Bitmap bmp = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
