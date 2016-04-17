@@ -52,7 +52,7 @@ public class ColorSlider extends View {
      * Constructor. This version is only needed for instantiating the object
      * manually (not from a layout XML file).
      *
-     * @param context
+     * @param context Context
      */
     public ColorSlider(Context context) {
         super(context);
@@ -109,7 +109,7 @@ public class ColorSlider extends View {
      *
      * @param measureSpec A measureSpec packed into an int
      *
-     * @return The width of the view, honoring constraints from measureSpec
+     * @return The width of the view, honxxng constraints from measureSpec
      */
     private int measureWidth(int measureSpec) {
         int result = 0;
@@ -199,19 +199,20 @@ public class ColorSlider extends View {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
+
+        //float x = event.getX();
         float y = event.getY();
 
         switch(event.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_MOVE:
 
-                float unit = (float) y / ((float) getHeight());
+                float unit = (float)( y / ((float) getHeight()));
 
-                int newcolor = interpColor(mColor1, mColor2, unit);
+                int newColor = interpColor(mColor1, mColor2, unit);
 
                 if(mListener != null) {
-                    mListener.onColorChanged(this, newcolor);
+                    mListener.onColorChanged(this, newColor);
                 }
                 invalidate();
                 break;

@@ -50,7 +50,7 @@ public class ColorCircle extends View {
      * Constructor. This version is only needed for instantiating the object
      * manually (not from a layout XML file).
      *
-     * @param context
+     * @param context Context
      */
     public ColorCircle(Context context) {
         super(context);

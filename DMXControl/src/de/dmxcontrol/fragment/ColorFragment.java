@@ -3,7 +3,7 @@
  *
  *  DMXControl for Android
  *
- *  Copyright (c) 2011 DMXControl-For-Android. All rights reserved.
+ *  Copyright (c) 2016 DMXControl-For-Android. All rights reserved.
  *
  *      This software is free software; you can redistribute it and/or
  *      modify it under the terms of the GNU General Public License
@@ -22,12 +22,12 @@
  *
  *      For further information, please contact info [(at)] dmxcontrol.de
  *
- * 
  */
 
 package de.dmxcontrol.fragment;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,15 +36,22 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import org.openintents.widget.ColorCircle;
+import org.openintents.widget.ColorSlider;
+import org.openintents.widget.OnColorChangedListener;
 
 import de.dmxcontrol.android.R;
 import de.dmxcontrol.device.EntityManager;
 import de.dmxcontrol.model.ColorModel;
 import de.dmxcontrol.model.ModelManager.Type;
 
-public class ColorFragment extends BasePanelFragment {
+public class ColorFragment extends BasePanelFragment implements OnColorChangedListener {
+
     public final static String TAG = "colorfragment";
     private LinearLayout colorLayout;
+    private ColorModel colorModel;
+    private ColorCircle circle;
+    private ColorSlider saturation;
+    private ColorSlider value;
 
     // startup process initiated
     @Override
@@ -58,18 +65,26 @@ public class ColorFragment extends BasePanelFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         Log.d(TAG, "onCreateView");
-        colorLayout = (LinearLayout) inflater.inflate(R.layout.color_fragment,
-                container, false);
-        ColorCircle circle = (ColorCircle) colorLayout
-                .findViewById(R.id.color_circle);
-        ColorModel colorModel = EntityManager.get()
-                .getEntitySelection(EntityManager.CENTRAL_ENTITY_SELECTION)
-                .getModel(Type.Color);
-        circle.setOnColorChangedListener(colorModel);
+
+        colorModel = EntityManager.get().getEntitySelection(EntityManager.CENTRAL_ENTITY_SELECTION).getModel(Type.Color);
+
+        colorLayout = (LinearLayout) inflater.inflate(R.layout.color_fragment, container, false);
+
+        circle = (ColorCircle) colorLayout.findViewById(R.id.color_circle);
+        circle.setOnColorChangedListener(this);
         circle.setColor(colorModel.getValue());
+
+        saturation = (ColorSlider) colorLayout.findViewById(R.id.saturation);
+        saturation.setOnColorChangedListener(this);
+        saturation.setColors(colorModel.getValue(), Color.BLACK);
+
+        value = (ColorSlider) colorLayout.findViewById(R.id.value);
+        value.setOnColorChangedListener(this);
+        value.setColors(Color.WHITE, colorModel.getValue());
+
 
         return colorLayout;
     }
@@ -116,6 +131,31 @@ public class ColorFragment extends BasePanelFragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    @Override
+    public void onColorChanged(View view, int newColor) {
+
+        colorModel.onColorChanged(view, newColor);
+
+        if (view == circle) {
+            value.setColors(Color.WHITE, colorModel.getValue());
+            saturation.setColors(newColor, Color.BLACK);
+        }
+        else if (view == saturation) {
+            circle.setColor(colorModel.getValue());
+            value.setColors(Color.WHITE, colorModel.getValue());
+        }
+        else if (view == value) {
+            circle.setColor(colorModel.getValue());
+        }
+
+    }
+
+    @Override
+    public void onColorPicked(View view, int newColor) {
+
+        colorModel.onColorPicked(view, newColor);
     }
 
     public void clean() {
