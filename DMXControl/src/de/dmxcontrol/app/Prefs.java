@@ -30,6 +30,7 @@ package de.dmxcontrol.app;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -52,7 +53,6 @@ public class Prefs {
     private String mDeviceName = "";
     private String mServerAddress = "";
     private String mServerHost = "";
-    private int mServerPort;
     private boolean mOffline;
     private boolean mDisableSplash;
     private boolean mDisableAnimations;
@@ -139,12 +139,6 @@ public class Prefs {
         }
         mServerHost = serverHost;
 
-        int serverPort = Integer.valueOf(prefs.getString("pref_connect_port", "23242"));
-        if(mServerPort != serverPort) {
-            connectConfigChanged = true;
-        }
-        mServerPort = serverPort;
-
         boolean offline = prefs.getBoolean("pref_connect_offline", false);
         if(mOffline != offline) {
             connectConfigChanged = true;
@@ -208,6 +202,7 @@ public class Prefs {
     }
 
     public void setOffline(boolean offline) {
+
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(ctx);
         mOffline = prefs.getBoolean("pref_connect_offline", false);
 
@@ -229,13 +224,11 @@ public class Prefs {
 
         if(serverAddress != mServerAddress) {
             prefs.edit().putString("pref_connect_address", serverAddress);
+
+            connectConfigChanged = true;
         }
 
         mServerAddress = serverAddress;
-    }
-
-    public int getServerPort() {
-        return mServerPort;
     }
 
     public boolean getDisableAnimations() {

@@ -4,9 +4,9 @@
         <EditTextPreference
             android:title="@string/pref_connect_device_name_title"
             android:summary="@string/pref_connect_device_name_summary"
-            android:defaultValue=""
+            android:defaultValue="My Android Phone"
             android:key="pref_connect_device_name"
-            android:dialogTitle="@string/pref_connect_device_name_dialog_title"/>
+            android:dialogTitle="@string/pref_connect_device_name_dialog_title" />
         <EditTextPreference
             android:title="@string/pref_connect_serveraddress_title"
             android:summary="@string/pref_connect_serveraddress_summary"
@@ -17,7 +17,7 @@
             android:title="@string/pref_connect_offline_title"
             android:defaultValue="false"
             android:summary="@string/pref_connect_offline_summary"
-            android:key="pref_connect_offline"/>
+            android:key="pref_connect_offline" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_category_visual">
         <ListPreference
@@ -26,11 +26,16 @@
             android:key="pref_screen_mode"
             android:defaultValue="0"
             android:entries="@array/screen_mode"
-            android:entryValues="@array/screen_mode_values"/>
+            android:entryValues="@array/screen_mode_values" />
         <CheckBoxPreference
             android:title="@string/pref_disable_splash_title"
             android:summary="@string/pref_disable_splash_summary"
             android:defaultValue="false"
-            android:key="pref_disable_splash"/>
+            android:key="pref_disable_splash" />
+        <CheckBoxPreference
+            android:title="@string/pref_disable_animations"
+            android:summary="@string/pref_disable_animations_summary"
+            android:defaultValue="true"
+            android:key="pref_disable_animations" />
     </PreferenceCategory>
 </PreferenceScreen>

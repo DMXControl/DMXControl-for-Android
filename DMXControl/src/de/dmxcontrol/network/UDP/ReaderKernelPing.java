@@ -89,7 +89,7 @@ public class ReaderKernelPing extends Thread {
             if(message.length() > 0) {
                 lastKernelPing = KernelPingDeserializer.Get(message);
 
-                Log.d("UDP", "KernelPing Received: IP " + lastKernelPing.GetIPAdresses()[0]);
+                //Log.d("UDP", "KernelPing Received: IP " + lastKernelPing.GetIPAdresses()[0]);
                 boolean add = true;
 
                 if(KernelPings.size() > 0) {
@@ -121,8 +121,8 @@ public class ReaderKernelPing extends Thread {
             }
         }
         catch(Throwable e) {
-            Log.e("Can't receive KernelPing", e.getMessage());
-            DMXControlApplication.SaveLog();
+            //Log.e("Can't receive KernelPing", e.getMessage());
+            //DMXControlApplication.SaveLog();
         }
     }
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="de.dmxcontrol.android"
-          android:versionCode="1"
-          android:versionName="0.0.1"
-          android:installLocation="preferExternal">
+          android:versionCode="8"
+          android:versionName="0.6.3"
+          android:installLocation="auto">
 
     <application
         android:name="de.dmxcontrol.app.DMXControlApplication"
@@ -51,7 +51,7 @@
 
     <uses-sdk
         android:minSdkVersion="15"
-        android:targetSdkVersion="21"/>
+        android:targetSdkVersion="23"/>
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>

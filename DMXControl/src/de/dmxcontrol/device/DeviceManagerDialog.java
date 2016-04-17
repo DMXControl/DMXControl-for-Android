@@ -51,8 +51,6 @@ public class DeviceManagerDialog extends FrameLayout {
         editStartAddress.setFocusable(true);
         editSpace.setEnabled(true);
         editSpace.setFocusable(true);
-        editRepeat.setEnabled(true);
-        editRepeat.setFocusable(true);
         btnAutogenerateGroup.setEnabled(true);
     }
 
@@ -120,6 +118,7 @@ public class DeviceManagerDialog extends FrameLayout {
                 @Override
                 public void onClick(View v) {
                     editGroup.setEnabled(btnAutogenerateGroup.isChecked());
+                    editRepeat.setEnabled(btnAutogenerateGroup.isChecked());
                     if((editGroup.getText() + "").equals("")) {
                         editGroup.setText(deviceMetadata.getModell() + " Group");
                     }

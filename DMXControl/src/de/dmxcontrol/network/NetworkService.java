@@ -27,13 +27,15 @@
 
 package de.dmxcontrol.network;
 
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
-
-import java.io.IOException;
 
 import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.network.TCP.TCPReader;
@@ -41,8 +43,18 @@ import de.dmxcontrol.network.TCP.TCPSender;
 
 public class NetworkService extends Service {
 
+    private static final Pattern IP_ADDRESS = Pattern.compile(
+            "((25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\\.(25[0-5]|2[0-4]"
+                    + "[0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1]"
+                    + "[0-9]{2}|[1-9][0-9]|[1-9]|0)\\.(25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}"
+                    + "|[1-9][0-9]|[0-9]))"
+    );
+
     // Tag for log messages
-    private final static String TAG = "networkService";
+    private final static String TAG = "NetworkService";
+
+    // Port of communication
+    private final int serverPrt = 13141;
 
     // Runnable instance of sender
     private TCPSender mSender;
@@ -56,8 +68,10 @@ public class NetworkService extends Service {
     // Thread that reads the incoming data
     private volatile Thread mReaderThread;
 
+    // network service status
     private boolean mNetworkServiceIsConnected = false;
 
+    // Listener for
     private IMessageListener mServiceListener;
 
     public class LocalBinder extends Binder {
@@ -90,14 +104,22 @@ public class NetworkService extends Service {
 
             // get address and port from prefs
             String serverAddress = Prefs.get().getServerAddress();
-            int serverPrt = 13141;//Prefs.get().getServerPort();
 
-            if(serverAddress.length() > 0 && serverPrt > 0) {
+            Matcher matcher = IP_ADDRESS.matcher(serverAddress);
+
+            // TODO: 11.10.15 Hostname also possible here??
+            
+            if(matcher.matches()) {
                 Log.d(TAG, "Network Target is " + serverAddress + ":" + serverPrt);
 
                 Log.d(TAG, "Starting sender thread");
                 // create new sender
-                mSender = new TCPSender(serverAddress, serverPrt);
+                mSender = new TCPSender(serverAddress, serverPrt); // throws UnknwonHostException
+
+                // set listener
+                if(mServiceListener != null) {
+                    mSender.setTCPListener(mServiceListener);
+                }
 
                 // create and start thread of sender
                 mSenderThread = new Thread(mSender, "NetworkSender");
@@ -106,6 +128,11 @@ public class NetworkService extends Service {
                 Log.d(TAG, "Starting reader thread");
                 // create new reader
                 mReader = new TCPReader(mSender);
+
+                // set listener
+                if(mServiceListener != null) {
+                    mReader.setTCPListener(mServiceListener);
+                }
 
                 // create, set priority to min and start thread of reader
                 mReaderThread = new Thread(mReader, "NetworkReader");
@@ -119,7 +146,7 @@ public class NetworkService extends Service {
                 Prefs.get().setOffline(false);
             }
             else {
-                throw new IOException("No server address and/or port given. Consult settings.");
+                throw new IOException("No or wrong server address given. Consult settings.");
             }
         }
         catch(Exception e) {

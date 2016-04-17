@@ -39,7 +39,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
 import de.dmxcontrol.android.R;
-import de.dmxcontrol.app.Prefs;
 import de.dmxcontrol.network.ServiceFrontend;
 
 public class NetworkErrorDialogFragment extends DialogFragment implements OnClickListener {
@@ -106,8 +105,8 @@ public class NetworkErrorDialogFragment extends DialogFragment implements OnClic
         dialog.dismiss();
 
         if(mCheckBox.isChecked()) {
-
-            Prefs.get().setOffline(true);
+            // Disconnect network service if something went wrong
+            ServiceFrontend.get().disconnect(true);
         }
         else {
             // If user unchecked -> try to connect again

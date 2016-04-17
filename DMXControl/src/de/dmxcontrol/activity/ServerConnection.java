@@ -3,6 +3,7 @@ package de.dmxcontrol.activity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -35,12 +36,16 @@ public class ServerConnection extends Activity {
     private Context context;
     private ListView listView;
 
+    // Tag for log messages
+    private final static String TAG = "ServerConnActivity";
+
     public ServerConnection() {
 
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         context = this;
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -54,15 +59,18 @@ public class ServerConnection extends Activity {
 
                 }
         );
+
         try {
             view = View.inflate(this, R.layout.connection, null);
             listView = (ListView) view.findViewById(R.id.connection_listView);
-            listView.setOnClickListener((View.OnClickListener) mOnClickListener);
+            //listView.setOnClickListener((View.OnClickListener) mOnClickListener);
         }
         catch(Exception e) {
-            Log.w("", DMXControlApplication.stackTraceToString(e));
+            Log.w(TAG, e.getMessage());
+            Log.w(TAG, DMXControlApplication.stackTraceToString(e));
             DMXControlApplication.SaveLog();
         }
+
         setContentView(view);
         Update();
         TimerTask myTimerTask = new TimerTask() {
@@ -82,6 +90,7 @@ public class ServerConnection extends Activity {
     }
 
     private void Update() {
+
         if(update) {
             update = false;
             try {
@@ -101,17 +110,26 @@ public class ServerConnection extends Activity {
     }
 
     private ArrayList<KernelPingItem> generateData() {
+
         ArrayList<KernelPingItem> items = new ArrayList<KernelPingItem>();
         ArrayList<KernelPingDeserializer> kernelPinglist = Prefs.get().getKernelPing();
+
         for(int i = 0; i < kernelPinglist.size(); i++) {
+
             KernelPingDeserializer kernelPing = kernelPinglist.get(i);
+            
             if(kernelPing.GetIPAdresses().length > 0) {
+
+                // TODO: 23.08.15 Why do you get first item here and not in for loop??
                 String ips = kernelPing.GetIPAdresses()[0];
+                
                 if(kernelPing.GetIPAdresses().length > 1) {
+
                     for(int j = 1; j < kernelPing.GetIPAdresses().length; j++) {
                         ips += " , " + kernelPing.GetIPAdresses()[j];
                     }
                 }
+
                 items.add(new KernelPingItem(
                         kernelPing.GetHostName(),
                         ips,
@@ -130,10 +148,12 @@ public class ServerConnection extends Activity {
     };
 
     private class KernelPingItem {
+
         private String name, ips, version, project;
         private boolean compatible;
 
         public KernelPingItem(String Name, String IPs, String Version, String Project, boolean Compatible) {
+
             this.name = Name;
             this.ips = IPs;
             this.version = Version;
@@ -163,6 +183,7 @@ public class ServerConnection extends Activity {
     }
 
     public class MyAdapter extends ArrayAdapter<KernelPingItem> {
+
         private final Context context;
         private final ArrayList<KernelPingItem> itemsArrayList;
 
@@ -178,30 +199,41 @@ public class ServerConnection extends Activity {
         public View getView(int position, final View convertView, ViewGroup parent) {
 
             final KernelPingItem value = itemsArrayList.get(position);
+
             // 1. Create inflater
-            LayoutInflater inflater = (LayoutInflater) context
-                    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
             // 2. Get rowView from inflater
             View rowView = inflater.inflate(R.layout.connection_server_row, parent, false);
+
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
                     String ip;
+
+                    // If we get multiple ips, seperated by ' , ' we use first one
                     if(value.getIPs().contains(" , ")) {
                         ip = value.getIPs().split(" , ")[0];
                     }
                     else {
                         ip = value.getIPs();
                     }
+                    
                     // Set found ip in prefs
                     Prefs.get().setServerAddress(ip);
-                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_toast_connected), Toast.LENGTH_SHORT).show();
 
+                    // Show little text
+                    Toast.makeText(getApplicationContext(), getResources().getString(R.string.connection_toast_connected), Toast.LENGTH_SHORT).show();
+                    
+                    // Go online (Try to connect)
+                    Prefs.get().setOffline(false);
+                    
                     // We don't need to start here anymore. Just starting Kernel detection
                     //Prefs.get().StartNetwork();
                 }
             });
+
             // 3. Get the 4 text view from the rowView
             TextView nameView = (TextView) rowView.findViewById(R.id.server_name);
             TextView ipsView = (TextView) rowView.findViewById(R.id.server_ips);
@@ -214,13 +246,21 @@ public class ServerConnection extends Activity {
             ipsView.setText(getResources().getString(R.string.connection_host_ips) + ": " + value.getIPs());
             versionView.setText(getResources().getString(R.string.connection_host_version) + ": " + value.getVersion());
             projectView.setText(getResources().getString(R.string.connection_host_project) + ": " + value.getProject());
+
             if(value.getCompatible()) {
                 compatibleView.setText(getResources().getString(R.string.connection_host_compatible_true));
             }
             else {
                 compatibleView.setText(getResources().getString(R.string.connection_host_compatible_false));
-                rowView.setBackgroundDrawable(getResources().getDrawable(R.drawable.server_row_background_incompatible));
+
+                if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                    rowView.setBackground(getResources().getDrawable(R.drawable.server_row_background_incompatible));
+                }
+                else {
+                    rowView.setBackgroundDrawable(getResources().getDrawable(R.drawable.server_row_background_incompatible));
+                }
             }
+
             // 5. return rowView
             return rowView;
         }

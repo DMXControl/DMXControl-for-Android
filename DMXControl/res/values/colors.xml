@@ -75,4 +75,5 @@
     <color name="olive_medium">#FF818f3E</color>
     <color name="olive_dark">#FF5B6335</color>
     <color name="olive_very_dark">#FF414929</color>
+    <color name="legacy_primary">#ff9800</color>
 </resources>
