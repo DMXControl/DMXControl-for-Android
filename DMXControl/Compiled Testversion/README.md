@@ -1,7 +1,7 @@
 Install test version
 ======================
 
-1. You have to Install DMXControl3 (Beta6) on your PC
+1. You have to Install DMXControl3 (3.0.1) on your PC
 2. Open the *.apk File with your Android-Phone.
 3. Copy the *.dll und *.pdb file in the Plugin-Folder from the Kernel.
 
