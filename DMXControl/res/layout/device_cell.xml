@@ -5,8 +5,8 @@
                 android:layout_height="wrap_content">
 
     <ImageView
-        android:layout_width="32pt"
-        android:layout_height="32pt"
+        android:layout_width="@dimen/button_width_med"
+        android:layout_height="@dimen/button_width_med"
         android:id="@+id/deviceCell_icon"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="6pt"
+        android:textSize="6dp"
         android:text="Small Text"
         android:id="@+id/deviceCell_name"
         android:layout_below="@+id/deviceCell_icon"
