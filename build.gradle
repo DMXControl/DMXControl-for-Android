@@ -4,7 +4,7 @@ buildscript {
     }
     
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.1.3'
+        classpath 'com.android.tools.build:gradle:2.14.1'
     }
 }
 
@@ -44,5 +44,5 @@ android {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.1'
+    gradleVersion = '2.14'
 }
