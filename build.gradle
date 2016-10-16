@@ -42,3 +42,7 @@ android {
         release.setRoot('build-types/release')
     }
 }
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14.1'
+}
