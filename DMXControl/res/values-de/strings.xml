@@ -14,7 +14,9 @@
     <string name="connection_toast_connected">Sie sind nun verbunden</string>
     <string name="connection_toast_please_wait">Bitte warten&#8230;</string>
 
-
+    <string name="devicegroup_fragment_devices">Geräte:</string>
+    <string name="devicegroup_fragment_groups">Gruppen:</string>
+	
     <string name="intensity_fragment_dimmer">Dimmer</string>
     <string name="intensity_fragment_dimmer_0">0%</string>
     <string name="intensity_fragment_dimmer_30">30%</string>
@@ -36,11 +38,20 @@
     <string name="position_fragment_lock_x">Lock X</string>
     <string name="position_fragment_reset">Reset</string>
 
-    <string name="preset_fragment_add">Add</string>
-    <string name="preset_fragment_apply">Apply</string>
+	<string name="gobo_fragment_rotation">Rotation</string>
+    <string name="gobo_fragment_index">Index</string>
+    <string name="gobo_fragment_shake">Shake</string>
 
-    <string name="programmer_fragment_clear">Clear</string>
-    <string name="programmer_fragment_undo_clear">Undo Clear</string>
+    <string name="optic_fragment_zoom">Zoom</string>
+    <string name="optic_fragment_focus">Fokus</string>
+    <string name="optic_fragment_iris">Iris</string>
+    <string name="optic_fragment_frost">Frost</string>
+	
+    <string name="preset_fragment_add">Hinzufügen</string>
+    <string name="preset_fragment_apply">Anwenden</string>
+
+    <string name="programmer_fragment_clear">Löschen</string>
+    <string name="programmer_fragment_undo_clear">Löschen rückgängig</string>
 
     <string name="pref_set_preferences">Einstellungen</string>
     <string name="pref_category_connect">Verbindung</string>
@@ -90,6 +101,7 @@
     <string name="about_rating_market">In the market</string>
     <string name="about_dismiss">Dismiss</string>
 
+	<string name="licence_text_ACRA">This app also uses the ACRA library, licensed under the Apache License, Version 2.0.</string>
     <string name="licence_text_OpenIntents">This app uses the OpenIntents Color Picker, which is licensed under the Apache License, Version 2.0.</string>
     <string name="licence_text_Mobile_Anarchy">This app also uses the DockPanel from Mobile Anarchy, licensed under the BSD-3-Clause.</string>
     <string name="licence_text_general">This App is licensed under the GPL V3.\nThe source code is available at\nhttps://github.com/DMXControl/.</string>
@@ -134,6 +146,11 @@
     <string name="executor_settings_fader_mode_timing">Timing</string>
     <string name="executor_settings_fader_mode_effect_speed">Effect Speed</string>
 
+	<string name="ask_close">Close?</string>
+    <string name="ask_close_app">Do you won\'t to close the App (Kill)?</string>
+    <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
+	
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="empty">Empty</string>
@@ -148,6 +165,5 @@
     <string name="char_break">\uf0bb</string>
     <string name="char_breakback">\uf0bb/\uf0bc</string>
     <string name="char_load">\uf051</string>
-    <string name="licence_text_ACRA">This app also uses the ACRA library, licensed under the Apache License, Version 2.0.</string>
     <!--Thank you-->
 </resources>
