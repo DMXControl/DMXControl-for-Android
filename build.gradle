@@ -20,13 +20,13 @@ android {
 
     sourceSets {
         main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
+            manifest.srcFile 'DMXControl/AndroidManifest.xml'
+            java.srcDirs = ['DMXControl/src']
+            resources.srcDirs = ['DMXControl/src']
+            aidl.srcDirs = ['DMXControl/src']
+            renderscript.srcDirs = ['DMXControl/src']
+            res.srcDirs = ['DMXControl/res']
+            assets.srcDirs = ['DMXControl/assets']
         }
 
         // Move the tests to tests/java, tests/res, etc...
