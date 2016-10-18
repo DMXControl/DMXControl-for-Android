@@ -51,3 +51,9 @@ android {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.14.1'
 }
+
+gradle.projectsEvaluated {
+	tasks.withType(JavaCompile) {
+		options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation"
+	}
+}
